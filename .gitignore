@@ -21,23 +21,6 @@
 /bin/*
 !/bin/console
 
-/build/
-/node_modules/
-npm-debug.log
-yarn-error.log
-/var/*
-!/var/cache
-/var/cache/*
-!var/cache/.gitkeep
-!/var/data
-!/var/log
-/var/log/*
-!var/log/.gitkeep
-!/var/sessions
-/var/sessions/*
-!var/sessions/.gitkeep
-!var/SymfonyRequirements.php
-
 ###> symfony/framework-bundle ###
 /.env
 /public/bundles/
@@ -45,7 +28,15 @@ yarn-error.log
 /vendor/
 ###< symfony/framework-bundle ###
 
+###> symfony/webpack-encore-pack ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-pack ###
+
 ###> symfony/phpunit-bridge ###
+.phpunit
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 
