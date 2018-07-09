@@ -1,0 +1,24 @@
+### PhpStorm ###
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm
+
+/*.iml
+
+## Directory-based project format:
+.idea/
+
+## File-based project format:
+*.ipr
+*.iws
+
+# Vagrant
+/vagrant/.vagrant/
+/vagrant/playbook.retry
+/vagrant/.bundle/
+
+# Composer PHAR
+/composer.phar
+
+/vendor/
+/bin/
+
+/node_modules
