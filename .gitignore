@@ -18,7 +18,37 @@
 # Composer PHAR
 /composer.phar
 
-/vendor/
-/bin/
+/bin/*
+!/bin/console
 
-/node_modules
+/build/
+/node_modules/
+npm-debug.log
+yarn-error.log
+/var/*
+!/var/cache
+/var/cache/*
+!var/cache/.gitkeep
+!/var/data
+!/var/log
+/var/log/*
+!var/log/.gitkeep
+!/var/sessions
+/var/sessions/*
+!var/sessions/.gitkeep
+!var/SymfonyRequirements.php
+
+###> symfony/framework-bundle ###
+/.env
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> symfony/web-server-bundle ###
+/.web-server-pid
+###< symfony/web-server-bundle ###
