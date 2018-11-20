@@ -1,0 +1,41 @@
+---
+
+-   name: install mysql
+    apt: name={{ packages }} state=present
+    vars:
+        packages:
+            - mysql-server
+            - mysql-client
+            - python-mysqldb
+
+-   name: copy mysql configuration
+    copy: src=mysql.cnf dest=/etc/mysql/mysql.conf.d/z-iishf.cnf
+    notify:
+        - restart mysql
+
+-   name: remove the test database
+    mysql_db: name=test state=absent
+
+-   name: create the databases
+    mysql_db:
+        name={{ item }}
+        encoding=utf8mb4
+        collation=utf8mb4_general_ci
+        state=present
+    with_items:
+        - iishf
+
+-   name: create the database user
+    mysql_user:
+        name=iishf
+        password={{ mysql_user_password }}
+        priv='iishf.*:ALL'
+        state=present
+        host={{ item }}
+    with_items:
+        - localhost
+        - '10.0.%'
+        - '10.11.12.%'
+
+-   name: add database timezone support
+    shell: mysql_tzinfo_to_sql /usr/share/zoneinfo/ | mysql mysql

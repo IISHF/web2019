@@ -1,0 +1,91 @@
+---
+
+-   name: install php
+    apt: name={{ packages }} state=present
+    vars:
+        packages:
+            - curl
+            - php-cli
+            - php-fpm
+            - php-xml
+            - php-curl
+            - php-xdebug
+            - php-sqlite3
+            - php-json
+            - php-intl
+            - php-mbstring
+            - php-imagick
+            - php-apcu
+            - php-zip
+            - php-mysql
+
+-   name: change php fpm user, group, listen.owner and listen.group to vagrant
+    lineinfile:
+        dest=/etc/php/7.2/fpm/pool.d/www.conf
+        regexp="{{ item.regexp }}"
+        line="{{ item.line }}"
+        backrefs=yes
+        backup=yes
+    with_items:
+        - { regexp: '^(user =)', line: '\1 vagrant' }
+        - { regexp: '^(group =)', line: '\1 vagrant' }
+        - { regexp: '^(listen\.owner =)', line: '\1 vagrant' }
+        - { regexp: '^(listen\.group =)', line: '\1 vagrant' }
+    notify:
+        - restart php
+
+-   name: disable php xdebug on cli
+    file:
+        path=/etc/php/7.2/cli/conf.d/20-xdebug.ini
+        state=absent
+    notify:
+        - restart php
+
+-   name: copy new php.ini
+    copy:
+        src=php.ini
+        dest=/etc/php/7.2/mods-available/iishf.ini
+        owner=root
+        group=root
+        mode=0644
+
+-   name: enable new php.ini
+    file:
+        src=/etc/php/7.2/mods-available/iishf.ini
+        dest={{ item }}
+        state=link
+    with_items:
+        - /etc/php/7.2/fpm/conf.d/99-iishf.ini
+        - /etc/php/7.2/cli/conf.d/99-iishf.ini
+    notify:
+        - restart php
+
+-   name: check if composer is installed
+    stat:
+        path: /usr/local/bin/composer
+    register: composer_bin
+
+-   name: install composer
+    block:
+        -   name: download composer installer
+            get_url:
+                url: https://getcomposer.org/installer
+                dest: /tmp/composer-installer.php
+                mode: 0755
+        -   name: run composer installer
+            command: /usr/bin/php composer-installer.php
+            args:
+                chdir: /tmp
+        -   name: move composer into globally-accessible location
+            command: mv /tmp/composer.phar /usr/local/bin/composer
+            args:
+                creates: /usr/local/bin/composer
+    when: not composer_bin.stat.exists
+
+-   name: install global packages
+    command: /usr/local/bin/composer global require {{ item }} --no-progress
+    become: yes
+    become_user: vagrant
+    with_items:
+        - hirak/prestissimo
+        - pyrech/composer-changelogs

@@ -1,0 +1,29 @@
+---
+
+-   hosts: all
+    gather_facts: yes
+    become: true
+    vars:
+        locale: 'en_US.UTF-8'
+        language: 'en_US:en'
+        timezone: 'Etc/UTC'
+    tasks:
+        -   debug:
+                var: hostvars[inventory_hostname]
+        -   locale_gen: name="{{ locale }}" state=present
+        -   command: /usr/sbin/update-locale LANG={{ locale }} LC_ALL={{ locale }} LANGUAGE={{ language }}
+        -   timezone: name="{{ timezone }}"
+        -   hostname: name="{{ ansible_hostname }}"
+        -   apt: update_cache=yes autoclean=yes autoremove=yes upgrade=safe
+        -   apt: name={{ packages }} state=present
+            vars:
+                packages:
+                    - vim
+                    - git
+                    - tar
+                    - unzip
+                    - wget
+                    - apt-transport-https
+                    - aptitude
+        -   import_role: name=webserver
+        -   import_role: name=database

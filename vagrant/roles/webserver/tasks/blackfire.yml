@@ -1,0 +1,21 @@
+---
+
+-   name: add blackfire apt key
+    apt_key: url=https://packagecloud.io/gpg.key state=present
+
+-   name: add blackfire apt sources
+    apt_repository: repo="deb http://packages.blackfire.io/debian any main" state=present
+    register: blackfire_repos
+
+-   name: update apt caches after blackfire apt sources are added
+    apt: update_cache=yes
+    when: blackfire_repos.changed
+
+-   name: install blackfire
+    apt: name={{ packages }} state=present
+    vars:
+        packages:
+            - blackfire-agent
+            - blackfire-php
+    notify:
+        - restart php

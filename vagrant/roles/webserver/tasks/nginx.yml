@@ -1,0 +1,46 @@
+---
+
+-   name: install nginx
+    apt: name={{ packages }} state=present
+    vars:
+        packages:
+            - nginx
+
+-   name: change nginx user and group to vagrant
+    lineinfile:
+        dest=/etc/nginx/nginx.conf
+        regexp="^user "
+        line="user vagrant vagrant;"
+        backup=yes
+    notify:
+        - restart nginx
+
+-   name: copy ssl key
+    copy: src=iishf-test.key dest=/etc/ssl/private/iishf-test.key owner=root group=root mode=0640
+    notify:
+        - restart nginx
+
+-   name: copy ssl certificate
+    copy: src=iishf-test.crt dest=/etc/ssl/certs/iishf-test.crt owner=root group=root mode=0644
+    notify:
+        - restart nginx
+
+-   name: copy new virtual host
+    template:
+        src=nginx.conf.j2
+        dest=/etc/nginx/sites-available/iishf.conf
+
+-   name: remove default virtual host
+    file:
+        path=/etc/nginx/sites-enabled/default
+        state=absent
+    notify:
+        - restart nginx
+
+-   name: Enable new virtual host
+    file:
+        src=/etc/nginx/sites-available/iishf.conf
+        dest=/etc/nginx/sites-enabled/iishf.conf
+        state=link
+    notify:
+        - restart nginx
