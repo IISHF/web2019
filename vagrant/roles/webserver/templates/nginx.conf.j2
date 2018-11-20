@@ -1,6 +1,8 @@
 server {
     listen 443 ssl http2 default_server;
 
+    http2_push_preload on;
+
     server_name {{ ansible_fqdn }} {{ ansible_hostname }} {{ inventory_hostname }};
     root /var/www/iishf/public;
 
