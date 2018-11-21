@@ -1,6 +1,6 @@
-{% extends 'base.html.twig' %}
+{% extends 'public_base.html.twig' %}
 
 {% block body %}
     <h1>{{ number }}</h1>
-    <div id="app"></div>
+    <a href="{{ path('app_admin_home_index') }}">Admin</a>
 {% endblock %}

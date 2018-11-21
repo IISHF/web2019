@@ -1,0 +1,5 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    <div id="app" data-config="{{ config|json_encode|e('html_attr') }}"></div>
+{% endblock %}

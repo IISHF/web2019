@@ -12,7 +12,8 @@ Encore
     .enablePostCssLoader()
     .enableReactPreset()
 
-    .addEntry('app', './assets/js/app.js')
+    .addEntry('public', './assets/js/public.js')
+    .addEntry('admin', './assets/js/admin.js')
 
     .splitEntryChunks()
     .enableSingleRuntimeChunk()

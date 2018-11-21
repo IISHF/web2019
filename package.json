@@ -1,11 +1,15 @@
 {
     "devDependencies": {
         "@babel/core": "^7.1.6",
+        "@babel/plugin-proposal-class-properties": "^7.1.0",
+        "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+        "@babel/plugin-transform-runtime": "^7.1.0",
         "@babel/preset-react": "^7.0.0",
         "@symfony/webpack-encore": "^0.22.1",
         "autoprefixer": "^9.3.1",
         "node-sass": "^4.10.0",
         "postcss-loader": "^3.0.0",
+        "react-hot-loader": "^4.3.12",
         "sass-loader": "^7.1.0",
         "url-loader": "^1.1.2",
         "webpack-notifier": "^1.7.0"
@@ -13,7 +17,7 @@
     "license": "UNLICENSED",
     "private": true,
     "scripts": {
-        "dev-server": "encore dev-server",
+        "dev-server": "encore dev-server --hot --https --port 9000 --host iishf.local --key ./vagrant/roles/webserver/files/iishf-test.key --cert ./vagrant/roles/webserver/files/iishf-test.crt",
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production"
@@ -31,12 +35,20 @@
                 }
             ],
             "@babel/preset-react"
+        ],
+        "plugins": [
+            "react-hot-loader/babel",
+            "@babel/plugin-syntax-dynamic-import",
+            "@babel/plugin-proposal-class-properties",
+            "@babel/plugin-transform-runtime"
         ]
     },
     "dependencies": {
         "@material-ui/core": "^3.5.1",
+        "@material-ui/icons": "^3.0.1",
         "prop-types": "^15.6.2",
         "react": "^16.6.3",
-        "react-dom": "^16.6.3"
+        "react-dom": "^16.6.3",
+        "react-router-dom": "^4.3.1"
     }
 }
