@@ -2,6 +2,7 @@ import React, {Suspense} from 'react';
 import {HashRouter as Router, Route, Switch} from 'react-router-dom'
 import {hot} from 'react-hot-loader'
 
+import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 
@@ -26,7 +27,7 @@ const App = ({baseUrl, homeUrl}) => (
 
             },
         ]}/>}>
-            <Suspense fallback={<div/>}>
+            <Suspense fallback={<CircularProgress/>}>
                 <Switch>
                     <Route exact path="/" render={() => <Home homeUrl={homeUrl}/>}/>
                 </Switch>
