@@ -14,7 +14,10 @@
             - php-json
             - php-intl
             - php-mbstring
+            - php-iconv
             - php-imagick
+            - php-bcmath
+            - php-gmp
             - php-apcu
             - php-zip
             - php-mysql
