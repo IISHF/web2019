@@ -1,0 +1,62 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: stefan
+ * Date: 2018-11-28
+ * Time: 11:10
+ */
+
+namespace App\Infrastructure\ParamConverter;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+/**
+ * Class LoaderParamConverter
+ *
+ * @package App\Infrastructure\ParamConverter
+ */
+abstract class LoaderParamConverter implements ParamConverterInterface
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function apply(Request $request, ParamConverter $configuration): bool
+    {
+        $param = $configuration->getName();
+
+        if (!$request->attributes->has($param)) {
+            return false;
+        }
+
+        $value = $request->attributes->get($param);
+
+        if (!$value && $configuration->isOptional()) {
+            return false;
+        }
+
+        $object = $this->loadObject($value, $configuration);
+        if (!$object && !$configuration->isOptional()) {
+            throw new NotFoundHttpException(
+                sprintf(
+                    'Item of class %s not found for parameter %s with value %s.',
+                    $configuration->getClass(),
+                    $param,
+                    $value
+                )
+            );
+        }
+        $request->attributes->set($param, $object);
+
+        return true;
+    }
+
+    /**
+     * @param mixed          $value
+     * @param ParamConverter $configuration
+     * @return object|null
+     */
+    abstract protected function loadObject($value, ParamConverter $configuration): ?object;
+}

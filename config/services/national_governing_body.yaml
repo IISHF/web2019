@@ -1,0 +1,17 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    App\Domain\Model\NationalGoverningBody\NationalGoverningBodyRepository:
+
+    App\Application\NationalGoverningBody\CreateNationalGoverningBodyHandler:
+    App\Application\NationalGoverningBody\UpdateNationalGoverningBodyHandler:
+    App\Application\NationalGoverningBody\DeleteNationalGoverningBodyHandler:
+
+    App\Infrastructure\NationalGoverningBody\Security\Voter\NationalGoverningBodyVoter:
+
+    App\Infrastructure\NationalGoverningBody\ParamConverter\NationalGoverningBodyParamConverter:
+        tags:
+            - { name: request.param_converter, converter: app.national_governing_body }
