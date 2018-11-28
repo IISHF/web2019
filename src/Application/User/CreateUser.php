@@ -36,7 +36,7 @@ class CreateUser extends UserProperties
     public static function create(?string $confirmToken = null): self
     {
         $id = Uuid::uuid4();
-        return new self($id->toString(), $confirmToken ?? bin2hex(random_bytes(16)));
+        return new self($id->toString(), $confirmToken ?? bin2hex(random_bytes(32)));
     }
 
     /**

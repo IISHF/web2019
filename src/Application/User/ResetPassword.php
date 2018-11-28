@@ -44,7 +44,7 @@ class ResetPassword
         ?Request $request = null,
         ?string $modifier = null
     ): self {
-        return new self($resetPasswordToken ?? bin2hex(random_bytes(16)), $request, $modifier);
+        return new self($resetPasswordToken ?? bin2hex(random_bytes(32)), $request, $modifier);
     }
 
     /**

@@ -33,6 +33,7 @@ security:
                 path: /
                 domain: ~
                 httponly: true
+                secure: true
                 remember_me_parameter: remember_me
                 token_provider: app.security.remember_me.token_provider
             form_login:
