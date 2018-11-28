@@ -13,7 +13,7 @@ namespace App\Application\NationalGoverningBody;
  *
  * @package App\Application\NationalGoverningBody
  */
-class UpdateNationalGoverningBodyHandler extends NationalGoverningBodyHandler
+class UpdateNationalGoverningBodyHandler extends NationalGoverningBodyCommandHandler
 {
     /**
      * @param UpdateNationalGoverningBody $command

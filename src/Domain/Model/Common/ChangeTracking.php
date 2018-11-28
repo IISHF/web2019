@@ -27,10 +27,10 @@ trait ChangeTracking
     private $createdAt;
 
     /**
-     * @ORM\Column(type="string", length=128)
+     * @ORM\Column(type="string", length=128, nullable=true)
      * @Gedmo\Blameable(on="create")
      *
-     * @var string
+     * @var string|null
      */
     private $createdBy;
 
@@ -43,23 +43,20 @@ trait ChangeTracking
     private $updatedAt;
 
     /**
-     * @ORM\Column(type="string", length=128)
+     * @ORM\Column(type="string", length=128, nullable=true)
      * @Gedmo\Blameable(on="update")
      *
-     * @var string
+     * @var string|null
      */
     private $updatedBy;
 
     /**
-     * @param string $user
      * @return $this
      */
-    private function initChangeTracking(string $user = 'system'): self
+    private function initChangeTracking(): self
     {
         $this->createdAt = new \DateTimeImmutable('now');
-        $this->createdBy = $user;
         $this->updatedAt = new \DateTimeImmutable('now');
-        $this->updatedBy = $user;
         return $this;
     }
 
@@ -72,9 +69,9 @@ trait ChangeTracking
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getCreatedBy(): string
+    public function getCreatedBy(): ?string
     {
         return $this->createdBy;
     }
@@ -88,9 +85,9 @@ trait ChangeTracking
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getUpdatedBy(): string
+    public function getUpdatedBy(): ?string
     {
         return $this->updatedBy;
     }

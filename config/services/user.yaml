@@ -1,0 +1,31 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    App\Domain\Model\User\UserRepository:
+
+    App\Application\User\CreateUserHandler:
+    App\Application\User\UpdateUserHandler:
+    App\Application\User\DeleteUserHandler:
+
+    App\Application\User\ConfirmUserHandler:
+    App\Application\User\ChangePasswordHandler:
+    App\Application\User\ResetPasswordHandler:
+    App\Application\User\SetPasswordHandler:
+
+    App\Application\User\PasswordService:
+        arguments:
+            $passwordEncoder: '@app.user.password_encoder'
+
+    App\Infrastructure\User\Security\Voter\UserVoter:
+
+    App\Infrastructure\User\ParamConverter\UserParamConverter:
+        tags:
+            - { name: request.param_converter, converter: app.user }
+
+    app.user.password_encoder:
+        class: Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface
+        factory: 'security.encoder_factory:getEncoder'
+        arguments: ['App\Domain\Model\User\UserInterface']

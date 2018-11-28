@@ -1,0 +1,27 @@
+{% extends 'public_base.html.twig' %}
+
+{% block body %}
+    <div class="login wrapper">
+        <form action="{{ path('login') }}" method="post">
+            <h1>Please login</h1>
+            {% if error %}
+                <div class="alert alert-danger">
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+            {% endif %}
+            <input type="email" class="form-control" name="username" placeholder="Username" required
+                   autofocus value="{{ last_username }}"/>
+            <input type="password" class="form-control" name="password" placeholder="Password" required/>
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="remember_me" name="remember_me"> Remember me
+                </label>
+            </div>
+            <input type="hidden" name="redirect_to" value="{{ redirect_to }}"/>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token('login') }}"/>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+            <a href="{{ path('home') }}">Home</a>
+        </form>
+    </div>
+{% endblock %}

@@ -15,7 +15,7 @@ use App\Domain\Model\NationalGoverningBody\NationalGoverningBody;
  *
  * @package App\Application\NationalGoverningBody
  */
-class CreateNationalGoverningBodyHandler extends NationalGoverningBodyHandler
+class CreateNationalGoverningBodyHandler extends NationalGoverningBodyCommandHandler
 {
     /**
      * @param CreateNationalGoverningBody $command

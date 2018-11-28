@@ -21,7 +21,7 @@ class HomeController extends AbstractController
     public function index(): Response
     {
         $config = [
-            'homeUrl' => $this->generateUrl('app_home_index'),
+            'homeUrl' => $this->generateUrl('home'),
             'baseUrl' => $this->generateUrl('app_admin_home_index'),
         ];
 

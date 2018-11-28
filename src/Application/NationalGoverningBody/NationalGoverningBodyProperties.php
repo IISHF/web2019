@@ -21,7 +21,7 @@ abstract class NationalGoverningBodyProperties
 {
     /**
      * @Assert\Type("string")
-     * @Assert\Length(max="64")
+     * @Assert\Length(max=64)
      * @Assert\NotBlank()
      *
      * @var string
@@ -30,7 +30,7 @@ abstract class NationalGoverningBodyProperties
 
     /**
      * @Assert\Type("string")
-     * @Assert\Length(max="16")
+     * @Assert\Length(max=16)
      * @Assert\NotBlank()
      *
      * @var string
@@ -39,7 +39,7 @@ abstract class NationalGoverningBodyProperties
 
     /**
      * @Assert\Type("string")
-     * @Assert\Length(max="128")
+     * @Assert\Length(max=128)
      * @Assert\NotBlank()
      *
      * @var string
@@ -48,7 +48,7 @@ abstract class NationalGoverningBodyProperties
 
     /**
      * @Assert\Type("string")
-     * @Assert\Length(min="3", max="3")
+     * @Assert\Length(min=3, max=3)
      * @Assert\NotBlank()
      *
      * @var string
@@ -67,7 +67,7 @@ abstract class NationalGoverningBodyProperties
     /**
      * @Assert\Type("string")
      * @Assert\Email(mode="strict", checkMX=true, checkHost=true)
-     * @Assert\Length(max="128")
+     * @Assert\Length(max=128)
      * @Assert\NotBlank()
      *
      * @var string
@@ -77,7 +77,7 @@ abstract class NationalGoverningBodyProperties
     /**
      * @Assert\Type("string")
      * @Assert\Url()
-     * @Assert\Length(max="128")
+     * @Assert\Length(max=128)
      *
      * @var string|null
      */
@@ -86,7 +86,7 @@ abstract class NationalGoverningBodyProperties
     /**
      * @Assert\Type("libphonenumber\PhoneNumber")
      * @AssertPhoneNumber()
-     * @Assert\Length(max="128")
+     * @Assert\Length(max=128)
      *
      * @var PhoneNumber|null
      */
@@ -94,7 +94,7 @@ abstract class NationalGoverningBodyProperties
 
     /**
      * @Assert\Type("string")
-     * @Assert\Length(max="128")
+     * @Assert\Length(max=128)
      *
      * @var string|null
      */
@@ -102,7 +102,7 @@ abstract class NationalGoverningBodyProperties
 
     /**
      * @Assert\Type("string")
-     * @Assert\Length(max="128")
+     * @Assert\Length(max=128)
      *
      * @var string|null
      */
@@ -110,7 +110,7 @@ abstract class NationalGoverningBodyProperties
 
     /**
      * @Assert\Type("string")
-     * @Assert\Length(max="128")
+     * @Assert\Length(max=128)
      *
      * @var string|null
      */

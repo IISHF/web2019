@@ -1,24 +1,80 @@
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    encoders:
+        App\Domain\Model\User\UserInterface:
+            algorithm: argon2i
+            memory_cost: 16384
+            time_cost: 2
+            threads: 4
+
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_USER, ROLE_ALLOWED_TO_SWITCH]
+
     providers:
-        in_memory: { memory: ~ }
+        user_provider:
+            id: App\Infrastructure\Security\User\UserProvider
+        all:
+            chain:
+                providers:
+                    - user_provider
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            pattern:   ^/
+            provider: all
             anonymous: true
+            switch_user: true
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+                name: IISHF_REMEMBER_ME
+                path: /
+                domain: ~
+                httponly: true
+                remember_me_parameter: remember_me
+                token_provider: app.security.remember_me.token_provider
+            form_login:
+                remember_me: true
+                login_path: login
+                check_path: login
+                csrf_token_generator: security.csrf.token_manager
+                csrf_token_id: login
+                csrf_parameter: csrf_token
+                username_parameter: username
+                password_parameter: password
+                default_target_path: home
+                target_path_parameter: redirect_to
+                use_referer: true
+            logout:
+                path: logout
+                target: /
+                csrf_token_generator: security.csrf.token_manager
+                csrf_token_id: logout
+                csrf_parameter: csrf_token
 
-            # activate different ways to authenticate
-
-            # http_basic: true
-            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: true
-            # https://symfony.com/doc/current/security/form_login_setup.html
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    App\Infrastructure\Security\User\UserProvider:
+
+    app.security.remember_me.token_provider:
+        class: Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider
+        arguments:
+            - "@doctrine.dbal.default_connection"
+
+    app.security.logout_success_handler:
+        class: App\Infrastructure\Security\LogoutSuccessHandler
+        decorates: security.logout.success_handler.main
+        arguments:
+            $inner: "@app.security.logout_success_handler.inner"
+
+    App\Infrastructure\Security\LoginSubscriber:

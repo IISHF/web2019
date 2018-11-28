@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    app.dev.validator.email:
+        class: App\Infrastructure\Validator\DevelopmentEmailValidator
+        decorates: validator.email
+        arguments: ["@app.dev.validator.email.inner"]
+
+

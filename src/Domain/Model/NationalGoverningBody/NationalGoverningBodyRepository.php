@@ -67,5 +67,4 @@ class NationalGoverningBodyRepository extends ServiceEntityRepository
         $this->_em->remove($ngb);
         $this->_em->flush();
     }
-
 }

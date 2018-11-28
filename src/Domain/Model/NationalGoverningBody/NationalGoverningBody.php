@@ -10,6 +10,7 @@ namespace App\Domain\Model\NationalGoverningBody;
 
 use App\Domain\Common\Country;
 use App\Domain\Common\Urlizer;
+use App\Domain\Model\Common\ChangeTracking;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use Webmozart\Assert\Assert;
@@ -20,11 +21,11 @@ use Webmozart\Assert\Assert;
  * @package App\Domain\Model\NationalGoverningBody
  *
  * @ORM\Entity(repositoryClass="NationalGoverningBodyRepository")
- * @ORM\Table(name="ngbs")
+ * @ORM\Table(name="national_governing_bodies")
  */
 class NationalGoverningBody
 {
-    use \App\Domain\Model\Common\ChangeTracking;
+    use ChangeTracking;
 
     /**
      * @ORM\Column(name="id", type="guid")
@@ -141,6 +142,7 @@ class NationalGoverningBody
     ) {
         Assert::uuid($id);
 
+        $this->id = $id;
         $this->setName($name)
              ->setAcronym($acronym)
              ->setIocCode($iocCode)

@@ -13,7 +13,7 @@ namespace App\Application\NationalGoverningBody;
  *
  * @package App\Application\NationalGoverningBody
  */
-class DeleteNationalGoverningBodyHandler extends NationalGoverningBodyHandler
+class DeleteNationalGoverningBodyHandler extends NationalGoverningBodyCommandHandler
 {
     /**
      * @param DeleteNationalGoverningBody $command

@@ -12,11 +12,11 @@ use App\Domain\Model\NationalGoverningBody\NationalGoverningBodyRepository;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 /**
- * Class NationalGoverningBodyHandler
+ * Class NationalGoverningBodyCommandHandler
  *
  * @package App\Application\NationalGoverningBody
  */
-abstract class NationalGoverningBodyHandler implements MessageHandlerInterface
+abstract class NationalGoverningBodyCommandHandler implements MessageHandlerInterface
 {
     /**
      * @var NationalGoverningBodyRepository

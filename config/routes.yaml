@@ -1,3 +1,11 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+home:
+    path: /
+    controller: \App\Controller\HomeController::index
+    methods:  [GET]
+login:
+    path: /login
+    controller: \App\Controller\HomeController::login
+    methods:  [GET, POST]
+logout:
+    path: /logout
+    methods:  [GET]

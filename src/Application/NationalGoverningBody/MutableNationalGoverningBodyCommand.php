@@ -19,89 +19,111 @@ trait MutableNationalGoverningBodyCommand
 {
     /**
      * @param string $name
+     * @return $this
      */
-    public function setName(string $name): void
+    public function setName(string $name): self
     {
         $this->name = $name;
+        return $this;
     }
 
     /**
      * @param string $acronym
+     * @return $this
      */
-    public function setAcronym(string $acronym): void
+    public function setAcronym(string $acronym): self
     {
         $this->acronym = $acronym;
+        return $this;
     }
 
     /**
      * @param string $slug
+     * @return $this
      */
-    public function setSlug(string $slug): void
+    public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+        return $this;
     }
 
     /**
      * @param string $iocCode
+     * @return $this
      */
-    public function setIocCode(string $iocCode): void
+    public function setIocCode(string $iocCode): self
     {
         $this->iocCode = $iocCode;
+        return $this;
     }
 
     /**
      * @param string $country
+     * @return $this
      */
-    public function setCountry(string $country): void
+    public function setCountry(string $country): self
     {
         $this->country = $country;
+        return $this;
     }
 
     /**
      * @param string $email
+     * @return $this
      */
-    public function setEmail(string $email): void
+    public function setEmail(string $email): self
     {
         $this->email = $email;
+        return $this;
     }
 
     /**
      * @param string|null $website
+     * @return $this
      */
-    public function setWebsite(?string $website): void
+    public function setWebsite(?string $website): self
     {
         $this->website = $website;
+        return $this;
     }
 
     /**
      * @param PhoneNumber|null $phoneNumber
+     * @return $this
      */
-    public function setPhoneNumber(?PhoneNumber $phoneNumber): void
+    public function setPhoneNumber(?PhoneNumber $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
+        return $this;
     }
 
     /**
      * @param string|null $facebookProfile
+     * @return $this
      */
-    public function setFacebookProfile(?string $facebookProfile): void
+    public function setFacebookProfile(?string $facebookProfile): self
     {
         $this->facebookProfile = $facebookProfile;
+        return $this;
     }
 
     /**
      * @param string|null $twitterProfile
+     * @return $this
      */
-    public function setTwitterProfile(?string $twitterProfile): void
+    public function setTwitterProfile(?string $twitterProfile): self
     {
         $this->twitterProfile = $twitterProfile;
+        return $this;
     }
 
     /**
      * @param string|null $instagramProfile
+     * @return $this
      */
-    public function setInstagramProfile(?string $instagramProfile): void
+    public function setInstagramProfile(?string $instagramProfile): self
     {
         $this->instagramProfile = $instagramProfile;
+        return $this;
     }
 }
