@@ -29,7 +29,7 @@ const App = ({baseUrl, homeUrl}) => (
         ]}/>}>
             <Suspense fallback={<CircularProgress/>}>
                 <Switch>
-                    <Route exact path="/" render={() => <Home homeUrl={homeUrl}/>}/>
+                    <Route exact path="/" render={() => <Home homeUrl={homeUrl} baseUrl={baseUrl}/>}/>
                 </Switch>
             </Suspense>
         </AppFrame>
