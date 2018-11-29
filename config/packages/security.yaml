@@ -26,6 +26,7 @@ security:
             provider: all
             anonymous: true
             switch_user: true
+            user_checker: App\Infrastructure\Security\UserChecker
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800
@@ -79,3 +80,5 @@ services:
             $inner: "@app.security.logout_success_handler.inner"
 
     App\Infrastructure\Security\LoginSubscriber:
+
+    App\Infrastructure\Security\UserChecker:

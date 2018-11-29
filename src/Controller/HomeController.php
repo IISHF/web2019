@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Application\User\Command\ChangePassword;
+use App\Infrastructure\User\Form\ChangePasswordType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
@@ -16,8 +19,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class HomeController extends AbstractController
 {
     /**
-     * @Route("")
-     *
      * @return Response
      */
     public function index(): Response
@@ -43,6 +44,39 @@ class HomeController extends AbstractController
                 'last_username' => $lastUsername,
                 'error'         => $error,
                 'redirect_to'   => $request->get('redirect_to', null),
+            ]
+        );
+    }
+
+    /**
+     * @Security("is_fully_authenticated()")
+     *
+     * @param Request             $request
+     * @param MessageBusInterface $commandBus
+     * @return Response
+     */
+    public function changePassword(Request $request, MessageBusInterface $commandBus): Response
+    {
+        $user = $this->getUser();
+
+        $changePassword = ChangePassword::change($user, $request);
+        $form           = $this->createForm(ChangePasswordType::class, $changePassword);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $commandBus->dispatch($changePassword);
+            $this->addFlash(
+                'success',
+                'Your password has been changed.'
+            );
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render(
+            'home/change_password.html.twig',
+            [
+                'user'       => $user,
+                'changeForm' => $form->createView(),
             ]
         );
     }

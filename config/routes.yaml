@@ -9,3 +9,7 @@ login:
 logout:
     path: /logout
     methods:  [GET]
+change_password:
+    path: /change-password
+    controller: \App\Controller\HomeController::changePassword
+    methods:  [GET, POST]

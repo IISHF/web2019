@@ -4,6 +4,7 @@
     <h1>{{ number }}</h1>
     <a href="{{ path('app_admin_home_index') }}">Admin</a>,
     {% if app.user %}
+        <a href="{{ path('change_password') }}">Change Password</a>,
         <a href="{{ logout_path() }}">Logout {{ app.user.username }}</a>
     {% else %}
         <a href="{{ path('login') }}">Login</a>
