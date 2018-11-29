@@ -19,7 +19,7 @@ trait PasswordAware
 {
     /**
      * @Assert\NotBlank()
-     * @Assert\Length(max=4096)
+     * @Assert\Length(min=5, max=4096)
      *
      * @var string
      */
