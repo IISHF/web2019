@@ -8,7 +8,9 @@
 
 namespace App\Controller\Admin;
 
+use App\Domain\Model\User\User;
 use App\Domain\Model\User\UserRepository;
+use App\Infrastructure\User\ViewModel\ListItem;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,8 +35,17 @@ class UserController extends AbstractController
      */
     public function list(UserRepository $userRepository, SerializerInterface $serializer): Response
     {
-        $users = $userRepository->findAll();
+        return JsonResponse::fromJsonString(
+            $serializer->serialize(
+                array_map(
+                    function (User $user) {
+                        return ListItem::wrap($user);
+                    },
+                    $userRepository->findAll()
 
-        return JsonResponse::fromJsonString($serializer->serialize($users, 'json'));
+                ),
+                'json'
+            )
+        );
     }
 }
