@@ -6,14 +6,17 @@ services:
 
     App\Domain\Model\User\UserRepository:
 
-    App\Application\User\CreateUserHandler:
-    App\Application\User\UpdateUserHandler:
-    App\Application\User\DeleteUserHandler:
+    App\Application\User\Command\CreateUserHandler:
+    App\Application\User\Command\CreateConfirmedUserHandler:
+    App\Application\User\Command\UpdateUserHandler:
+    App\Application\User\Command\DeleteUserHandler:
 
-    App\Application\User\ConfirmUserHandler:
-    App\Application\User\ChangePasswordHandler:
-    App\Application\User\ResetPasswordHandler:
-    App\Application\User\SetPasswordHandler:
+    App\Application\User\Command\ConfirmUserHandler:
+    App\Application\User\Command\UnconfirmUserHandler:
+    App\Application\User\Command\ChangePasswordHandler:
+    App\Application\User\Command\RequestPasswordResetHandler:
+    App\Application\User\Command\ResetPasswordHandler:
+    App\Application\User\Command\SetPasswordHandler:
 
     App\Application\User\PasswordService:
         arguments:

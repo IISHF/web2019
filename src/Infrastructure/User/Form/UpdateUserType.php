@@ -8,7 +8,7 @@
 
 namespace App\Infrastructure\User\Form;
 
-use App\Application\User\UpdateUser;
+use App\Application\User\Command\UpdateUser;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

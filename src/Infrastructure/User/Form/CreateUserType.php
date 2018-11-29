@@ -8,7 +8,7 @@
 
 namespace App\Infrastructure\User\Form;
 
-use App\Application\User\CreateUser;
+use App\Application\User\Command\CreateUser;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

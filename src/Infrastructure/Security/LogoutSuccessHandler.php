@@ -57,7 +57,7 @@ class LogoutSuccessHandler implements LogoutSuccessHandlerInterface
     public function onLogoutSuccess(Request $request): Response
     {
         $token = $this->tokenStorage->getToken();
-        if ($token && ($user = $this->repository->findByUsername($token->getUsername())) !== null) {
+        if ($token && ($user = $this->repository->findByEmail($token->getUsername())) !== null) {
             $user->registerLogout();
             $this->repository->save($user);
         }

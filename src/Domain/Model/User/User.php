@@ -24,6 +24,8 @@ class User implements UserInterface
 {
     use ChangeTracking;
 
+    private const NO_PASSWORD = '<<no password>>';
+
     /**
      * @ORM\Column(name="id", type="guid")
      * @ORM\Id
@@ -152,20 +154,62 @@ class User implements UserInterface
     private $loginFailures = 0;
 
     /**
-     * @param string   $id
-     * @param string   $firstName
-     * @param string   $lastName
-     * @param string   $email
-     * @param string[] $roles
-     * @param string   $confirmToken
+     * @param string $id
+     * @param string $firstName
+     * @param string $lastName
+     * @param string $email
+     * @param array  $roles
+     * @param string $confirmToken
+     * @return self
      */
-    public function __construct(
+    public static function create(
         string $id,
         string $firstName,
         string $lastName,
         string $email,
         array $roles,
         string $confirmToken
+    ): self {
+        $user = new self($id, $firstName, $lastName, $email, $roles);
+        $user->markUserAsUnconfirmed($confirmToken);
+        return $user;
+    }
+
+    /**
+     * @param string $id
+     * @param string $firstName
+     * @param string $lastName
+     * @param string $email
+     * @param array  $roles
+     * @param string $password
+     * @return self
+     */
+    public static function createConfirmed(
+        string $id,
+        string $firstName,
+        string $lastName,
+        string $email,
+        array $roles,
+        string $password
+    ): self {
+        $user = new self($id, $firstName, $lastName, $email, $roles);
+        $user->markUserAsConfirmed($password);
+        return $user;
+    }
+
+    /**
+     * @param string   $id
+     * @param string   $firstName
+     * @param string   $lastName
+     * @param string   $email
+     * @param string[] $roles
+     */
+    private function __construct(
+        string $id,
+        string $firstName,
+        string $lastName,
+        string $email,
+        array $roles
     ) {
         Assert::uuid($id);
 
@@ -176,8 +220,7 @@ class User implements UserInterface
              ->setRoles($roles)
              ->initChangeTracking();
 
-        $this->password     = '';
-        $this->confirmToken = hash('sha256', @hex2bin($confirmToken));
+        $this->password = self::NO_PASSWORD;
     }
 
     /**
@@ -267,25 +310,56 @@ class User implements UserInterface
 
     /**
      * @param string $password
-     * @return $this
      */
-    public function setPassword(string $password): self
+    private function setPassword(string $password): void
     {
         Assert::lengthBetween($password, 1, 128);
         $this->password           = $password;
-        $this->passwordChanged    = new \DateTimeImmutable('now');
         $this->confirmToken       = null;
+        $this->resetPasswordToken = null;
+        $this->resetPasswordUntil = null;
+    }
+
+    /**
+     * @param string $password
+     * @return $this
+     */
+    public function changePassword(string $password): self
+    {
+        $this->setPassword($password);
+        $this->passwordChanged = new \DateTimeImmutable('now');
+        return $this;
+    }
+
+    /**
+     * @param string $password
+     * @return $this
+     */
+    public function markUserAsConfirmed(string $password): self
+    {
+        $this->setPassword($password);
+        return $this;
+    }
+
+    /**
+     * @param string $confirmToken
+     * @return $this
+     */
+    public function markUserAsUnconfirmed(string $confirmToken): self
+    {
+        $this->password           = self::NO_PASSWORD;
+        $this->confirmToken       = hash('sha256', @hex2bin($confirmToken));
         $this->resetPasswordToken = null;
         $this->resetPasswordUntil = null;
         return $this;
     }
 
     /**
-     * @return \DateTimeImmutable|null
+     * @return bool
      */
-    public function getPasswordChanged(): ?\DateTimeImmutable
+    public function isConfirmed(): bool
     {
-        return $this->passwordChanged;
+        return $this->confirmToken === null;
     }
 
     /**
@@ -301,14 +375,6 @@ class User implements UserInterface
     }
 
     /**
-     * @return \DateTimeImmutable|null
-     */
-    public function getLastLogin(): ?\DateTimeImmutable
-    {
-        return $this->lastLogin;
-    }
-
-    /**
      * @param string $ip
      * @param string $userAgent
      * @param string $login
@@ -316,22 +382,13 @@ class User implements UserInterface
      */
     public function registerLogin(string $ip, string $userAgent, string $login = 'now'): self
     {
-        $this->lastLogin                 = new \DateTimeImmutable($login);
-        $this->lastLoginIp               = $ip;
-        $this->lastLoginUserAgent        = $userAgent;
-        $this->lastLoginFailure          = null;
-        $this->lastLoginFailureIp        = null;
-        $this->lastLoginFailureUserAgent = null;
-        $this->loginFailures             = 0;
+        $this->resetPasswordToken = null;
+        $this->resetPasswordUntil = null;
+        $this->lastLogin          = new \DateTimeImmutable($login);
+        $this->lastLoginIp        = $ip;
+        $this->lastLoginUserAgent = $userAgent;
+        $this->loginFailures      = 0;
         return $this;
-    }
-
-    /**
-     * @return \DateTimeImmutable|null
-     */
-    public function getLastLogout(): ?\DateTimeImmutable
-    {
-        return $this->lastLogout;
     }
 
     /**
@@ -357,22 +414,6 @@ class User implements UserInterface
         $this->lastLoginFailureUserAgent = $userAgent;
         $this->loginFailures++;
         return $this;
-    }
-
-    /**
-     * @return \DateTimeImmutable|null
-     */
-    public function getLastLoginFailure(): ?\DateTimeImmutable
-    {
-        return $this->lastLoginFailure;
-    }
-
-    /**
-     * @return int
-     */
-    public function getLoginFailures(): int
-    {
-        return $this->loginFailures;
     }
 
     /**

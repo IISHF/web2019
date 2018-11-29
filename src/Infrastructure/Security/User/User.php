@@ -35,6 +35,11 @@ class User implements UserInterface, DomainUser
     private $password;
 
     /**
+     * @var bool
+     */
+    private $confirmed;
+
+    /**
      * @var Role[]|string[]
      */
     private $roles;
@@ -43,14 +48,16 @@ class User implements UserInterface, DomainUser
      * @param string $id
      * @param string $username
      * @param string $password
+     * @param bool   $confirmed
      * @param array  $roles
      */
-    public function __construct(string $id, string $username, string $password, array $roles)
+    public function __construct(string $id, string $username, string $password, bool $confirmed, array $roles)
     {
-        $this->id       = $id;
-        $this->username = $username;
-        $this->password = $password;
-        $this->roles    = $roles;
+        $this->id        = $id;
+        $this->username  = $username;
+        $this->password  = $password;
+        $this->confirmed = $confirmed;
+        $this->roles     = $roles;
     }
 
     /**
@@ -100,5 +107,13 @@ class User implements UserInterface, DomainUser
      */
     public function eraseCredentials(): void
     {
+    }
+
+    /**
+     * @return bool
+     */
+    public function isConfirmed(): bool
+    {
+        return $this->confirmed;
     }
 }

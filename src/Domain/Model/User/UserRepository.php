@@ -29,43 +29,23 @@ class UserRepository extends ServiceEntityRepository
 
     /**
      * @param string $id
-     * @param bool   $confirmedOnly
      * @return User|null
      */
-    public function findById(string $id, bool $confirmedOnly = false): ?User
+    public function findById(string $id): ?User
     {
-        $criteria = ['id' => $id];
-        if ($confirmedOnly) {
-            $criteria['confirmToken'] = null;
-        }
         /** @var User|null $user */
-        $user = $this->findOneBy($criteria);
+        $user = $this->findOneBy(['id' => $id]);
         return $user;
     }
 
     /**
      * @param string $username
-     * @param bool   $confirmedOnly
      * @return User|null
      */
-    public function findByUsername(string $username, bool $confirmedOnly = true): ?User
+    public function findByEmail(string $username): ?User
     {
-        return $this->findByEmail($username, $confirmedOnly);
-    }
-
-    /**
-     * @param string $email
-     * @param bool   $confirmedOnly
-     * @return User|null
-     */
-    public function findByEmail(string $email, bool $confirmedOnly = true): ?User
-    {
-        $criteria = ['email' => $email];
-        if ($confirmedOnly) {
-            $criteria['confirmToken'] = null;
-        }
         /** @var User|null $user */
-        $user = $this->findOneBy($criteria);
+        $user = $this->findOneBy(['email' => $username]);
         return $user;
     }
 

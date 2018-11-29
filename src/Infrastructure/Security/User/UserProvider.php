@@ -39,7 +39,7 @@ class UserProvider implements UserProviderInterface
      */
     public function loadUserByUsername($username): UserInterface
     {
-        $user = $this->repository->findByUsername($username, true);
+        $user = $this->repository->findByEmail($username);
         if (!$user) {
             $ex = new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $username));
             $ex->setUsername($username);
@@ -50,6 +50,7 @@ class UserProvider implements UserProviderInterface
             $user->getId(),
             $user->getEmail(),
             $user->getPassword(),
+            $user->isConfirmed(),
             $user->getRoles()
         );
     }

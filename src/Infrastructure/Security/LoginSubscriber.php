@@ -49,7 +49,7 @@ class LoginSubscriber implements EventSubscriberInterface
     public function onInteractiveLogin(InteractiveLoginEvent $event): void
     {
         $token = $event->getAuthenticationToken();
-        $user  = $this->repository->findByUsername($token->getUsername());
+        $user  = $this->repository->findByEmail($token->getUsername());
 
         if (!$user) {
             return;
@@ -72,7 +72,7 @@ class LoginSubscriber implements EventSubscriberInterface
         }
 
         $token = $event->getAuthenticationToken();
-        $user  = $this->repository->findByUsername($token->getUsername());
+        $user  = $this->repository->findByEmail($token->getUsername());
         if (!$user) {
             return;
         }

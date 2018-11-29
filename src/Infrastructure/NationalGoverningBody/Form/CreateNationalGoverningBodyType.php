@@ -8,7 +8,7 @@
 
 namespace App\Infrastructure\NationalGoverningBody\Form;
 
-use App\Application\NationalGoverningBody\CreateNationalGoverningBody;
+use App\Application\NationalGoverningBody\Command\CreateNationalGoverningBody;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

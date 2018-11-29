@@ -3,24 +3,23 @@
  * Created by PhpStorm.
  * User: stefan
  * Date: 2018-11-28
- * Time: 14:28
+ * Time: 13:37
  */
 
 namespace App\Infrastructure\User\Form;
 
-use App\Application\User\Command\ResetPassword;
+use App\Application\User\Command\RequestPasswordReset;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class ResetPasswordType
+ * Class RequestPasswordResetType
  *
  * @package App\Infrastructure\User\Form
  */
-class ResetPasswordType extends AbstractType
+class RequestPasswordResetType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -29,16 +28,10 @@ class ResetPasswordType extends AbstractType
     {
         $builder
             ->add(
-                'password',
-                RepeatedType::class,
+                'email',
+                EmailType::class,
                 [
-                    'type'           => PasswordType::class,
-                    'first_options'  => [
-                        'label' => 'New Password',
-                    ],
-                    'second_options' => [
-                        'label' => 'Repeat Password',
-                    ],
+                    'label' => 'Username',
                 ]
             );
     }
@@ -50,7 +43,7 @@ class ResetPasswordType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => ResetPassword::class,
+                'data_class' => RequestPasswordReset::class,
             ]
         );
     }
