@@ -24,12 +24,14 @@
         state=present
     with_items:
         - iishf
+        - iishf_test
+        - iishf_org
 
 -   name: create the database user
     mysql_user:
         name=iishf
         password={{ mysql_user_password }}
-        priv='iishf.*:ALL'
+        priv='iishf.*:ALL/iishf_test.*:ALL/iishf_org.*:ALL'
         state=present
         host={{ item }}
     with_items:
