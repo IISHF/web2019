@@ -295,6 +295,8 @@ class User implements UserInterface
      */
     public function setEmail(string $email): self
     {
+        // @see \Symfony\Component\Validator\Constraints\EmailValidator::PATTERN_LOOSE
+        Assert::regex($email, '/^.+\@\S+\.\S+$/');
         Assert::lengthBetween($email, 1, 128);
         $this->email = $email;
         return $this;
@@ -430,7 +432,7 @@ class User implements UserInterface
      */
     public function setRoles(array $roles): self
     {
-        $this->roles = $roles;
+        $this->roles = array_unique($roles);
         return $this;
     }
 }

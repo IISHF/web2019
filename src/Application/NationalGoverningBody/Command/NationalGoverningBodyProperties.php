@@ -45,7 +45,7 @@ abstract class NationalGoverningBodyProperties
      * @Assert\Type("string")
      * @Assert\Length(max=128)
      * @Assert\NotBlank()
-     * @Assert\Regex("/[a-z0-9-]+/")
+     * @Assert\Regex("/^[a-z0-9-]+$/")
      *
      * @var string
      */

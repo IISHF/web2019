@@ -217,6 +217,7 @@ class NationalGoverningBody
     public function setSlug(string $slug): self
     {
         Assert::regex($slug, '/^[0-9a-z-]+$/');
+        Assert::lengthBetween($slug, 1, 128);
         $this->slug = $slug;
         return $this;
     }
@@ -281,6 +282,8 @@ class NationalGoverningBody
      */
     public function setEmail(string $email): self
     {
+        // @see \Symfony\Component\Validator\Constraints\EmailValidator::PATTERN_LOOSE
+        Assert::regex($email, '/^.+\@\S+\.\S+$/');
         Assert::lengthBetween($email, 1, 128);
         $this->email = $email;
         return $this;
@@ -300,6 +303,11 @@ class NationalGoverningBody
      */
     public function setWebsite(?string $website): self
     {
+        // @see \Symfony\Component\Validator\Constraints\UrlValidator::PATTERN
+        Assert::nullOrRegex(
+            $website,
+            '~^https?://([\pL\pN\pS\-\.])+(\.?([\pL\pN]|xn\-\-[\pL\pN-]+)+\.?)(:[0-9]+)?(?:/ (?:[\pL\pN\-._\~!$&\'()*+,;=:@]|%%[0-9A-Fa-f]{2})* )*$~ixu'
+        );
         Assert::nullOrLengthBetween($website, 1, 128);
         $this->website = $website;
         return $this;
