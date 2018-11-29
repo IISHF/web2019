@@ -9,6 +9,7 @@
 namespace App\Application\NationalGoverningBody\Command;
 
 use App\Application\NationalGoverningBody\Validator\UniqueNationalGoverningBody;
+use App\Domain\Common\Country;
 use libphonenumber\PhoneNumber;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -44,6 +45,7 @@ abstract class NationalGoverningBodyProperties
      * @Assert\Type("string")
      * @Assert\Length(max=128)
      * @Assert\NotBlank()
+     * @Assert\Regex("/[a-z0-9-]+/")
      *
      * @var string
      */
@@ -157,6 +159,14 @@ abstract class NationalGoverningBodyProperties
     public function getCountry(): string
     {
         return $this->country;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountryName(): string
+    {
+        return Country::getCountryNameByCode($this->getCountry());
     }
 
     /**

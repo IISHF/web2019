@@ -25,7 +25,7 @@ abstract class UserProperties
      *
      * @var string
      */
-    protected $firstName;
+    protected $firstName = '';
 
     /**
      * @Assert\Type("string")
@@ -34,7 +34,7 @@ abstract class UserProperties
      *
      * @var string
      */
-    protected $lastName;
+    protected $lastName = '';
 
     /**
      * @Assert\Type("string")
@@ -45,7 +45,7 @@ abstract class UserProperties
      *
      * @var string
      */
-    protected $email;
+    protected $email = '';
 
     /**
      * @Assert\Type("array")
@@ -56,7 +56,7 @@ abstract class UserProperties
      *
      * @var string[]
      */
-    protected $roles;
+    protected $roles = [];
 
     /**
      * @return string

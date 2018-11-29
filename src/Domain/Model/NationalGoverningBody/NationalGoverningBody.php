@@ -9,7 +9,6 @@
 namespace App\Domain\Model\NationalGoverningBody;
 
 use App\Domain\Common\Country;
-use App\Domain\Common\Urlizer;
 use App\Domain\Model\Common\ChangeTracking;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
@@ -116,7 +115,7 @@ class NationalGoverningBody
      * @param string           $id
      * @param string           $name
      * @param string           $acronym
-     * @param string|null      $slug
+     * @param string           $slug
      * @param string           $iocCode
      * @param string           $country
      * @param string           $email
@@ -130,7 +129,7 @@ class NationalGoverningBody
         string $id,
         string $name,
         string $acronym,
-        ?string $slug,
+        string $slug,
         string $iocCode,
         string $country,
         string $email,
@@ -145,6 +144,7 @@ class NationalGoverningBody
         $this->id = $id;
         $this->setName($name)
              ->setAcronym($acronym)
+             ->setSlug($slug)
              ->setIocCode($iocCode)
              ->setCountry($country)
              ->setEmail($email)
@@ -154,10 +154,6 @@ class NationalGoverningBody
              ->setTwitterProfile($twitterProfile)
              ->setInstagramProfile($instagramProfile)
              ->initChangeTracking();
-
-        if ($slug !== null) {
-            $this->setSlug($slug);
-        }
     }
 
     /**
@@ -184,9 +180,6 @@ class NationalGoverningBody
     {
         Assert::lengthBetween($name, 1, 64);
         $this->name = $name;
-        if (empty($this->slug)) {
-            $this->setSlug(Urlizer::urlize($name));
-        }
         return $this;
     }
 
