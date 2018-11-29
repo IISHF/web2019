@@ -1,0 +1,17 @@
+{% extends 'public_base.html.twig' %}
+
+{% block body %}
+    <h1>Confirm User</h1>
+
+    {{ form_start(confirmUserForm) }}
+
+    <label>User</label>
+    <p>{{ user.email }}</p>
+
+    {{ form_rest(confirmUserForm) }}
+
+    <button type="submit" class="btn btn-primary">Confirm User</button>
+    <a href="{{ path('home') }}">Home</a>
+
+    {{ form_end(confirmUserForm) }}
+{% endblock %}

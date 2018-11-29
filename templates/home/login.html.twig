@@ -18,7 +18,7 @@
         <input type="hidden" name="redirect_to" value="{{ redirect_to }}"/>
         <input type="hidden" name="csrf_token" value="{{ csrf_token('login') }}"/>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-        <a href="{{ path('forgot_password') }}">Forgot Password</a>
+        <a href="{{ path('app_account_forgotpassword') }}">Forgot Password</a>
         <a href="{{ path('home') }}">Home</a>
     </form>
 {% endblock %}
