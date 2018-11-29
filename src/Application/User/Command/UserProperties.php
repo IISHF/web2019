@@ -8,6 +8,7 @@
 
 namespace App\Application\User\Command;
 
+use App\Application\User\Validator\UniqueEmail;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -40,6 +41,7 @@ abstract class UserProperties
      * @Assert\Email(mode="strict", checkMX=true, checkHost=true)
      * @Assert\Length(max=128)
      * @Assert\NotBlank()
+     * @UniqueEmail()
      *
      * @var string
      */

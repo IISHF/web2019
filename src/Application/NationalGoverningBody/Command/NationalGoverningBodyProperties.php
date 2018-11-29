@@ -8,6 +8,7 @@
 
 namespace App\Application\NationalGoverningBody\Command;
 
+use App\Application\NationalGoverningBody\Validator\UniqueNationalGoverningBody;
 use libphonenumber\PhoneNumber;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -16,6 +17,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class NationalGoverningBodyProperties
  *
  * @package App\Application\NationalGoverningBody\Command
+ *
+ * @UniqueNationalGoverningBody()
  */
 abstract class NationalGoverningBodyProperties
 {

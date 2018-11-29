@@ -16,7 +16,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Messenger\Exception\ValidationFailedException;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 
 /**
  * Class CreateCommand
@@ -116,21 +118,31 @@ class CreateCommand extends Command
 
         if ($withPassword) {
             $createUser = CreateConfirmedUser::create()
-                                             ->setFirstName($firstName)
-                                             ->setLastName($lastName)
-                                             ->setEmail($email)
-                                             ->setRoles($roles)
                                              ->setPassword($password);
         } else {
-            $createUser = CreateUser::create()
-                                    ->setFirstName($firstName)
-                                    ->setLastName($lastName)
-                                    ->setEmail($email)
-                                    ->setRoles($roles);
+            $createUser = CreateUser::create();
         }
+
+        $createUser->setFirstName($firstName)
+                   ->setLastName($lastName)
+                   ->setEmail($email)
+                   ->setRoles($roles);
 
         try {
             $this->commandBus->dispatch($createUser);
+        } catch (ValidationFailedException $e) {
+            $io->error(
+                array_merge(
+                    ['Validation failed.'],
+                    array_map(
+                        function (ConstraintViolationInterface $violation) {
+                            return $violation->getPropertyPath() . ': ' . $violation->getMessage();
+                        },
+                        iterator_to_array($e->getViolations())
+                    )
+                )
+            );
+            return 1;
         } catch (\Throwable $e) {
             $io->error($e->getMessage());
             return 1;

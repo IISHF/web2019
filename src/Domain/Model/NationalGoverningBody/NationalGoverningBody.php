@@ -57,7 +57,7 @@ class NationalGoverningBody
     private $slug;
 
     /**
-     * @ORM\Column(name="ioc_code", type="string", length=3)
+     * @ORM\Column(name="ioc_code", type="string", length=3, unique=true)
      *
      * @var string
      */
@@ -71,7 +71,7 @@ class NationalGoverningBody
     private $country;
 
     /**
-     * @ORM\Column(name="email", type="string", length=128)
+     * @ORM\Column(name="email", type="string", length=128, unique=true)
      *
      * @var string
      */

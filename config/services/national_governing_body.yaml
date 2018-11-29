@@ -15,3 +15,5 @@ services:
     App\Infrastructure\NationalGoverningBody\ParamConverter\NationalGoverningBodyParamConverter:
         tags:
             - { name: request.param_converter, converter: app.national_governing_body }
+
+    App\Application\NationalGoverningBody\Validator\UniqueNationalGoverningBodyValidator:

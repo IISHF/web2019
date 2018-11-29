@@ -32,3 +32,5 @@ services:
         class: Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface
         factory: 'security.encoder_factory:getEncoder'
         arguments: ['App\Domain\Model\User\UserInterface']
+
+    App\Application\User\Validator\UniqueEmailValidator:

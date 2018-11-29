@@ -38,6 +38,28 @@ class NationalGoverningBodyRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param string $acronym
+     * @return NationalGoverningBody|null
+     */
+    public function findByAcronym(string $acronym): ?NationalGoverningBody
+    {
+        /** @var NationalGoverningBody|null $ngb */
+        $ngb = $this->findOneBy(['acronym' => $acronym]);
+        return $ngb;
+    }
+
+    /**
+     * @param string $name
+     * @return NationalGoverningBody|null
+     */
+    public function findByName(string $name): ?NationalGoverningBody
+    {
+        /** @var NationalGoverningBody|null $ngb */
+        $ngb = $this->findOneBy(['name' => $name]);
+        return $ngb;
+    }
+
+    /**
      * @param string $slug
      * @return NationalGoverningBody|null
      */
@@ -45,6 +67,28 @@ class NationalGoverningBodyRepository extends ServiceEntityRepository
     {
         /** @var NationalGoverningBody|null $ngb */
         $ngb = $this->findOneBy(['slug' => $slug]);
+        return $ngb;
+    }
+
+    /**
+     * @param string $iocCode
+     * @return NationalGoverningBody|null
+     */
+    public function findByIocCode(string $iocCode): ?NationalGoverningBody
+    {
+        /** @var NationalGoverningBody|null $ngb */
+        $ngb = $this->findOneBy(['iocCode' => $iocCode]);
+        return $ngb;
+    }
+
+    /**
+     * @param string $email
+     * @return NationalGoverningBody|null
+     */
+    public function findByEmail(string $email): ?NationalGoverningBody
+    {
+        /** @var NationalGoverningBody|null $ngb */
+        $ngb = $this->findOneBy(['email' => $email]);
         return $ngb;
     }
 
