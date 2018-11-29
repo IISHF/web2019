@@ -1,6 +1,14 @@
 {% extends 'public_base.html.twig' %}
 
 {% block body %}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
     <h1>{{ number }}</h1>
     <a href="{{ path('app_admin_home_index') }}">Admin</a>,
     {% if app.user %}

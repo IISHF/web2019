@@ -13,3 +13,11 @@ change_password:
     path: /change-password
     controller: \App\Controller\HomeController::changePassword
     methods:  [GET, POST]
+forgot_password:
+    path: /forgot-password
+    controller: \App\Controller\HomeController::forgotPassword
+    methods:  [GET, POST]
+reset_password:
+    path: /reset-password
+    controller: \App\Controller\HomeController::resetPassword
+    methods:  [GET, POST]
