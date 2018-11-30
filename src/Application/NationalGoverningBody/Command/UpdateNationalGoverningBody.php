@@ -33,7 +33,6 @@ class UpdateNationalGoverningBody implements IdentifiesNationalGoverningBody
             $nationalGoverningBody,
             $nationalGoverningBody->getName(),
             $nationalGoverningBody->getAcronym(),
-            $nationalGoverningBody->getSlug(),
             $nationalGoverningBody->getIocCode(),
             $nationalGoverningBody->getCountry(),
             $nationalGoverningBody->getEmail(),
@@ -49,7 +48,6 @@ class UpdateNationalGoverningBody implements IdentifiesNationalGoverningBody
      * @param NationalGoverningBody $nationalGoverningBody
      * @param string                $name
      * @param string                $acronym
-     * @param string                $slug
      * @param string                $iocCode
      * @param string                $country
      * @param string                $email
@@ -63,7 +61,6 @@ class UpdateNationalGoverningBody implements IdentifiesNationalGoverningBody
         NationalGoverningBody $nationalGoverningBody,
         string $name,
         string $acronym,
-        string $slug,
         string $iocCode,
         string $country,
         string $email,
@@ -76,7 +73,6 @@ class UpdateNationalGoverningBody implements IdentifiesNationalGoverningBody
         $this->nationalGoverningBody = $nationalGoverningBody;
         $this->name                  = $name;
         $this->acronym               = $acronym;
-        $this->slug                  = $slug;
         $this->iocCode               = $iocCode;
         $this->country               = $country;
         $this->email                 = $email;

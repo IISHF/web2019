@@ -23,7 +23,7 @@ class UpdateNationalGoverningBodyHandler extends NationalGoverningBodyCommandHan
         $ngb = $command->getNationalGoverningBody();
         $ngb->setName($command->getName())
             ->setAcronym($command->getAcronym())
-            ->setSlug($command->getSlug())
+            ->setSlug($this->findSuitableSlug($command->getName(), $command->getAcronym(), $ngb->getId()))
             ->setIocCode($command->getIocCode())
             ->setCountry($command->getCountry())
             ->setEmail($command->getEmail())

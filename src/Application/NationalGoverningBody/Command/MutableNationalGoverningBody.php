@@ -8,7 +8,6 @@
 
 namespace App\Application\NationalGoverningBody\Command;
 
-use App\Domain\Common\Urlizer;
 use libphonenumber\PhoneNumber;
 
 /**
@@ -25,9 +24,6 @@ trait MutableNationalGoverningBody
     public function setName(string $name): self
     {
         $this->name = $name;
-        if (empty($this->slug)) {
-            $this->setSlug(Urlizer::urlize($name));
-        }
         return $this;
     }
 
@@ -38,16 +34,6 @@ trait MutableNationalGoverningBody
     public function setAcronym(string $acronym): self
     {
         $this->acronym = $acronym;
-        return $this;
-    }
-
-    /**
-     * @param string $slug
-     * @return $this
-     */
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
         return $this;
     }
 

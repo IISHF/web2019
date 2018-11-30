@@ -67,13 +67,6 @@ class UniqueNationalGoverningBodyValidator extends ConstraintValidator
         );
         $this->addViolationIf(
             $value,
-            $this->repository->findBySlug($value->getSlug()),
-            'The slug {{ value }} is already used.',
-            $value->getSlug(),
-            'slug'
-        );
-        $this->addViolationIf(
-            $value,
             $this->repository->findByIocCode($value->getIocCode()),
             'The IOC code {{ value }} is already used.',
             $value->getIocCode(),

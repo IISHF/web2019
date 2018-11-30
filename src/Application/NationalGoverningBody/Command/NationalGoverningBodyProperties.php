@@ -40,16 +40,6 @@ trait NationalGoverningBodyProperties
 
     /**
      * @Assert\Type("string")
-     * @Assert\Length(max=128)
-     * @Assert\NotBlank()
-     * @Assert\Regex("/^[a-z0-9-]+$/")
-     *
-     * @var string
-     */
-    protected $slug = '';
-
-    /**
-     * @Assert\Type("string")
      * @Assert\Length(min=3, max=3)
      * @Assert\NotBlank()
      *
@@ -132,14 +122,6 @@ trait NationalGoverningBodyProperties
     public function getAcronym(): string
     {
         return $this->acronym;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSlug(): string
-    {
-        return $this->slug;
     }
 
     /**

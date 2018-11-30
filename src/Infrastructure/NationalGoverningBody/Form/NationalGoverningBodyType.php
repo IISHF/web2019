@@ -46,14 +46,6 @@ class NationalGoverningBodyType extends AbstractType
                 ]
             )
             ->add(
-                'slug',
-                TextType::class,
-                [
-                    'label'    => 'Slug',
-                    'required' => false,
-                ]
-            )
-            ->add(
                 'iocCode',
                 TextType::class,
                 [

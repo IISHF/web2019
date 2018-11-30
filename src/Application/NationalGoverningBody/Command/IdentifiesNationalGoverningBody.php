@@ -28,11 +28,6 @@ interface IdentifiesNationalGoverningBody
     /**
      * @return string
      */
-    public function getSlug(): string;
-
-    /**
-     * @return string
-     */
     public function getIocCode(): string;
 
     /**
