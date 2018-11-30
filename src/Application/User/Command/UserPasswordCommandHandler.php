@@ -12,11 +12,11 @@ use App\Application\User\PasswordService;
 use App\Domain\Model\User\UserRepository;
 
 /**
- * Class PasswordCommandHandler
+ * Class UserPasswordCommandHandler
  *
  * @package App\Application\User\Command
  */
-abstract class PasswordCommandHandler extends UserCommandHandler
+abstract class UserPasswordCommandHandler extends UserCommandHandler
 {
     /**
      * @var PasswordService

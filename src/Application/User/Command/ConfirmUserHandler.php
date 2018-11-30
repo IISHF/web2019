@@ -13,7 +13,7 @@ namespace App\Application\User\Command;
  *
  * @package App\Application\User\Command
  */
-class ConfirmUserHandler extends PasswordCommandHandler
+class ConfirmUserHandler extends UserPasswordCommandHandler
 {
     /**
      * @param ConfirmUser $command

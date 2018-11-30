@@ -13,7 +13,7 @@ namespace App\Application\User\Command;
  *
  * @package App\Application\User\Command
  */
-class ResetPasswordHandler extends PasswordCommandHandler
+class ResetPasswordHandler extends UserPasswordCommandHandler
 {
     /**
      * @param ResetPassword $command

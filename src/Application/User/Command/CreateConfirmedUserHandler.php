@@ -15,7 +15,7 @@ use App\Domain\Model\User\User;
  *
  * @package App\Application\User\Command
  */
-class CreateConfirmedUserHandler extends PasswordCommandHandler
+class CreateConfirmedUserHandler extends UserPasswordCommandHandler
 {
     /**
      * @param CreateConfirmedUser $command
