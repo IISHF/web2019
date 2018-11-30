@@ -11,6 +11,8 @@ namespace App\Command\Migrate;
 use App\Application\User\Command\CreateUser;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Messenger\Exception\ValidationFailedException;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 
 /**
  * Class UserCommand
@@ -50,6 +52,16 @@ class UserCommand extends BaseCommand
             $result = $createUser->getConfirmToken();
             try {
                 $this->dispatchCommand($createUser);
+            } catch (ValidationFailedException $e) {
+                $result = implode(
+                    PHP_EOL,
+                    array_map(
+                        function (ConstraintViolationInterface $violation) {
+                            return $violation->getPropertyPath() . ': ' . $violation->getMessage();
+                        },
+                        iterator_to_array($e->getViolations())
+                    )
+                );
             } catch (\Throwable $e) {
                 $result = $e->getMessage();
             }
