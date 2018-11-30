@@ -27,7 +27,6 @@ class UpdateArticle
     {
         return new self(
             $article,
-            $article->getSlug(),
             $article->getTitle(),
             $article->getBody(),
             $article->getTags()
@@ -36,20 +35,17 @@ class UpdateArticle
 
     /**
      * @param Article $article
-     * @param string  $slug
      * @param string  $title
      * @param string  $body
      * @param array   $tags
      */
     private function __construct(
         Article $article,
-        string $slug,
         string $title,
         string $body,
         array $tags
     ) {
         $this->article = $article;
-        $this->slug    = $slug;
         $this->title   = $title;
         $this->body    = $body;
         $this->tags    = $tags;

@@ -26,7 +26,7 @@ class CreateNationalGoverningBodyHandler extends NationalGoverningBodyCommandHan
             $command->getId(),
             $command->getName(),
             $command->getAcronym(),
-            $this->findSuitableSlug($command->getName(), $command->getAcronym(), null),
+            $this->findSuitableSlug($command->getName(), null),
             $command->getIocCode(),
             $command->getCountry(),
             $command->getEmail(),

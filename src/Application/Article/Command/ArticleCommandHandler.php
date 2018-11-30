@@ -8,7 +8,9 @@
 
 namespace App\Application\Article\Command;
 
+use App\Domain\Common\Urlizer;
 use App\Domain\Model\Article\ArticleRepository;
+use App\Utils\Text;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 /**
@@ -29,5 +31,21 @@ abstract class ArticleCommandHandler implements MessageHandlerInterface
     public function __construct(ArticleRepository $repository)
     {
         $this->repository = $repository;
+    }
+
+    /**
+     * @param \DateTimeImmutable $publishedDate
+     * @param string             $title
+     * @param string|null        $id
+     * @return string
+     */
+    protected function findSuitableSlug(\DateTimeImmutable $publishedDate, string $title, ?string $id): string
+    {
+        return Urlizer::urlizeUnique(
+            $publishedDate->format('Y-m-d') . '-' . Text::shorten($title, 100),
+            function (string $slug) use ($id) {
+                return ($tryArticle = $this->repository->findBySlug($slug)) !== null && $tryArticle->getId() !== $id;
+            }
+        );
     }
 }

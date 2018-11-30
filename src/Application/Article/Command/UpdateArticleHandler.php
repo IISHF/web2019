@@ -21,7 +21,7 @@ class UpdateArticleHandler extends ArticleCommandHandler
     public function __invoke(UpdateArticle $command): void
     {
         $article = $command->getArticle();
-        $article->setSlug($command->getSlug())
+        $article->setSlug($this->findSuitableSlug(new \DateTimeImmutable(), $command->getTitle(), $article->getId()))
                 ->setTitle($command->getTitle())
                 ->setBody($command->getBody())
                 ->setTags($command->getTags());

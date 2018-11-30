@@ -8,7 +8,6 @@
 
 namespace App\Application\Article\Command;
 
-use App\Application\Article\Validator\UniqueSlug;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -18,17 +17,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 trait ArticleProperties
 {
-    /**
-     * @Assert\Type("string")
-     * @Assert\Length(max=128)
-     * @Assert\NotBlank()
-     * @Assert\Regex("/^[a-z0-9-]+$/")
-     * @UniqueSlug
-     *
-     * @var string
-     */
-    private $slug = '';
-
     /**
      * @Assert\Type("string")
      * @Assert\Length(max=128)
@@ -57,14 +45,6 @@ trait ArticleProperties
      * @var string[]
      */
     private $tags = [];
-
-    /**
-     * @return string
-     */
-    public function getSlug(): string
-    {
-        return $this->slug;
-    }
 
     /**
      * @return string

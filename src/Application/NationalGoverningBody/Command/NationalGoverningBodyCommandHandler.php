@@ -34,19 +34,16 @@ abstract class NationalGoverningBodyCommandHandler implements MessageHandlerInte
 
     /**
      * @param string      $name
-     * @param string      $acronym
      * @param string|null $id
      * @return string
      */
-    protected function findSuitableSlug(string $name, string $acronym, ?string $id): string
+    protected function findSuitableSlug(string $name, ?string $id): string
     {
-        $baseSlug = Urlizer::urlize($name . '-' . $acronym);
-        $slug     = $baseSlug;
-        $i        = 1;
-        while (($tryNgb = $this->repository->findBySlug($slug)) !== null && $tryNgb->getId() !== $id) {
-            $slug = $baseSlug . '-' . $i;
-            $i++;
-        }
-        return $slug;
+        return Urlizer::urlizeUnique(
+            $name,
+            function (string $slug) use ($id) {
+                return ($tryNgb = $this->repository->findBySlug($slug)) !== null && $tryNgb->getId() !== $id;
+            }
+        );
     }
 }

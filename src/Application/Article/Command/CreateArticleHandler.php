@@ -24,7 +24,7 @@ class CreateArticleHandler extends ArticleCommandHandler
     {
         $article = new Article(
             $command->getId(),
-            $command->getSlug(),
+            $this->findSuitableSlug(new \DateTimeImmutable(), $command->getTitle(), null),
             $command->getTitle(),
             $command->getBody(),
             $command->getTags()

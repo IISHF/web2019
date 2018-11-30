@@ -8,8 +8,6 @@
 
 namespace App\Application\Article\Command;
 
-use App\Domain\Common\Urlizer;
-
 /**
  * Trait MutableArticle
  *
@@ -18,25 +16,12 @@ use App\Domain\Common\Urlizer;
 trait MutableArticle
 {
     /**
-     * @param string $slug
-     * @return $this
-     */
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-        return $this;
-    }
-
-    /**
      * @param string $title
      * @return $this
      */
     public function setTitle(string $title): self
     {
         $this->title = $title;
-        if (empty($this->slug)) {
-            $this->setSlug(Urlizer::urlize($title));
-        }
         return $this;
     }
 
