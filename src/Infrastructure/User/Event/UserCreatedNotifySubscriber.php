@@ -9,6 +9,7 @@
 namespace App\Infrastructure\User\Event;
 
 use App\Application\User\Command\UserCreated;
+use App\Infrastructure\Messaging\MailService;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -25,11 +26,18 @@ class UserCreatedNotifySubscriber implements MessageHandlerInterface
     private $urlGenerator;
 
     /**
-     * @param UrlGeneratorInterface $urlGenerator
+     * @var MailService
      */
-    public function __construct(UrlGeneratorInterface $urlGenerator)
+    private $mailService;
+
+    /**
+     * @param UrlGeneratorInterface $urlGenerator
+     * @param MailService           $mailService
+     */
+    public function __construct(UrlGeneratorInterface $urlGenerator, MailService $mailService)
     {
         $this->urlGenerator = $urlGenerator;
+        $this->mailService  = $mailService;
     }
 
     /**
@@ -41,6 +49,18 @@ class UserCreatedNotifySubscriber implements MessageHandlerInterface
             'app_account_confirmuser',
             ['token' => $event->getConfirmToken()],
             UrlGeneratorInterface::ABSOLUTE_URL
+        );
+
+        $this->mailService->send(
+            [
+                $event->getUser()->getEmail() => $event->getUser()->getName(),
+            ],
+            'User Created',
+            null,
+            'email/user_created.html.twig',
+            [
+                'url' => $confirmUrl,
+            ]
         );
     }
 }

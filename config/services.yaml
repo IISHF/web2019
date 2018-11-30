@@ -17,3 +17,7 @@ services:
     App\Command\:
         resource: '../src/Command'
         tags: ['console.command']
+
+    App\Infrastructure\Messaging\MailService:
+        arguments:
+            $defaultSender: {'noreply@iishf.com': 'iishf.com'}
