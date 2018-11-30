@@ -8,6 +8,7 @@
 
 namespace App\Application\NationalGoverningBody\Command;
 
+use App\Application\NationalGoverningBody\Validator\UniqueNationalGoverningBody;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBody;
 use libphonenumber\PhoneNumber;
 
@@ -15,10 +16,12 @@ use libphonenumber\PhoneNumber;
  * Class UpdateNationalGoverningBody
  *
  * @package App\Application\NationalGoverningBody\Command
+ *
+ * @UniqueNationalGoverningBody()
  */
-class UpdateNationalGoverningBody extends NationalGoverningBodyProperties
+class UpdateNationalGoverningBody implements IdentifiesNationalGoverningBody
 {
-    use NationalGoverningBodyAware, MutableNationalGoverningBodyCommand;
+    use NationalGoverningBodyAware, MutableNationalGoverningBody, NationalGoverningBodyProperties;
 
     /**
      * @param NationalGoverningBody $nationalGoverningBody

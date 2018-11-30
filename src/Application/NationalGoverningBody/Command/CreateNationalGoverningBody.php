@@ -8,29 +8,26 @@
 
 namespace App\Application\NationalGoverningBody\Command;
 
-use Ramsey\Uuid\Uuid;
+use App\Application\Common\Command\UuidAware;
+use App\Application\NationalGoverningBody\Validator\UniqueNationalGoverningBody;
 
 /**
  * Class CreateNationalGoverningBody
  *
  * @package App\Application\NationalGoverningBody\Command
+ *
+ * @UniqueNationalGoverningBody()
  */
-class CreateNationalGoverningBody extends NationalGoverningBodyProperties
+class CreateNationalGoverningBody implements IdentifiesNationalGoverningBody
 {
-    use MutableNationalGoverningBodyCommand;
-
-    /**
-     * @var string
-     */
-    private $id;
+    use UuidAware, MutableNationalGoverningBody, NationalGoverningBodyProperties;
 
     /**
      * @return self
      */
     public static function create(): self
     {
-        $id = Uuid::uuid4();
-        return new self($id->toString());
+        return new self(self::uuid());
     }
 
     /**
@@ -39,13 +36,5 @@ class CreateNationalGoverningBody extends NationalGoverningBodyProperties
     private function __construct(string $id)
     {
         $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
     }
 }

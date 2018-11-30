@@ -12,11 +12,11 @@ use App\Domain\Common\Urlizer;
 use libphonenumber\PhoneNumber;
 
 /**
- * Trait MutableNationalGoverningBodyCommand
+ * Trait MutableNationalGoverningBody
  *
  * @package App\Application\NationalGoverningBody\Command
  */
-trait MutableNationalGoverningBodyCommand
+trait MutableNationalGoverningBody
 {
     /**
      * @param string $name

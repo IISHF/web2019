@@ -8,7 +8,7 @@
 
 namespace App\Application\NationalGoverningBody\Validator;
 
-use App\Application\NationalGoverningBody\Command\NationalGoverningBodyProperties;
+use App\Application\NationalGoverningBody\Command\IdentifiesNationalGoverningBody;
 use App\Application\NationalGoverningBody\Command\UpdateNationalGoverningBody;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBody;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBodyRepository;
@@ -47,8 +47,8 @@ class UniqueNationalGoverningBodyValidator extends ConstraintValidator
         if ($value === null || $value === '') {
             return;
         }
-        if (!$value instanceof NationalGoverningBodyProperties) {
-            throw new UnexpectedTypeException($value, NationalGoverningBodyProperties::class);
+        if (!$value instanceof IdentifiesNationalGoverningBody) {
+            throw new UnexpectedTypeException($value, IdentifiesNationalGoverningBody::class);
         }
 
         $this->addViolationIf(
@@ -89,7 +89,7 @@ class UniqueNationalGoverningBodyValidator extends ConstraintValidator
     }
 
     /**
-     * @param NationalGoverningBodyProperties $properties
+     * @param IdentifiesNationalGoverningBody $properties
      * @param NationalGoverningBody|null      $ngb
      * @param string                          $message
      * @param mixed                           $value
@@ -97,7 +97,7 @@ class UniqueNationalGoverningBodyValidator extends ConstraintValidator
      * @param string                          $param
      */
     private function addViolationIf(
-        NationalGoverningBodyProperties $properties,
+        IdentifiesNationalGoverningBody $properties,
         ?NationalGoverningBody $ngb,
         string $message,
         $value,
