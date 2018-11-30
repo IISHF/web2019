@@ -6,15 +6,16 @@
  * Time: 15:46
  */
 
-namespace App\Application\User\Command;
+namespace App\Infrastructure\User\Event;
 
+use App\Application\User\Command\UserUnconfirmed;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class UserUnconfirmedNotifySubscriber
  *
- * @package App\Application\User\Command
+ * @package App\Infrastructure\User\Event
  */
 class UserUnconfirmedNotifySubscriber implements MessageHandlerInterface
 {
