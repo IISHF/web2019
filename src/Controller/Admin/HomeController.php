@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     /**
-     * @Route("/admin")
+     * @Route("/admin", methods={"GET"})
      *
      * @return Response
      */
