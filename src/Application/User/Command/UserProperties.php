@@ -12,11 +12,11 @@ use App\Application\User\Validator\UniqueEmail;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class UserProperties
+ * Trait UserProperties
  *
  * @package App\Application\User\Command
  */
-abstract class UserProperties
+trait UserProperties
 {
     /**
      * @Assert\Type("string")

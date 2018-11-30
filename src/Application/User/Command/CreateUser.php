@@ -8,21 +8,16 @@
 
 namespace App\Application\User\Command;
 
-use Ramsey\Uuid\Uuid;
+use App\Application\Common\Command\UuidAware;
 
 /**
  * Class CreateUser
  *
  * @package App\Application\User\Command
  */
-class CreateUser extends UserProperties
+class CreateUser
 {
-    use MutableUserCommand;
-
-    /**
-     * @var string
-     */
-    private $id;
+    use UuidAware, MutableUser, UserProperties;
 
     /**
      * @var string
@@ -34,8 +29,7 @@ class CreateUser extends UserProperties
      */
     public static function create(): self
     {
-        $id = Uuid::uuid4();
-        return new self($id->toString(), bin2hex(random_bytes(32)));
+        return new self(self::uuid(), bin2hex(random_bytes(32)));
     }
 
     /**
@@ -46,14 +40,6 @@ class CreateUser extends UserProperties
     {
         $this->id           = $id;
         $this->confirmToken = $confirmToken;
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
     }
 
     /**

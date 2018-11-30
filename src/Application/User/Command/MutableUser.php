@@ -9,11 +9,11 @@
 namespace App\Application\User\Command;
 
 /**
- * Trait MutableUserCommand
+ * Trait MutableUser
  *
  * @package App\Application\User\Command
  */
-trait MutableUserCommand
+trait MutableUser
 {
     /**
      * @param string $firstName

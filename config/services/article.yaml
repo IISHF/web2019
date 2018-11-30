@@ -1,0 +1,23 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    App\Domain\Model\Article\ArticleRepository:
+
+    App\Domain\Model\Article\ArticleVersionRepository:
+        factory: 'doctrine.orm.entity_manager::getRepository'
+        arguments: ['App\Domain\Model\Article\ArticleVersion']
+
+    App\Application\Article\Command\CreateArticleHandler:
+    App\Application\Article\Command\UpdateArticleHandler:
+    App\Application\Article\Command\DeleteArticleHandler:
+
+    App\Infrastructure\Article\Security\Voter\ArticleVoter:
+
+    App\Infrastructure\Article\ParamConverter\ArticleParamConverter:
+        tags:
+            - { name: request.param_converter, converter: app.article }
+
+    App\Application\Article\Validator\UniqueSlugValidator:

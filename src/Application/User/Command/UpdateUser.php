@@ -15,9 +15,9 @@ use App\Domain\Model\User\User;
  *
  * @package App\Application\User\Command
  */
-class UpdateUser extends UserProperties
+class UpdateUser
 {
-    use UserAware, MutableUserCommand;
+    use UserAware, MutableUser, UserProperties;
 
     /**
      * @param User $user

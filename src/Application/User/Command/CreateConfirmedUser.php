@@ -8,29 +8,23 @@
 
 namespace App\Application\User\Command;
 
-use Ramsey\Uuid\Uuid;
+use App\Application\Common\Command\UuidAware;
 
 /**
  * Class CreateConfirmedUser
  *
  * @package App\Application\User\Command
  */
-class CreateConfirmedUser extends UserProperties
+class CreateConfirmedUser
 {
-    use PasswordAware, MutableUserCommand;
-
-    /**
-     * @var string
-     */
-    private $id;
+    use UuidAware, PasswordAware, MutableUser, UserProperties;
 
     /**
      * @return self
      */
     public static function create(): self
     {
-        $id = Uuid::uuid4();
-        return new self($id->toString());
+        return new self(self::uuid());
     }
 
     /**
@@ -39,13 +33,5 @@ class CreateConfirmedUser extends UserProperties
     private function __construct(string $id)
     {
         $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
     }
 }
