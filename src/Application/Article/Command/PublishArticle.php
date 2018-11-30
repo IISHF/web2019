@@ -8,6 +8,7 @@
 
 namespace App\Application\Article\Command;
 
+use App\Application\Common\Command\UuidAware;
 use App\Domain\Model\Article\Article;
 
 /**
@@ -17,7 +18,7 @@ use App\Domain\Model\Article\Article;
  */
 class PublishArticle
 {
-    use ArticleAware;
+    use UuidAware;
 
     /**
      * @param Article $article
@@ -25,14 +26,14 @@ class PublishArticle
      */
     public static function publish(Article $article): self
     {
-        return new self($article);
+        return new self($article->getId());
     }
 
     /**
-     * @param Article $article
+     * @param string $id
      */
-    private function __construct(Article $article)
+    private function __construct(string $id)
     {
-        $this->article = $article;
+        $this->id = $id;
     }
 }

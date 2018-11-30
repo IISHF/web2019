@@ -9,6 +9,7 @@
 namespace App\Application\Article\Command;
 
 use App\Domain\Common\Urlizer;
+use App\Domain\Model\Article\Article;
 use App\Domain\Model\Article\ArticleRepository;
 use App\Utils\Text;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
@@ -31,6 +32,19 @@ abstract class ArticleCommandHandler implements MessageHandlerInterface
     public function __construct(ArticleRepository $repository)
     {
         $this->repository = $repository;
+    }
+
+    /**
+     * @param string $id
+     * @return Article
+     */
+    protected function getArticle(string $id): Article
+    {
+        $article = $this->repository->findById($id);
+        if (!$article) {
+            throw new \OutOfBoundsException('No article found for id ' . $id);
+        }
+        return $article;
     }
 
     /**

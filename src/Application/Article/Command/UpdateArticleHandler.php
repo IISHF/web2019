@@ -20,14 +20,16 @@ class UpdateArticleHandler extends ArticleCommandHandler
      */
     public function __invoke(UpdateArticle $command): void
     {
-        $article = $command->getArticle();
+        $article = $this->getArticle($command->getId());
+        if ($article->isLegacyFormat()) {
+            throw new \InvalidArgumentException('Legacy news articles cannot be edited');
+        }
         $article->setSlug($this->findSuitableSlug(new \DateTimeImmutable(), $command->getTitle(), $article->getId()))
                 ->setTitle($command->getTitle())
                 ->setSubtitle($command->getSubtitle())
                 ->setBody($command->getBody())
                 ->setTags($command->getTags())
                 ->setPublishedAt($command->getPublishedAt());
-
         $this->repository->save($article);
     }
 }

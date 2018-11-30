@@ -8,6 +8,7 @@
 
 namespace App\Application\NationalGoverningBody\Command;
 
+use App\Application\Common\Command\UuidAware;
 use App\Application\NationalGoverningBody\Validator\UniqueNationalGoverningBody;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBody;
 use libphonenumber\PhoneNumber;
@@ -21,7 +22,7 @@ use libphonenumber\PhoneNumber;
  */
 class UpdateNationalGoverningBody implements IdentifiesNationalGoverningBody
 {
-    use NationalGoverningBodyAware, MutableNationalGoverningBody, NationalGoverningBodyProperties;
+    use UuidAware, MutableNationalGoverningBody, NationalGoverningBodyProperties;
 
     /**
      * @param NationalGoverningBody $nationalGoverningBody
@@ -30,7 +31,7 @@ class UpdateNationalGoverningBody implements IdentifiesNationalGoverningBody
     public static function update(NationalGoverningBody $nationalGoverningBody): self
     {
         return new self(
-            $nationalGoverningBody,
+            $nationalGoverningBody->getId(),
             $nationalGoverningBody->getName(),
             $nationalGoverningBody->getAcronym(),
             $nationalGoverningBody->getIocCode(),
@@ -45,20 +46,20 @@ class UpdateNationalGoverningBody implements IdentifiesNationalGoverningBody
     }
 
     /**
-     * @param NationalGoverningBody $nationalGoverningBody
-     * @param string                $name
-     * @param string                $acronym
-     * @param string                $iocCode
-     * @param string                $country
-     * @param string                $email
-     * @param string|null           $website
-     * @param PhoneNumber|null      $phoneNumber
-     * @param string|null           $facebookProfile
-     * @param string|null           $twitterProfile
-     * @param string|null           $instagramProfile
+     * @param string           $id
+     * @param string           $name
+     * @param string           $acronym
+     * @param string           $iocCode
+     * @param string           $country
+     * @param string           $email
+     * @param string|null      $website
+     * @param PhoneNumber|null $phoneNumber
+     * @param string|null      $facebookProfile
+     * @param string|null      $twitterProfile
+     * @param string|null      $instagramProfile
      */
     private function __construct(
-        NationalGoverningBody $nationalGoverningBody,
+        string $id,
         string $name,
         string $acronym,
         string $iocCode,
@@ -70,16 +71,16 @@ class UpdateNationalGoverningBody implements IdentifiesNationalGoverningBody
         ?string $twitterProfile,
         ?string $instagramProfile
     ) {
-        $this->nationalGoverningBody = $nationalGoverningBody;
-        $this->name                  = $name;
-        $this->acronym               = $acronym;
-        $this->iocCode               = $iocCode;
-        $this->country               = $country;
-        $this->email                 = $email;
-        $this->website               = $website;
-        $this->phoneNumber           = $phoneNumber;
-        $this->facebookProfile       = $facebookProfile;
-        $this->twitterProfile        = $twitterProfile;
-        $this->instagramProfile      = $instagramProfile;
+        $this->id               = $id;
+        $this->name             = $name;
+        $this->acronym          = $acronym;
+        $this->iocCode          = $iocCode;
+        $this->country          = $country;
+        $this->email            = $email;
+        $this->website          = $website;
+        $this->phoneNumber      = $phoneNumber;
+        $this->facebookProfile  = $facebookProfile;
+        $this->twitterProfile   = $twitterProfile;
+        $this->instagramProfile = $instagramProfile;
     }
 }

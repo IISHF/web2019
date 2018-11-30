@@ -20,7 +20,8 @@ class RejectArticleHandler extends ArticleWorkflowCommandHandler
      */
     public function __invoke(RejectArticle $command): void
     {
-        $article = $this->applyWorkflowTransition($command->getArticle(), 'reject');
+        $article = $this->getArticle($command->getId());
+        $this->applyWorkflowTransition($article, 'reject');
         $this->repository->save($article);
     }
 }

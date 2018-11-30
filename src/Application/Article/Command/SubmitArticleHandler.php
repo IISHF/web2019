@@ -20,7 +20,8 @@ class SubmitArticleHandler extends ArticleWorkflowCommandHandler
      */
     public function __invoke(SubmitArticle $command): void
     {
-        $article = $this->applyWorkflowTransition($command->getArticle(), 'submit');
+        $article = $this->getArticle($command->getId());
+        $this->applyWorkflowTransition($article, 'submit');
         $this->repository->save($article);
     }
 }

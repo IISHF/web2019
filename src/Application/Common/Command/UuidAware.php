@@ -25,7 +25,7 @@ trait UuidAware
     /**
      * @return self
      */
-    private static function uuid(): string
+    private static function createUuid(): string
     {
         return Uuid::uuid4();
     }

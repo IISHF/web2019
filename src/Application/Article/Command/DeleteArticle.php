@@ -8,6 +8,7 @@
 
 namespace App\Application\Article\Command;
 
+use App\Application\Common\Command\UuidAware;
 use App\Domain\Model\Article\Article;
 
 /**
@@ -17,7 +18,7 @@ use App\Domain\Model\Article\Article;
  */
 class DeleteArticle
 {
-    use ArticleAware;
+    use UuidAware;
 
     /**
      * @param Article $article
@@ -25,14 +26,14 @@ class DeleteArticle
      */
     public static function delete(Article $article): self
     {
-        return new self($article);
+        return new self($article->getId());
     }
 
     /**
-     * @param Article $article
+     * @param string $id
      */
-    private function __construct(Article $article)
+    private function __construct(string $id)
     {
-        $this->article = $article;
+        $this->id = $id;
     }
 }

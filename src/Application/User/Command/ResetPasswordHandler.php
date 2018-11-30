@@ -22,9 +22,10 @@ class ResetPasswordHandler extends UserPasswordCommandHandler
     {
         $user = $this->repository->findByResetPasswordToken($command->getResetPasswordToken());
         if (!$user) {
-            throw new \OutOfBoundsException('Reset password token not found');
+            throw new \OutOfBoundsException(
+                'No user found for reset password token ' . $command->getResetPasswordToken()
+            );
         }
-
         $user->changePassword($this->encodePassword($command->getPassword()));
         $this->repository->save($user);
     }

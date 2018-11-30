@@ -20,6 +20,7 @@ class DeleteNationalGoverningBodyHandler extends NationalGoverningBodyCommandHan
      */
     public function __invoke(DeleteNationalGoverningBody $command): void
     {
-        $this->repository->delete($command->getNationalGoverningBody());
+        $ngb = $this->getNationalGoverningBody($command->getId());
+        $this->repository->delete($ngb);
     }
 }

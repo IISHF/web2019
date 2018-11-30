@@ -8,6 +8,7 @@
 
 namespace App\Application\User\Command;
 
+use App\Application\Common\Command\UuidAware;
 use App\Domain\Model\User\User;
 
 /**
@@ -17,7 +18,7 @@ use App\Domain\Model\User\User;
  */
 class UpdateUser
 {
-    use UserAware, MutableUser, UserProperties;
+    use UuidAware, MutableUser, UserProperties;
 
     /**
      * @param User $user
@@ -26,7 +27,7 @@ class UpdateUser
     public static function update(User $user): self
     {
         return new self(
-            $user,
+            $user->getId(),
             $user->getFirstName(),
             $user->getLastName(),
             $user->getEmail(),
@@ -35,20 +36,20 @@ class UpdateUser
     }
 
     /**
-     * @param User   $user
+     * @param string $id
      * @param string $firstName
      * @param string $lastName
      * @param string $email
      * @param array  $roles
      */
     private function __construct(
-        User $user,
+        string $id,
         string $firstName,
         string $lastName,
         string $email,
         array $roles
     ) {
-        $this->user      = $user;
+        $this->id        = $id;
         $this->firstName = $firstName;
         $this->lastName  = $lastName;
         $this->email     = $email;

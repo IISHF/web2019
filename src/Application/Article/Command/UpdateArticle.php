@@ -8,6 +8,7 @@
 
 namespace App\Application\Article\Command;
 
+use App\Application\Common\Command\UuidAware;
 use App\Domain\Model\Article\Article;
 
 /**
@@ -17,7 +18,7 @@ use App\Domain\Model\Article\Article;
  */
 class UpdateArticle
 {
-    use ArticleAware, MutableArticle, ArticleProperties;
+    use UuidAware, MutableArticle, ArticleProperties;
 
     /**
      * @param Article $article
@@ -25,11 +26,8 @@ class UpdateArticle
      */
     public static function update(Article $article): self
     {
-        if ($article->isLegacyFormat()) {
-            throw new \InvalidArgumentException('Legacy news articles cannot be edited');
-        }
         return new self(
-            $article,
+            $article->getId(),
             $article->getTitle(),
             $article->getBody(),
             $article->getTags()
@@ -37,20 +35,20 @@ class UpdateArticle
     }
 
     /**
-     * @param Article $article
-     * @param string  $title
-     * @param string  $body
-     * @param array   $tags
+     * @param string $id
+     * @param string $title
+     * @param string $body
+     * @param array  $tags
      */
     private function __construct(
-        Article $article,
+        string $id,
         string $title,
         string $body,
         array $tags
     ) {
-        $this->article = $article;
-        $this->title   = $title;
-        $this->body    = $body;
-        $this->tags    = $tags;
+        $this->id    = $id;
+        $this->title = $title;
+        $this->body  = $body;
+        $this->tags  = $tags;
     }
 }

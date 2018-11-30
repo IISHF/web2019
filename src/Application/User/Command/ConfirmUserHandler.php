@@ -22,9 +22,8 @@ class ConfirmUserHandler extends UserPasswordCommandHandler
     {
         $user = $this->repository->findByConfirmToken($command->getConfirmToken());
         if (!$user) {
-            throw new \OutOfBoundsException('Confirm token not found');
+            throw new \OutOfBoundsException('No user found for confirmation token ' . $command->getConfirmToken());
         }
-
         $user->markUserAsConfirmed($this->encodePassword($command->getPassword()));
         $this->repository->save($user);
     }

@@ -29,7 +29,7 @@ class CreateArticle
      */
     public static function create(): self
     {
-        return new self(self::uuid(), false);
+        return new self(self::createUuid(), false);
     }
 
     /**
@@ -37,7 +37,7 @@ class CreateArticle
      */
     public static function createLegacy(): self
     {
-        return new self(self::uuid(), true);
+        return new self(self::createUuid(), true);
     }
 
     /**

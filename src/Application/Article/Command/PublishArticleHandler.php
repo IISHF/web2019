@@ -20,7 +20,8 @@ class PublishArticleHandler extends ArticleWorkflowCommandHandler
      */
     public function __invoke(PublishArticle $command): void
     {
-        $article = $this->applyWorkflowTransition($command->getArticle(), 'publish');
+        $article = $this->getArticle($command->getId());
+        $this->applyWorkflowTransition($article, 'publish');
         $this->repository->save($article);
     }
 }

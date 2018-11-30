@@ -20,6 +20,7 @@ class DeleteUserHandler extends UserCommandHandler
      */
     public function __invoke(DeleteUser $command): void
     {
-        $this->repository->delete($command->getUser());
+        $user = $this->getUser($command->getId());
+        $this->repository->delete($user);
     }
 }

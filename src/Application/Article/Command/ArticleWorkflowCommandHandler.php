@@ -47,12 +47,10 @@ abstract class ArticleWorkflowCommandHandler extends ArticleCommandHandler
     /**
      * @param Article $article
      * @param string  $transitionName
-     * @return Article
      */
-    protected function applyWorkflowTransition(Article $article, string $transitionName): Article
+    protected function applyWorkflowTransition(Article $article, string $transitionName): void
     {
         $workflow = $this->getWorkflow($article);
         $workflow->apply($article, $transitionName);
-        return $article;
     }
 }

@@ -20,7 +20,7 @@ class UpdateNationalGoverningBodyHandler extends NationalGoverningBodyCommandHan
      */
     public function __invoke(UpdateNationalGoverningBody $command): void
     {
-        $ngb = $command->getNationalGoverningBody();
+        $ngb = $this->getNationalGoverningBody($command->getId());
         $ngb->setName($command->getName())
             ->setAcronym($command->getAcronym())
             ->setSlug($this->findSuitableSlug($command->getName(), $ngb->getId()))
@@ -32,7 +32,6 @@ class UpdateNationalGoverningBodyHandler extends NationalGoverningBodyCommandHan
             ->setFacebookProfile($command->getFacebookProfile())
             ->setTwitterProfile($command->getTwitterProfile())
             ->setInstagramProfile($command->getInstagramProfile());
-
         $this->repository->save($ngb);
     }
 }

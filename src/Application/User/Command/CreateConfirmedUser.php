@@ -24,7 +24,7 @@ class CreateConfirmedUser
      */
     public static function create(): self
     {
-        return new self(self::uuid());
+        return new self(self::createUuid());
     }
 
     /**

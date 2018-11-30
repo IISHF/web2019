@@ -29,7 +29,7 @@ class CreateUser
      */
     public static function create(): self
     {
-        return new self(self::uuid(), bin2hex(random_bytes(32)));
+        return new self(self::createUuid(), bin2hex(random_bytes(32)));
     }
 
     /**

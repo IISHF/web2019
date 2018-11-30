@@ -9,6 +9,7 @@
 namespace App\Application\NationalGoverningBody\Command;
 
 use App\Domain\Common\Urlizer;
+use App\Domain\Model\NationalGoverningBody\NationalGoverningBody;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBodyRepository;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
@@ -30,6 +31,19 @@ abstract class NationalGoverningBodyCommandHandler implements MessageHandlerInte
     public function __construct(NationalGoverningBodyRepository $repository)
     {
         $this->repository = $repository;
+    }
+
+    /**
+     * @param string $id
+     * @return NationalGoverningBody
+     */
+    protected function getNationalGoverningBody(string $id): NationalGoverningBody
+    {
+        $ngb = $this->repository->findById($id);
+        if (!$ngb) {
+            throw new \OutOfBoundsException('No national governing body found for id ' . $id);
+        }
+        return $ngb;
     }
 
     /**

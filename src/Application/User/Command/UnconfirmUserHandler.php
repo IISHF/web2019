@@ -21,14 +21,9 @@ class UnconfirmUserHandler extends UserCommandHandler
      */
     public function __invoke(UnconfirmUser $command): string
     {
-        $user = $this->repository->findByEmail($command->getEmail());
-        if (!$user) {
-            throw new \OutOfBoundsException('User not found');
-        }
-
+        $user = $this->getUserByEmail($command->getEmail());
         $user->markUserAsUnconfirmed($command->getConfirmToken());
         $this->repository->save($user);
-
         return $command->getConfirmToken();
     }
 }

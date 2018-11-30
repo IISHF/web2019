@@ -100,8 +100,7 @@ class UniqueNationalGoverningBodyValidator extends ConstraintValidator
         if (!$ngb) {
             return;
         }
-        if ($properties instanceof UpdateNationalGoverningBody
-            && $properties->getNationalGoverningBody()->getId() === $ngb->getId()) {
+        if ($properties instanceof UpdateNationalGoverningBody && $properties->getId() === $ngb->getId()) {
             return;
         }
 

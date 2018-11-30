@@ -20,11 +20,7 @@ class SetPasswordHandler extends UserPasswordCommandHandler
      */
     public function __invoke(SetPassword $command): void
     {
-        $user = $this->repository->findByEmail($command->getEmail());
-        if (!$user) {
-            throw new \OutOfBoundsException('User not found');
-        }
-
+        $user = $this->getUserByEmail($command->getEmail());
         $user->changePassword($this->encodePassword($command->getPassword()));
         $this->repository->save($user);
     }

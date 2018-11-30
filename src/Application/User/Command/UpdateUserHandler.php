@@ -20,8 +20,7 @@ class UpdateUserHandler extends UserCommandHandler
      */
     public function __invoke(UpdateUser $command): void
     {
-        $user = $command->getUser();
-
+        $user = $this->getUser($command->getId());
         $user->setFirstName($command->getFirstName())
              ->setLastName($command->getLastName())
              ->setEmail($command->getEmail())

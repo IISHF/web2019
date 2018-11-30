@@ -55,7 +55,7 @@ class UniqueEmailValidator extends ConstraintValidator
         }
 
         $root = $this->context->getRoot();
-        if ($root instanceof UpdateUser && $root->getUser()->getId() === $tryUser->getId()) {
+        if ($root instanceof UpdateUser && $root->getId() === $tryUser->getId()) {
             return;
         }
 
