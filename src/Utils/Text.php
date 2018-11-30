@@ -16,7 +16,6 @@ namespace App\Utils;
 final class Text
 {
     /**
-     * TextUtils constructor.
      */
     private function __construct()
     {
