@@ -17,12 +17,12 @@ use App\Infrastructure\User\Form\ChangePasswordType;
 use App\Infrastructure\User\Form\ConfirmUserType;
 use App\Infrastructure\User\Form\RequestPasswordResetType;
 use App\Infrastructure\User\Form\ResetPasswordType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class AccountController
