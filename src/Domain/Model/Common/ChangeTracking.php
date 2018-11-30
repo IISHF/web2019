@@ -19,7 +19,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 trait ChangeTracking
 {
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(name="created_at", type="datetime_immutable")
      * @Gedmo\Timestampable(on="create")
      *
      * @var \DateTimeImmutable
@@ -27,7 +27,7 @@ trait ChangeTracking
     private $createdAt;
 
     /**
-     * @ORM\Column(type="string", length=128, nullable=true)
+     * @ORM\Column(name="created_by", type="string", length=128, nullable=true)
      * @Gedmo\Blameable(on="create")
      *
      * @var string|null
@@ -35,7 +35,7 @@ trait ChangeTracking
     private $createdBy;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(name="updated_at", type="datetime_immutable")
      * @Gedmo\Timestampable(on="update")
      *
      * @var \DateTimeImmutable
@@ -43,7 +43,7 @@ trait ChangeTracking
     private $updatedAt;
 
     /**
-     * @ORM\Column(type="string", length=128, nullable=true)
+     * @ORM\Column(name="updated_by", type="string", length=128, nullable=true)
      * @Gedmo\Blameable(on="update")
      *
      * @var string|null
