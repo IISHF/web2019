@@ -28,7 +28,7 @@ class ArticleVoter extends DelegatingVoter
             return false;
         }
 
-        return \in_array($attribute, ['ARTICLE_EDIT', 'ARTICLE_DELETE']);
+        return \in_array($attribute, ['ARTICLE_EDIT', 'ARTICLE_DELETE', 'ARTICLE_SUBMIT', 'ARTICLE_REVIEW']);
     }
 
     /**

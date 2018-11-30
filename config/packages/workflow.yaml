@@ -1,0 +1,43 @@
+framework:
+    workflows:
+        article_publishing:
+            type: 'workflow'
+            audit_trail: true
+            marking_store:
+                type: 'single_state'
+                arguments:
+                    - 'currentState'
+            supports:
+                - App\Domain\Model\Article\Article
+            initial_place: draft
+            places:
+                draft:
+                    metadata:
+                        title: Draft
+                review:
+                    metadata:
+                        title: Wait for Reviewer
+                published:
+                    metadata:
+                        title: Published
+            transitions:
+                submit:
+                    guard: 'is_granted("ARTICLE_SUBMIT", subject)'
+                    from: draft
+                    to: review
+                    metadata:
+                        title: Submit to Reviewer
+                publish:
+                    guard: 'is_granted("ARTICLE_REVIEW", subject)'
+                    from: review
+                    to: published
+                    metadata:
+                        title: Publish
+                reject:
+                    guard: 'is_granted("ARTICLE_REVIEW", subject)'
+                    from: review
+                    to: draft
+                    metadata:
+                        title: Reject
+            metadata:
+                title: Article Publishing Workflow

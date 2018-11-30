@@ -23,7 +23,7 @@ use Webmozart\Assert\Assert;
  * @ORM\Table(
  *      name="articles",
  *      indexes={
- *          @ORM\Index(name="idx_article_date", columns={"published_at"})
+ *          @ORM\Index(name="idx_article_state_date", columns={"current_state", "published_at"})
  *      }
  *  )
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=true)
@@ -32,6 +32,11 @@ use Webmozart\Assert\Assert;
 class Article
 {
     use ChangeTracking, SoftDeleteableEntity;
+
+    public const STATE_DRAFT     = 'draft';
+    public const STATE_REVIEW    = 'review';
+    public const STATE_REJECTED  = 'rejected';
+    public const STATE_PUBLISHED = 'published';
 
     /**
      * @ORM\Column(name="id", type="guid")
@@ -47,6 +52,13 @@ class Article
      * @var bool
      */
     private $legacyFormat;
+
+    /**
+     * @ORM\Column(name="current_state", type="string", length=16)
+     *
+     * @var string
+     */
+    private $currentState = self::STATE_DRAFT;
 
     /**
      * @ORM\Column(name="slug", type="string", length=128, unique=true)
@@ -137,7 +149,9 @@ class Article
         array $tags,
         \DateTimeImmutable $publishedAt
     ): self {
-        return new self($id, true, $slug, $title, $subtitle, $body, $tags, $publishedAt);
+        $article               = new self($id, true, $slug, $title, $subtitle, $body, $tags, $publishedAt);
+        $article->currentState = self::STATE_PUBLISHED;
+        return $article;
     }
 
     /**
