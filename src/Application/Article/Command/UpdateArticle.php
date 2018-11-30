@@ -25,6 +25,9 @@ class UpdateArticle
      */
     public static function update(Article $article): self
     {
+        if ($article->isLegacyFormat()) {
+            throw new \InvalidArgumentException('Legacy news articles cannot be edited');
+        }
         return new self(
             $article,
             $article->getTitle(),

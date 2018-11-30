@@ -28,6 +28,14 @@ trait ArticleProperties
 
     /**
      * @Assert\Type("string")
+     * @Assert\Length(max=255)
+     *
+     * @var string|null
+     */
+    private $subtitle = '';
+
+    /**
+     * @Assert\Type("string")
      * @Assert\Length(max=16777215)
      * @Assert\NotBlank()
      *
@@ -47,11 +55,26 @@ trait ArticleProperties
     private $tags = [];
 
     /**
+     * @Assert\Type("\DateTimeImmutable")
+     *
+     * @var \DateTimeImmutable|null
+     */
+    private $publishedAt;
+
+    /**
      * @return string
      */
     public function getTitle(): string
     {
         return $this->title;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSubtitle(): ?string
+    {
+        return $this->subtitle;
     }
 
     /**
@@ -68,5 +91,16 @@ trait ArticleProperties
     public function getTags(): array
     {
         return $this->tags;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getPublishedAt(): \DateTimeImmutable
+    {
+        if (!$this->publishedAt) {
+            $this->publishedAt = new \DateTimeImmutable('now');
+        }
+        return $this->publishedAt;
     }
 }

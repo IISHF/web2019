@@ -20,18 +20,41 @@ class CreateArticle
     use UuidAware, MutableArticle, ArticleProperties;
 
     /**
+     * @var bool
+     */
+    private $legacyFormat;
+
+    /**
      * @return self
      */
     public static function create(): self
     {
-        return new self(self::uuid());
+        return new self(self::uuid(), false);
+    }
+
+    /**
+     * @return self
+     */
+    public static function createLegacy(): self
+    {
+        return new self(self::uuid(), true);
     }
 
     /**
      * @param string $id
+     * @param bool   $legacyFormat
      */
-    private function __construct(string $id)
+    private function __construct(string $id, bool $legacyFormat)
     {
-        $this->id = $id;
+        $this->id           = $id;
+        $this->legacyFormat = $legacyFormat;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLegacyFormat(): bool
+    {
+        return $this->legacyFormat;
     }
 }

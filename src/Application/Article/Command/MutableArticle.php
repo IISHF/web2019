@@ -26,6 +26,16 @@ trait MutableArticle
     }
 
     /**
+     * @param string|null $subtitle
+     * @return $this
+     */
+    public function setSubtitle(?string $subtitle): self
+    {
+        $this->subtitle = $subtitle;
+        return $this;
+    }
+
+    /**
      * @param string $body
      * @return $this
      */
@@ -45,4 +55,13 @@ trait MutableArticle
         return $this;
     }
 
+    /**
+     * @param \DateTimeImmutable $publishedAt
+     * @return $this
+     */
+    public function setPublishedAt(\DateTimeImmutable $publishedAt): self
+    {
+        $this->publishedAt = $publishedAt;
+        return $this;
+    }
 }

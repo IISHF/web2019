@@ -25,7 +25,7 @@ use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
  *          @ORM\Index(name="idx_article_version_user", columns={"username"}),
  *          @ORM\Index(name="idx_article_version_version", columns={"object_id", "object_class", "version"})
  *      }
- * )
+ *  )
  */
 class ArticleVersion extends AbstractLogEntry
 {

@@ -40,6 +40,11 @@ class ArticleVoter extends DelegatingVoter
         if (!$this->decide($token, ['ROLE_ADMIN'])) {
             return false;
         }
+
+        if ($attribute === 'ARTICLE_EDIT' && $subject->isLegacyFormat()) {
+            return false;
+        }
+
         return true;
     }
 }

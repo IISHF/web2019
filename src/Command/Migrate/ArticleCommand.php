@@ -9,6 +9,7 @@
 namespace App\Command\Migrate;
 
 use App\Application\Article\Command\CreateArticle;
+use App\Utils\Text;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\Exception\ValidationFailedException;
@@ -40,13 +41,34 @@ class ArticleCommand extends BaseCommand
     {
         $this->io->title('Migrate news articles rom legacy database');
 
-        $articles = $this->db->fetchAll('SELECT title, subtitle, contents, edited FROM news');
+        $createCatList = function (string $query): array {
+            $list = [];
+            foreach ($this->db->fetchAll($query) as $i) {
+                $list[(int)$i['id']] = $i['name'];
+            }
+            return $list;
+        };
+        $cat1List      = $createCatList('SELECT id, name FROM cat_cat1');
+        $cat2List      = $createCatList('SELECT id, name FROM cat_cat2');
+
+        $articles = $this->db->fetchAll('SELECT cat1, cat2, title, subtitle, contents, edited FROM news');
         $this->io->progressStart(\count($articles));
         $results = [];
         foreach ($articles as $article) {
-            $createArticle = CreateArticle::create()
+            $tags = [];
+            if (isset($cat1List[$article['cat1']])) {
+                $tags[] = $cat1List[$article['cat1']];
+            }
+            if (isset($cat2List[$article['cat2']])) {
+                $tags[] = $cat2List[$article['cat2']];
+            }
+
+            $createArticle = CreateArticle::createLegacy()
                                           ->setTitle($article['title'])
-                                          ->setBody($article['contents']);
+                                          ->setSubtitle($article['subtitle'])
+                                          ->setBody($article['contents'])
+                                          ->setTags($tags)
+                                          ->setPublishedAt(new \DateTimeImmutable($article['edited']));
 
             try {
                 $this->dispatchCommand($createArticle);
@@ -66,7 +88,9 @@ class ArticleCommand extends BaseCommand
             }
 
             $results[] = [
-                $createArticle->getTitle(),
+                $createArticle->getPublishedAt()->format('Y-m-d H:i'),
+                Text::shorten($createArticle->getTitle(), 64),
+                empty($tags) ? '-' : implode(', ', $tags),
                 $result,
             ];
             $this->io->progressAdvance();

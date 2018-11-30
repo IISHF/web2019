@@ -20,7 +20,12 @@ use Webmozart\Assert\Assert;
  * @package App\Domain\Model\Article
  *
  * @ORM\Entity(repositoryClass="ArticleRepository")
- * @ORM\Table(name="articles")
+ * @ORM\Table(
+ *      name="articles",
+ *      indexes={
+ *          @ORM\Index(name="idx_article_date", columns={"published_at"})
+ *      }
+ *  )
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=true)
  * @Gedmo\Loggable(logEntryClass="ArticleVersion")
  */
@@ -35,6 +40,13 @@ class Article
      * @var string
      */
     private $id;
+
+    /**
+     * @ORM\Column(name="legacy_format", type="boolean", options={"unsigned":true})
+     *
+     * @var bool
+     */
+    private $legacyFormat;
 
     /**
      * @ORM\Column(name="slug", type="string", length=128, unique=true)
@@ -53,6 +65,14 @@ class Article
     private $title;
 
     /**
+     * @ORM\Column(name="subtitle", type="string", length=255, nullable=true)
+     * @Gedmo\Versioned()
+     *
+     * @var string|null
+     */
+    private $subtitle;
+
+    /**
      * @ORM\Column(name="body", type="text", length=16777215)
      * @Gedmo\Versioned()
      *
@@ -69,21 +89,87 @@ class Article
     private $tags;
 
     /**
-     * @param string $id
-     * @param string $slug
-     * @param string $title
-     * @param string $body
-     * @param array  $tags
+     * @ORM\Column(name="published_at", type="datetime_immutable")
+     * @Gedmo\Versioned()
+     *
+     * @var \DateTimeImmutable
      */
-    public function __construct(string $id, string $slug, string $title, string $body, array $tags = [])
-    {
+    private $publishedAt;
+
+    /**
+     * @param string             $id
+     * @param string             $slug
+     * @param string             $title
+     * @param string|null        $subtitle
+     * @param string             $body
+     * @param array              $tags
+     * @param \DateTimeImmutable $publishedAt
+     * @return Article
+     */
+    public static function create(
+        string $id,
+        string $slug,
+        string $title,
+        ?string $subtitle,
+        string $body,
+        array $tags,
+        \DateTimeImmutable $publishedAt
+    ): self {
+        return new self($id, false, $slug, $title, $subtitle, $body, $tags, $publishedAt);
+    }
+
+    /**
+     * @param string             $id
+     * @param string             $slug
+     * @param string             $title
+     * @param string|null        $subtitle
+     * @param string             $body
+     * @param array              $tags
+     * @param \DateTimeImmutable $publishedAt
+     * @return Article
+     */
+    public static function createLegacy(
+        string $id,
+        string $slug,
+        string $title,
+        ?string $subtitle,
+        string $body,
+        array $tags,
+        \DateTimeImmutable $publishedAt
+    ): self {
+        return new self($id, true, $slug, $title, $subtitle, $body, $tags, $publishedAt);
+    }
+
+    /**
+     * @param string             $id
+     * @param bool               $legacyFormat
+     * @param string             $slug
+     * @param string             $title
+     * @param string|null        $subtitle
+     * @param string             $body
+     * @param array              $tags
+     * @param \DateTimeImmutable $publishedAt
+     */
+    private function __construct(
+        string $id,
+        bool $legacyFormat,
+        string $slug,
+        string $title,
+        ?string $subtitle,
+        string $body,
+        array $tags,
+        \DateTimeImmutable $publishedAt
+    ) {
         Assert::uuid($id);
 
-        $this->id = $id;
+        $this->id           = $id;
+        $this->legacyFormat = $legacyFormat;
         $this->setSlug($slug)
              ->setTitle($title)
+             ->setSubtitle($subtitle)
              ->setBody($body)
              ->setTags($tags)
+             ->setPublishedAt($publishedAt)
              ->initChangeTracking();
     }
 
@@ -93,6 +179,14 @@ class Article
     public function getId(): string
     {
         return $this->id;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLegacyFormat(): bool
+    {
+        return $this->legacyFormat;
     }
 
     /**
@@ -135,6 +229,25 @@ class Article
     }
 
     /**
+     * @return string|null
+     */
+    public function getSubtitle(): ?string
+    {
+        return $this->subtitle;
+    }
+
+    /**
+     * @param string|null $subtitle
+     * @return $this
+     */
+    public function setSubtitle(?string $subtitle): self
+    {
+        Assert::nullOrLengthBetween($subtitle, 1, 255);
+        $this->subtitle = $subtitle;
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getBody(): string
@@ -168,6 +281,24 @@ class Article
     public function setTags(array $tags): self
     {
         $this->tags = array_unique($tags);
+        return $this;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getPublishedAt(): \DateTimeImmutable
+    {
+        return $this->publishedAt;
+    }
+
+    /**
+     * @param \DateTimeImmutable $publishedAt
+     * @return $this
+     */
+    public function setPublishedAt(\DateTimeImmutable $publishedAt): self
+    {
+        $this->publishedAt = $publishedAt;
         return $this;
     }
 }

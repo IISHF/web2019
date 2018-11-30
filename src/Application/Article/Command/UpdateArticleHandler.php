@@ -23,8 +23,10 @@ class UpdateArticleHandler extends ArticleCommandHandler
         $article = $command->getArticle();
         $article->setSlug($this->findSuitableSlug(new \DateTimeImmutable(), $command->getTitle(), $article->getId()))
                 ->setTitle($command->getTitle())
+                ->setSubtitle($command->getSubtitle())
                 ->setBody($command->getBody())
-                ->setTags($command->getTags());
+                ->setTags($command->getTags())
+                ->setPublishedAt($command->getPublishedAt());
 
         $this->repository->save($article);
     }
