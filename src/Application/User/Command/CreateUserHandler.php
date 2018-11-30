@@ -9,6 +9,8 @@
 namespace App\Application\User\Command;
 
 use App\Domain\Model\User\User;
+use App\Domain\Model\User\UserRepository;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
  * Class CreateUserHandler
@@ -18,10 +20,24 @@ use App\Domain\Model\User\User;
 class CreateUserHandler extends UserCommandHandler
 {
     /**
-     * @param CreateUser $command
-     * @return string
+     * @var MessageBusInterface
      */
-    public function __invoke(CreateUser $command): string
+    private $eventBus;
+
+    /**
+     * @param UserRepository      $repository
+     * @param MessageBusInterface $eventBus
+     */
+    public function __construct(UserRepository $repository, MessageBusInterface $eventBus)
+    {
+        parent::__construct($repository);
+        $this->eventBus = $eventBus;
+    }
+
+    /**
+     * @param CreateUser $command
+     */
+    public function __invoke(CreateUser $command): void
     {
         $user = User::create(
             $command->getId(),
@@ -32,7 +48,6 @@ class CreateUserHandler extends UserCommandHandler
             $command->getConfirmToken()
         );
         $this->repository->save($user);
-
-        return $command->getConfirmToken();
+        $this->eventBus->dispatch(UserCreated::created($user, $command->getConfirmToken()));
     }
 }

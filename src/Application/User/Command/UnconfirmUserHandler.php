@@ -8,6 +8,9 @@
 
 namespace App\Application\User\Command;
 
+use App\Domain\Model\User\UserRepository;
+use Symfony\Component\Messenger\MessageBusInterface;
+
 /**
  * Class UnconfirmUserHandler
  *
@@ -16,14 +19,28 @@ namespace App\Application\User\Command;
 class UnconfirmUserHandler extends UserCommandHandler
 {
     /**
-     * @param UnconfirmUser $command
-     * @return string
+     * @var MessageBusInterface
      */
-    public function __invoke(UnconfirmUser $command): string
+    private $eventBus;
+
+    /**
+     * @param UserRepository      $repository
+     * @param MessageBusInterface $eventBus
+     */
+    public function __construct(UserRepository $repository, MessageBusInterface $eventBus)
+    {
+        parent::__construct($repository);
+        $this->eventBus = $eventBus;
+    }
+
+    /**
+     * @param UnconfirmUser $command
+     */
+    public function __invoke(UnconfirmUser $command): void
     {
         $user = $this->getUserByEmail($command->getEmail());
         $user->markUserAsUnconfirmed($command->getConfirmToken());
         $this->repository->save($user);
-        return $command->getConfirmToken();
+        $this->eventBus->dispatch(UserUnconfirmed::unconfirmed($user, $command->getConfirmToken()));
     }
 }

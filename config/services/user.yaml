@@ -3,6 +3,8 @@ services:
         autowire: true
         autoconfigure: true
         public: false
+        bind:
+            $eventBus: '@messenger.bus.events'
 
     App\Domain\Model\User\UserRepository:
 
@@ -17,6 +19,10 @@ services:
     App\Application\User\Command\RequestPasswordResetHandler:
     App\Application\User\Command\ResetPasswordHandler:
     App\Application\User\Command\SetPasswordHandler:
+
+    App\Application\User\Command\UserCreatedNotifySubscriber:
+    App\Application\User\Command\PasswordResetRequestedNotifySubscriber:
+    App\Application\User\Command\UserUnconfirmedNotifySubscriber:
 
     App\Application\User\PasswordService:
         arguments:
