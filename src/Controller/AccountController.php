@@ -17,14 +17,12 @@ use App\Infrastructure\User\Form\ChangePasswordType;
 use App\Infrastructure\User\Form\ConfirmUserType;
 use App\Infrastructure\User\Form\RequestPasswordResetType;
 use App\Infrastructure\User\Form\ResetPasswordType;
-use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class AccountController
@@ -75,10 +73,9 @@ class AccountController extends AbstractController
      *
      * @param Request             $request
      * @param MessageBusInterface $commandBus
-     * @param LoggerInterface     $logger
      * @return Response
      */
-    public function forgotPassword(Request $request, MessageBusInterface $commandBus, LoggerInterface $logger): Response
+    public function forgotPassword(Request $request, MessageBusInterface $commandBus): Response
     {
         if ($this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirectToRoute('home');
@@ -94,13 +91,6 @@ class AccountController extends AbstractController
                 'success',
                 'Your password has been reset. Please check your email for further instructions.'
             );
-
-            $resetUrl = $this->generateUrl(
-                'reset_password',
-                ['token' => $requestPassword->getResetPasswordToken()],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
-            $logger->info('Reset URL: ' . $resetUrl);
 
             return $this->redirectToRoute('home');
         }
