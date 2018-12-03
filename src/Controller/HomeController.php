@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use App\Infrastructure\Security\Exception\CaptchaTestFailedException;
 use App\Infrastructure\Security\MagicLink\TokenManager;
+use App\Infrastructure\Security\ReCaptchaClient;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Security;
@@ -41,6 +44,7 @@ class HomeController extends AbstractController
         }
 
         $error        = $authenticationUtils->getLastAuthenticationError();
+        $captchaError = $error instanceof CaptchaTestFailedException;
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render(
@@ -48,6 +52,7 @@ class HomeController extends AbstractController
             [
                 'last_username' => $lastUsername,
                 'error'         => $error,
+                'captchaError'  => $captchaError,
                 'redirect_to'   => $request->get('redirect_to', null),
                 'activeTab'     => $request->query->get('tab', 'password') === 'magic' ? 'magic' : 'password',
             ]
@@ -58,10 +63,15 @@ class HomeController extends AbstractController
      * @param Request          $request
      * @param SessionInterface $session
      * @param TokenManager     $tokenManager
+     * @param ReCaptchaClient  $reCaptchaClient
      * @return Response
      */
-    public function loginMagic(Request $request, SessionInterface $session, TokenManager $tokenManager): Response
-    {
+    public function loginMagic(
+        Request $request,
+        SessionInterface $session,
+        TokenManager $tokenManager,
+        ReCaptchaClient $reCaptchaClient
+    ): Response {
         if ($this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirectToRoute('home');
         }
@@ -73,15 +83,20 @@ class HomeController extends AbstractController
         }
 
         if (!$this->isCsrfTokenValid('login_magic', $request->request->get('csrf_token'))) {
-            $session->set(Security::AUTHENTICATION_ERROR, new InvalidCsrfTokenException());
-            $session->set(Security::LAST_USERNAME, $username);
+            return $this->handleMagicLinkLoginError(
+                $username,
+                $redirectTo,
+                $session,
+                new InvalidCsrfTokenException()
+            );
+        }
 
-            return $this->redirectToRoute(
-                'login',
-                [
-                    'redirect_to' => $redirectTo,
-                    'tab'         => 'clubs',
-                ]
+        if (!$reCaptchaClient->validateRequest($request)) {
+            return $this->handleMagicLinkLoginError(
+                $username,
+                $redirectTo,
+                $session,
+                new CaptchaTestFailedException()
             );
         }
 
@@ -91,8 +106,7 @@ class HomeController extends AbstractController
                 $username,
                 $request->getClientIp(),
                 $request->headers->get('User-Agent'),
-                $redirectTo,
-                new \DateTimeImmutable('now')
+                $redirectTo
             );
         } catch (UsernameNotFoundException $e) {
             // user not found
@@ -102,6 +116,31 @@ class HomeController extends AbstractController
 
         }
         return $this->redirectToRoute('login_magic_confirm');
+    }
+
+    /**
+     * @param string                  $username
+     * @param string|null             $redirectTo
+     * @param SessionInterface        $session
+     * @param AuthenticationException $error
+     * @return Response
+     */
+    private function handleMagicLinkLoginError(
+        string $username,
+        ?string $redirectTo,
+        SessionInterface $session,
+        AuthenticationException $error
+    ): Response {
+        $session->set(Security::AUTHENTICATION_ERROR, $error);
+        $session->set(Security::LAST_USERNAME, $username);
+
+        return $this->redirectToRoute(
+            'login',
+            [
+                'redirect_to' => $redirectTo,
+                'tab'         => 'magic',
+            ]
+        );
     }
 
     /**

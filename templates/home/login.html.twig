@@ -70,6 +70,14 @@
                     </div>
                 </div>
 
+                <script src="{{ constant('App\\Infrastructure\\Security\\ReCaptchaClient::GOOGLE_CLIENT_URL') }}"
+                        async defer></script>
+                <div class="form-group {% if captchaError|default(false) %}has-error{% endif %} row">
+                    <div class="col-sm-10 offset-sm-2">
+                        <div class="g-recaptcha" data-sitekey="{{ google_recaptcha_key }}" data-theme="light"></div>
+                    </div>
+                </div>
+
                 <input type="hidden" name="redirect_to" value="{{ redirect_to }}"/>
                 <input type="hidden" name="csrf_token" value="{{ csrf_token('login_magic') }}"/>
                 <button class="btn btn-primary" type="submit">Login</button>

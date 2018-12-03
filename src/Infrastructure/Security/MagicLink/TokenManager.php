@@ -84,8 +84,9 @@ class TokenManager
         string $userIp,
         string $userAgent,
         ?string $redirectTo,
-        \DateTimeImmutable $created
+        ?\DateTimeImmutable $created = null
     ): array {
+        $created = $created ?? new \DateTimeImmutable('now');
         try {
             $user = $this->userRepository->findByEmail($username);
             if (!$user) {

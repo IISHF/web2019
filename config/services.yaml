@@ -24,3 +24,10 @@ services:
     App\Infrastructure\Messaging\MailService:
         arguments:
             $defaultSender: {'noreply@iishf.com': 'iishf.com'}
+
+    App\Infrastructure\Security\ReCaptchaClient:
+        arguments:
+            $reCaptchaSecret: '%env(GOOGLE_RECAPTCHA_SECRET)%'
+            $debug: '%kernel.debug%'
+        tags:
+            - { name: monolog.logger, channel: app.security }
