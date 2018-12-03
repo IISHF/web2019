@@ -12,6 +12,8 @@ Encore
     .enablePostCssLoader()
     .enableReactPreset()
 
+    .autoProvidejQuery()
+
     .addEntry('public', './assets/js/public.js')
     .addEntry('admin', './assets/js/admin.js')
 

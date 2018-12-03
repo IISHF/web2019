@@ -1,4 +1,6 @@
-@import "base";
+$primary: darken(#428bca, 20%);
+
+@import "~bootstrap/scss/bootstrap";
 
 h1 {
     color: red;
