@@ -9,6 +9,7 @@
 namespace App\Infrastructure\Security;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -108,7 +109,7 @@ class ReCaptchaClient
 
             return false;
 
-        } catch (\Exception $e) {
+        } catch (ConnectException $e) {
             if ($this->debug) {
                 $this->logger->notice(
                     sprintf(
@@ -117,7 +118,6 @@ class ReCaptchaClient
                         $e->getMessage()
                     )
                 );
-
                 return true;
             }
             throw $e;
