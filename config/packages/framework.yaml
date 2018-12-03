@@ -12,6 +12,7 @@ framework:
         name: IISHF_SESSION
         cookie_secure: true
         cookie_httponly: true
+        cookie_samesite: lax
         gc_probability: 1
         gc_divisor: 100
         gc_maxlifetime: 1440
