@@ -1,0 +1,30 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    <h1>Articles</h1>
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for article in articles %}
+            <tr>
+                <th scope="row">{{ loop.index + articles.currentPageOffsetStart - 1 }}</th>
+                <td>
+                    <a href="{{ path('app_article_getdetail', {'article': article.slug}) }}">{{ article.title }}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if articles.haveToPaginate %}
+        <nav>
+            {{ pagerfanta(articles) }}
+        </nav>
+    {% endif %}
+{% endblock %}

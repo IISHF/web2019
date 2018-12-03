@@ -10,6 +10,8 @@ namespace App\Domain\Model\Article;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
 
 /**
  * Class ArticleRepository
@@ -46,6 +48,21 @@ class ArticleRepository extends ServiceEntityRepository
         /** @var Article|null $article */
         $article = $this->findOneBy(['slug' => $slug]);
         return $article;
+    }
+
+    /**
+     * @param int $page
+     * @param int $limit
+     * @return iterable|Pagerfanta|Article[]
+     */
+    public function findPaged(int $page = 1, int $limit = 30): iterable
+    {
+        $queryBuilder = $this->createQueryBuilder('a')
+                             ->orderBy('a.publishedAt', 'DESC');
+        $pager        = new Pagerfanta(new DoctrineORMAdapter($queryBuilder));
+        $pager->setCurrentPage($page)
+              ->setMaxPerPage($limit);
+        return $pager;
     }
 
     /**
