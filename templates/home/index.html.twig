@@ -3,18 +3,21 @@
 {% block body %}
     {% for label, messages in app.flashes %}
         {% for message in messages %}
-            <div class="alert alert-{{ label }}">
+            <div class="alert alert-{{ label }}" role="alert">
                 {{ message }}
             </div>
         {% endfor %}
     {% endfor %}
 
     <h1>{{ number }}</h1>
-    <a href="{{ path('app_admin_home_index') }}">Admin</a>,
-    {% if app.user %}
-        <a href="{{ path('app_account_changepassword') }}">Change Password</a>,
-        <a href="{{ logout_path() }}">Logout {{ app.user.username }}</a>
-    {% else %}
-        <a href="{{ path('login') }}">Login</a>
-    {% endif %}
+
+    <div class="btn-group" role="group">
+        <a href="{{ path('app_admin_home_index') }}" class="btn btn-warning">Admin</a>
+        {% if app.user %}
+            <a href="{{ path('app_account_changepassword') }}" class="btn btn-info">Change Password</a>
+            <a href="{{ logout_path() }}" class="btn btn-primary">Logout {{ app.user.username }}</a>
+        {% else %}
+            <a href="{{ path('login') }}" class="btn btn-primary">Login</a>
+        {% endif %}
+    </div>
 {% endblock %}
