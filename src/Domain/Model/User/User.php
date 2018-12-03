@@ -9,6 +9,7 @@
 namespace App\Domain\Model\User;
 
 use App\Domain\Model\Common\ChangeTracking;
+use App\Utils\Text;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -388,7 +389,7 @@ class User implements UserInterface
         $this->resetPasswordUntil = null;
         $this->lastLogin          = new \DateTimeImmutable($login);
         $this->lastLoginIp        = $ip;
-        $this->lastLoginUserAgent = $userAgent;
+        $this->lastLoginUserAgent = Text::shorten($userAgent, 255);
         $this->loginFailures      = 0;
         return $this;
     }
@@ -413,7 +414,7 @@ class User implements UserInterface
     {
         $this->lastLoginFailure          = new \DateTimeImmutable($failure);
         $this->lastLoginFailureIp        = $ip;
-        $this->lastLoginFailureUserAgent = $userAgent;
+        $this->lastLoginFailureUserAgent = Text::shorten($userAgent, 255);
         $this->loginFailures++;
         return $this;
     }
