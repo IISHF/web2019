@@ -14,7 +14,10 @@ framework:
                 middleware:
                     - messenger.middleware.validation
                     - messenger.middleware.doctrine_transaction
-            messenger.bus.events: ~
+            messenger.bus.events:
+                default_middleware: allow_no_handlers
+                middleware:
+                    - messenger.middleware.validation
 
 services:
     _defaults:
