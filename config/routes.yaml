@@ -1,10 +1,10 @@
 home:
     path: /
-    controller: \App\Controller\HomeController::index
+    controller: App\Controller\HomeController::index
     methods:  [GET]
 login:
     path: /login
-    controller: \App\Controller\HomeController::login
+    controller: App\Controller\HomeController::login
     methods:  [GET, POST]
 logout:
     path: /logout
