@@ -1,6 +1,9 @@
 imports:
     - { resource: 'services/' }
 
+white_october_pagerfanta:
+    default_view: twitter_bootstrap4
+
 parameters:
     locale: 'en'
 
