@@ -6,6 +6,8 @@ white_october_pagerfanta:
 
 parameters:
     locale: 'en'
+    env(GOOGLE_RECAPTCHA_KEY): ''
+    env(GOOGLE_RECAPTCHA_SECRET): ''
 
 services:
     _defaults:
