@@ -49,6 +49,9 @@ security:
                 default_target_path: home
                 target_path_parameter: redirect_to
                 use_referer: true
+            guard:
+                authenticators:
+                    - App\Infrastructure\Security\MagicLink\MagicLinkLoginAuthenticator
             logout:
                 path: logout
                 target: /
@@ -72,8 +75,6 @@ services:
 
     app.security.remember_me.token_provider:
         class: Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider
-        arguments:
-            - "@doctrine.dbal.default_connection"
 
     app.security.logout_success_handler:
         class: App\Infrastructure\Security\LogoutSuccessHandler
@@ -84,3 +85,11 @@ services:
     App\Infrastructure\Security\LoginSubscriber:
 
     App\Infrastructure\Security\UserChecker:
+
+    App\Infrastructure\Security\MagicLink\MagicLinkLoginAuthenticator:
+
+    App\Infrastructure\Security\MagicLink\TokenManager:
+        tags:
+            - { name: monolog.logger, channel: app.security }
+
+    App\Infrastructure\Security\MagicLink\TokenStorage:

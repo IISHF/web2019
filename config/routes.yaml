@@ -6,6 +6,17 @@ login:
     path: /login
     controller: App\Controller\HomeController::login
     methods:  [GET, POST]
+login_magic:
+    path: /login/magic
+    controller: App\Controller\HomeController::loginMagic
+    methods:  [POST]
+login_magic_confirm:
+    path: /login/magic/confirm
+    controller: App\Controller\HomeController::loginMagicConfirm
+    methods:  [GET]
+login_magic_link:
+    path: /login/magic/login
+    methods:  [GET]
 logout:
     path: /logout
     methods:  [GET]

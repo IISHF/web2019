@@ -1,42 +1,82 @@
 {% extends 'public_base.html.twig' %}
 
 {% block content %}
-    <form action="{{ path('login') }}" method="post">
-        <h1>Please login</h1>
-        {% if error %}
-            <div class="alert alert-danger">
-                {{ error.messageKey|trans(error.messageData, 'security') }}
-            </div>
-        {% endif %}
-
-
-        <div class="form-group row">
-            <label for="username" class="col-form-label col-sm-2">Username</label>
-            <div class="col-sm-10">
-                <input type="email" id=username" name="username" placeholder="Username" required autofocus
-                       value="{{ last_username }}" class="form-control"/>
-            </div>
+    <h1>Please login</h1>
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error.messageKey|trans(error.messageData, 'security') }}
         </div>
+    {% endif %}
 
-        <div class="form-group row">
-            <label for="password" class="col-form-label col-sm-2">Password</label>
-            <div class="col-sm-10">
-                <input type="password" id="password" name="password" placeholder="Password" required
-                       class="form-control"/>
-            </div>
+    <ul class="nav nav-tabs" id="loginTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link{% if activeTab == 'password' %} active{% endif %}" id="password-tab"
+               data-toggle="tab" href="#password" role="tab" aria-controls="password"
+               aria-selected="{{ activeTab == 'password' ? 'true' : 'false' }}">With Password</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link{% if activeTab == 'magic' %} active{% endif %}" id="magic-tab"
+               data-toggle="tab" href="#magic" role="tab" aria-controls="magic"
+               aria-selected="{{ activeTab == 'magic' ? 'true' : 'false' }}">Without Password</a>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="loginTabContent">
+        <div class="tab-pane fade{% if activeTab == 'password' %} show active{% endif %}" id="password"
+             role="tabpanel" aria-labelledby="password-tab">
+            <form action="{{ path('login') }}" method="post">
+                <div class="form-group row">
+                    <label for="username" class="col-form-label col-sm-2">Username</label>
+                    <div class="col-sm-10">
+                        <input type="email" id=username" name="username" required
+                               {% if not last_username %}autofocus{% endif %} value="{{ last_username }}"
+                               class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="password" class="col-form-label col-sm-2">Password</label>
+                    <div class="col-sm-10">
+                        <input type="password" id="password" name="password" required
+                               {% if last_username %}autofocus{% endif %} class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="custom-control custom-checkbox col-sm-10 offset-sm-2">
+                        <input type="checkbox" class="custom-control-input" id="remember_me" name="remember_me">
+                        <label class="custom-control-label" for="remember_me">Remember me</label>
+                    </div>
+                </div>
+
+                <input type="hidden" name="redirect_to" value="{{ redirect_to }}"/>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token('login') }}"/>
+                <button class="btn btn-primary" type="submit">Login</button>
+                <a href="{{ path('app_account_forgotpassword') }}" class="btn btn-info">Forgot Password</a>
+            </form>
         </div>
+        <div class="tab-pane fade{% if activeTab == 'magic' %} show active{% endif %}" id="magic"
+             role="tabpanel" aria-labelledby="magic-tab">
+            <form action="{{ path('login_magic') }}" method="post">
+                <div class="form-group row">
+                    <label for="email" class="col-form-label col-sm-2">Email</label>
+                    <div class="col-sm-10">
+                        <input type="email" id="email" name="email" required
+                               {% if not last_username %}autofocus{% endif %} value="{{ last_username }}"
+                               class="form-control"/>
+                        <div class="form-text text-muted">
+                            Help
+                        </div>
+                    </div>
+                </div>
 
-        <div class="form-group row">
-            <div class="custom-control custom-checkbox col-sm-10 offset-sm-2">
-                <input type="checkbox" class="custom-control-input" id="remember_me" name="remember_me">
-                <label class="custom-control-label" for="remember_me">Remember me</label>
-            </div>
+                <input type="hidden" name="redirect_to" value="{{ redirect_to }}"/>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token('login_magic') }}"/>
+                <button class="btn btn-primary" type="submit">Login</button>
+            </form>
         </div>
+    </div>
 
-        <input type="hidden" name="redirect_to" value="{{ redirect_to }}"/>
-        <input type="hidden" name="csrf_token" value="{{ csrf_token('login') }}"/>
-        <button class="btn btn-primary" type="submit">Login</button>
-        <a href="{{ path('app_account_forgotpassword') }}" class="btn btn-info">Forgot Password</a>
-        <a href="{{ path('home') }}" class="btn btn-outline-secondary">Home</a>
-    </form>
+    <a href="{{ path('home') }}" class="btn my-4 btn-outline-secondary">Home</a>
+
 {% endblock %}

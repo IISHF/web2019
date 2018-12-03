@@ -9,7 +9,9 @@
         {% endfor %}
     {% endfor %}
 
-    <h1>{{ number }}</h1>
+    <div class="jumbotron">
+        <h1 class="display-1">{{ number }}</h1>
+    </div>
 
     <div class="btn-group" role="group">
         {% if is_granted('ROLE_ADMIN') %}

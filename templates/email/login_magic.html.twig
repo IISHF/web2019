@@ -1,0 +1,32 @@
+{% extends 'email/base.html.twig' %}
+
+{% block body %}
+    <h1>Your login to <a href="{{ url('home') }}">iishf.com</a></h1>
+
+    <p>Hello {{ user.name }},<br/>
+        You logged in to <a href="{{ url('home') }}">iishf.com</a> on {{ created|date('Y-m-d') }}
+        at {{ created|date('H:i') }}.</p>
+
+    <p>Please use the following button to complete your login to <a href="{{ url('home') }}">iishf.com</a>.
+        Alternatively you can copy the following link and paste it to your browser's address bas.</p>
+
+    <div class="text-center">
+        <a href="{{ url }}" class="btn btn-success btn-lg">Login to iishf.com</a>
+    </div>
+
+    <p class="text-center small text-muted">{{ url }}</p>
+
+    <div class="alert alert-info">Please note that this login link is only valid a certain amount of time. If you do
+        not login until latest <b>{{ ttl|date('Y-m-d') }} at {{ ttl|date('H:i') }}</b>, you have to repeat the
+        login process. Due to security restrictions this link is only valid for one login attempt. As soon as you
+        logged in, the link is cancelled.
+    </div>
+
+    <p>Your login has been initiated using the browser <em>{{ userAgent }}</em> from IP address
+        <em>{{ userIp }}</em>.</p>
+
+    <div class="alert alert-warning">
+        In case you did not initiate this login attempt, please contact
+        <a href="mailto:office@iishf.com" class="alert-link">the IISHF</a> immediately.
+    </div>
+{% endblock %}
