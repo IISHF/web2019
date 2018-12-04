@@ -48,6 +48,15 @@ class Article
     ];
 
     /**
+     * @var array
+     */
+    private static $availableTransitions = [
+        'submit',
+        'publish',
+        'reject',
+    ];
+
+    /**
      * @param int $states
      * @return string[]
      */
@@ -60,6 +69,14 @@ class Article
             }
         }
         return $finalStates;
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getAvailableTransitions(): array
+    {
+        return self::$availableTransitions;
     }
 
     /**

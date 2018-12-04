@@ -9,6 +9,7 @@
 namespace App\Application\Common\Command;
 
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Trait UuidAware
@@ -18,6 +19,10 @@ use Ramsey\Uuid\Uuid;
 trait UuidAware
 {
     /**
+     * @Assert\Type("string")
+     * @Assert\Uuid()
+     * @Assert\NotBlank()
+     *
      * @var string
      */
     private $id;

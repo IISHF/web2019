@@ -10,6 +10,7 @@ namespace App\Controller;
 
 use App\Application\Article\Command\CreateArticle;
 use App\Application\Article\Command\UpdateArticle;
+use App\Application\Article\Command\WorkflowCommand;
 use App\Domain\Model\Article\Article;
 use App\Domain\Model\Article\ArticleRepository;
 use App\Infrastructure\Article\Form\CreateArticleType;
@@ -19,6 +20,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -139,5 +141,40 @@ class ArticleController extends AbstractController
                 'form'    => $form->createView(),
             ]
         );
+    }
+
+    /**
+     * @Route("/articles/{article<[0-9a-z-]+>}/workflow", methods={"GET", "POST"})
+     * @Security("is_granted('ARTICLE_EDIT', article)")
+     * @ParamConverter(
+     *      name="article",
+     *      class="App\Domain\Model\Article\Article",
+     *      converter="app.article"
+     * )
+     *
+     * @param Request             $request
+     * @param Article             $article
+     * @param MessageBusInterface $commandBus
+     * @return Response
+     */
+    public function workflow(Request $request, Article $article, MessageBusInterface $commandBus): Response
+    {
+        $transition = $request->request->get('transition');
+        $command    = WorkflowCommand::transition($article, $transition);
+
+        if (!$this->isCsrfTokenValid(
+            'article_' . $transition . '_' . $article->getId(),
+            $request->request->get('_token')
+        )) {
+            throw new BadRequestHttpException();
+        }
+
+        $commandBus->dispatch($command);
+        $this->addFlash(
+            'success',
+            'The article has been updated.'
+        );
+
+        return $this->redirectToRoute('app_article_getlist');
     }
 }
