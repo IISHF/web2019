@@ -18,7 +18,7 @@ use App\Utils\Text;
  */
 class ArticleRuntime
 {
-    private const REGEX_EMAIL = '/\b(.+\@\S+\.\S+)\b/ixu';
+    private const REGEX_EMAIL = '/\b([a-zA-Z0-9.!#$%&\'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+)\b/ixu';
     private const REGEX_URL   = '~\b
             ((?P<protocol>https?)://)                                         # protocol
             (?P<host>
@@ -37,7 +37,8 @@ class ArticleRuntime
                 (?:/ (?:[\pL\pN\-._\~!$&\'()*+,;=:@]|%%[0-9A-Fa-f]{2})* )*    # a path
                 (?:\? (?:[\pL\pN\-._\~!$&\'()*+,;=:@/?]|%%[0-9A-Fa-f]{2})* )? # a query (optional)
                 (?:\# (?:[\pL\pN\-._\~!$&\'()*+,;=:@/?]|%%[0-9A-Fa-f]{2})* )? # a fragment (optional)
-            )\b~ixu';
+            )
+            \b~ixu';
 
     /**
      * @param \Twig_Environment $env
@@ -54,7 +55,6 @@ class ArticleRuntime
 
         $body = str_replace("\r", '', $body);
 
-        $body = preg_replace(self::REGEX_EMAIL, "\x1E" . '$1' . "\x1E", $body);
         $body = preg_replace_callback(
             self::REGEX_URL,
             function (array $matches): string {
@@ -65,18 +65,32 @@ class ArticleRuntime
                 $href = $matches['protocol'] . '://' . $matches['host'] . $matches['address'];
                 $text = $matches['host'] . $matches['address'];
 
-                return "\x1F" . $href . "\x1F" . $text . "\x1F";
+                return "\x1F" . base64_encode($href) . "\x1F" . base64_encode($text) . "\x1F";
+            },
+            $body
+        );
+        $body = preg_replace_callback(
+            self::REGEX_EMAIL,
+            function (array $matches): string {
+                $email = $matches[1];
+                return "\x1E" . base64_encode($email) . "\x1E";
             },
             $body
         );
 
-        $body = \twig_escape_filter($env, $body, 'html');
+
+        $escape = function (string $text, string $strategy = 'html') use ($env): string {
+            return \twig_escape_filter($env, $text, $strategy);
+        };
+
+        $body = $escape($body);
 
         $body = preg_replace_callback(
-            '/\x1E(.+)\x1E/',
-            function (array $matches): string {
-                $mail = $matches[1];
-                $text = Text::shorten($mail, 32);
+            '/\x1E([a-z0-9+\/=]+)\x1E/i',
+            function (array $matches) use ($escape): string {
+                $mail = base64_decode($matches[1]);
+                $text = $escape(Text::shorten($mail, 32));
+                $mail = $escape($mail, 'html_attr');
                 return <<<HTML
 <a href="mailto:$mail" data-toggle="tooltip" data-placement="top" title="$mail">$text</a>
 HTML;
@@ -84,10 +98,11 @@ HTML;
             $body
         );
         $body = preg_replace_callback(
-            '/\x1F(.+)\x1F(.+)\x1F/',
-            function (array $matches): string {
+            '/\x1F([a-z0-9+\/=]+)\x1F([a-z0-9+\/=]+)\x1F/i',
+            function (array $matches) use ($escape): string {
                 [, $href, $text] = $matches;
-                $text = Text::shorten($text, 32);
+                $text = $escape(Text::shorten(base64_decode($text), 32));
+                $href = $escape(base64_decode($href), 'html_attr');
                 return <<<HTML
 <a href="$href" target="_blank" rel="noopener" referrerpolicy="origin-when-cross-origin" data-toggle="tooltip" data-placement="top" title="$href">$text</a>
 HTML;
