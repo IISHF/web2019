@@ -11,6 +11,7 @@ namespace App\Infrastructure\NationalGoverningBody\ParamConverter;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBody;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBodyRepository;
 use App\Infrastructure\ParamConverter\LoaderParamConverter;
+use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
@@ -46,6 +47,9 @@ class NationalGoverningBodyParamConverter extends LoaderParamConverter
      */
     protected function loadObject($value, ParamConverter $configuration): ?object
     {
+        if (Uuid::isValid($value)) {
+            return $this->repository->findById($value);
+        }
         return $this->repository->findBySlug($value);
     }
 }

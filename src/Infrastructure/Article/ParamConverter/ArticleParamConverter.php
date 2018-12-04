@@ -11,6 +11,7 @@ namespace App\Infrastructure\Article\ParamConverter;
 use App\Domain\Model\Article\Article;
 use App\Domain\Model\Article\ArticleRepository;
 use App\Infrastructure\ParamConverter\LoaderParamConverter;
+use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
@@ -46,6 +47,9 @@ class ArticleParamConverter extends LoaderParamConverter
      */
     protected function loadObject($value, ParamConverter $configuration): ?object
     {
+        if (Uuid::isValid($value)) {
+            return $this->repository->findById($value);
+        }
         return $this->repository->findBySlug($value);
     }
 }

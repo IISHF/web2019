@@ -105,7 +105,11 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/articles/{article<[0-9a-z-]+>}/edit", methods={"GET", "POST"})
+     * @Route(
+     *     "/articles/{article}/edit",
+     *     methods={"GET", "POST"},
+     *     requirements={"article": "%routing.uuid%"}
+     * )
      * @Security("is_granted('ARTICLE_EDIT', article)")
      * @ParamConverter(
      *      name="article",
@@ -144,7 +148,11 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/articles/{article<[0-9a-z-]+>}/workflow", methods={"GET", "POST"})
+     * @Route(
+     *     "/articles/{article}/workflow",
+     *     methods={"GET", "POST"},
+     *     requirements={"article": "%routing.uuid%"}
+     * )
      * @Security("is_granted('ARTICLE_EDIT', article)")
      * @ParamConverter(
      *      name="article",

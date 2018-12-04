@@ -34,7 +34,7 @@
 
     <div class="btn-group" role="group">
         {% if is_granted('NATIONAL_GOVERNING_BODY_EDIT', ngb) %}
-            <a href="{{ path('app_nationalgoverningbody_update', {'ngb': ngb.slug}) }}"
+            <a href="{{ path('app_nationalgoverningbody_update', {'ngb': ngb.id}) }}"
                class="btn btn-primary">Edit</a>
         {% endif %}
         <a href="{{ path('app_nationalgoverningbody_getlist') }}" class="btn btn-outline-secondary">Back</a>

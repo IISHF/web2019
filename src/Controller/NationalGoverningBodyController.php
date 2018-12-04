@@ -99,7 +99,11 @@ class NationalGoverningBodyController extends AbstractController
     }
 
     /**
-     * @Route("/national-governing-bodies/{ngb<[0-9a-z-]+>}/edit", methods={"GET", "POST"})
+     * @Route(
+     *     "/national-governing-bodies/{ngb}/edit",
+     *     methods={"GET", "POST"},
+     *     requirements={"ngb": "%routing.uuid%"}
+     * )
      * @Security("is_granted('NATIONAL_GOVERNING_BODY_EDIT', ngb)")
      * @ParamConverter(
      *      name="ngb",

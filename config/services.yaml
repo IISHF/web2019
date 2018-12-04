@@ -8,6 +8,7 @@ parameters:
     locale: 'en'
     env(GOOGLE_RECAPTCHA_KEY): ''
     env(GOOGLE_RECAPTCHA_SECRET): ''
+    routing.uuid: '[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}'
 
 services:
     _defaults:

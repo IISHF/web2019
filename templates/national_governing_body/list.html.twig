@@ -19,7 +19,7 @@
                         additional content. This content is a little bit longer.</p>
                     <a href="{{ path('app_nationalgoverningbody_getdetail', {'ngb': ngb.slug}) }}" class="card-link">Details</a>
                     {% if is_granted('NATIONAL_GOVERNING_BODY_EDIT', ngb) %}
-                        <a href="{{ path('app_nationalgoverningbody_update', {'ngb': ngb.slug}) }}" class="card-link">Edit</a>
+                        <a href="{{ path('app_nationalgoverningbody_update', {'ngb': ngb.id}) }}" class="card-link">Edit</a>
                     {% endif %}
                 </div>
             </div>

@@ -53,7 +53,7 @@
                                         <p>{{ workflow_metadata(article, 'title', transition) }}</p>
                                     </div>
                                     <div class="modal-footer">
-                                        <form action="{{ path('app_article_workflow', {'article': article.slug}) }}"
+                                        <form action="{{ path('app_article_workflow', {'article': article.id}) }}"
                                               method="post">
                                             <input type="hidden" name="transition" value="{{ transition.name }}"/>
                                             <input type="hidden" name="_token"
@@ -71,7 +71,7 @@
                     {% endfor %}
                     <div class="btn-group btn-group-sm" role="group">
                         {% if is_granted('ARTICLE_EDIT', article) %}
-                            <a href="{{ path('app_article_update', {'article': article.slug}) }}"
+                            <a href="{{ path('app_article_update', {'article': article.id}) }}"
                                class="btn btn-primary">Edit</a>
                         {% endif %}
                         {% for transition in transitions %}
