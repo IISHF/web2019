@@ -93,6 +93,14 @@ class NationalGoverningBodyRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return iterable|NationalGoverningBody[]
+     */
+    public function findAll(): iterable
+    {
+        return parent::findAll();
+    }
+
+    /**
      * @param NationalGoverningBody $ngb
      * @return NationalGoverningBody
      */
