@@ -33,9 +33,34 @@ class Article
 {
     use ChangeTracking, SoftDeleteableEntity;
 
-    public const STATE_DRAFT     = 'draft';
-    public const STATE_REVIEW    = 'review';
-    public const STATE_PUBLISHED = 'published';
+    public const STATE_DRAFT     = 0b001;
+    public const STATE_REVIEW    = 0b010;
+    public const STATE_PUBLISHED = 0b100;
+    public const STATE_ALL       = 0b111;
+
+    /**
+     * @var array
+     */
+    private static $availableStates = [
+        self::STATE_DRAFT     => 'draft',
+        self::STATE_REVIEW    => 'review',
+        self::STATE_PUBLISHED => 'published',
+    ];
+
+    /**
+     * @param int $states
+     * @return string[]
+     */
+    public static function getStates(int $states): array
+    {
+        $finalStates = [];
+        foreach (self::$availableStates as $state => $name) {
+            if (($state & $states) === $state) {
+                $finalStates[] = $name;
+            }
+        }
+        return $finalStates;
+    }
 
     /**
      * @ORM\Column(name="id", type="guid")
@@ -57,7 +82,7 @@ class Article
      *
      * @var string
      */
-    private $currentState = self::STATE_DRAFT;
+    private $currentState;
 
     /**
      * @ORM\Column(name="slug", type="string", length=128, unique=true)
@@ -149,7 +174,7 @@ class Article
         \DateTimeImmutable $publishedAt
     ): self {
         $article               = new self($id, true, $slug, $title, $subtitle, $body, $tags, $publishedAt);
-        $article->currentState = self::STATE_PUBLISHED;
+        $article->currentState = self::$availableStates[self::STATE_PUBLISHED];
         return $article;
     }
 
@@ -177,6 +202,7 @@ class Article
 
         $this->id           = $id;
         $this->legacyFormat = $legacyFormat;
+        $this->currentState = self::$availableStates[self::STATE_DRAFT];
         $this->setSlug($slug)
              ->setTitle($title)
              ->setSubtitle($subtitle)
@@ -216,10 +242,7 @@ class Article
      */
     public function setCurrentState(string $currentState): self
     {
-        Assert::oneOf(
-            $currentState,
-            [self::STATE_DRAFT, self::STATE_REVIEW, self::STATE_REJECTED, self::STATE_PUBLISHED]
-        );
+        Assert::oneOf($currentState, self::$availableStates);
         $this->currentState = $currentState;
         return $this;
     }

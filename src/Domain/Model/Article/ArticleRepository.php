@@ -51,15 +51,19 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param int $states
      * @param int $page
      * @param int $limit
      * @return iterable|Pagerfanta|Article[]
      */
-    public function findPublishedPaged(int $page = 1, int $limit = 30): iterable
+    public function findPaged(int $states = Article::STATE_PUBLISHED, int $page = 1, int $limit = 30): iterable
     {
+        $stateFilter   = Article::getStates($states);
+        $stateFilter[] = '';
+
         $queryBuilder = $this->createQueryBuilder('a')
-                             //->andWhere('a.currentState = :state')
-                             //->setParameter('state', Article::STATE_PUBLISHED)
+                             ->andWhere('a.currentState IN (:states)')
+                             ->setParameter('states', $stateFilter)
                              ->orderBy('a.publishedAt', 'DESC');
         $pager        = new Pagerfanta(new DoctrineORMAdapter($queryBuilder));
         $pager->setCurrentPage($page)

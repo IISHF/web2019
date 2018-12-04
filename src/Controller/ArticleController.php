@@ -44,7 +44,7 @@ class ArticleController extends AbstractController
         return $this->render(
             'article/list.html.twig',
             [
-                'articles' => $repository->findPublishedPaged($page, $limit),
+                'articles' => $repository->findPaged(Article::STATE_ALL, $page, $limit),
             ]
         );
     }
