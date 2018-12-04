@@ -1,7 +1,14 @@
 {% extends 'public_base.html.twig' %}
 
 {% block content %}
-    <h1>{{ article.title }}</h1>
+    <h1>
+        {% if workflow_has_marked_place(article, 'draft') %}
+            <span class="badge badge-light">{{ workflow_metadata(article, 'title', 'draft') }}</span>
+        {% elseif workflow_has_marked_place(article, 'review') %}
+            <span class="badge badge-dark">{{ workflow_metadata(article, 'title', 'review') }}</span>
+        {% endif %}
+        {{ article.title }}
+    </h1>
 
     {{ form_start(form) }}
 

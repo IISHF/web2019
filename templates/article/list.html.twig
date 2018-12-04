@@ -26,7 +26,7 @@
                     {% if workflow_has_marked_place(article, 'draft') %}
                         <span class="badge badge-light">{{ workflow_metadata(article, 'title', 'draft') }}</span>
                     {% elseif workflow_has_marked_place(article, 'review') %}
-                        <span class="badge badge-info">{{ workflow_metadata(article, 'title', 'review') }}</span>
+                        <span class="badge badge-dark">{{ workflow_metadata(article, 'title', 'review') }}</span>
                     {% endif %}
                     <a href="{{ path('app_article_getdetail', {'article': article.slug}) }}">{{ article.title }}</a>
                     {% for tag in article.tags %}
