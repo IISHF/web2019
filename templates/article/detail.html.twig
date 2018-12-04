@@ -21,7 +21,7 @@
         <dt class="col-2">Subtitle</dt>
         <dd class="col-10">{{ article.subtitle }}</dd>
         <dt class="col-2">Body</dt>
-        <dd class="col-10">{{ article.body|nl2br }}</dd>
+        <dd class="col-10">{{ article|article_body_format }}</dd>
     </dl>
 
     <a href="{{ path('app_article_getlist') }}" class="btn btn-outline-secondary">Back</a>

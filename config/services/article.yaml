@@ -22,3 +22,8 @@ services:
     App\Infrastructure\Article\ParamConverter\ArticleParamConverter:
         tags:
             - { name: request.param_converter, converter: app.article }
+
+    App\Infrastructure\Article\Twig\ArticleExtension:
+    App\Infrastructure\Article\Twig\ArticleRuntime:
+        tags:
+            - twig.runtime
