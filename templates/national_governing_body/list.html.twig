@@ -3,6 +3,12 @@
 {% block content %}
     <h1>National Governing Bodies</h1>
 
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="btn-group" role="group">
+            <a href="{{ path('app_nationalgoverningbody_create') }}" class="btn btn-primary">Create</a>
+        </div>
+    {% endif %}
+
     <div class="card-columns">
         {% for ngb in ngbs %}
             <div class="card">
@@ -12,6 +18,9 @@
                     <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
                         additional content. This content is a little bit longer.</p>
                     <a href="{{ path('app_nationalgoverningbody_getdetail', {'ngb': ngb.slug}) }}" class="card-link">Details</a>
+                    {% if is_granted('NATIONAL_GOVERNING_BODY_EDIT', ngb) %}
+                        <a href="{{ path('app_nationalgoverningbody_update', {'ngb': ngb.slug}) }}" class="card-link">Edit</a>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}

@@ -1,14 +1,6 @@
 {% extends 'public_base.html.twig' %}
 
 {% block content %}
-    {% for label, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="alert alert-{{ label }}" role="alert">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endfor %}
-
     <div class="jumbotron">
         <h1 class="display-1">{{ number }}</h1>
     </div>

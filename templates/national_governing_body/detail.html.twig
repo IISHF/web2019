@@ -32,5 +32,14 @@
         <dd class="col-10">{{ ngb.instagramProfile }}</dd>
     </dl>
 
-    <a href="{{ path('app_nationalgoverningbody_getlist') }}" class="btn btn-primary">Back</a>
+    <div class="btn-group" role="group">
+        {% if is_granted('NATIONAL_GOVERNING_BODY_EDIT', ngb) %}
+            <div class="btn-group" role="group">
+                <a href="{{ path('app_nationalgoverningbody_update', {'ngb': ngb.slug}) }}"
+                   class="btn btn-primary">Edit</a>
+            </div>
+        {% endif %}
+        <a href="{{ path('app_nationalgoverningbody_getlist') }}" class="btn btn-outline-secondary">Back</a>
+    </div>
+
 {% endblock %}

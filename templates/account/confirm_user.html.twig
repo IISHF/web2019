@@ -5,7 +5,7 @@
 {% block content %}
     <h1>Confirm User</h1>
 
-    {{ form_start(confirmUserForm) }}
+    {{ form_start(form) }}
 
     <div class="form-group row">
         <label for="username" class="col-form-label col-sm-2">User</label>
@@ -14,10 +14,10 @@
         </div>
     </div>
 
-    {{ form_rest(confirmUserForm) }}
+    {{ form_rest(form) }}
 
     <button type="submit" class="btn btn-primary">Confirm User</button>
     <a href="{{ path('home') }}" class="btn btn-outline-secondary">Home</a>
 
-    {{ form_end(confirmUserForm) }}
+    {{ form_end(form) }}
 {% endblock %}

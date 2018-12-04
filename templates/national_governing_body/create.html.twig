@@ -1,0 +1,16 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    <h1>Create National Governing Body</h1>
+
+    {{ form_start(form) }}
+
+    {{ form_rest(form) }}
+
+    <div class="btn-group" role="group">
+        <button type="submit" class="btn btn-primary">Create</button>
+        <a href="{{ path('app_nationalgoverningbody_getlist') }}" class="btn btn-outline-secondary">Back</a>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}

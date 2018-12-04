@@ -62,8 +62,8 @@ class AccountController extends AbstractController
         return $this->render(
             'account/change_password.html.twig',
             [
-                'user'               => $user,
-                'changePasswordForm' => $form->createView(),
+                'user' => $user,
+                'form' => $form->createView(),
             ]
         );
     }
@@ -98,7 +98,7 @@ class AccountController extends AbstractController
         return $this->render(
             'account/forgot_password.html.twig',
             [
-                'forgotPasswordForm' => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }
@@ -146,8 +146,8 @@ class AccountController extends AbstractController
         return $this->render(
             'account/reset_password.html.twig',
             [
-                'user'              => $user,
-                'resetPasswordForm' => $form->createView(),
+                'user' => $user,
+                'form' => $form->createView(),
             ]
         );
     }
@@ -195,8 +195,8 @@ class AccountController extends AbstractController
         return $this->render(
             'account/confirm_user.html.twig',
             [
-                'user'            => $user,
-                'confirmUserForm' => $form->createView(),
+                'user' => $user,
+                'form' => $form->createView(),
             ]
         );
     }
