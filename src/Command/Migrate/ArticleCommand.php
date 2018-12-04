@@ -41,17 +41,18 @@ class ArticleCommand extends BaseCommand
     {
         $this->io->title('Migrate news articles rom legacy database');
 
-        $createCatList = function (string $query): array {
+        $createCatList = function (string $query, string $keyColumn = 'id', string $valueColumn = 'name'): array {
             $list = [];
             foreach ($this->db->fetchAll($query) as $i) {
-                $list[(int)$i['id']] = $i['name'];
+                $list[(int)$i[$keyColumn]] = $i[$valueColumn];
             }
             return $list;
         };
         $cat1List      = $createCatList('SELECT id, name FROM cat_cat1');
         $cat2List      = $createCatList('SELECT id, name FROM cat_cat2');
+        $userList      = $createCatList('SELECT id, userid FROM sys_users', 'id', 'userid');
 
-        $articles = $this->db->fetchAll('SELECT cat1, cat2, title, subtitle, contents, edited FROM news');
+        $articles = $this->db->fetchAll('SELECT uid, title, cat1, cat2, subtitle, contents, edited FROM news');
         $this->io->progressStart(\count($articles));
         $results = [];
         foreach ($articles as $article) {
@@ -63,7 +64,7 @@ class ArticleCommand extends BaseCommand
                 $tags[] = $cat2List[$article['cat2']];
             }
 
-            $createArticle = CreateArticle::createLegacy()
+            $createArticle = CreateArticle::createLegacy($userList[$article['uid']] ?? 'system@iishf.com')
                                           ->setTitle($article['title'])
                                           ->setSubtitle($article['subtitle'])
                                           ->setBody($article['contents'])

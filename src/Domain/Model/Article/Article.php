@@ -135,11 +135,17 @@ class Article
 
     /**
      * @ORM\Column(name="tags", type="json")
-     * @Gedmo\Versioned()
      *
      * @var string[]
      */
     private $tags;
+
+    /**
+     * @ORM\Column(name="author", type="string", length=128)
+     *
+     * @var string
+     */
+    private $author;
 
     /**
      * @ORM\Column(name="published_at", type="datetime_immutable")
@@ -156,6 +162,7 @@ class Article
      * @param string|null        $subtitle
      * @param string             $body
      * @param array              $tags
+     * @param string             $author
      * @param \DateTimeImmutable $publishedAt
      * @return Article
      */
@@ -166,9 +173,10 @@ class Article
         ?string $subtitle,
         string $body,
         array $tags,
+        string $author,
         \DateTimeImmutable $publishedAt
     ): self {
-        return new self($id, false, $slug, $title, $subtitle, $body, $tags, $publishedAt);
+        return new self($id, false, $slug, $title, $subtitle, $body, $tags, $author, $publishedAt);
     }
 
     /**
@@ -178,6 +186,7 @@ class Article
      * @param string|null        $subtitle
      * @param string             $body
      * @param array              $tags
+     * @param string             $author
      * @param \DateTimeImmutable $publishedAt
      * @return Article
      */
@@ -188,9 +197,10 @@ class Article
         ?string $subtitle,
         string $body,
         array $tags,
+        string $author,
         \DateTimeImmutable $publishedAt
     ): self {
-        $article               = new self($id, true, $slug, $title, $subtitle, $body, $tags, $publishedAt);
+        $article               = new self($id, true, $slug, $title, $subtitle, $body, $tags, $author, $publishedAt);
         $article->currentState = self::$availableStates[self::STATE_PUBLISHED];
         return $article;
     }
@@ -203,6 +213,7 @@ class Article
      * @param string|null        $subtitle
      * @param string             $body
      * @param array              $tags
+     * @param string             $author
      * @param \DateTimeImmutable $publishedAt
      */
     private function __construct(
@@ -213,6 +224,7 @@ class Article
         ?string $subtitle,
         string $body,
         array $tags,
+        string $author,
         \DateTimeImmutable $publishedAt
     ) {
         Assert::uuid($id);
@@ -225,6 +237,7 @@ class Article
              ->setSubtitle($subtitle)
              ->setBody($body)
              ->setTags($tags)
+             ->setAuthor($author)
              ->setPublishedAt($publishedAt)
              ->initChangeTracking();
     }
@@ -356,6 +369,25 @@ class Article
     public function setTags(array $tags): self
     {
         $this->tags = array_unique($tags);
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthor(): string
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param string $author
+     * @return $this
+     */
+    public function setAuthor(string $author): self
+    {
+        Assert::lengthBetween($author, 1, 128);
+        $this->author = $author;
         return $this;
     }
 

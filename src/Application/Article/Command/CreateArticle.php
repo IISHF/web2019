@@ -9,6 +9,7 @@
 namespace App\Application\Article\Command;
 
 use App\Application\Common\Command\UuidAware;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class CreateArticle
@@ -20,35 +21,67 @@ class CreateArticle
     use UuidAware, MutableArticle, ArticleProperties;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\Length(max=128)
+     * @Assert\Email
+     * @Assert\NotBlank()
+     *
+     * @var string
+     */
+    private $author;
+
+    /**
      * @var bool
      */
     private $legacyFormat;
 
     /**
+     * @param string $author
      * @return self
      */
-    public static function create(): self
+    public static function create(string $author): self
     {
-        return new self(self::createUuid(), false);
+        return new self(self::createUuid(), $author, false);
     }
 
     /**
+     * @param string $author
      * @return self
      */
-    public static function createLegacy(): self
+    public static function createLegacy(string $author): self
     {
-        return new self(self::createUuid(), true);
+        return new self(self::createUuid(), $author, true);
     }
 
     /**
      * @param string $id
+     * @param string $author
      * @param bool   $legacyFormat
      */
-    private function __construct(string $id, bool $legacyFormat)
+    private function __construct(string $id, string $author, bool $legacyFormat)
     {
         $this->id           = $id;
+        $this->author       = $author;
         $this->legacyFormat = $legacyFormat;
         $this->publishedAt  = new \DateTimeImmutable('now');
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthor(): string
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param string $author
+     * @return $this
+     */
+    public function setAuthor(string $author): self
+    {
+        $this->author = $author;
+        return $this;
     }
 
     /**

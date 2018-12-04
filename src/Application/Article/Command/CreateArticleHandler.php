@@ -30,6 +30,7 @@ class CreateArticleHandler extends ArticleCommandHandler
                 $command->getSubtitle(),
                 $command->getBody(),
                 $command->getTags(),
+                $command->getAuthor(),
                 $command->getPublishedAt()
             );
         } else {
@@ -40,6 +41,7 @@ class CreateArticleHandler extends ArticleCommandHandler
                 $command->getSubtitle(),
                 $command->getBody(),
                 $command->getTags(),
+                $command->getAuthor(),
                 $command->getPublishedAt()
             );
         }
