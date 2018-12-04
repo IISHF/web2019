@@ -15,6 +15,8 @@
         <dd class="col-10">{{ article.id }}</dd>
         <dt class="col-2">Slug</dt>
         <dd class="col-10">{{ article.slug }}</dd>
+        <dt class="col-2">Author</dt>
+        <dd class="col-10">{{ article_author(article.author) }}</dd>
         <dt class="col-2">Published</dt>
         <dd class="col-10">{{ article.publishedAt|date }}</dd>
         <dt class="col-2">Tags</dt>

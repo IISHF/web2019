@@ -18,7 +18,21 @@ class ArticleExtension extends \Twig_Extension
     /**
      * {@inheritdoc}
      */
-    public function getFilters()
+    public function getFunctions(): array
+    {
+        return [
+            new \Twig_SimpleFunction(
+                'article_author',
+                [ArticleRuntime::class, 'renderArticleAuthor'],
+                ['is_safe' => ['html'], 'needs_environment' => true]
+            ),
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFilters(): array
     {
         return [
             new \Twig_SimpleFilter(

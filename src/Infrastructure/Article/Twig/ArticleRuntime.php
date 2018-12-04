@@ -9,6 +9,7 @@
 namespace App\Infrastructure\Article\Twig;
 
 use App\Domain\Model\Article\Article;
+use App\Domain\Model\User\UserRepository;
 use App\Utils\Text;
 
 /**
@@ -39,6 +40,45 @@ class ArticleRuntime
                 (?:\# (?:[\pL\pN\-._\~!$&\'()*+,;=:@/?]|%%[0-9A-Fa-f]{2})* )? # a fragment (optional)
             )
             \b~ixu';
+
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
+
+    /**
+     * @param UserRepository $userRepository
+     */
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
+    /**
+     * @param \Twig_Environment $env
+     * @param string            $author
+     * @return string
+     */
+    public function renderArticleAuthor(\Twig_Environment $env, string $author): string
+    {
+        $user           = $this->userRepository->findByEmail($author);
+        $renderedAuthor = sprintf(
+            '<app-email email="%s"></app-email>',
+            \twig_escape_filter(
+                $env,
+                strrev(
+                    str_replace(['@', '.'], [' [at] ', ' [dot] '], $author)
+                ),
+                'html'
+            )
+        );
+
+        if ($user) {
+            $renderedAuthor = \twig_escape_filter($env, $user->getName(), 'html') . '(' . $renderedAuthor . ')';
+        }
+
+        return $renderedAuthor;
+    }
 
     /**
      * @param \Twig_Environment $env
