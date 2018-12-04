@@ -1,7 +1,14 @@
 {% extends 'public_base.html.twig' %}
 
 {% block content %}
-    <h1>{{ article.title }}</h1>
+    <h1>
+        {% if workflow_has_marked_place(article, 'draft') %}
+            <span class="badge badge-light">{{ workflow_metadata(article, 'title', 'draft') }}</span>
+        {% elseif workflow_has_marked_place(article, 'review') %}
+            <span class="badge badge-info">{{ workflow_metadata(article, 'title', 'review') }}</span>
+        {% endif %}
+        {{ article.title }}
+    </h1>
 
     <dl class="row">
         <dt class="col-2">ID</dt>
@@ -13,7 +20,7 @@
         <dt class="col-2">Tags</dt>
         <dd class="col-10">
             {% for tag in article.tags %}
-                <span class="badge badge-info">{{ tag }}</span>
+                <span class="badge badge-secondary">{{ tag }}</span>
             {% endfor %}
         </dd>
         <dt class="col-2">Title</dt>
@@ -24,5 +31,14 @@
         <dd class="col-10">{{ article|article_body_format }}</dd>
     </dl>
 
-    <a href="{{ path('app_article_getlist') }}" class="btn btn-outline-secondary">Back</a>
+
+    <div class="btn-group" role="group">
+        {% if is_granted('ARTICLE_EDIT', article) %}
+            <a href="{{ path('app_article_update', {'article': article.slug}) }}" class="btn btn-primary">Edit</a>
+        {% endif %}
+        {% for transition in workflow_transitions(article) %}
+            <a href="#" class="btn btn-outline-primary">{{ workflow_metadata(article, 'title', transition) }}</a>
+        {% endfor %}
+        <a href="{{ path('app_article_getlist') }}" class="btn btn-outline-secondary">Back</a>
+    </div>
 {% endblock %}

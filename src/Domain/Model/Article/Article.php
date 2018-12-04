@@ -35,7 +35,6 @@ class Article
 
     public const STATE_DRAFT     = 'draft';
     public const STATE_REVIEW    = 'review';
-    public const STATE_REJECTED  = 'rejected';
     public const STATE_PUBLISHED = 'published';
 
     /**
@@ -201,6 +200,28 @@ class Article
     public function isLegacyFormat(): bool
     {
         return $this->legacyFormat;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrentState(): string
+    {
+        return $this->currentState;
+    }
+
+    /**
+     * @param string $currentState
+     * @return $this
+     */
+    public function setCurrentState(string $currentState): self
+    {
+        Assert::oneOf(
+            $currentState,
+            [self::STATE_DRAFT, self::STATE_REVIEW, self::STATE_REJECTED, self::STATE_PUBLISHED]
+        );
+        $this->currentState = $currentState;
+        return $this;
     }
 
     /**

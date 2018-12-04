@@ -48,6 +48,7 @@ class CreateArticle
     {
         $this->id           = $id;
         $this->legacyFormat = $legacyFormat;
+        $this->publishedAt  = new \DateTimeImmutable('now');
     }
 
     /**

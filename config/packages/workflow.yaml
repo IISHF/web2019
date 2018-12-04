@@ -9,6 +9,8 @@ framework:
                     - 'currentState'
             supports:
                 - App\Domain\Model\Article\Article
+            metadata:
+                title: Article Publishing Workflow
             initial_place: draft
             places:
                 draft:
@@ -16,7 +18,7 @@ framework:
                         title: Draft
                 review:
                     metadata:
-                        title: Wait for Reviewer
+                        title: Review
                 published:
                     metadata:
                         title: Published
@@ -26,7 +28,7 @@ framework:
                     from: draft
                     to: review
                     metadata:
-                        title: Submit to Reviewer
+                        title: Submit
                 publish:
                     guard: 'is_granted("ARTICLE_REVIEW", subject)'
                     from: review
@@ -39,5 +41,3 @@ framework:
                     to: draft
                     metadata:
                         title: Reject
-            metadata:
-                title: Article Publishing Workflow

@@ -29,26 +29,34 @@ class UpdateArticle
         return new self(
             $article->getId(),
             $article->getTitle(),
+            $article->getSubtitle(),
             $article->getBody(),
-            $article->getTags()
+            $article->getTags(),
+            $article->getPublishedAt()
         );
     }
 
     /**
-     * @param string $id
-     * @param string $title
-     * @param string $body
-     * @param array  $tags
+     * @param string             $id
+     * @param string             $title
+     * @param string             $subtitle
+     * @param string             $body
+     * @param array              $tags
+     * @param \DateTimeImmutable $publishedAt
      */
     private function __construct(
         string $id,
         string $title,
+        string $subtitle,
         string $body,
-        array $tags
+        array $tags,
+        \DateTimeImmutable $publishedAt
     ) {
-        $this->id    = $id;
-        $this->title = $title;
-        $this->body  = $body;
-        $this->tags  = $tags;
+        $this->id          = $id;
+        $this->title       = $title;
+        $this->subtitle    = $subtitle;
+        $this->body        = $body;
+        $this->tags        = $tags;
+        $this->publishedAt = $publishedAt;
     }
 }

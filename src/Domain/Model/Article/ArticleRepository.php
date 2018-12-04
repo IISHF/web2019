@@ -58,8 +58,8 @@ class ArticleRepository extends ServiceEntityRepository
     public function findPublishedPaged(int $page = 1, int $limit = 30): iterable
     {
         $queryBuilder = $this->createQueryBuilder('a')
-                             ->andWhere('a.currentState = :state')
-                             ->setParameter('state', Article::STATE_PUBLISHED)
+                             //->andWhere('a.currentState = :state')
+                             //->setParameter('state', Article::STATE_PUBLISHED)
                              ->orderBy('a.publishedAt', 'DESC');
         $pager        = new Pagerfanta(new DoctrineORMAdapter($queryBuilder));
         $pager->setCurrentPage($page)

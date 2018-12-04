@@ -8,12 +8,18 @@
 
 namespace App\Controller;
 
+use App\Application\Article\Command\CreateArticle;
+use App\Application\Article\Command\UpdateArticle;
 use App\Domain\Model\Article\Article;
 use App\Domain\Model\Article\ArticleRepository;
+use App\Infrastructure\Article\Form\CreateArticleType;
+use App\Infrastructure\Article\Form\UpdateArticleType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -44,6 +50,38 @@ class ArticleController extends AbstractController
     }
 
     /**
+     * @Route("/articles/create", methods={"GET", "POST"})
+     * @Security("is_granted('ROLE_ADMIN')")
+     *
+     * @param Request             $request
+     * @param MessageBusInterface $commandBus
+     * @return Response
+     */
+    public function create(Request $request, MessageBusInterface $commandBus): Response
+    {
+        $createArticle = CreateArticle::create();
+        $form          = $this->createForm(CreateArticleType::class, $createArticle);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $commandBus->dispatch($createArticle);
+            $this->addFlash(
+                'success',
+                'The new article has been created.'
+            );
+
+            return $this->redirectToRoute('app_article_getlist');
+        }
+
+        return $this->render(
+            'article/create.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
      * @Route("/articles/{article<[0-9a-z-]+>}", methods={"GET"})
      * @ParamConverter(
      *      name="article",
@@ -60,6 +98,45 @@ class ArticleController extends AbstractController
             'article/detail.html.twig',
             [
                 'article' => $article,
+            ]
+        );
+    }
+
+    /**
+     * @Route("/articles/{article<[0-9a-z-]+>}/edit", methods={"GET", "POST"})
+     * @Security("is_granted('ARTICLE_EDIT', article)")
+     * @ParamConverter(
+     *      name="article",
+     *      class="App\Domain\Model\Article\Article",
+     *      converter="app.article"
+     * )
+     *
+     * @param Request             $request
+     * @param Article             $article
+     * @param MessageBusInterface $commandBus
+     * @return Response
+     */
+    public function update(Request $request, Article $article, MessageBusInterface $commandBus): Response
+    {
+        $updateArticle = UpdateArticle::update($article);
+        $form          = $this->createForm(UpdateArticleType::class, $updateArticle);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $commandBus->dispatch($updateArticle);
+            $this->addFlash(
+                'success',
+                'The article has been updated.'
+            );
+
+            return $this->redirectToRoute('app_article_getlist');
+        }
+
+        return $this->render(
+            'article/update.html.twig',
+            [
+                'article' => $article,
+                'form'    => $form->createView(),
             ]
         );
     }

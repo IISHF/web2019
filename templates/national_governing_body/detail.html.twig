@@ -34,10 +34,8 @@
 
     <div class="btn-group" role="group">
         {% if is_granted('NATIONAL_GOVERNING_BODY_EDIT', ngb) %}
-            <div class="btn-group" role="group">
-                <a href="{{ path('app_nationalgoverningbody_update', {'ngb': ngb.slug}) }}"
-                   class="btn btn-primary">Edit</a>
-            </div>
+            <a href="{{ path('app_nationalgoverningbody_update', {'ngb': ngb.slug}) }}"
+               class="btn btn-primary">Edit</a>
         {% endif %}
         <a href="{{ path('app_nationalgoverningbody_getlist') }}" class="btn btn-outline-secondary">Back</a>
     </div>

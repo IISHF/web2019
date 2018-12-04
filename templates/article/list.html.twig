@@ -3,12 +3,19 @@
 {% block content %}
     <h1>Articles</h1>
 
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="btn-group" role="group">
+            <a href="{{ path('app_article_create') }}" class="btn btn-primary">Create</a>
+        </div>
+    {% endif %}
+
     <table class="table">
         <thead class="thead-dark">
         <tr>
             <th scope="col">#</th>
             <th scope="col">Title</th>
             <th scope="col">Date</th>
+            <th scope="col">&#160;</th>
         </tr>
         </thead>
         <tbody>
@@ -16,15 +23,32 @@
             <tr>
                 <th scope="row">{{ articles.nbResults -  loop.index0 - articles.currentPageOffsetStart + 1 }}</th>
                 <td>
+                    {% if workflow_has_marked_place(article, 'draft') %}
+                        <span class="badge badge-light">{{ workflow_metadata(article, 'title', 'draft') }}</span>
+                    {% elseif workflow_has_marked_place(article, 'review') %}
+                        <span class="badge badge-info">{{ workflow_metadata(article, 'title', 'review') }}</span>
+                    {% endif %}
                     <a href="{{ path('app_article_getdetail', {'article': article.slug}) }}">{{ article.title }}</a>
                     {% for tag in article.tags %}
-                        <span class="badge badge-info">{{ tag }}</span>
+                        <span class="badge badge-secondary">{{ tag }}</span>
                     {% endfor %}
                     {% if article.subtitle %}
                         <p class="small text-muted">{{ article.subtitle }}</p>
                     {% endif %}
                 </td>
                 <td class="text-nowrap">{{ article.publishedAt|date }}</td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
+                        {% if is_granted('ARTICLE_EDIT', article) %}
+                            <a href="{{ path('app_article_update', {'article': article.slug}) }}"
+                               class="btn btn-primary">Edit</a>
+                        {% endif %}
+                        {% for transition in workflow_transitions(article) %}
+                            <a href="#"
+                               class="btn btn-outline-primary">{{ workflow_metadata(article, 'title', transition) }}</a>
+                        {% endfor %}
+                    </div>
+                </td>
             </tr>
         {% endfor %}
         </tbody>
