@@ -5,6 +5,11 @@
 
     {{ form_start(form) }}
 
+    <div class="form-group">
+        <label for="author">Author</label>
+        <input type="text" readonly class="form-control-plaintext" id="author" value="{{ article.author }}">
+    </div>
+
     {{ form_rest(form) }}
 
     <div class="btn-group" role="group">
