@@ -9,9 +9,13 @@
         <dt class="col-2">Slug</dt>
         <dd class="col-10">{{ article.slug }}</dd>
         <dt class="col-2">Published</dt>
-        <dd class="col-10">{{ article.publishedAt|date('Y-m-d H:i') }}</dd>
+        <dd class="col-10">{{ article.publishedAt|date }}</dd>
         <dt class="col-2">Tags</dt>
-        <dd class="col-10">{{ article.tags|join(', ') }}</dd>
+        <dd class="col-10">
+            {% for tag in article.tags %}
+                <span class="badge badge-info">{{ tag }}</span>
+            {% endfor %}
+        </dd>
         <dt class="col-2">Title</dt>
         <dd class="col-10">{{ article.title }}</dd>
         <dt class="col-2">Subtitle</dt>

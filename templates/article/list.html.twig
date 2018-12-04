@@ -8,15 +8,23 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Title</th>
+            <th scope="col">Date</th>
         </tr>
         </thead>
         <tbody>
         {% for article in articles %}
             <tr>
-                <th scope="row">{{ loop.index + articles.currentPageOffsetStart - 1 }}</th>
+                <th scope="row">{{ articles.nbResults -  loop.index0 - articles.currentPageOffsetStart + 1 }}</th>
                 <td>
                     <a href="{{ path('app_article_getdetail', {'article': article.slug}) }}">{{ article.title }}</a>
+                    {% for tag in article.tags %}
+                        <span class="badge badge-info">{{ tag }}</span>
+                    {% endfor %}
+                    {% if article.subtitle %}
+                        <p class="small text-muted">{{ article.subtitle }}</p>
+                    {% endif %}
                 </td>
+                <td class="text-nowrap">{{ article.publishedAt|date }}</td>
             </tr>
         {% endfor %}
         </tbody>
