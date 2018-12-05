@@ -20,13 +20,13 @@
 
         <div class="collapse navbar-collapse" id="navbarMenu">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="{{ path('home') }}">Home</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_article_getlist') }}">Articles</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_nationalgoverningbody_getlist') }}">NGBs</a>
                 </li>
                 {% if is_granted('ROLE_ADMIN') %}
