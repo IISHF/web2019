@@ -4,7 +4,7 @@
     <h1>Your login to <a href="{{ url('home') }}">iishf.com</a></h1>
 
     <p>Hello {{ user.name }},<br/>
-        You logged in to <a href="{{ url('home') }}">iishf.com</a> on {{ created|date('Y-m-d') }}
+        You logged in to <a href="{{ url('home') }}">iishf.com</a> on {{ created|date('F j, Y') }}
         at {{ created|date('H:i') }}.</p>
 
     <p>Please use the following button to complete your login to <a href="{{ url('home') }}">iishf.com</a>.
@@ -17,7 +17,7 @@
     <p class="text-center small text-muted">{{ url }}</p>
 
     <div class="alert alert-info">Please note that this login link is only valid a certain amount of time. If you do
-        not login until latest <b>{{ ttl|date('Y-m-d') }} at {{ ttl|date('H:i') }}</b>, you have to repeat the
+        not login until latest <b>{{ ttl|date('F j, Y') }} at {{ ttl|date('H:i') }}</b>, you have to repeat the
         login process. Due to security restrictions this link is only valid for one login attempt. As soon as you
         logged in, the link is cancelled.
     </div>
