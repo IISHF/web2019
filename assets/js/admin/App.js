@@ -2,16 +2,21 @@ import React, {Suspense} from 'react';
 import {HashRouter as Router, Route, Switch} from 'react-router-dom'
 import {hot} from 'react-hot-loader'
 
-import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import Contacts from '@material-ui/icons/Contacts';
+import Flag from '@material-ui/icons/Flag';
+import Notes from '@material-ui/icons/Notes';
 
 import AppFrame from './AppFrame';
 import Navigation from './Navigation';
 
 const Home = React.lazy(() => import('./Home'));
+const Articles = React.lazy(() => import('./Articles/Articles'));
+const NationalGoverningBodies = React.lazy(() => import('./NationalGoverningBodies/NationalGoverningBodies'));
+const Users = React.lazy(() => import('./Users/Users'));
 
-const App = ({baseUrl, homeUrl}) => (
+const App = ({homeUrl}) => (
     <Router>
         <AppFrame nav={<Navigation items={[
             {
@@ -21,15 +26,31 @@ const App = ({baseUrl, homeUrl}) => (
 
             },
             {
-                label: 'Country NGBs',
-                to: '/countries',
-                icon: <MailIcon/>
+                label: 'Articles',
+                to: '/articles',
+                icon: <Notes/>
+
+            },
+            {
+                label: 'NGBs',
+                to: '/national-governing-bodies',
+                icon: <Flag/>
+
+            },
+            {
+                label: 'Users',
+                to: '/users',
+                icon: <Contacts/>
 
             },
         ]}/>}>
             <Suspense fallback={<CircularProgress/>}>
                 <Switch>
-                    <Route exact path="/" render={() => <Home homeUrl={homeUrl} baseUrl={baseUrl}/>}/>
+                    <Route exact path="/" render={() => <Home homeUrl={homeUrl}/>}/>
+                    <Route exact path="/articles" render={() => <Articles/>}/>}/>
+                    <Route exact path="/national-governing-bodies"
+                           render={() => <NationalGoverningBodies/>}/>}/>
+                    <Route exact path="/users" render={() => <Users/>}/>
                 </Switch>
             </Suspense>
         </AppFrame>

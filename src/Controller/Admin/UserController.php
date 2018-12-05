@@ -10,7 +10,6 @@ namespace App\Controller\Admin;
 
 use App\Domain\Model\User\User;
 use App\Domain\Model\User\UserRepository;
-use App\Infrastructure\User\ViewModel\ListItem;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,10 +38,15 @@ class UserController extends AbstractController
             $serializer->serialize(
                 array_map(
                     function (User $user) {
-                        return ListItem::wrap($user);
+                        return [
+                            'id'         => $user->getId(),
+                            'first_name' => $user->getFirstName(),
+                            'last_name'  => $user->getLastName(),
+                            'name'       => $user->getName(),
+                            'email'      => $user->getEmail(),
+                        ];
                     },
                     $userRepository->findAll()
-
                 ),
                 'json'
             )

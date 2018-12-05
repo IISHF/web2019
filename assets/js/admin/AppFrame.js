@@ -4,116 +4,53 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import withStyles from "@material-ui/core/styles/withStyles";
-import IconButton from "@material-ui/core/IconButton/IconButton";
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import classNames from 'classnames';
-import SideMenu from './SideMenu';
+import Drawer from "@material-ui/core/Drawer";
 
 const drawerWidth = 240;
-
 const styles = (theme) => ({
     root: {
         display: 'flex',
     },
-
-    toolbar: {
-        paddingRight: 24,
-    },
-
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
     },
-    appBarShift: {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-
-    appBarSpacer: theme.mixins.toolbar,
-
-    menuButton: {
-        marginLeft: 12,
-        marginRight: 36,
-    },
-
-    sideMenu: {
+    drawer: {
+        width: drawerWidth,
         flexShrink: 0,
-        whiteSpace: 'nowrap',
     },
-
-    title: {
-        flexGrow: 1,
+    drawerPaper: {
+        width: drawerWidth,
     },
-
+    toolbar: theme.mixins.toolbar,
     content: {
         flexGrow: 1,
+        backgroundColor: theme.palette.background.default,
         padding: theme.spacing.unit * 3,
-        height: '100vh',
-        overflow: 'auto',
     },
 });
 
 class AppFrame extends React.Component {
-    state = {
-        open: false,
-    };
-
-    constructor(props) {
-        super(props);
-        this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
-        this.handleDrawerClose = this.handleDrawerClose.bind(this);
-    }
-
-    handleDrawerOpen = () => {
-        this.setState({open: true});
-    };
-
-    handleDrawerClose = () => {
-        this.setState({open: false});
-    };
-
     render() {
         const {nav, classes, children} = this.props;
 
         return (
             <div className={classes.root}>
                 <CssBaseline/>
-                <AppBar position="absolute"
-                        className={classNames(classes.appBar, {
-                            [classes.appBarShift]: this.state.open,
-                        })}
-                >
-                    <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
-                        {!this.state.open &&
-                        <IconButton color="inherit"
-                                    onClick={this.handleDrawerOpen}
-                                    className={classes.menuButton}>
-                            <MenuIcon/>
-                        </IconButton>
-                        }
+                <AppBar position="fixed" className={classes.appBar}>
+                    <Toolbar>
                         <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                             IISHF - Administration
                         </Typography>
-                        <IconButton color="inherit">
-                            <AccountCircle/>
-                        </IconButton>
                     </Toolbar>
                 </AppBar>
-                <SideMenu className={classes.sideMenu} width={drawerWidth}
-                          classes={{open: {width: drawerWidth}}}
-                          open={this.state.open} onClose={this.handleDrawerClose}>
+                <Drawer className={classes.drawer} variant="permanent" classes={{
+                    paper: classes.drawerPaper,
+                }} anchor="left">
+                    <div className={classes.toolbar}/>
                     {nav}
-                </SideMenu>
+                </Drawer>
                 <main className={classes.content}>
-                    <div className={classes.appBarSpacer}/>
+                    <div className={classes.toolbar}/>
                     {children}
                 </main>
             </div>
