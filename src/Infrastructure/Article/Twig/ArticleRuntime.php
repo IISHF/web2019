@@ -63,7 +63,8 @@ class ArticleRuntime
     {
         $renderedAuthor = $this->createEmailTag($env, $author);
         if ($user = $this->userRepository->findByEmail($author)) {
-            $renderedAuthor = \twig_escape_filter($env, $user->getName(), 'html') . '(' . $renderedAuthor . ')';
+            $renderedAuthor = \twig_escape_filter($env, $user->getName(), 'html')
+                . ' <small>' . $renderedAuthor . '</small>';
         }
 
         return $renderedAuthor;
