@@ -14,7 +14,7 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Title</th>
-            <th scope="col">Date</th>
+            <th scope="col">&#160;</th>
             <th scope="col">&#160;</th>
         </tr>
         </thead>
@@ -36,7 +36,11 @@
                         <p class="small text-muted">{{ article.subtitle }}</p>
                     {% endif %}
                 </td>
-                <td class="text-nowrap">{{ article.publishedAt|date }}</td>
+                <td class="text-nowrap">
+                    <relative-time datetime="{{ article.publishedAt|date }}" data-toggle="tooltip" data-placement="top">
+                        {{ article.publishedAt|date('F j, Y H:i') }}
+                    </relative-time>
+                </td>
                 <td>
                     {% set transitions = workflow_transitions(article) %}
                     {% set modalIds = {} %}

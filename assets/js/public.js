@@ -2,6 +2,8 @@ import '../css/public.scss';
 
 const $ = require('jquery');
 require('bootstrap');
+require('@webcomponents/webcomponentsjs');
+require('time-elements');
 
 let appEmailTpl = window.document.createElement('template');
 appEmailTpl.innerHTML = `

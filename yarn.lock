@@ -986,6 +986,11 @@
     "@webassemblyjs/wast-parser" "1.7.11"
     "@xtuc/long" "4.2.1"
 
+"@webcomponents/webcomponentsjs@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@webcomponents/webcomponentsjs/-/webcomponentsjs-2.2.1.tgz#bf28cdad466aaf85d88ee56aebed32c83f4c1328"
+  integrity sha512-lZZ+Lkke6JhsJcQQqSVk1Pny6/8y4qhJ98LO7a/MwBSRO8WqHqK1X2vscfeL8vOnYGFnmBUyVG95lwYv/AXyLQ==
+
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@xtuc/ieee754/-/ieee754-1.2.0.tgz#eef014a3145ae477a1cbc00cd1e552336dceb790"
@@ -6935,6 +6940,11 @@ thunky@^1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/thunky/-/thunky-1.0.3.tgz#f5df732453407b09191dae73e2a8cc73f381a826"
   integrity sha512-YwT8pjmNcAXBZqrubu22P4FYsh2D4dxRmnWBOL8Jk8bUcRUtc5326kx32tuTmFDAZtLOGEVNl8POAR8j896Iow==
+
+time-elements@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/time-elements/-/time-elements-1.2.0.tgz#a8863cc0ba3bfd6a506fb8fe84fe72e0e0445405"
+  integrity sha512-JD13KSY28KGFuNr378trl20eVVXj0S2FC3KIL8VIlw/bx748joWjxmu4POYaLLl0bhXjcUXqhr2EWue+y5wOag==
 
 timers-browserify@^2.0.4:
   version "2.0.10"

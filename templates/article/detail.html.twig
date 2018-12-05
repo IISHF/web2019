@@ -18,7 +18,11 @@
         <dt class="col-2">Author</dt>
         <dd class="col-10">{{ article_author(article.author) }}</dd>
         <dt class="col-2">Published</dt>
-        <dd class="col-10">{{ article.publishedAt|date }}</dd>
+        <dd class="col-10">
+            <relative-time datetime="{{ article.publishedAt|date }}" data-toggle="tooltip" data-placement="top">
+                {{ article.publishedAt|date('F j, Y H:i') }}
+            </relative-time>
+        </dd>
         <dt class="col-2">Tags</dt>
         <dd class="col-10">
             {% for tag in article.tags %}

@@ -4,7 +4,7 @@ twig:
     strict_variables: '%kernel.debug%'
     form_themes: ['bootstrap_4_layout.html.twig']
     date:
-        format: Y-m-d, H:i
+        format: !php/const DateTimeInterface::W3C
         timezone: UTC
     globals:
         google_recaptcha_key: '%env(GOOGLE_RECAPTCHA_KEY)%'
