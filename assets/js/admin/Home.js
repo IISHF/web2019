@@ -10,6 +10,44 @@ import {withStyles} from "@material-ui/core";
 import {DatePicker, DateTimePicker, MuiPickersUtilsProvider, TimePicker} from 'material-ui-pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import {AccessTime, DateRange, KeyboardArrowLeft, KeyboardArrowRight} from "@material-ui/icons";
+import {Editor as SlateEditor} from 'slate-react';
+import {Value as SlateValue} from 'slate';
+
+
+class MySlateEditor extends React.Component {
+    state = {
+        editor: SlateValue.fromJSON({
+            document: {
+                nodes: [
+                    {
+                        object: 'block',
+                        type: 'paragraph',
+                        nodes: [
+                            {
+                                object: 'text',
+                                leaves: [
+                                    {
+                                        text: 'A line of text in a paragraph.',
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            },
+        }),
+    };
+
+    onChange = ({value}) => {
+        this.setState({editor: value})
+    };
+
+    render() {
+        return (
+            <SlateEditor value={this.state.editor} onChange={this.onChange}/>
+        );
+    }
+}
 
 const FormSchema = Yup.object().shape({
     email: Yup.string()
@@ -106,6 +144,7 @@ const Home = ({homeUrl, classes}) => (
                     )}
                 </Formik>
             </MuiPickersUtilsProvider>
+            <MySlateEditor/>
         </Paper>
     </>
 );
