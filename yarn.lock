@@ -843,6 +843,11 @@
     "@types/uglify-js" "*"
     source-map "^0.6.0"
 
+"@ungap/custom-elements-builtin@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@ungap/custom-elements-builtin/-/custom-elements-builtin-0.1.2.tgz#5f7c30b7c1d230c43cb9f7fb856ba30e610e5f5e"
+  integrity sha512-QGMQadtntVF2CUHkmTPGy6U3n/HsmwySIwSoMLdu8lhnpXJLT5nGhZK4DYHzlSNRFcTBZhFZvQCa0z2fLCWv1Q==
+
 "@webassemblyjs/ast@1.7.11":
   version "1.7.11"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.7.11.tgz#b988582cafbb2b095e8b556526f30c90d057cace"

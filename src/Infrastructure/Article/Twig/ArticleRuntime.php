@@ -61,23 +61,31 @@ class ArticleRuntime
      */
     public function renderArticleAuthor(\Twig_Environment $env, string $author): string
     {
-        $user           = $this->userRepository->findByEmail($author);
-        $renderedAuthor = sprintf(
-            '<app-email email="%s"></app-email>',
-            \twig_escape_filter(
-                $env,
-                strrev(
-                    str_replace(['@', '.'], [' [at] ', ' [dot] '], $author)
-                ),
-                'html'
-            )
-        );
-
-        if ($user) {
+        $renderedAuthor = $this->createEmailTag($env, $author);
+        if ($user = $this->userRepository->findByEmail($author)) {
             $renderedAuthor = \twig_escape_filter($env, $user->getName(), 'html') . '(' . $renderedAuthor . ')';
         }
 
         return $renderedAuthor;
+    }
+
+    /**
+     * @param \Twig_Environment $env
+     * @param string            $email
+     * @return string
+     */
+    private function createEmailTag(\Twig_Environment $env, string $email): string
+    {
+        return sprintf(
+            '<a email="%s" is="app-email"></a>',
+            \twig_escape_filter(
+                $env,
+                strrev(
+                    str_replace(['@', '.'], [' [at] ', ' [dot] '], $email)
+                ),
+                'html'
+            )
+        );
     }
 
     /**
@@ -127,13 +135,8 @@ class ArticleRuntime
 
         $body = preg_replace_callback(
             '/\x1E([a-z0-9+\/=]+)\x1E/i',
-            function (array $matches) use ($escape): string {
-                $mail = base64_decode($matches[1]);
-                $text = $escape(Text::shorten($mail, 32));
-                $mail = $escape($mail, 'html_attr');
-                return <<<HTML
-<a href="mailto:$mail" data-toggle="tooltip" data-placement="top" title="$mail">$text</a>
-HTML;
+            function (array $matches) use ($env): string {
+                return $this->createEmailTag($env, base64_decode($matches[1]));
             },
             $body
         );
