@@ -77,7 +77,7 @@ class ArticleRuntime
     private function createEmailTag(\Twig_Environment $env, string $email): string
     {
         return sprintf(
-            '<a email="%s" is="app-email"></a>',
+            '<a email="%s" is="app-email">email</a>',
             \twig_escape_filter(
                 $env,
                 strrev(
