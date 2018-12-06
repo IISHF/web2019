@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import {Editor} from "slate-react";
-import {Value} from "slate";
+import {Editor, getEventRange, getEventTransfer} from "slate-react";
+import {Block, Value} from "slate";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import {
@@ -11,7 +11,9 @@ import {
     FormatListNumbered,
     FormatQuote,
     FormatSize,
-    FormatUnderlined
+    FormatUnderlined,
+    InsertLink,
+    InsertPhoto
 } from "@material-ui/icons";
 
 const defaultValue = Value.fromJSON({
@@ -35,6 +37,49 @@ const defaultValue = Value.fromJSON({
     },
 });
 
+function wrapLink(editor, href) {
+    editor.wrapInline({
+        type: 'link',
+        data: {href},
+    });
+
+    editor.moveToEnd();
+}
+
+function unwrapLink(editor) {
+    editor.unwrapInline('link');
+}
+
+function insertImage(editor, src, target) {
+    if (target) {
+        editor.select(target);
+    }
+
+    editor.insertBlock({
+        type: 'image',
+        data: {src},
+    });
+}
+
+const schema = {
+    document: {
+        last: {type: 'paragraph'},
+        normalize: (editor, {code, node, child}) => {
+            switch (code) {
+                case 'last_child_type_invalid': {
+                    const paragraph = Block.create('paragraph');
+                    return editor.insertNodeByKey(node.key, node.nodes.size, paragraph);
+                }
+            }
+        },
+    },
+    blocks: {
+        image: {
+            isVoid: true,
+        },
+    },
+};
+
 export class TextEditor extends React.Component {
 
     static propTypes = {
@@ -55,6 +100,7 @@ export class TextEditor extends React.Component {
     }
 
     onChange = ({value}) => {
+        console.log(value.toJSON());
         this.setState({editorState: value})
     };
 
@@ -68,7 +114,12 @@ export class TextEditor extends React.Component {
         return editorState.blocks.some(node => node.type === type)
     };
 
-    renderNode = ({attributes, children, node}, editor, next) => {
+    hasLinks = () => {
+        const {editorState} = this.state;
+        return editorState.inlines.some(inline => inline.type === 'link')
+    };
+
+    renderNode = ({attributes, children, node, isFocused}, editor, next) => {
         switch (node.type) {
             case 'block-quote':
                 return <blockquote {...attributes}>{children}</blockquote>;
@@ -82,6 +133,23 @@ export class TextEditor extends React.Component {
                 return <li {...attributes}>{children}</li>;
             case 'numbered-list':
                 return <ol {...attributes}>{children}</ol>;
+            case 'link':
+                const {data} = node;
+                const href = data.get('href');
+                return (
+                    <a {...attributes} href={href}>
+                        {children}
+                    </a>
+                );
+            case 'image':
+                const src = node.data.get('src');
+                const imgStyle = {
+                    display: 'block',
+                    maxWidth: '100%',
+                    maxHeight: '20em',
+                    boxShadow: isFocused ? '0 0 0 2px blue' : 'none'
+                };
+                return <img src={src} style={imgStyle} {...attributes} />;
             default:
                 return next();
         }
@@ -112,7 +180,15 @@ export class TextEditor extends React.Component {
         const {value} = editor;
         const {document} = value;
 
-        if (type !== 'bulleted-list' && type !== 'numbered-list') {
+        if (type === 'size') {
+            if (this.hasBlock('heading-one')) {
+                editor.setBlocks('heading-two');
+            } else if (this.hasBlock('heading-two')) {
+                editor.setBlocks('paragraph');
+            } else {
+                editor.setBlocks('heading-one');
+            }
+        } else if (type !== 'bulleted-list' && type !== 'numbered-list') {
             const isActive = this.hasBlock(type);
             const isList = this.hasBlock('list-item');
 
@@ -141,13 +217,60 @@ export class TextEditor extends React.Component {
         }
     };
 
+    onClickLink = (event) => {
+        event.preventDefault();
+
+        const editor = this.editor.current;
+        const {value} = editor;
+        const hasLinks = this.hasLinks();
+
+        if (hasLinks) {
+            editor.command(unwrapLink)
+        } else if (value.selection.isExpanded) {
+            const href = window.prompt('Enter the URL of the link:');
+
+            if (href === null) {
+                return
+            }
+
+            editor.command(wrapLink, href)
+        } else {
+            const href = window.prompt('Enter the URL of the link:');
+
+            if (href === null) {
+                return
+            }
+
+            const text = window.prompt('Enter the text for the link:');
+
+            if (text === null) {
+                return
+            }
+
+            editor
+                .insertText(text)
+                .moveFocusBackward(text.length)
+                .command(wrapLink, href)
+        }
+    };
+
+    onClickImage = (event) => {
+        event.preventDefault();
+
+        const editor = this.editor.current;
+
+        const src = window.prompt('Enter the URL of the image:');
+        if (!src) {
+            return;
+        }
+        editor.command(insertImage, src);
+    };
+
+
     renderMarkButton = (type, icon) => {
         const isActive = this.hasMark(type);
 
-        return (
-            <IconButton color={isActive ? 'primary' : 'inherit'}
-                        onClick={(e) => this.onClickMark(e, type)}>{icon}</IconButton>
-        )
+        return this.renderButton((e) => this.onClickMark(e, type), isActive, icon);
     };
 
     renderBlockButton = (type, icon) => {
@@ -162,10 +285,60 @@ export class TextEditor extends React.Component {
             }
         }
 
+        return this.renderButton((e) => this.onClickBlock(e, type), isActive, icon);
+    };
+
+    renderButton = (handler, isActive, icon) => {
         return (
-            <IconButton color={isActive ? 'primary' : 'inherit'}
-                        onClick={(e) => this.onClickBlock(e, type)}>{icon}</IconButton>
-        )
+            <IconButton color={isActive ? 'primary' : 'inherit'} onClick={handler}>{icon}</IconButton>
+        );
+    };
+
+    onPaste = (event, editor, next) => {
+        if (editor.value.selection.isCollapsed) {
+            return next();
+        }
+
+        const transfer = getEventTransfer(event);
+        const {type, text} = transfer;
+        if (type !== 'text' && type !== 'html') {
+            return next();
+        }
+        if (this.hasLinks()) {
+            editor.command(unwrapLink)
+        }
+        editor.command(wrapLink, text)
+    };
+
+    onDrop = (event, editor, next) => {
+        const target = getEventRange(event, editor);
+        if (!target && event.type === 'drop') {
+            return next();
+        }
+
+        const transfer = getEventTransfer(event);
+        const {type, text, files} = transfer;
+
+        if (type === 'files') {
+            for (const file of files) {
+                const reader = new FileReader();
+                const [mime] = file.type.split('/');
+                if (mime !== 'image') {
+                    continue;
+                }
+                reader.addEventListener('load', () => {
+                    editor.command(insertImage, reader.result, target)
+                });
+                reader.readAsDataURL(file);
+            }
+            return;
+        }
+
+        if (type === 'text') {
+            editor.command(insertImage, text, target);
+            return;
+        }
+        next();
     };
 
     render() {
@@ -174,21 +347,28 @@ export class TextEditor extends React.Component {
         return (
             <>
                 <Toolbar disableGutters={true}>
+                    {this.renderButton(
+                        (e) => this.onClickBlock(e, 'size'),
+                        (this.hasBlock('heading-one') || this.hasBlock('heading-two')),
+                        <FormatSize/>
+                    )}
                     {this.renderMarkButton('bold', <FormatBold/>)}
                     {this.renderMarkButton('italic', <FormatItalic/>)}
                     {this.renderMarkButton('underlined', <FormatUnderlined/>)}
                     {this.renderBlockButton('bulleted-list', <FormatListBulleted/>)}
                     {this.renderBlockButton('numbered-list', <FormatListNumbered/>)}
                     {this.renderBlockButton('block-quote', <FormatQuote/>)}
-                    <IconButton color="inherit">
-                        <FormatSize/>
-                    </IconButton>
+                    {this.renderButton((e) => this.onClickLink(e), this.hasLinks(), <InsertLink/>)}
+                    {this.renderButton((e) => this.onClickImage(e), this.hasLinks(), <InsertPhoto/>)}
                 </Toolbar>
                 <Editor spellCheck
                         {...other}
                         ref={this.editor}
                         value={this.state.editorState}
+                        schema={schema}
                         onChange={this.onChange}
+                        onDrop={this.onDrop}
+                        onPaste={this.onPaste}
                         renderNode={this.renderNode}
                         renderMark={this.renderMark}
                 />
