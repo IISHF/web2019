@@ -57,7 +57,7 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\Column(name="password", type="string", length=128)
+     * @ORM\Column(name="password", type="string", length=255)
      *
      * @var string
      */
