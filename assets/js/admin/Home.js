@@ -1,53 +1,13 @@
 import React from 'react';
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import {Field, Form, Formik} from "formik";
-import TextField from "@material-ui/core/TextField";
-import {fieldToTextField} from 'formik-material-ui';
 import * as Yup from 'yup';
 import Paper from "@material-ui/core/es/Paper/Paper";
 import {withStyles} from "@material-ui/core";
-import {DatePicker, DateTimePicker, MuiPickersUtilsProvider, TimePicker} from 'material-ui-pickers';
-import DateFnsUtils from '@date-io/date-fns';
-import {AccessTime, DateRange, KeyboardArrowLeft, KeyboardArrowRight} from "@material-ui/icons";
-import {Editor as SlateEditor} from 'slate-react';
-import {Value as SlateValue} from 'slate';
-
-
-class MySlateEditor extends React.Component {
-    state = {
-        editor: SlateValue.fromJSON({
-            document: {
-                nodes: [
-                    {
-                        object: 'block',
-                        type: 'paragraph',
-                        nodes: [
-                            {
-                                object: 'text',
-                                leaves: [
-                                    {
-                                        text: 'A line of text in a paragraph.',
-                                    },
-                                ],
-                            },
-                        ],
-                    },
-                ],
-            },
-        }),
-    };
-
-    onChange = ({value}) => {
-        this.setState({editor: value})
-    };
-
-    render() {
-        return (
-            <SlateEditor value={this.state.editor} onChange={this.onChange}/>
-        );
-    }
-}
+import {Form, Reset, Submit} from "./common/Form";
+import TextField from './common/TextField';
+import {DateField, DateTimeField, TimeField} from './common/DateTimeFields'
+import {TextEditor} from "./common/TextEditor";
 
 const FormSchema = Yup.object().shape({
     email: Yup.string()
@@ -68,6 +28,7 @@ const styles = (theme) => ({
     },
     button: {
         marginTop: theme.spacing.unit * 2,
+        marginRight: theme.spacing.unit * 2,
     },
 });
 
@@ -76,75 +37,22 @@ const Home = ({homeUrl, classes}) => (
         <Typography variant="h3">Home</Typography>
         <Button variant="contained" color="primary" className={classes.button} href={homeUrl}>Home</Button>
         <Paper className={classes.paper}>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Formik initialValues={FormSchema.default()}
-                        validationSchema={FormSchema}
-                        onSubmit={(values, {setSubmitting}) => {
-                            console.log(values);
-                            setTimeout(() => {
-                                setSubmitting(false);
-                            }, 1000);
-                        }}>
-                    {({isSubmitting}) => (
-                        <Form>
-                            <Field name="email">
-                                {(props) => (
-                                    <TextField
-                                        {...fieldToTextField(props)}
-                                        label="Email"
-                                        margin="normal"
-                                        fullWidth
-                                    />
-                                )}
-                            </Field>
-                            <Field name="date">
-                                {(props) => (
-                                    <DatePicker
-                                        {...fieldToTextField(props)}
-                                        label="Date"
-                                        fullWidth
-                                        margin="normal"
-                                        onChange={date => props.form.setFieldValue(props.field.name, date, true)}
-                                        leftArrowIcon={<KeyboardArrowLeft/>}
-                                        rightArrowIcon={<KeyboardArrowRight/>}
-                                    />
-                                )}
-                            </Field>
-                            <Field name="date">
-                                {(props) => (
-                                    <TimePicker
-                                        {...fieldToTextField(props)}
-                                        label="Time"
-                                        fullWidth
-                                        margin="normal"
-                                        onChange={date => props.form.setFieldValue(props.field.name, date, true)}
-                                        ampm={false}
-                                    />
-                                )}
-                            </Field>
-                            <Field name="date">
-                                {(props) => (
-                                    <DateTimePicker
-                                        {...fieldToTextField(props)}
-                                        label="Date/Time"
-                                        fullWidth
-                                        margin="normal"
-                                        onChange={date => props.form.setFieldValue(props.field.name, date, true)}
-                                        leftArrowIcon={<KeyboardArrowLeft/>}
-                                        rightArrowIcon={<KeyboardArrowRight/>}
-                                        dateRangeIcon={<DateRange/>}
-                                        timeIcon={<AccessTime/>}
-                                        ampm={false}
-                                    />
-                                )}
-                            </Field>
-                            <Button disabled={isSubmitting} variant="contained" color="primary"
-                                    className={classes.button} type="submit">Submit</Button>
-                        </Form>
-                    )}
-                </Formik>
-            </MuiPickersUtilsProvider>
-            <MySlateEditor/>
+            <Form schema={FormSchema}
+                  onSubmit={(values, {setSubmitting}) => {
+                      console.log(values);
+                      setTimeout(() => {
+                          setSubmitting(false);
+                      }, 1000);
+                  }}
+            >
+                <TextField name="email" label="Email"/>
+                <DateField name="date" label="Date"/>
+                <TimeField name="date" label="Time"/>
+                <DateTimeField name="date" label="Date/Time"/>
+                <Submit className={classes.button}>Submit</Submit>
+                <Reset className={classes.button}>Reset</Reset>
+            </Form>
+            <TextEditor/>
         </Paper>
     </>
 );
