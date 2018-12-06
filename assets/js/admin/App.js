@@ -12,9 +12,9 @@ import AppFrame from './AppFrame';
 import Navigation from './Navigation';
 
 const Home = React.lazy(() => import('./Home'));
-const Articles = React.lazy(() => import('./Articles/Articles'));
-const NationalGoverningBodies = React.lazy(() => import('./NationalGoverningBodies/NationalGoverningBodies'));
-const Users = React.lazy(() => import('./Users/Users'));
+const Articles = React.lazy(() => import('./articles/Articles'));
+const NationalGoverningBodies = React.lazy(() => import('./national_governing_bodies/NationalGoverningBodies'));
+const Users = React.lazy(() => import('./users/Users'));
 
 const App = ({homeUrl}) => (
     <Router>
