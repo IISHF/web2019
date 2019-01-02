@@ -23,5 +23,22 @@ services:
 
     App\Infrastructure\Article\Twig\ArticleExtension:
     App\Infrastructure\Article\Twig\ArticleRuntime:
+        arguments:
+            $htmlPurifier: '@app.article.html_purifier'
         tags:
             - twig.runtime
+
+
+    app.article.html_purifier_config:
+        class: HTMLPurifier_Config
+        factory: [App\Infrastructure\HTMLPurifier\Html5Config, create]
+        arguments:
+            $parent: '@exercise_html_purifier.config.default'
+            $settings:
+                HTML.Doctype: 'HTML 4.01 Transitional'
+                HTML.Allowed: '*[class],div,strong,em,del,br,a[href],span,img[src],h1,blockquote,pre,ul,ol,li,figure,figcaption'
+
+    app.article.html_purifier:
+        class: HTMLPurifier
+        arguments: ['@app.article.html_purifier_config']
+

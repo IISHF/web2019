@@ -15,6 +15,7 @@ Encore
     .autoProvidejQuery()
 
     .addEntry('public', './assets/js/public.js')
+    .addEntry('admin', './assets/js/admin.js')
 
     .splitEntryChunks()
     .enableSingleRuntimeChunk()

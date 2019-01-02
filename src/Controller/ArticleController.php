@@ -18,6 +18,10 @@ use App\Infrastructure\Article\Form\UpdateArticleType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -91,7 +95,73 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/articles/{article<[0-9a-z-]+>}", methods={"GET"})
+     * @Route("/articles/upload", methods={"POST"})
+     * @Security("is_granted('ROLE_ADMIN')")
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function upload(Request $request): Response
+    {
+        $file = $request->files->get('file');
+
+        if (!$file instanceof UploadedFile) {
+            throw new BadRequestHttpException();
+        }
+
+        $originalName   = $file->getClientOriginalName();
+        $fileKey        = sha1_file($file->getPathname());
+        $storagePath    = sys_get_temp_dir() . '/uploads/articles';
+        $storedFileName = $storagePath . '/' . $fileKey;
+
+        if (file_exists($storedFileName)) {
+            $targetFile = new File($storedFileName, true);
+        } else {
+            $targetFile = $file->move($storagePath, $fileKey);
+        }
+
+        $mimeType  = $targetFile->getMimeType() ?? 'application/octet-stream';
+        $fileSize  = $targetFile->getSize();
+        $extension = $targetFile->guessExtension() ?? 'data';
+
+        $url = $this->generateUrl('app_article_image', ['key' => $fileKey, 'ext' => $extension]);
+
+        return JsonResponse::create(
+            [
+                'filename'    => $originalName,
+                'contentType' => $mimeType,
+                'filesize'    => $fileSize,
+                'url'         => $url,
+                'href'        => $url,
+            ]
+        );
+    }
+
+    /**
+     * @Route(
+     *     "/articles/image/{key}.{ext<[0-9a-z]{1,}>}",
+     *     methods={"GET"},
+     *     requirements={"key": "%routing.sha1%"}
+     * )
+     *
+     * @param string $key
+     * @return Response
+     */
+    public function image(string $key): Response
+    {
+        $filename = sys_get_temp_dir() . '/uploads/articles/' . $key;
+        if (file_exists($filename)) {
+            return BinaryFileResponse::create($filename, Response::HTTP_OK, [], true, 'inline');
+        }
+        throw $this->createNotFoundException();
+    }
+
+    /**
+     * @Route(
+     *     "/articles/{article}",
+     *     methods={"GET"},
+     *     requirements={"article": "%routing.slug%"}
+     * )
      * @ParamConverter(
      *      name="article",
      *      class="App\Domain\Model\Article\Article",

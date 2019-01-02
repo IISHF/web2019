@@ -47,11 +47,18 @@ class ArticleRuntime
     private $userRepository;
 
     /**
-     * @param UserRepository $userRepository
+     * @var \HTMLPurifier
      */
-    public function __construct(UserRepository $userRepository)
+    private $htmlPurifier;
+
+    /**
+     * @param UserRepository $userRepository
+     * @param \HTMLPurifier  $htmlPurifier
+     */
+    public function __construct(UserRepository $userRepository, \HTMLPurifier $htmlPurifier)
     {
         $this->userRepository = $userRepository;
+        $this->htmlPurifier   = $htmlPurifier;
     }
 
     /**
@@ -99,7 +106,10 @@ class ArticleRuntime
         $body = $article->getBody();
 
         if (!$article->isLegacyFormat()) {
-            return $body;
+            $body = $this->htmlPurifier->purify($body);
+            return <<<HTML
+<div class="trix-content">$body</div>
+HTML;
         }
 
         $body = str_replace("\r", '', $body);

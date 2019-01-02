@@ -60,6 +60,7 @@
         "react-router-dom": "^4.3.1",
         "tempusdominus-bootstrap-4": "^5.1.2",
         "tempusdominus-core": "^5.0.3",
-        "time-elements": "^1.2.0"
+        "time-elements": "^1.2.0",
+        "trix": "^1.0.0"
     }
 }

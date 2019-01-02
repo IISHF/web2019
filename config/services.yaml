@@ -9,6 +9,8 @@ parameters:
     env(GOOGLE_RECAPTCHA_KEY): ''
     env(GOOGLE_RECAPTCHA_SECRET): ''
     routing.uuid: '[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}'
+    routing.slug: '[0-9a-z-]+'
+    routing.sha1: '[0-9a-f]{40}'
 
 services:
     _defaults:
@@ -38,3 +40,5 @@ services:
     App\Infrastructure\Form\DatePickerExtension:
         arguments:
             $locale: "%locale%"
+
+    App\Infrastructure\Form\TrixEditorType:

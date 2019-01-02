@@ -78,7 +78,11 @@ class NationalGoverningBodyController extends AbstractController
     }
 
     /**
-     * @Route("/national-governing-bodies/{ngb<[0-9a-z-]+>}", methods={"GET"})
+     * @Route(
+     *     "/national-governing-bodies/{ngb}",
+     *     methods={"GET"},
+     *     requirements={"ngb": "%routing.slug%"}
+     * )
      * @ParamConverter(
      *      name="ngb",
      *      class="App\Domain\Model\NationalGoverningBody\NationalGoverningBody",

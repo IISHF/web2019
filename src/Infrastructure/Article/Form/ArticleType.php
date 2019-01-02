@@ -8,9 +8,9 @@
 
 namespace App\Infrastructure\Article\Form;
 
+use App\Infrastructure\Form\TrixEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -45,10 +45,11 @@ class ArticleType extends AbstractType
             )
             ->add(
                 'body',
-                TextareaType::class,
+                TrixEditorType::class,
                 [
-                    'label'    => 'Body',
-                    'required' => true,
+                    'label'         => 'Body',
+                    'required'      => true,
+                    'enable_upload' => 'app_article_upload',
                 ]
             )
             ->add(
