@@ -7,7 +7,7 @@ import {withStyles} from "@material-ui/core";
 import {Form, Reset, Submit} from "./common/Form";
 import TextField from './common/TextField';
 import {DateField, DateTimeField, TimeField} from './common/DateTimeFields'
-import {TextEditor} from "./common/TextEditor";
+import TextEditor from "./common/TextEditor";
 
 const FormSchema = Yup.object().shape({
     email: Yup.string()
@@ -16,7 +16,10 @@ const FormSchema = Yup.object().shape({
         .required('Required'),
     date: Yup.date()
         .default(new Date())
-        .required('Required')
+        .required('Required'),
+    body: Yup.string()
+        .default('**Hello world!!!**')
+        .required('Required'),
 });
 
 const styles = (theme) => ({
@@ -49,10 +52,10 @@ const Home = ({homeUrl, classes}) => (
                 <DateField name="date" label="Date"/>
                 <TimeField name="date" label="Time"/>
                 <DateTimeField name="date" label="Date/Time"/>
+                <TextEditor name="body" label="Body"/>
                 <Submit className={classes.button}>Submit</Submit>
                 <Reset className={classes.button}>Reset</Reset>
             </Form>
-            <TextEditor/>
         </Paper>
     </>
 );
