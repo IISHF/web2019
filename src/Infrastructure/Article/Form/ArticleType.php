@@ -55,15 +55,11 @@ class ArticleType extends AbstractType
                 'publishedAt',
                 DateTimeType::class,
                 [
-                    'label'        => 'Published at',
-                    'required'     => true,
-                    'input'        => 'datetime_immutable',
-                    'date_label'   => 'Date',
-                    'date_widget'  => 'choice',
-                    'time_label'   => 'Time',
-                    'time_widget'  => 'choice',
-                    'with_minutes' => true,
-                    'with_seconds' => false,
+                    'label'             => 'Published at',
+                    'required'          => true,
+                    'input'             => 'datetime_immutable',
+                    'format'            => 'MMMM d, yyyy HH:mm',
+                    'enable_datepicker' => true,
                 ]
             );
     }

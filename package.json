@@ -45,15 +45,21 @@
         ]
     },
     "dependencies": {
+        "@babel/runtime": "^7.2.0",
         "@fortawesome/fontawesome-free": "^5.6.3",
         "@ungap/custom-elements-builtin": "^0.1.2",
         "@webcomponents/webcomponentsjs": "^2.2.1",
         "bootstrap": "^4.2.1",
         "jquery": "^3.3.1",
+        "moment": "^2.23.0",
+        "moment-timezone": "^0.5.23",
         "popper.js": "^1.14.6",
         "prop-types": "^15.6.2",
         "react": "^16.7.0",
         "react-dom": "^16.7.0",
-        "react-router-dom": "^4.3.1"
+        "react-router-dom": "^4.3.1",
+        "tempusdominus-bootstrap-4": "^5.1.2",
+        "tempusdominus-core": "^5.0.3",
+        "time-elements": "^1.2.0"
     }
 }

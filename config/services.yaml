@@ -34,3 +34,7 @@ services:
             $debug: '%kernel.debug%'
         tags:
             - { name: monolog.logger, channel: app.security }
+
+    App\Infrastructure\Form\DatePickerExtension:
+        arguments:
+            $locale: "%locale%"

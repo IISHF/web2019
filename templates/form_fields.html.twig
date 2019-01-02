@@ -1,0 +1,42 @@
+{% extends 'bootstrap_4_layout.html.twig' %}
+
+{% block datepicker_widget %}
+    {% set pickerId = id ~ '_picker' %}
+    {% set pickerTarget = '#' ~ pickerId %}
+    {% set attr = attr|merge({
+        'data-target': pickerTarget,
+        'class': 'datetimepicker-input'
+    }) %}
+    <div class="input-group date" id="{{ pickerId }}" data-target-input="nearest"
+         data-enable-datepicker="true"
+         data-datepicker-options="{{ datepicker_options|default({})|json_encode|e('html_attr') }}">
+        {{ block('form_widget_simple') }}
+        <div class="input-group-append" data-target="{{ pickerTarget }}" data-toggle="datetimepicker">
+            <div class="input-group-text"><i class="fas fa-calendar"></i></div>
+        </div>
+    </div>
+{% endblock datepicker_widget %}
+
+{% block time_widget -%}
+    {% if enable_datepicker|default(false) and widget == 'single_text' %}
+        {{ block('datepicker_widget') }}
+    {% else -%}
+        {{- parent() -}}
+    {% endif %}
+{%- endblock time_widget %}
+
+{% block date_widget -%}
+    {% if enable_datepicker|default(false) and widget == 'single_text' %}
+        {{ block('datepicker_widget') }}
+    {% else -%}
+        {{- parent() -}}
+    {% endif %}
+{%- endblock date_widget %}
+
+{% block datetime_widget -%}
+    {% if enable_datepicker|default(false) and widget == 'single_text' %}
+        {{ block('datepicker_widget') }}
+    {% else -%}
+        {{- parent() -}}
+    {% endif %}
+{%- endblock datetime_widget %}

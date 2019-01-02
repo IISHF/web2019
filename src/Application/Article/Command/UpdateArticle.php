@@ -39,7 +39,7 @@ class UpdateArticle
     /**
      * @param string             $id
      * @param string             $title
-     * @param string             $subtitle
+     * @param string|null        $subtitle
      * @param string             $body
      * @param array              $tags
      * @param \DateTimeImmutable $publishedAt
@@ -47,7 +47,7 @@ class UpdateArticle
     private function __construct(
         string $id,
         string $title,
-        string $subtitle,
+        ?string $subtitle,
         string $body,
         array $tags,
         \DateTimeImmutable $publishedAt
