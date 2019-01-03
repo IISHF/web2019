@@ -6,9 +6,6 @@
     </div>
 
     <div class="btn-group" role="group">
-        {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('app_admin_home_index') }}" class="btn btn-warning">Admin</a>
-        {% endif %}
         {% if app.user %}
             <a href="{{ path('app_account_changepassword') }}" class="btn btn-info">Change Password</a>
             <a href="{{ logout_path() }}" class="btn btn-primary">Logout {{ app.user.username }}</a>
