@@ -120,4 +120,24 @@ class ArticleRepository extends ServiceEntityRepository
 
         return $tags;
     }
+
+    /**
+     * @param ArticleAttachment $attachment
+     * @return ArticleAttachment
+     */
+    public function saveAttachment(ArticleAttachment $attachment): ArticleAttachment
+    {
+        $this->_em->persist($attachment);
+        $this->_em->flush();
+        return $attachment;
+    }
+
+    /**
+     * @param ArticleAttachment $attachment
+     */
+    public function deleteAttachment(ArticleAttachment $attachment): void
+    {
+        $this->_em->remove($attachment);
+        $this->_em->flush();
+    }
 }

@@ -14,6 +14,9 @@ services:
     App\Application\Article\Command\UpdateArticleHandler:
     App\Application\Article\Command\DeleteArticleHandler:
     App\Application\Article\Command\WorkflowCommandHandler:
+    App\Application\Article\Command\AddAttachmentsHandler:
+    App\Application\Article\Command\AddDocumentHandler:
+    App\Application\Article\Command\AddImageHandler:
 
     App\Infrastructure\Article\Security\Voter\ArticleVoter:
 

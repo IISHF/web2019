@@ -15,6 +15,7 @@
 /vagrant/playbook.retry
 /vagrant/.bundle/
 /vagrant/roles/webserver/files/iishf-test.*
+/vagrant/__legacy/
 
 # Composer PHAR
 /composer.phar
