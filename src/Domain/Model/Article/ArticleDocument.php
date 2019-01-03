@@ -8,6 +8,7 @@
 
 namespace App\Domain\Model\Article;
 
+use App\Domain\Model\File\File;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -30,24 +31,24 @@ class ArticleDocument extends ArticleAttachment
     /**
      * @param string      $id
      * @param Article     $article
-     * @param string      $mimeType
+     * @param File        $file
      * @param string|null $title
      * @return ArticleDocument
      */
-    public static function create(string $id, Article $article, string $mimeType, ?string $title): self
+    public static function create(string $id, Article $article, File $file, ?string $title): self
     {
-        return new self($id, $article, $mimeType, $title);
+        return new self($id, $article, $file, $title);
     }
 
     /**
      * @param string      $id
      * @param Article     $article
-     * @param string      $mimeType
+     * @param File        $file
      * @param string|null $title
      */
-    protected function __construct(string $id, Article $article, string $mimeType, ?string $title)
+    protected function __construct(string $id, Article $article, File $file, ?string $title)
     {
-        parent::__construct($id, $article, $mimeType);
+        parent::__construct($id, $article, $file);
         $this->setTitle($title);
     }
 

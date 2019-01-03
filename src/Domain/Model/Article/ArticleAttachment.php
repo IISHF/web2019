@@ -8,6 +8,7 @@
 
 namespace App\Domain\Model\Article;
 
+use App\Domain\Model\File\File;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -41,26 +42,26 @@ abstract class ArticleAttachment
     private $article;
 
     /**
-     * @ORM\Column(name="mime_type", type="string", length=64)
+     * @ORM\OneToOne(targetEntity="\App\Domain\Model\File\File", cascade={"ALL"}, orphanRemoval=true)
+     * @ORM\JoinColumn(name="file_id", referencedColumnName="id", onDelete="CASCADE")
      *
-     * @var string
+     * @var File
      */
-    private $mimeType;
+    private $file;
 
     /**
      * @param string  $id
      * @param Article $article
-     * @param string  $mimeType
+     * @param File    $file
      */
-    protected function __construct(string $id, Article $article, string $mimeType)
+    protected function __construct(string $id, Article $article, File $file)
     {
         Assert::uuid($id);
         Assert::true($article->isLegacyFormat());
-        Assert::lengthBetween($mimeType, 1, 64);
 
-        $this->id       = $id;
-        $this->article  = $article;
-        $this->mimeType = $mimeType;
+        $this->id      = $id;
+        $this->article = $article;
+        $this->file    = $file;
     }
 
     /**
@@ -80,10 +81,10 @@ abstract class ArticleAttachment
     }
 
     /**
-     * @return string
+     * @return File
      */
-    public function getMimeType(): string
+    public function getFile(): File
     {
-        return $this->mimeType;
+        return $this->file;
     }
 }

@@ -23,13 +23,12 @@ class AddDocumentHandler extends AttachmentCommandHandler
     public function __invoke(AddDocument $command): void
     {
         $article  = $this->getArticle($command->getArticleId());
-        $file     = $command->getFile();
         $document = ArticleDocument::create(
             $command->getId(),
             $article,
-            self::guessMimeType($file),
+            $this->createFile($command->getId(), null, $command->getFile()),
             $command->getTitle()
         );
-        $this->repository->saveAttachment($document);
+        $this->repository->saveAttachment($document, true);
     }
 }

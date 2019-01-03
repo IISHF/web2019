@@ -8,6 +8,7 @@
 
 namespace App\Domain\Model\Article;
 
+use App\Domain\Model\File\File;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -38,7 +39,7 @@ class ArticleImage extends ArticleAttachment
      * @param bool        $primaryImage
      * @param string      $id
      * @param Article     $article
-     * @param string      $mimeType
+     * @param File        $file
      * @param string|null $caption
      * @return ArticleImage
      */
@@ -46,46 +47,46 @@ class ArticleImage extends ArticleAttachment
         bool $primaryImage,
         string $id,
         Article $article,
-        string $mimeType,
+        File $file,
         ?string $caption
     ): self {
-        return new self($id, $article, $mimeType, $primaryImage, $caption);
+        return new self($id, $article, $file, $primaryImage, $caption);
     }
 
     /**
      * @param string      $id
      * @param Article     $article
-     * @param string      $mimeType
+     * @param File        $file
      * @param string|null $caption
      * @return ArticleImage
      */
-    public static function createPrimary(string $id, Article $article, string $mimeType, ?string $caption): self
+    public static function createPrimary(string $id, Article $article, File $file, ?string $caption): self
     {
-        return self::create(true, $id, $article, $mimeType, $caption);
+        return self::create(true, $id, $article, $file, $caption);
     }
 
     /**
      * @param string      $id
      * @param Article     $article
-     * @param string      $mimeType
+     * @param File        $file
      * @param string|null $caption
      * @return ArticleImage
      */
-    public static function createSecondary(string $id, Article $article, string $mimeType, ?string $caption): self
+    public static function createSecondary(string $id, Article $article, File $file, ?string $caption): self
     {
-        return self::create(false, $id, $article, $mimeType, $caption);
+        return self::create(false, $id, $article, $file, $caption);
     }
 
     /**
      * @param string      $id
      * @param Article     $article
-     * @param string      $mimeType
+     * @param File        $file
      * @param bool        $primaryImage
      * @param string|null $caption
      */
-    protected function __construct(string $id, Article $article, string $mimeType, bool $primaryImage, ?string $caption)
+    protected function __construct(string $id, Article $article, File $file, bool $primaryImage, ?string $caption)
     {
-        parent::__construct($id, $article, $mimeType);
+        parent::__construct($id, $article, $file);
         $this->primaryImage = $primaryImage;
         $this->setCaption($caption);
     }

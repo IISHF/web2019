@@ -122,13 +122,51 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param Article $article
+     * @return ArticleImage[]
+     */
+    public function findImages(Article $article): iterable
+    {
+        return $this->_em->createQueryBuilder()
+                         ->select('ai', 'f', 'fb')
+                         ->from(ArticleImage::class, 'ai')
+                         ->innerJoin('ai.file', 'f')
+                         ->innerJoin('f.binary', 'fb')
+                         ->where('ai.article = :article')
+                         ->setParameter('article', $article)
+                         ->getQuery()
+                         ->getResult();
+    }
+
+    /**
+     * @param Article $article
+     * @return ArticleDocument[]
+     */
+    public function findDocuments(Article $article): iterable
+    {
+        return $this->_em->createQueryBuilder()
+                         ->select('ad', 'f', 'fb')
+                         ->from(ArticleDocument::class, 'ad')
+                         ->innerJoin('ad.file', 'f')
+                         ->innerJoin('f.binary', 'fb')
+                         ->where('ad.article = :article')
+                         ->setParameter('article', $article)
+                         ->getQuery()
+                         ->getResult();
+    }
+
+    /**
      * @param ArticleAttachment $attachment
+     * @param bool              $clear
      * @return ArticleAttachment
      */
-    public function saveAttachment(ArticleAttachment $attachment): ArticleAttachment
+    public function saveAttachment(ArticleAttachment $attachment, bool $clear = false): ArticleAttachment
     {
         $this->_em->persist($attachment);
         $this->_em->flush();
+        if ($clear) {
+            $this->_em->clear();
+        }
         return $attachment;
     }
 

@@ -23,14 +23,13 @@ class AddImageHandler extends AttachmentCommandHandler
     public function __invoke(AddImage $command): void
     {
         $article = $this->getArticle($command->getArticleId());
-        $file    = $command->getFile();
         $image   = ArticleImage::create(
             $command->isPrimaryImage(),
             $command->getId(),
             $article,
-            self::guessMimeType($file),
+            $this->createFile($command->getId(), null, $command->getFile()),
             $command->getCaption()
         );
-        $this->repository->saveAttachment($image);
+        $this->repository->saveAttachment($image, true);
     }
 }

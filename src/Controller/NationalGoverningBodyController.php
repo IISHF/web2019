@@ -26,11 +26,13 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class NationalGoverningBodyController
  *
  * @package App\Controller
+ *
+ * @Route("/national-governing-bodies")
  */
 class NationalGoverningBodyController extends AbstractController
 {
     /**
-     * @Route("/national-governing-bodies", methods={"GET"})
+     * @Route("", methods={"GET"})
      *
      * @param NationalGoverningBodyRepository $repository
      * @return Response
@@ -46,7 +48,7 @@ class NationalGoverningBodyController extends AbstractController
     }
 
     /**
-     * @Route("/national-governing-bodies/create", methods={"GET", "POST"})
+     * @Route("/create", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      *
      * @param Request             $request
@@ -79,7 +81,7 @@ class NationalGoverningBodyController extends AbstractController
 
     /**
      * @Route(
-     *     "/national-governing-bodies/{ngb}",
+     *     "/{ngb}",
      *     methods={"GET"},
      *     requirements={"ngb": "%routing.slug%"}
      * )
@@ -104,7 +106,7 @@ class NationalGoverningBodyController extends AbstractController
 
     /**
      * @Route(
-     *     "/national-governing-bodies/{ngb}/edit",
+     *     "/{ngb}/edit",
      *     methods={"GET", "POST"},
      *     requirements={"ngb": "%routing.uuid%"}
      * )

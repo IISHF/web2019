@@ -8,7 +8,9 @@
 
 namespace App\Application\Article\Command;
 
-use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
+use App\Application\File\FileManager;
+use App\Domain\Model\Article\ArticleRepository;
+use App\Domain\Model\File\File;
 
 /**
  * Class AttachmentCommandHandler
@@ -18,12 +20,28 @@ use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 abstract class AttachmentCommandHandler extends ArticleCommandHandler
 {
     /**
-     * @param \SplFileInfo $file
-     * @param string       $default
-     * @return string
+     * @var FileManager
      */
-    protected static function guessMimeType(\SplFileInfo $file, string $default = 'application/octet-stream'): string
+    private $fileManager;
+
+    /**
+     * @param ArticleRepository $repository
+     * @param FileManager       $fileManager
+     */
+    public function __construct(ArticleRepository $repository, FileManager $fileManager)
     {
-        return MimeTypeGuesser::getInstance()->guess($file->getPathname()) ?? $default;
+        parent::__construct($repository);
+        $this->fileManager = $fileManager;
+    }
+
+    /**
+     * @param string       $id
+     * @param string|null  $name
+     * @param \SplFileInfo $file
+     * @return File
+     */
+    protected function createFile(string $id, ?string $name, \SplFileInfo $file): File
+    {
+        return $this->fileManager->createFile($id, $name, $file);
     }
 }

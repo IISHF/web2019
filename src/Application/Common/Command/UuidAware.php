@@ -28,11 +28,11 @@ trait UuidAware
     private $id;
 
     /**
-     * @return self
+     * @return string
      */
     private static function createUuid(): string
     {
-        return Uuid::uuid4();
+        return (string)Uuid::uuid4();
     }
 
     /**
