@@ -43,7 +43,7 @@ class UserCommand extends BaseCommand
         $users = $this->db->fetchAll('SELECT userid, surname, name FROM sys_users');
         $this->io->progressStart(\count($users));
         $results = [];
-        foreach ($users as $user) {
+        foreach ($users as $i => $user) {
             $createUser = CreateUser::create()
                                     ->setEmail($user['userid'])
                                     ->setFirstName($user['surname'])
@@ -67,6 +67,7 @@ class UserCommand extends BaseCommand
             }
 
             $results[] = [
+                $i + 1,
                 $createUser->getEmail(),
                 $createUser->getFirstName(),
                 $createUser->getLastName(),
@@ -76,7 +77,7 @@ class UserCommand extends BaseCommand
         }
         $this->io->progressFinish();
         $this->io->table(
-            ['Email', 'First Name', 'Last Name', 'Confirmation Token'],
+            ['#', 'Email', 'First Name', 'Last Name', 'Confirmation Token'],
             $results
         );
 

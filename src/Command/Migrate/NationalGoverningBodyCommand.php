@@ -67,7 +67,7 @@ class NationalGoverningBodyCommand extends BaseCommand
         );
         $this->io->progressStart(\count($ngbs));
         $results = [];
-        foreach ($ngbs as $ngb) {
+        foreach ($ngbs as $i => $ngb) {
 
             $phoneString = $ngb['ngb_phone'];
             if (!empty($phoneString)) {
@@ -95,6 +95,7 @@ class NationalGoverningBodyCommand extends BaseCommand
             try {
                 $this->dispatchCommand($createNgb);
                 $results[] = [
+                    $i + 1,
                     $createNgb->getName() . ' (' . $createNgb->getAcronym() . ')',
                     $createNgb->getCountry() . ' / ' . $createNgb->getIocCode() . ' ' . $createNgb->getCountryName(),
                     ($phoneNumber ? $phoneUtil->format($phoneNumber, PhoneNumberFormat::INTERNATIONAL) : '-')
@@ -103,6 +104,7 @@ class NationalGoverningBodyCommand extends BaseCommand
                 ];
             } catch (ValidationFailedException $e) {
                 $results[] = [
+                    $i + 1,
                     $createNgb->getName() . ' (' . $createNgb->getAcronym() . ')',
                     new TableCell(
                         implode(
@@ -120,6 +122,7 @@ class NationalGoverningBodyCommand extends BaseCommand
                 ];
             } catch (\Throwable $e) {
                 $results[] = [
+                    $i + 1,
                     $createNgb->getName() . ' (' . $createNgb->getAcronym() . ')',
                     new TableCell($e->getMessage(), ['colspan' => 2]),
                 ];
@@ -130,7 +133,7 @@ class NationalGoverningBodyCommand extends BaseCommand
         }
         $this->io->progressFinish();
         $this->io->table(
-            ['Name', 'Country', 'Contact'],
+            ['#', 'Name', 'Country', 'Contact'],
             $results
         );
 
