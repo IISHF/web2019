@@ -90,4 +90,34 @@ class ArticleRepository extends ServiceEntityRepository
         $this->_em->remove($article);
         $this->_em->flush();
     }
+
+    /**
+     * @return string[]
+     */
+    public function findAvailableTags(): iterable
+    {
+        $tags = array_keys(
+            array_reduce(
+                array_column(
+                    $this->createQueryBuilder('a')
+                         ->select('a.tags')
+                         ->getQuery()
+                         ->getArrayResult(),
+                    'tags'
+                ),
+                function (array $carry, array $tags) {
+                    foreach ($tags as $tag) {
+                        $carry[$tag] = true;
+                    }
+                    return $carry;
+                },
+                []
+            )
+        );
+
+        $collator = new \Collator('en_GB');
+        $collator->sort($tags, \Collator::SORT_STRING);
+
+        return $tags;
+    }
 }

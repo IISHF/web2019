@@ -21,13 +21,14 @@ services:
         tags:
             - { name: request.param_converter, converter: app.article }
 
+    App\Infrastructure\Article\Form\TagType:
+
     App\Infrastructure\Article\Twig\ArticleExtension:
     App\Infrastructure\Article\Twig\ArticleRuntime:
         arguments:
             $htmlPurifier: '@app.article.html_purifier'
         tags:
             - twig.runtime
-
 
     app.article.html_purifier_config:
         class: HTMLPurifier_Config

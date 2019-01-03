@@ -44,6 +44,14 @@ class ArticleType extends AbstractType
                 ]
             )
             ->add(
+                'tags',
+                TagType::class,
+                [
+                    'label'    => 'Tags',
+                    'required' => false,
+                ]
+            )
+            ->add(
                 'body',
                 TrixEditorType::class,
                 [

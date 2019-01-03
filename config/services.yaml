@@ -41,4 +41,6 @@ services:
         arguments:
             $locale: "%locale%"
 
+    App\Infrastructure\Form\Select2Extension:
+
     App\Infrastructure\Form\TrixEditorType:

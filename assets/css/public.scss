@@ -1,6 +1,22 @@
 $primary: darken(#428bca, 20%);
 
 @import "~bootstrap/scss/bootstrap";
+@import "~select2/src/scss/core.scss";
+@import "~select2-bootstrap4-theme/src/select2-bootstrap4.scss";
+@import "~tempusdominus-bootstrap-4/src/sass/tempusdominus-bootstrap-4-build.scss";
+
+.select2-container--bootstrap4 {
+    .select2-selection--multiple {
+        .select2-search--inline {
+            margin-top: ($s2bs-padding-base-vertical - 1);
+        }
+    }
+}
+
+.trix-content {
+
+}
+
 
 h1 {
     color: red;

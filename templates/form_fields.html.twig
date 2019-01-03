@@ -1,5 +1,15 @@
 {% extends 'bootstrap_4_layout.html.twig' %}
 
+{% block choice_widget_collapsed -%}
+    {% if enable_select2|default(false) %}
+        {%- set attr = attr|merge({
+            'data-enable-select2': 'true',
+            'data-select2-options': select2_options|default({})|json_encode
+        }) -%}
+    {% endif %}
+    {{- parent() -}}
+{%- endblock choice_widget_collapsed %}
+
 {% block datepicker_widget %}
     {% set pickerId = id ~ '_picker' %}
     {% set pickerTarget = '#' ~ pickerId %}

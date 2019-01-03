@@ -1,7 +1,8 @@
 import '@webcomponents/webcomponentsjs';
 import '@ungap/custom-elements-builtin';
 
-import 'tempusdominus-bootstrap-4/src/sass/tempusdominus-bootstrap-4-build.scss';
+require('select2');
+$.fn.select2.defaults.set('theme', 'bootstrap4');
 
 const Trix = require('trix');
 Trix.config.attachments.preview.caption.name = false;
@@ -31,6 +32,10 @@ $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Const
 });
 
 $(document).ready(function () {
+    $('[data-enable-select2="true"]').each(function () {
+        $(this).select2($(this).data('select2-options'));
+    });
+
     $('[data-enable-datepicker="true"]').each(function () {
         $(this).datetimepicker($(this).data('datepicker-options'));
     });
