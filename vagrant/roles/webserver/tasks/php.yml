@@ -92,3 +92,13 @@
     with_items:
         - hirak/prestissimo
         - pyrech/composer-changelogs
+
+-   name: fix ImageMagick policy for PDF
+    lineinfile:
+        dest=/etc/ImageMagick-6/policy.xml
+        regexp="^(.*)rights=\"none\" pattern=\"PDF\"(.*)$"
+        line="\1rights=\"read\" pattern=\"PDF\"\2"
+        backrefs=yes
+        backup=yes
+    notify:
+        - restart php

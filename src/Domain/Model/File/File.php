@@ -8,6 +8,7 @@
 
 namespace App\Domain\Model\File;
 
+use App\Domain\Common\Urlizer;
 use App\Domain\Model\Common\CreateTracking;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
@@ -167,6 +168,15 @@ class File
     public function getClientName(): string
     {
         return $this->getOriginalName() ?? $this->getName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getSafeClientName(): string
+    {
+        $pathInfo = pathinfo($this->getClientName());
+        return Urlizer::urlize($pathInfo['filename']) . '.' . $pathInfo['extension'];
     }
 
     /**
