@@ -22,7 +22,7 @@ use Webmozart\Assert\Assert;
 class ArticleImage extends ArticleAttachment
 {
     /**
-     * @ORM\Column(name="primary_image", type="boolean", options={"unsigned":true})
+     * @ORM\Column(name="primary_image", type="boolean")
      *
      * @var bool
      */

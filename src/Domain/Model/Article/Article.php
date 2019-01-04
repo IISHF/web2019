@@ -89,7 +89,7 @@ class Article
     private $id;
 
     /**
-     * @ORM\Column(name="legacy_format", type="boolean", options={"unsigned":true})
+     * @ORM\Column(name="legacy_format", type="boolean")
      *
      * @var bool
      */
