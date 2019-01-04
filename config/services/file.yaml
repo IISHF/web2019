@@ -10,3 +10,9 @@ services:
 
     App\Application\File\Command\AddFileHandler:
     App\Application\File\Command\RemoveFileHandler:
+
+    App\Application\File\ImagickResizer:
+    App\Application\File\CachedResizer:
+        decorates: App\Application\File\ImagickResizer
+
+    App\Application\File\ImageResizer: '@App\Application\File\ImagickResizer'

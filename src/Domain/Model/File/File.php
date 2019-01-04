@@ -196,6 +196,22 @@ class File
     }
 
     /**
+     * @return bool
+     */
+    public function isImage(): bool
+    {
+        return strpos($this->getMimeType(), 'image/') === 0;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPdf(): bool
+    {
+        return $this->getMimeType() === 'application/pdf' || $this->getMimeType() === 'application/x-pdf';
+    }
+
+    /**
      * @return FileBinary
      */
     public function getBinary(): FileBinary
