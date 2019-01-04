@@ -124,7 +124,7 @@ class NationalGoverningBodyCommand extends BaseCommand
             }
             $this->commitTransaction();
         } catch (\Exception $e) {
-            $this->rollBackTransaction();
+            $this->rollbackTransaction();
             throw $e;
         }
         $this->io->progressFinish();

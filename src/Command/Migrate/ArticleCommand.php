@@ -144,10 +144,10 @@ class ArticleCommand extends BaseCommand
                     $result = '';
                     $this->commitTransaction();
                 } catch (ValidationFailedException $e) {
-                    $this->rollBackTransaction();
+                    $this->rollbackTransaction();
                     $result = implode(PHP_EOL, Validation::getViolations($e));
                 } catch (\Throwable $e) {
-                    $this->rollBackTransaction();
+                    $this->rollbackTransaction();
                     $result = $e->getMessage();
                 }
 
@@ -165,7 +165,7 @@ class ArticleCommand extends BaseCommand
             }
             $this->commitTransaction();
         } catch (\Exception $e) {
-            $this->rollBackTransaction();
+            $this->rollbackTransaction();
             throw $e;
         }
         $this->io->progressFinish();

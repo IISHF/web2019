@@ -68,7 +68,7 @@ abstract class BaseCommand extends Command
      */
     protected function beginTransaction(): void
     {
-        $this->em->getConnection()->beginTransaction();
+        $this->em->beginTransaction();
     }
 
     /**
@@ -76,15 +76,15 @@ abstract class BaseCommand extends Command
      */
     protected function commitTransaction(): void
     {
-        $this->em->getConnection()->commit();
+        $this->em->commit();
     }
 
     /**
      *
      */
-    protected function rollBackTransaction(): void
+    protected function rollbackTransaction(): void
     {
-        $this->em->getConnection()->rollBack();
+        $this->em->rollback();
     }
 
     /**
