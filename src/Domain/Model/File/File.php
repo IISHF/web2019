@@ -84,15 +84,16 @@ class File
     private function __construct(string $id, string $name, int $size, string $mimeType, FileBinary $binary)
     {
         Assert::uuid($id);
+        Assert::lengthBetween($name, 1, 128);
         Assert::greaterThanEq($size, 0);
         Assert::lengthBetween($mimeType, 1, 64);
 
         $this->id       = $id;
+        $this->name     = $name;
         $this->size     = $size;
         $this->mimeType = $mimeType;
         $this->binary   = $binary;
-        $this->setName($name)
-             ->initCreateTracking();
+        $this->initCreateTracking();
     }
 
     /**
@@ -109,16 +110,6 @@ class File
     public function getName(): string
     {
         return $this->name;
-    }
-
-    /**
-     * @param string $name
-     * @return $this
-     */
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-        return $this;
     }
 
     /**
