@@ -164,7 +164,7 @@ class ArticleCommand extends BaseCommand
                 $this->clearEntityManager();
             }
             $this->commitTransaction();
-        } catch (\Throwable $e) {
+        } catch (\Exception $e) {
             $this->rollBackTransaction();
             throw $e;
         }
