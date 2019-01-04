@@ -104,15 +104,21 @@ class ArticleController extends AbstractController
      *      converter="app.article"
      * )
      *
-     * @param Article $article
+     * @param Article           $article
+     * @param ArticleRepository $repository
      * @return Response
      */
-    public function getDetail(Article $article): Response
+    public function getDetail(Article $article, ArticleRepository $repository): Response
     {
+        $images    = $repository->findImages($article);
+        $documents = $repository->findDocuments($article);
+
         return $this->render(
             'article/detail.html.twig',
             [
-                'article' => $article,
+                'article'   => $article,
+                'images'    => $images,
+                'documents' => $documents,
             ]
         );
     }

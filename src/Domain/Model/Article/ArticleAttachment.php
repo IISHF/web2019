@@ -87,4 +87,20 @@ abstract class ArticleAttachment
     {
         return $this->file;
     }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->getFile()->getName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getClientName(): string
+    {
+        return $this->getFile()->getClientName();
+    }
 }

@@ -36,8 +36,8 @@ class ArticleExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFilter(
-                'article_body_format',
-                [ArticleRuntime::class, 'formatArticleBody'],
+                'article_legacy_body',
+                [ArticleRuntime::class, 'formatLegacyBody'],
                 ['is_safe' => ['html'], 'needs_environment' => true]
             ),
         ];

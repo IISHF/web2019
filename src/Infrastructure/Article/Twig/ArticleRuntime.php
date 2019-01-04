@@ -8,7 +8,6 @@
 
 namespace App\Infrastructure\Article\Twig;
 
-use App\Domain\Model\Article\Article;
 use App\Domain\Model\User\UserRepository;
 use App\Utils\Text;
 
@@ -47,18 +46,11 @@ class ArticleRuntime
     private $userRepository;
 
     /**
-     * @var \HTMLPurifier
-     */
-    private $htmlPurifier;
-
-    /**
      * @param UserRepository $userRepository
-     * @param \HTMLPurifier  $htmlPurifier
      */
-    public function __construct(UserRepository $userRepository, \HTMLPurifier $htmlPurifier)
+    public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
-        $this->htmlPurifier   = $htmlPurifier;
     }
 
     /**
@@ -98,20 +90,11 @@ class ArticleRuntime
 
     /**
      * @param \Twig_Environment $env
-     * @param Article           $article
+     * @param string            $body
      * @return string
      */
-    public function formatArticleBody(\Twig_Environment $env, Article $article): string
+    public function formatLegacyBody(\Twig_Environment $env, string $body): string
     {
-        $body = $article->getBody();
-
-        if (!$article->isLegacyFormat()) {
-            $body = $this->htmlPurifier->purify($body);
-            return <<<HTML
-<div class="trix-content">$body</div>
-HTML;
-        }
-
         $body = str_replace("\r", '', $body);
 
         $body = preg_replace_callback(

@@ -131,36 +131,50 @@ class ArticleRepository extends ServiceEntityRepository
 
     /**
      * @param Article $article
-     * @return ArticleImage[]
+     * @return ArticleImages
      */
-    public function findImages(Article $article): iterable
+    public function findImages(Article $article): ArticleImages
     {
-        return $this->_em->createQueryBuilder()
-                         ->select('ai', 'f', 'fb')
-                         ->from(ArticleImage::class, 'ai')
-                         ->innerJoin('ai.file', 'f')
-                         ->innerJoin('f.binary', 'fb')
-                         ->where('ai.article = :article')
-                         ->setParameter('article', $article)
-                         ->getQuery()
-                         ->getResult();
+        if (!$article->isLegacyFormat()) {
+            return ArticleImages::empty();
+        }
+        return new ArticleImages(
+            $this->createAttachmentsQueryBuilder($article, ArticleImage::class)
+                 ->getQuery()
+                 ->getResult()
+        );
     }
 
     /**
      * @param Article $article
-     * @return ArticleDocument[]
+     * @return ArticleDocuments
      */
-    public function findDocuments(Article $article): iterable
+    public function findDocuments(Article $article): ArticleDocuments
+    {
+        if (!$article->isLegacyFormat()) {
+            return ArticleDocuments::empty();
+        }
+        return new ArticleDocuments(
+            $this->createAttachmentsQueryBuilder($article, ArticleDocument::class)
+                 ->getQuery()
+                 ->getResult()
+        );
+    }
+
+    /**
+     * @param Article $article
+     * @param string  $entityClass
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    private function createAttachmentsQueryBuilder(Article $article, string $entityClass): \Doctrine\ORM\QueryBuilder
     {
         return $this->_em->createQueryBuilder()
-                         ->select('ad', 'f', 'fb')
-                         ->from(ArticleDocument::class, 'ad')
-                         ->innerJoin('ad.file', 'f')
+                         ->select('a', 'f', 'fb')
+                         ->from($entityClass, 'a')
+                         ->innerJoin('a.file', 'f')
                          ->innerJoin('f.binary', 'fb')
-                         ->where('ad.article = :article')
-                         ->setParameter('article', $article)
-                         ->getQuery()
-                         ->getResult();
+                         ->where('a.article = :article')
+                         ->setParameter('article', $article);
     }
 
     /**

@@ -28,8 +28,6 @@ services:
 
     App\Infrastructure\Article\Twig\ArticleExtension:
     App\Infrastructure\Article\Twig\ArticleRuntime:
-        arguments:
-            $htmlPurifier: '@app.article.html_purifier'
         tags:
             - twig.runtime
 
@@ -45,4 +43,6 @@ services:
     app.article.html_purifier:
         class: HTMLPurifier
         arguments: ['@app.article.html_purifier_config']
+        tags:
+            - {name: exercise.html_purifier, profile: article}
 
