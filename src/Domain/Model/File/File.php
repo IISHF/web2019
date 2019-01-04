@@ -18,7 +18,12 @@ use Webmozart\Assert\Assert;
  * @package App\Domain\Model\File
  *
  * @ORM\Entity(repositoryClass="FileRepository")
- * @ORM\Table(name="files")
+ * @ORM\Table(
+ *      name="files",
+ *      indexes={
+ *          @ORM\Index(name="idx_file_name", columns={"name"})
+ *      }
+ * )
  */
 class File
 {

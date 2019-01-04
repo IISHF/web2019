@@ -39,20 +39,54 @@ class FileRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param string $name
+     * @return File|null
+     */
+    public function findByName(string $name): ?File
+    {
+        /** @var File|null $file */
+        $file = $this->findOneBy(['name' => $name]);
+        return $file;
+    }
+
+    /**
      * @param string $id
      * @return File|null
      */
     public function findByIdWithBinary(string $id): ?File
     {
         /** @var File|null $file */
-        $file = $this->createQueryBuilder('f')
-                     ->addSelect('fb')
-                     ->innerJoin('f.binary', 'fb')
+        $file = $this->createQueryBuilderWithBinary()
                      ->where('f.id = :id')
                      ->setParameter('id', $id)
                      ->getQuery()
                      ->getOneOrNullResult();
         return $file;
+    }
+
+    /**
+     * @param string $name
+     * @return File|null
+     */
+    public function findByNameWithBinary(string $name): ?File
+    {
+        /** @var File|null $file */
+        $file = $this->createQueryBuilderWithBinary()
+                     ->where('f.name = :name')
+                     ->setParameter('name', $name)
+                     ->getQuery()
+                     ->getOneOrNullResult();
+        return $file;
+    }
+
+    /**
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    private function createQueryBuilderWithBinary(): \Doctrine\ORM\QueryBuilder
+    {
+        return $this->createQueryBuilder('f')
+                    ->addSelect('fb')
+                    ->innerJoin('f.binary', 'fb');
     }
 
     /**
