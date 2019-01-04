@@ -73,7 +73,7 @@ class File
     private $reference;
 
     /**
-     * @ORM\ManyToOne(targetEntity="FileBinary")
+     * @ORM\ManyToOne(targetEntity="FileBinary", cascade={"PERSIST"})
      * @ORM\JoinColumn(name="binary_hash", referencedColumnName="hash", onDelete="CASCADE")
      *
      * @var FileBinary
@@ -164,6 +164,14 @@ class File
     /**
      * @return string
      */
+    public function getClientName(): string
+    {
+        return $this->getOriginalName() ?? $this->getName();
+    }
+
+    /**
+     * @return string
+     */
     public function getSize(): string
     {
         return $this->size;
@@ -183,5 +191,28 @@ class File
     public function getBinary(): FileBinary
     {
         return $this->binary;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEtag(): string
+    {
+        return $this->getBinary()->getHash();
+    }
+
+    /**
+     * @param string|null $filename
+     * @return string
+     */
+    public function writeTo(?string $filename): string
+    {
+        if ($filename === null && ($filename = tempnam(sys_get_temp_dir(), 'file_')) === false) {
+            throw new \RuntimeException('Cannot create a temporary filename.');
+        }
+        if (file_put_contents($filename, $this->getBinary()->getData(), LOCK_EX) === false) {
+            throw new \RuntimeException('Cannot write to file ' . $filename . '.');
+        }
+        return $filename;
     }
 }

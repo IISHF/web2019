@@ -14,6 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -74,20 +75,33 @@ class FileController extends AbstractController
      * )
      *
      * @param string         $name
+     * @param Request        $request
      * @param FileRepository $fileRepository
      * @return Response
      */
-    public function download(string $name, FileRepository $fileRepository): Response
+    public function download(string $name, Request $request, FileRepository $fileRepository): Response
     {
         $file = $fileRepository->findByNameWithBinary($name);
         if (!$file) {
             throw $this->createNotFoundException();
         }
 
-        $tempFile = tempnam(sys_get_temp_dir(), 'image_');
-        file_put_contents($tempFile, $file->getBinary()->getData());
+        $date = $file->getCreatedAt();
+        $etag = $file->getEtag();
 
-        return BinaryFileResponse::create($tempFile, Response::HTTP_OK, [], true, 'inline');
+        $response = Response::create()
+                            ->setEtag($etag)
+                            ->setLastModified($date)
+                            ->setPublic();
+        if ($response->isNotModified($request)) {
+            return $response;
+        }
+
+        return BinaryFileResponse::create($file->writeTo(null))
+                                 ->setContentDisposition(HeaderUtils::DISPOSITION_INLINE, $file->getClientName())
+                                 ->setEtag($etag)
+                                 ->setLastModified($date)
+                                 ->setPublic()
+                                 ->deleteFileAfterSend();
     }
-
 }
