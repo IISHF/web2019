@@ -41,7 +41,7 @@ class ArticleVoter extends DelegatingVoter
             return false;
         }
 
-        if ($attribute === 'ARTICLE_EDIT' && $subject->isLegacyFormat()) {
+        if ($subject->isLegacyFormat()) {
             return false;
         }
 
