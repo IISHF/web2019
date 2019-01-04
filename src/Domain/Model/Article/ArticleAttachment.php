@@ -42,7 +42,7 @@ abstract class ArticleAttachment
     private $article;
 
     /**
-     * @ORM\OneToOne(targetEntity="\App\Domain\Model\File\File", cascade={"ALL"}, orphanRemoval=true)
+     * @ORM\OneToOne(targetEntity="\App\Domain\Model\File\File")
      * @ORM\JoinColumn(name="file_id", referencedColumnName="id", onDelete="CASCADE")
      *
      * @var File

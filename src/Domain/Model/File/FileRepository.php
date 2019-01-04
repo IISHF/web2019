@@ -96,6 +96,7 @@ class FileRepository extends ServiceEntityRepository
     public function save(File $file): File
     {
         $this->_em->persist($file);
+        $this->_em->persist($file->getBinary());
         $this->_em->flush();
         return $file;
     }
@@ -105,8 +106,22 @@ class FileRepository extends ServiceEntityRepository
      */
     public function delete(File $file): void
     {
-        $this->_em->remove($file);
-        $this->_em->flush();
+        $this->_em->beginTransaction();
+        try {
+            $this->_em->remove($file);
+            $this->_em->flush();
+
+            $this->_em->getConnection()
+                      ->createQueryBuilder()
+                      ->delete('file_binary')
+                      ->where('hash NOT IN (SELECT binary_hash FROM files)')
+                      ->execute();
+
+            $this->_em->commit();
+        } catch (\Exception $e) {
+            $this->_em->rollback();
+            throw $e;
+        }
     }
 
     /**

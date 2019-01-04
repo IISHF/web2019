@@ -8,6 +8,7 @@
 
 namespace App\Domain\Model\Article;
 
+use App\Domain\Model\File\FileRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
@@ -21,11 +22,18 @@ use Pagerfanta\Pagerfanta;
 class ArticleRepository extends ServiceEntityRepository
 {
     /**
-     * @param ManagerRegistry $managerRegistry
+     * @var FileRepository
      */
-    public function __construct(ManagerRegistry $managerRegistry)
+    private $fileRepository;
+
+    /**
+     * @param ManagerRegistry $managerRegistry
+     * @param FileRepository  $fileRepository
+     */
+    public function __construct(ManagerRegistry $managerRegistry, FileRepository $fileRepository)
     {
         parent::__construct($managerRegistry, Article::class);
+        $this->fileRepository = $fileRepository;
     }
 
     /**
@@ -161,8 +169,16 @@ class ArticleRepository extends ServiceEntityRepository
      */
     public function saveAttachment(ArticleAttachment $attachment): ArticleAttachment
     {
-        $this->_em->persist($attachment);
-        $this->_em->flush();
+        $this->_em->beginTransaction();
+        try {
+            $this->fileRepository->save($attachment->getFile());
+            $this->_em->persist($attachment);
+            $this->_em->flush();
+            $this->_em->commit();
+        } catch (\Exception $e) {
+            $this->_em->rollback();
+            throw $e;
+        }
         return $attachment;
     }
 
@@ -171,7 +187,15 @@ class ArticleRepository extends ServiceEntityRepository
      */
     public function deleteAttachment(ArticleAttachment $attachment): void
     {
-        $this->_em->remove($attachment);
-        $this->_em->flush();
+        $this->_em->beginTransaction();
+        try {
+            $this->fileRepository->delete($attachment->getFile());
+            $this->_em->remove($attachment);
+            $this->_em->flush();
+            $this->_em->commit();
+        } catch (\Exception $e) {
+            $this->_em->rollback();
+            throw $e;
+        }
     }
 }

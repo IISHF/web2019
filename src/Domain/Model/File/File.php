@@ -73,7 +73,7 @@ class File
     private $reference;
 
     /**
-     * @ORM\ManyToOne(targetEntity="FileBinary", cascade={"PERSIST"})
+     * @ORM\ManyToOne(targetEntity="FileBinary")
      * @ORM\JoinColumn(name="binary_hash", referencedColumnName="hash", onDelete="CASCADE")
      *
      * @var FileBinary
