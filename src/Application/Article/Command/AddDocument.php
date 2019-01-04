@@ -86,16 +86,6 @@ class AddDocument
     }
 
     /**
-     * @param string|null $title
-     * @return $this
-     */
-    public function setTitle(?string $title): self
-    {
-        $this->title = $title;
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getReference(): string

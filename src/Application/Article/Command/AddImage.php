@@ -119,16 +119,6 @@ class AddImage
     }
 
     /**
-     * @param string|null $caption
-     * @return $this
-     */
-    public function setCaption(?string $caption): AddImage
-    {
-        $this->caption = $caption;
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getReference(): string

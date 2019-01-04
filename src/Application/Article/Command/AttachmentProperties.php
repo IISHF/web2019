@@ -45,16 +45,6 @@ trait AttachmentProperties
     }
 
     /**
-     * @param \SplFileInfo $file
-     * @return $this
-     */
-    public function setFile(\SplFileInfo $file): self
-    {
-        $this->file = $file;
-        return $this;
-    }
-
-    /**
      * @param string $id
      * @param string $designator
      * @return string
