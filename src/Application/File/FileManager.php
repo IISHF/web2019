@@ -38,6 +38,15 @@ class FileManager
     }
 
     /**
+     * @param string $id
+     * @return File|null
+     */
+    public function findById(string $id): ?File
+    {
+        return $this->repository->findById($id);
+    }
+
+    /**
      * @param File $file
      * @return File
      */
