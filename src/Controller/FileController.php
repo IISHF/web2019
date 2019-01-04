@@ -46,16 +46,14 @@ class FileController extends AbstractController
         }
 
         $originalName = $uploadedFile->getClientOriginalName();
-        $extension    = $uploadedFile->guessExtension() ?? 'bin';
-
-        $file = $fileManager->createFile(
+        $file         = $fileManager->createFile(
+            $uploadedFile->move(sys_get_temp_dir()),
             null,
-            $originalName,
-            $uploadedFile->move(sys_get_temp_dir())
+            $originalName
         );
         $fileManager->save($file);
 
-        $url = $this->generateUrl('app_file_download', ['id' => $file->getId(), 'ext' => $extension]);
+        $url = $this->generateUrl('app_file_download', ['name' => $file->getName()]);
 
         return JsonResponse::create(
             [
@@ -70,18 +68,18 @@ class FileController extends AbstractController
 
     /**
      * @Route(
-     *     "/{id}.{ext<[0-9a-z]{1,}>}",
+     *     "/{name}",
      *     methods={"GET"},
-     *     requirements={"id": "%routing.uuid%"}
+     *     requirements={"name": "%routing.uuid%\.[0-9a-z]{1,16}"}
      * )
      *
-     * @param string         $id
+     * @param string         $name
      * @param FileRepository $fileRepository
      * @return Response
      */
-    public function download(string $id, FileRepository $fileRepository): Response
+    public function download(string $name, FileRepository $fileRepository): Response
     {
-        $file = $fileRepository->findByIdWithBinary($id);
+        $file = $fileRepository->findByNameWithBinary($name);
         if (!$file) {
             throw $this->createNotFoundException();
         }
@@ -90,7 +88,6 @@ class FileController extends AbstractController
         file_put_contents($tempFile, $file->getBinary()->getData());
 
         return BinaryFileResponse::create($tempFile, Response::HTTP_OK, [], true, 'inline');
-
     }
 
 }

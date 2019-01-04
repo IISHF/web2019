@@ -8,6 +8,7 @@
 
 namespace App\Command\Migrate;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -28,6 +29,11 @@ abstract class BaseCommand extends Command
     private $commandBus;
 
     /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    /**
      * @var SymfonyStyle
      */
     protected $io;
@@ -38,12 +44,14 @@ abstract class BaseCommand extends Command
     protected $db;
 
     /**
-     * @param MessageBusInterface $commandBus
+     * @param MessageBusInterface    $commandBus
+     * @param EntityManagerInterface $em
      */
-    public function __construct(MessageBusInterface $commandBus)
+    public function __construct(MessageBusInterface $commandBus, EntityManagerInterface $em)
     {
         parent::__construct();
         $this->commandBus = $commandBus;
+        $this->em         = $em;
     }
 
     /**
@@ -53,6 +61,38 @@ abstract class BaseCommand extends Command
     protected function dispatchCommand(object $message)
     {
         return $this->commandBus->dispatch($message);
+    }
+
+    /**
+     *
+     */
+    protected function beginTransaction(): void
+    {
+        $this->em->getConnection()->beginTransaction();
+    }
+
+    /**
+     *
+     */
+    protected function commitTransaction(): void
+    {
+        $this->em->getConnection()->commit();
+    }
+
+    /**
+     *
+     */
+    protected function rollBackTransaction(): void
+    {
+        $this->em->getConnection()->rollBack();
+    }
+
+    /**
+     *
+     */
+    protected function clearEntityManager(): void
+    {
+        $this->em->clear();
     }
 
     /**

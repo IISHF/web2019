@@ -9,6 +9,7 @@
 namespace App\Command\Migrate;
 
 use App\Application\NationalGoverningBody\Command\CreateNationalGoverningBody;
+use App\Utils\Validation;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
@@ -16,7 +17,6 @@ use Symfony\Component\Console\Helper\TableCell;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\Exception\ValidationFailedException;
-use Symfony\Component\Validator\ConstraintViolationInterface;
 
 /**
  * Class NationalGoverningBodyCommand
@@ -67,69 +67,65 @@ class NationalGoverningBodyCommand extends BaseCommand
         );
         $this->io->progressStart(\count($ngbs));
         $results = [];
-        foreach ($ngbs as $i => $ngb) {
-
-            $phoneString = $ngb['ngb_phone'];
-            if (!empty($phoneString)) {
-                try {
-                    $phoneString = preg_replace('/[^0-9+]/', '', $phoneString);
-                    $phoneNumber = $phoneUtil->parse($phoneString);
-                } catch (NumberParseException $e) {
+        $this->beginTransaction();
+        try {
+            foreach ($ngbs as $i => $ngb) {
+                $phoneString = $ngb['ngb_phone'];
+                if (!empty($phoneString)) {
+                    try {
+                        $phoneString = preg_replace('/[^0-9+]/', '', $phoneString);
+                        $phoneNumber = $phoneUtil->parse($phoneString);
+                    } catch (NumberParseException $e) {
+                        $phoneNumber = null;
+                    }
+                } else {
                     $phoneNumber = null;
                 }
-            } else {
-                $phoneNumber = null;
-            }
 
-            [$isoCode, $iocCode] = self::COUNTRY_MAP[$ngb['abbr']] ?? ['', ''];
+                [$isoCode, $iocCode] = self::COUNTRY_MAP[$ngb['abbr']] ?? ['', ''];
 
-            $createNgb = CreateNationalGoverningBody::create()
-                                                    ->setName($ngb['ngb_name'])
-                                                    ->setAcronym($ngb['ngb_abbr'])
-                                                    ->setIocCode($iocCode)
-                                                    ->setCountry($isoCode)
-                                                    ->setEmail($ngb['ngb_email'] ?? '')
-                                                    ->setPhoneNumber($phoneNumber)
-                                                    ->setWebsite($ngb['ngb_web']);
+                $createNgb = CreateNationalGoverningBody::create()
+                                                        ->setName($ngb['ngb_name'])
+                                                        ->setAcronym($ngb['ngb_abbr'])
+                                                        ->setIocCode($iocCode)
+                                                        ->setCountry($isoCode)
+                                                        ->setEmail($ngb['ngb_email'] ?? '')
+                                                        ->setPhoneNumber($phoneNumber)
+                                                        ->setWebsite($ngb['ngb_web']);
 
-            try {
-                $this->dispatchCommand($createNgb);
-                $results[] = [
-                    $i + 1,
-                    $createNgb->getName() . ' (' . $createNgb->getAcronym() . ')',
-                    $createNgb->getCountry() . ' / ' . $createNgb->getIocCode() . ' ' . $createNgb->getCountryName(),
-                    ($phoneNumber ? $phoneUtil->format($phoneNumber, PhoneNumberFormat::INTERNATIONAL) : '-')
-                    . PHP_EOL . $createNgb->getEmail()
-                    . PHP_EOL . ($createNgb->getWebsite() ?? '-'),
-                ];
-            } catch (ValidationFailedException $e) {
-                $results[] = [
-                    $i + 1,
-                    $createNgb->getName() . ' (' . $createNgb->getAcronym() . ')',
-                    new TableCell(
-                        implode(
-                            PHP_EOL,
-                            array_map(
-                                function (ConstraintViolationInterface $violation) {
-                                    return $violation->getPropertyPath() . ': ' . $violation->getMessage();
-                                },
-                                iterator_to_array($e->getViolations())
-                            )
+                try {
+                    $this->dispatchCommand($createNgb);
+                    $results[] = [
+                        $i + 1,
+                        $createNgb->getName() . ' (' . $createNgb->getAcronym() . ')',
+                        $createNgb->getCountry() . ' / ' . $createNgb->getIocCode() . ' ' . $createNgb->getCountryName(
                         ),
-                        ['colspan' => 2]
-                    ),
+                        ($phoneNumber ? $phoneUtil->format($phoneNumber, PhoneNumberFormat::INTERNATIONAL) : '-')
+                        . PHP_EOL . $createNgb->getEmail()
+                        . PHP_EOL . ($createNgb->getWebsite() ?? '-'),
+                    ];
+                } catch (ValidationFailedException $e) {
+                    $results[] = [
+                        $i + 1,
+                        $createNgb->getName() . ' (' . $createNgb->getAcronym() . ')',
+                        new TableCell(implode(PHP_EOL, Validation::getViolations($e)), ['colspan' => 2]),
 
-                ];
-            } catch (\Throwable $e) {
-                $results[] = [
-                    $i + 1,
-                    $createNgb->getName() . ' (' . $createNgb->getAcronym() . ')',
-                    new TableCell($e->getMessage(), ['colspan' => 2]),
-                ];
+                    ];
+                } catch (\Throwable $e) {
+                    $results[] = [
+                        $i + 1,
+                        $createNgb->getName() . ' (' . $createNgb->getAcronym() . ')',
+                        new TableCell($e->getMessage(), ['colspan' => 2]),
+                    ];
+                }
+                $this->io->progressAdvance();
+
+                $this->clearEntityManager();
             }
-
-
-            $this->io->progressAdvance();
+            $this->commitTransaction();
+        } catch (\Throwable $e) {
+            $this->rollBackTransaction();
+            throw $e;
         }
         $this->io->progressFinish();
         $this->io->table(

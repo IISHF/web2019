@@ -11,12 +11,12 @@ namespace App\Command\Migrate;
 use App\Application\Article\Command\AddAttachments;
 use App\Application\Article\Command\CreateArticle;
 use App\Utils\Text;
+use App\Utils\Validation;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Messenger\Exception\ValidationFailedException;
-use Symfony\Component\Validator\ConstraintViolationInterface;
 
 /**
  * Class ArticleCommand
@@ -95,73 +95,78 @@ class ArticleCommand extends BaseCommand
         $articles = $this->db->fetchAll('SELECT id, uid, title, cat1, cat2, subtitle, contents, edited FROM news');
         $this->io->progressStart(\count($articles));
         $results = [];
-        foreach ($articles as $i => $article) {
-            $tags = [];
-            if (isset($cat1List[$article['cat1']])) {
-                $tags[] = $cat1List[$article['cat1']];
-            }
-            if (isset($cat2List[$article['cat2']])) {
-                $tags[] = $cat2List[$article['cat2']];
-            }
+        $this->beginTransaction();
+        try {
+            foreach ($articles as $i => $article) {
+                $tags = [];
+                if (isset($cat1List[$article['cat1']])) {
+                    $tags[] = $cat1List[$article['cat1']];
+                }
+                if (isset($cat2List[$article['cat2']])) {
+                    $tags[] = $cat2List[$article['cat2']];
+                }
 
-            $createArticle = CreateArticle::createLegacy($userList[$article['uid']] ?? 'system@iishf.com')
-                                          ->setTitle($article['title'])
-                                          ->setSubtitle($article['subtitle'])
-                                          ->setBody($article['contents'])
-                                          ->setTags($tags)
-                                          ->setPublishedAt(new \DateTimeImmutable($article['edited']));
+                $createArticle = CreateArticle::createLegacy($userList[$article['uid']] ?? 'system@iishf.com')
+                                              ->setTitle($article['title'])
+                                              ->setSubtitle($article['subtitle'])
+                                              ->setBody($article['contents'])
+                                              ->setTags($tags)
+                                              ->setPublishedAt(new \DateTimeImmutable($article['edited']));
 
-            $thisArticlePath = $articlePath . '/article' . $article['id'];
+                $thisArticlePath = $articlePath . '/article' . $article['id'];
 
-            $addAttachments = AddAttachments::create($createArticle->getId());
-            if ($migrateAttachments
-                && file_exists($thisArticlePath)
-                && is_dir($thisArticlePath)
-                && is_readable($thisArticlePath . '/.')
-            ) {
-                foreach ($imageList[$article['id']] ?? [] as $image) {
-                    $imageFile = self::getFile($thisArticlePath . '/' . $image['filename']);
-                    if ($imageFile !== null) {
-                        $addAttachments->addImage($image['type'] === 'P', $imageFile, $image['caption']);
+                $addAttachments = AddAttachments::create($createArticle->getId());
+                if ($migrateAttachments
+                    && file_exists($thisArticlePath)
+                    && is_dir($thisArticlePath)
+                    && is_readable($thisArticlePath . '/.')
+                ) {
+                    foreach ($imageList[$article['id']] ?? [] as $image) {
+                        $imageFile = self::getFile($thisArticlePath . '/' . $image['filename']);
+                        if ($imageFile !== null) {
+                            $addAttachments->addImage($image['type'] === 'P', $imageFile, $image['caption']);
+                        }
+                    }
+                    foreach ($fileList[$article['id']] ?? [] as $file) {
+                        $fileFile = self::getFile($thisArticlePath . '/' . $file['filename']);
+                        if ($fileFile !== null) {
+                            $addAttachments->addDocument($fileFile, $file['title']);
+                        }
                     }
                 }
-                foreach ($fileList[$article['id']] ?? [] as $file) {
-                    $fileFile = self::getFile($thisArticlePath . '/' . $file['filename']);
-                    if ($fileFile !== null) {
-                        $addAttachments->addDocument($fileFile, $file['title']);
+
+                $this->beginTransaction();
+                try {
+                    $this->dispatchCommand($createArticle);
+                    if (count($addAttachments) > 0) {
+                        $this->dispatchCommand($addAttachments);
                     }
+                    $result = '';
+                    $this->commitTransaction();
+                } catch (ValidationFailedException $e) {
+                    $this->rollBackTransaction();
+                    $result = implode(PHP_EOL, Validation::getViolations($e));
+                } catch (\Throwable $e) {
+                    $this->rollBackTransaction();
+                    $result = $e->getMessage();
                 }
-            }
 
-            try {
-                $this->dispatchCommand($createArticle);
-                if (count($addAttachments) > 0) {
-                    $this->dispatchCommand($addAttachments);
-                }
-                $result = '';
-            } catch (ValidationFailedException $e) {
-                $result = implode(
-                    PHP_EOL,
-                    array_map(
-                        function (ConstraintViolationInterface $violation) {
-                            return $violation->getPropertyPath() . ': ' . $violation->getMessage();
-                        },
-                        iterator_to_array($e->getViolations())
-                    )
-                );
-            } catch (\Throwable $e) {
-                $result = $e->getMessage();
-            }
+                $results[] = [
+                    $i + 1,
+                    $createArticle->getPublishedAt()->format('Y-m-d H:i'),
+                    Text::shorten($createArticle->getTitle(), 64),
+                    empty($tags) ? '-' : implode(', ', $tags),
+                    count($addAttachments),
+                    $result,
+                ];
+                $this->io->progressAdvance();
 
-            $results[] = [
-                $i + 1,
-                $createArticle->getPublishedAt()->format('Y-m-d H:i'),
-                Text::shorten($createArticle->getTitle(), 64),
-                empty($tags) ? '-' : implode(', ', $tags),
-                count($addAttachments),
-                $result,
-            ];
-            $this->io->progressAdvance();
+                $this->clearEntityManager();
+            }
+            $this->commitTransaction();
+        } catch (\Throwable $e) {
+            $this->rollBackTransaction();
+            throw $e;
         }
         $this->io->progressFinish();
         $this->io->table(

@@ -43,7 +43,7 @@ class FileManager
      */
     public function save(File $file): File
     {
-        return $this->repository->save($file, true);
+        return $this->repository->save($file);
     }
 
     /**
@@ -55,24 +55,39 @@ class FileManager
     }
 
     /**
-     * @param string|null  $id
-     * @param string|null  $name
      * @param \SplFileInfo $file
+     * @param string|null  $reference
+     * @param string|null  $originalName
      * @return File
      */
-    public function createFile(?string $id, ?string $name, \SplFileInfo $file): File
+    public function createFile(\SplFileInfo $file, ?string $reference = null, ?string $originalName = null): File
     {
-        $id       = $id ?? (string)Uuid::uuid4();
+        return $this->createFileWithId(Uuid::uuid4(), $file, $reference, $originalName);
+    }
+
+    /**
+     * @param string|null  $id
+     * @param \SplFileInfo $file
+     * @param string|null  $reference
+     * @param string|null  $originalName
+     * @return File
+     */
+    public function createFileWithId(
+        string $id,
+        \SplFileInfo $file,
+        ?string $reference = null,
+        ?string $originalName = null
+    ): File {
         $mimeType = self::guessMimeType($file);
-        if ($name === null) {
-            $name = $id . '.' . self::guessExtension($mimeType);
-        }
+        $name     = $id . '.' . self::guessExtension($mimeType);
 
         return File::create(
             $id,
             $name,
+            $originalName,
             $file->getSize(),
             $mimeType,
+            $reference,
             $this->ensureBinary($file)
         );
     }

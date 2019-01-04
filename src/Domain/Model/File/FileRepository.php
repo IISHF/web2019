@@ -91,16 +91,12 @@ class FileRepository extends ServiceEntityRepository
 
     /**
      * @param File $file
-     * @param bool $clear
      * @return File
      */
-    public function save(File $file, bool $clear = false): File
+    public function save(File $file): File
     {
         $this->_em->persist($file);
         $this->_em->flush();
-        if ($clear) {
-            $this->_em->clear();
-        }
         return $file;
     }
 

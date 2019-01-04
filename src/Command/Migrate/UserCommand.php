@@ -9,10 +9,10 @@
 namespace App\Command\Migrate;
 
 use App\Application\User\Command\CreateUser;
+use App\Utils\Validation;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\Exception\ValidationFailedException;
-use Symfony\Component\Validator\ConstraintViolationInterface;
 
 /**
  * Class UserCommand
@@ -43,37 +43,38 @@ class UserCommand extends BaseCommand
         $users = $this->db->fetchAll('SELECT userid, surname, name FROM sys_users');
         $this->io->progressStart(\count($users));
         $results = [];
-        foreach ($users as $i => $user) {
-            $createUser = CreateUser::create()
-                                    ->setEmail($user['userid'])
-                                    ->setFirstName($user['surname'])
-                                    ->setLastName($user['name']);
+        $this->beginTransaction();
+        try {
+            foreach ($users as $i => $user) {
+                $createUser = CreateUser::create()
+                                        ->setEmail($user['userid'])
+                                        ->setFirstName($user['surname'])
+                                        ->setLastName($user['name']);
 
-            $result = $createUser->getConfirmToken();
-            try {
-                $this->dispatchCommand($createUser);
-            } catch (ValidationFailedException $e) {
-                $result = implode(
-                    PHP_EOL,
-                    array_map(
-                        function (ConstraintViolationInterface $violation) {
-                            return $violation->getPropertyPath() . ': ' . $violation->getMessage();
-                        },
-                        iterator_to_array($e->getViolations())
-                    )
-                );
-            } catch (\Throwable $e) {
-                $result = $e->getMessage();
+                $result = $createUser->getConfirmToken();
+                try {
+                    $this->dispatchCommand($createUser);
+                } catch (ValidationFailedException $e) {
+                    $result = implode(PHP_EOL, Validation::getViolations($e));
+                } catch (\Throwable $e) {
+                    $result = $e->getMessage();
+                }
+
+                $results[] = [
+                    $i + 1,
+                    $createUser->getEmail(),
+                    $createUser->getFirstName(),
+                    $createUser->getLastName(),
+                    $result,
+                ];
+                $this->io->progressAdvance();
+
+                $this->clearEntityManager();
             }
-
-            $results[] = [
-                $i + 1,
-                $createUser->getEmail(),
-                $createUser->getFirstName(),
-                $createUser->getLastName(),
-                $result,
-            ];
-            $this->io->progressAdvance();
+            $this->commitTransaction();
+        } catch (\Throwable $e) {
+            $this->rollBackTransaction();
+            throw $e;
         }
         $this->io->progressFinish();
         $this->io->table(

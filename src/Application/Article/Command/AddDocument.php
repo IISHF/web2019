@@ -94,4 +94,12 @@ class AddDocument
         $this->title = $title;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getReference(): string
+    {
+        return self::createReference($this->getId(), 'legacy_doc');
+    }
 }

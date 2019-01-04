@@ -10,6 +10,7 @@ namespace App\Command\User;
 
 use App\Application\User\Command\CreateConfirmedUser;
 use App\Application\User\Command\CreateUser;
+use App\Utils\Validation;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -18,7 +19,6 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Messenger\Exception\ValidationFailedException;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Validator\ConstraintViolationInterface;
 
 /**
  * Class CreateCommand
@@ -131,17 +131,7 @@ class CreateCommand extends Command
         try {
             $this->commandBus->dispatch($createUser);
         } catch (ValidationFailedException $e) {
-            $io->error(
-                array_merge(
-                    ['Validation failed.'],
-                    array_map(
-                        function (ConstraintViolationInterface $violation) {
-                            return $violation->getPropertyPath() . ': ' . $violation->getMessage();
-                        },
-                        iterator_to_array($e->getViolations())
-                    )
-                )
-            );
+            $io->error(array_merge(['Validation failed.'], Validation::getViolations($e)));
             return 1;
         } catch (\Throwable $e) {
             $io->error($e->getMessage());

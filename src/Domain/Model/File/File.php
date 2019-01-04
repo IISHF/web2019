@@ -21,7 +21,7 @@ use Webmozart\Assert\Assert;
  * @ORM\Table(
  *      name="files",
  *      indexes={
- *          @ORM\Index(name="idx_file_name", columns={"name"})
+ *          @ORM\Index(name="idx_file_reference", columns={"reference"})
  *      }
  * )
  */
@@ -38,11 +38,18 @@ class File
     private $id;
 
     /**
-     * @ORM\Column(name="name", type="string", length=128)
+     * @ORM\Column(name="name", type="string", length=64, unique=true)
      *
      * @var string
      */
     private $name;
+
+    /**
+     * @ORM\Column(name="original_name", type="string", length=128, nullable=true)
+     *
+     * @var string|null
+     */
+    private $originalName;
 
     /**
      * @ORM\Column(name="size", type="integer", options={"unsigned": true})
@@ -59,6 +66,13 @@ class File
     private $mimeType;
 
     /**
+     * @ORM\Column(name="reference", type="string", length=128, nullable=true)
+     *
+     * @var string|null
+     */
+    private $reference;
+
+    /**
      * @ORM\ManyToOne(targetEntity="FileBinary", cascade={"PERSIST"})
      * @ORM\JoinColumn(name="binary_hash", referencedColumnName="hash", onDelete="CASCADE")
      *
@@ -67,37 +81,59 @@ class File
     private $binary;
 
     /**
-     * @param string     $id
-     * @param string     $name
-     * @param int        $size
-     * @param string     $mimeType
-     * @param FileBinary $binary
+     * @param string      $id
+     * @param string      $name
+     * @param string|null $originalName
+     * @param int         $size
+     * @param string      $mimeType
+     * @param string|null $reference
+     * @param FileBinary  $binary
      * @return File
      */
-    public static function create(string $id, string $name, int $size, string $mimeType, FileBinary $binary): self
-    {
-        return new self($id, $name, $size, $mimeType, $binary);
+    public static function create(
+        string $id,
+        string $name,
+        ?string $originalName,
+        int $size,
+        string $mimeType,
+        ?string $reference,
+        FileBinary $binary
+    ): self {
+        return new self($id, $name, $originalName, $size, $mimeType, $reference, $binary);
     }
 
     /**
-     * @param string     $id
-     * @param string     $name
-     * @param int        $size
-     * @param string     $mimeType
-     * @param FileBinary $binary
+     * @param string      $id
+     * @param string      $name
+     * @param string|null $originalName
+     * @param int         $size
+     * @param string      $mimeType
+     * @param string|null $reference
+     * @param FileBinary  $binary
      */
-    private function __construct(string $id, string $name, int $size, string $mimeType, FileBinary $binary)
-    {
+    private function __construct(
+        string $id,
+        string $name,
+        ?string $originalName,
+        int $size,
+        string $mimeType,
+        ?string $reference,
+        FileBinary $binary
+    ) {
         Assert::uuid($id);
-        Assert::lengthBetween($name, 1, 128);
+        Assert::lengthBetween($name, 1, 64);
+        Assert::nullOrLengthBetween($originalName, 0, 128);
         Assert::greaterThanEq($size, 0);
         Assert::lengthBetween($mimeType, 1, 64);
+        Assert::nullOrLengthBetween($reference, 0, 128);
 
-        $this->id       = $id;
-        $this->name     = $name;
-        $this->size     = $size;
-        $this->mimeType = $mimeType;
-        $this->binary   = $binary;
+        $this->id           = $id;
+        $this->name         = $name;
+        $this->originalName = $originalName;
+        $this->size         = $size;
+        $this->mimeType     = $mimeType;
+        $this->reference    = $reference;
+        $this->binary       = $binary;
         $this->initCreateTracking();
     }
 
@@ -115,6 +151,14 @@ class File
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getOriginalName(): ?string
+    {
+        return $this->originalName;
     }
 
     /**

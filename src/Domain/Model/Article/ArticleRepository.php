@@ -157,16 +157,12 @@ class ArticleRepository extends ServiceEntityRepository
 
     /**
      * @param ArticleAttachment $attachment
-     * @param bool              $clear
      * @return ArticleAttachment
      */
-    public function saveAttachment(ArticleAttachment $attachment, bool $clear = false): ArticleAttachment
+    public function saveAttachment(ArticleAttachment $attachment): ArticleAttachment
     {
         $this->_em->persist($attachment);
         $this->_em->flush();
-        if ($clear) {
-            $this->_em->clear();
-        }
         return $attachment;
     }
 

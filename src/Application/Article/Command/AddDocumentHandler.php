@@ -26,9 +26,9 @@ class AddDocumentHandler extends AttachmentCommandHandler
         $document = ArticleDocument::create(
             $command->getId(),
             $article,
-            $this->createFile($command->getId(), null, $command->getFile()),
+            $this->createFile($command->getReference(), $command->getFile()),
             $command->getTitle()
         );
-        $this->repository->saveAttachment($document, true);
+        $this->repository->saveAttachment($document);
     }
 }

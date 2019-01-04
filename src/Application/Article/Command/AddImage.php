@@ -127,4 +127,12 @@ class AddImage
         $this->caption = $caption;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getReference(): string
+    {
+        return self::createReference($this->getId(), 'legacy_img');
+    }
 }

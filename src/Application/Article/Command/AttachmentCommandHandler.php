@@ -35,13 +35,12 @@ abstract class AttachmentCommandHandler extends ArticleCommandHandler
     }
 
     /**
-     * @param string       $id
-     * @param string|null  $name
+     * @param string       $reference
      * @param \SplFileInfo $file
      * @return File
      */
-    protected function createFile(string $id, ?string $name, \SplFileInfo $file): File
+    protected function createFile(string $reference, \SplFileInfo $file): File
     {
-        return $this->fileManager->createFile($id, $name, $file);
+        return $this->fileManager->createFile($file, $reference);
     }
 }
