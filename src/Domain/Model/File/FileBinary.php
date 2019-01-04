@@ -8,7 +8,7 @@
 
 namespace App\Domain\Model\File;
 
-use App\Domain\Model\Common\ChangeTracking;
+use App\Domain\Model\Common\CreateTracking;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -22,7 +22,7 @@ use Webmozart\Assert\Assert;
  */
 class FileBinary
 {
-    use ChangeTracking;
+    use CreateTracking;
 
     /**
      * @ORM\Column(name="hash", type="string", length=40, options={"fixed": true})
@@ -60,6 +60,7 @@ class FileBinary
 
         $this->hash = $hash;
         $this->data = $data;
+        $this->initCreateTracking();
     }
 
     /**

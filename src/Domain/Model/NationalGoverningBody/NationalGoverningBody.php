@@ -9,7 +9,8 @@
 namespace App\Domain\Model\NationalGoverningBody;
 
 use App\Domain\Common\Country;
-use App\Domain\Model\Common\ChangeTracking;
+use App\Domain\Model\Common\CreateTracking;
+use App\Domain\Model\Common\UpdateTracking;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use Webmozart\Assert\Assert;
@@ -24,7 +25,7 @@ use Webmozart\Assert\Assert;
  */
 class NationalGoverningBody
 {
-    use ChangeTracking;
+    use CreateTracking, UpdateTracking;
 
     /**
      * @ORM\Column(name="id", type="guid")
@@ -153,7 +154,8 @@ class NationalGoverningBody
              ->setFacebookProfile($facebookProfile)
              ->setTwitterProfile($twitterProfile)
              ->setInstagramProfile($instagramProfile)
-             ->initChangeTracking();
+             ->initCreateTracking()
+             ->initUpdateTracking();
     }
 
     /**

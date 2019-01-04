@@ -8,8 +8,9 @@
 
 namespace App\Domain\Model\Article;
 
-use App\Domain\Model\Common\ChangeTracking;
+use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\SoftDeleteableEntity;
+use App\Domain\Model\Common\UpdateTracking;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Webmozart\Assert\Assert;
@@ -31,7 +32,7 @@ use Webmozart\Assert\Assert;
  */
 class Article
 {
-    use ChangeTracking, SoftDeleteableEntity;
+    use CreateTracking, UpdateTracking, SoftDeleteableEntity;
 
     public const STATE_DRAFT     = 0b001;
     public const STATE_REVIEW    = 0b010;
@@ -239,7 +240,8 @@ class Article
              ->setTags($tags)
              ->setAuthor($author)
              ->setPublishedAt($publishedAt)
-             ->initChangeTracking();
+             ->initCreateTracking()
+             ->initUpdateTracking();
     }
 
     /**

@@ -8,7 +8,7 @@
 
 namespace App\Domain\Model\File;
 
-use App\Domain\Model\Common\ChangeTracking;
+use App\Domain\Model\Common\CreateTracking;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -22,7 +22,7 @@ use Webmozart\Assert\Assert;
  */
 class File
 {
-    use ChangeTracking;
+    use CreateTracking;
 
     /**
      * @ORM\Column(name="id", type="guid")
@@ -92,7 +92,7 @@ class File
         $this->mimeType = $mimeType;
         $this->binary   = $binary;
         $this->setName($name)
-             ->initChangeTracking();
+             ->initCreateTracking();
     }
 
     /**

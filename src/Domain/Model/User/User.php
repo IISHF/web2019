@@ -8,7 +8,8 @@
 
 namespace App\Domain\Model\User;
 
-use App\Domain\Model\Common\ChangeTracking;
+use App\Domain\Model\Common\CreateTracking;
+use App\Domain\Model\Common\UpdateTracking;
 use App\Utils\Text;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
@@ -23,7 +24,7 @@ use Webmozart\Assert\Assert;
  */
 class User implements UserInterface
 {
-    use ChangeTracking;
+    use CreateTracking, UpdateTracking;
 
     private const NO_PASSWORD = '<<no password>>';
 
@@ -219,7 +220,8 @@ class User implements UserInterface
              ->setLastName($lastName)
              ->setEmail($email)
              ->setRoles($roles)
-             ->initChangeTracking();
+             ->initCreateTracking()
+             ->initUpdateTracking();
 
         $this->password = self::NO_PASSWORD;
     }
