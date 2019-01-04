@@ -97,7 +97,10 @@ class NationalGoverningBodyRepository extends ServiceEntityRepository
      */
     public function findAll(): iterable
     {
-        return parent::findAll();
+        return $this->createQueryBuilder('n')
+                    ->orderBy('n.country', 'ASC')
+                    ->getQuery()
+                    ->getResult();
     }
 
     /**

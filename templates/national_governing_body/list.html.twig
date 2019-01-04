@@ -13,13 +13,13 @@
         {% for ngb in ngbs %}
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">{{ ngb.name }}</h5>
-                    <h6 class="card-subtitle">{{ ngb.countryName }}</h6>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                        additional content. This content is a little bit longer.</p>
+                    <h5 class="card-title">{{ ngb.countryName }}</h5>
+                    <h6 class="card-subtitle">{{ ngb.acronym }}</h6>
+                    <p class="card-text">{{ ngb.name }}</p>
                     <a href="{{ path('app_nationalgoverningbody_getdetail', {'ngb': ngb.slug}) }}" class="card-link">Details</a>
                     {% if is_granted('NATIONAL_GOVERNING_BODY_EDIT', ngb) %}
-                        <a href="{{ path('app_nationalgoverningbody_update', {'ngb': ngb.id}) }}" class="card-link">Edit</a>
+                        <a href="{{ path('app_nationalgoverningbody_update', {'ngb': ngb.id}) }}"
+                           class="card-link">Edit</a>
                     {% endif %}
                 </div>
             </div>
