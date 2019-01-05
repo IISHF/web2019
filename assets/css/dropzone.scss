@@ -1,0 +1,57 @@
+.dropzone-template {
+    display: none;
+}
+
+.dropzone {
+    position: relative;
+
+    outline: 5px dashed transparent;
+
+    &.dz-drag-hover {
+        outline-color: $info;
+        background-color: $light;
+    }
+
+    .dz-message {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 20%;
+        margin: auto;
+        text-align: center;
+    }
+
+    .dropzone-preview {
+        div[data-dz-size] {
+            position: absolute;
+            top: map-get($spacers, 2);
+            left: map-get($spacers, 2);
+            background-color: rgba($white, 0.7);
+            padding: map-get($spacers, 2) $spacer;
+        }
+
+        button[data-dz-remove] {
+            position: absolute;
+            top: map-get($spacers, 2);
+            right: map-get($spacers, 2);
+        }
+
+        &.dz-image-preview {
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            img[data-dz-thumbnail] {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: 50% 50%;
+            }
+        }
+    }
+}
+
+

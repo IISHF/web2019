@@ -3,6 +3,32 @@
 {% block content %}
     <h1>{{ ngb.name }}</h1>
 
+    <div style="height: 300px;" data-enable-dropzone="true" class="dropzone"
+         data-dropzone-url="{{ path('app_file_upload') }}"
+         data-dropzone-template="#dropzoneTemplate"
+         data-dropzone-options="{{ {
+             'maxFiles': 1,
+             'acceptedFiles': 'image/*',
+             'autoProcessQueue': false,
+             'addRemoveLinks': false,
+             'createImageThumbnails': true,
+             'thumbnailWidth': null,
+             'thumbnailHeight': null,
+             'maxFilesize': 16000000
+         }|json_encode }}">
+        <div class="fallback">
+            <input name="file" type="file" accept="image/*"/>
+        </div>
+    </div>
+
+    <div id="dropzoneTemplate" class="dropzone-template">
+        <div class="dropzone-preview">
+            <div data-dz-size></div>
+            <button type="button" class="btn btn-danger" data-dz-remove>Remove</button>
+            <img data-dz-thumbnail/>
+        </div>
+    </div>
+
     <dl class="row">
         <dt class="col-2">ID</dt>
         <dd class="col-10">{{ ngb.id }}</dd>

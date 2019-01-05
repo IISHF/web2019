@@ -1,0 +1,7 @@
+.select2-container--bootstrap4 {
+    .select2-selection--multiple {
+        .select2-search--inline {
+            margin-top: ($s2bs-padding-base-vertical - 1);
+        }
+    }
+}
