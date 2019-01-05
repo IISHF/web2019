@@ -16,3 +16,5 @@ services:
         decorates: App\Application\File\ImagickResizer
 
     App\Application\File\ImageResizer: '@App\Application\File\ImagickResizer'
+
+    App\Infrastructure\File\FileUploader:

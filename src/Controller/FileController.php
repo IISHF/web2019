@@ -8,21 +8,19 @@
 
 namespace App\Controller;
 
-use App\Application\File\Command\AddFile;
 use App\Application\File\Command\RemoveFile;
 use App\Application\File\ImageResizer;
 use App\Domain\Model\File\File;
 use App\Domain\Model\File\FileRepository;
+use App\Infrastructure\File\FileUploader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -39,28 +37,14 @@ class FileController extends AbstractController
      * @Route("/upload", methods={"POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      *
-     * @param Request             $request
-     * @param FileRepository      $fileRepository
-     * @param MessageBusInterface $commandBus
+     * @param Request      $request
+     * @param FileUploader $fileUploader
      * @return Response
      */
-    public function upload(Request $request, FileRepository $fileRepository, MessageBusInterface $commandBus): Response
+    public function upload(Request $request, FileUploader $fileUploader): Response
     {
-        $uploadedFile = $request->files->get('file');
-
-        if (!$uploadedFile instanceof UploadedFile) {
-            throw new BadRequestHttpException();
-        }
-
-        $originalName = $uploadedFile->getClientOriginalName();
-
-        $addFile = AddFile::add($uploadedFile->move(sys_get_temp_dir()), null, $originalName);
-        $commandBus->dispatch($addFile);
-
-        $file = $fileRepository->findById($addFile->getId());
-        if (!$file) {
-            throw $this->createNotFoundException();
-        }
+        $originalName = null;
+        $file         = $fileUploader->uploadFile($request, $originalName);
 
         $url = $this->generateUrl('app_file_download', ['name' => $file->getName()]);
 
