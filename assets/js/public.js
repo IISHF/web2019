@@ -2,29 +2,26 @@ import '@webcomponents/webcomponentsjs';
 import '@ungap/custom-elements-builtin';
 import 'time-elements';
 import './web_components/app-email';
-import Trix from 'trix';
+import $ from 'jquery';
 import moment from 'moment';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Lazy} from './components/Loading';
 
 import '../css/public.scss';
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'trix/dist/trix.css';
 
-const $ = require('jquery');
 global.$ = global.jQuery = $;
+global.moment = moment;
+
 require('bootstrap');
 
 require('select2');
 $.fn.select2.defaults.set('theme', 'bootstrap4');
 
-Trix.config.attachments.preview.caption.name = false;
-Trix.config.attachments.preview.caption.size = false;
-Trix.config.attachments.file.caption.size = false;
-
-global.moment = moment;
 require('tempusdominus-bootstrap-4');
-$.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+$.fn.datetimepicker.Constructor.Default = Object.assign({}, $.fn.datetimepicker.Constructor.Default, {
     icons: {
         time: 'far fa-clock',
         date: 'far fa-calendar',
@@ -43,6 +40,23 @@ $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Const
     }
 });
 
+const Upload = React.lazy(() => import('./components/Upload.js'));
+document.querySelectorAll('[data-enable-dropzone="true"]')
+    .forEach((el) => {
+        ReactDOM.render(<Lazy><Upload/></Lazy>, el);
+    });
+
+const TrixEditor = React.lazy(() => import('./components/TrixEditor.js'));
+document.querySelectorAll('[data-enable-trix="true"]')
+    .forEach((el) => {
+        const {name, value = '', trixOptions} = el.dataset;
+        let properties = {};
+        if (trixOptions) {
+            properties = JSON.parse(trixOptions);
+        }
+        ReactDOM.render(<Lazy><TrixEditor {...properties} name={name} value={value}/></Lazy>, el);
+    });
+
 $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
 
@@ -52,10 +66,5 @@ $(document).ready(function () {
 
     $('[data-enable-datepicker="true"]').each(function () {
         $(this).datetimepicker($(this).data('datepicker-options') || {});
-    });
-
-    $('[data-enable-dropzone="true"]').each(async function () {
-        const {default: Upload} = await import('./components/Upload.js');
-        ReactDOM.render(<Upload/>, this);
     });
 });

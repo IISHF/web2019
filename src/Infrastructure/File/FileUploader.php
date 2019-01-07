@@ -83,11 +83,14 @@ class FileUploader
             $file,
             $this->urlGenerator->generate(
                 'app_file_download',
-                ['name' => $file->getName(), UrlGeneratorInterface::ABSOLUTE_PATH]
+                ['name' => $file->getName()],
+                UrlGeneratorInterface::ABSOLUTE_PATH
+
             ),
             $this->urlGenerator->generate(
                 'app_file_download',
-                ['name' => $file->getName(), UrlGeneratorInterface::ABSOLUTE_URL]
+                ['name' => $file->getName()],
+                UrlGeneratorInterface::ABSOLUTE_URL
             )
         );
     }

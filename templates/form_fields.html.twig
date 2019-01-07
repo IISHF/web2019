@@ -52,40 +52,8 @@
 {%- endblock %}
 
 {% block trix_editor_widget %}
-    {{ block('hidden_widget') }}
-    <trix-editor id="{{ id }}_editor" input="{{ id }}" class="trix-content"></trix-editor>
-    {% if enable_upload is not empty %}
-        <script>
-            var editor = document.getElementById('{{ id|e('js') }}_editor');
-
-            function uploadFileAttachment(attachment) {
-                var data = new FormData();
-                data.append('file', attachment.file);
-
-                $.ajax({
-                    type: 'post',
-                    url: '{{ enable_upload|e('js') }}',
-                    contentType: false,
-                    processData: false,
-                    data: data,
-                })
-                    .done(function (response) {
-                        if (response && response.url && response.href) {
-                            attachment.setAttributes(response);
-                        } else {
-                            attachment.remove();
-                        }
-                    })
-                    .fail(function () {
-                        attachment.remove();
-                    });
-            }
-
-            editor.addEventListener('trix-attachment-add', function (event) {
-                if (event.attachment.file) {
-                    uploadFileAttachment(event.attachment);
-                }
-            })
-        </script>
-    {% endif %}
+    {% set allowUpload =  enable_upload != null %}
+    {% set trixOptions =   {uploadUrl: enable_upload, allowUpload: allowUpload, allowDelete: allowUpload} %}
+    <div data-enable-trix="true" data-name="{{ full_name }}" data-value="{{ value|default('')|e('html_attr') }}"
+         data-trix-options="{{ trixOptions|json_encode }}"></div>
 {% endblock %}
