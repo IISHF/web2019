@@ -1,7 +1,7 @@
 import '@webcomponents/webcomponentsjs';
 import '@ungap/custom-elements-builtin';
 import 'time-elements';
-import './public/app-email';
+import './web_components/app-email';
 import Trix from 'trix';
 import moment from 'moment';
 import Dropzone from 'dropzone';
