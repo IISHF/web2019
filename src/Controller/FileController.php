@@ -12,12 +12,10 @@ use App\Application\File\Command\RemoveFile;
 use App\Application\File\ImageResizer;
 use App\Domain\Model\File\File;
 use App\Domain\Model\File\FileRepository;
-use App\Infrastructure\File\FileUploader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\HeaderUtils;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -50,32 +48,6 @@ class FileController extends AbstractController
             'file/list.html.twig',
             [
                 'files' => $fileRepository->findPaged($page, $limit),
-            ]
-        );
-    }
-
-    /**
-     * @Route("/upload", methods={"POST"})
-     * @Security("is_granted('ROLE_ADMIN')")
-     *
-     * @param Request      $request
-     * @param FileUploader $fileUploader
-     * @return Response
-     */
-    public function upload(Request $request, FileUploader $fileUploader): Response
-    {
-        $originalName = null;
-        $file         = $fileUploader->uploadFile($request, $originalName);
-
-        $url = $this->generateUrl('app_file_download', ['name' => $file->getName()]);
-
-        return JsonResponse::create(
-            [
-                'filename'    => $originalName,
-                'contentType' => $file->getMimeType(),
-                'filesize'    => $file->getSize(),
-                'url'         => $url,
-                'href'        => $url,
             ]
         );
     }

@@ -58,7 +58,7 @@ class ArticleType extends AbstractType
                     'label'         => 'Body',
                     'required'      => true,
                     'empty_data'    => '',
-                    'enable_upload' => 'app_file_upload',
+                    'enable_upload' => 'app_article_upload',
                 ]
             )
             ->add(

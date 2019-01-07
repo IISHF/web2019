@@ -15,9 +15,11 @@ use App\Domain\Model\Article\Article;
 use App\Domain\Model\Article\ArticleRepository;
 use App\Infrastructure\Article\Form\CreateArticleType;
 use App\Infrastructure\Article\Form\UpdateArticleType;
+use App\Infrastructure\File\FileUploader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -50,6 +52,29 @@ class ArticleController extends AbstractController
             'article/list.html.twig',
             [
                 'articles' => $repository->findPaged(Article::STATE_ALL, $page, $limit),
+            ]
+        );
+    }
+
+    /**
+     * @Route("/upload", methods={"POST"})
+     * @Security("is_granted('ROLE_ADMIN')")
+     *
+     * @param Request      $request
+     * @param FileUploader $fileUploader
+     * @return Response
+     */
+    public function upload(Request $request, FileUploader $fileUploader): Response
+    {
+        $file = $fileUploader->uploadFile($request, 'com.iishf.article.legacy');
+
+        return JsonResponse::create(
+            [
+                'filename'    => $file->getOriginalName(),
+                'contentType' => $file->getMimeType(),
+                'filesize'    => $file->getSize(),
+                'url'         => $file->getPath(),
+                'href'        => $file->getPath(),
             ]
         );
     }

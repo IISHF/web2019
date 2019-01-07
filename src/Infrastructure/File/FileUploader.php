@@ -9,13 +9,13 @@
 namespace App\Infrastructure\File;
 
 use App\Application\File\Command\AddFile;
-use App\Domain\Model\File\File;
 use App\Domain\Model\File\FileRepository;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\UploadedFile as HttpUploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class FileUploader
@@ -35,32 +35,43 @@ class FileUploader
     private $commandBus;
 
     /**
-     * @param FileRepository      $fileRepository
-     * @param MessageBusInterface $commandBus
+     * @var UrlGeneratorInterface
      */
-    public function __construct(FileRepository $fileRepository, MessageBusInterface $commandBus)
-    {
+    private $urlGenerator;
+
+    /**
+     * @param FileRepository        $fileRepository
+     * @param MessageBusInterface   $commandBus
+     * @param UrlGeneratorInterface $urlGenerator
+     */
+    public function __construct(
+        FileRepository $fileRepository,
+        MessageBusInterface $commandBus,
+        UrlGeneratorInterface $urlGenerator
+    ) {
         $this->fileRepository = $fileRepository;
         $this->commandBus     = $commandBus;
+        $this->urlGenerator   = $urlGenerator;
     }
 
     /**
-     * @param Request     $request
-     * @param string|null $originalName
-     * @param string      $key
-     * @return File
+     * @param Request $request
+     * @param string  $origin
+     * @param string  $key
+     * @return UploadedFile
      */
-    public function uploadFile(Request $request, ?string &$originalName = null, string $key = 'file'): File
+    public function uploadFile(Request $request, string $origin, string $key = 'file'): UploadedFile
     {
         $uploadedFile = $request->files->get($key);
-
-        if (!$uploadedFile instanceof UploadedFile) {
+        if (!$uploadedFile instanceof HttpUploadedFile) {
             throw new BadRequestHttpException();
         }
 
-        $originalName = $uploadedFile->getClientOriginalName();
-
-        $addFile = AddFile::add($uploadedFile->move(sys_get_temp_dir()), 'com.iishf.upload', $originalName);
+        $addFile = AddFile::add(
+            $uploadedFile->move(sys_get_temp_dir()),
+            $origin,
+            $uploadedFile->getClientOriginalName()
+        );
         $this->commandBus->dispatch($addFile);
 
         $file = $this->fileRepository->findById($addFile->getId());
@@ -68,6 +79,16 @@ class FileUploader
             throw new NotFoundHttpException('Not Found');
         }
 
-        return $file;
+        return new UploadedFile(
+            $file,
+            $this->urlGenerator->generate(
+                'app_file_download',
+                ['name' => $file->getName(), UrlGeneratorInterface::ABSOLUTE_PATH]
+            ),
+            $this->urlGenerator->generate(
+                'app_file_download',
+                ['name' => $file->getName(), UrlGeneratorInterface::ABSOLUTE_URL]
+            )
+        );
     }
 }

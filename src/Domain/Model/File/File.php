@@ -26,7 +26,7 @@ use Webmozart\Assert\Assert;
  *      }
  * )
  */
-class File
+class File implements FileInterface
 {
     use CreateTracking;
 
@@ -55,7 +55,7 @@ class File
     /**
      * @ORM\Column(name="size", type="integer", options={"unsigned": true})
      *
-     * @var string
+     * @var int
      */
     private $size;
 
@@ -139,7 +139,7 @@ class File
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getId(): string
     {
@@ -147,7 +147,7 @@ class File
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getName(): string
     {
@@ -155,7 +155,7 @@ class File
     }
 
     /**
-     * @return string|null
+     * {@inheritdoc}
      */
     public function getOriginalName(): ?string
     {
@@ -180,15 +180,15 @@ class File
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
-    public function getSize(): string
+    public function getSize(): int
     {
         return $this->size;
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getMimeType(): string
     {
@@ -212,7 +212,7 @@ class File
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getOrigin(): string
     {
@@ -220,7 +220,7 @@ class File
     }
 
     /**
-     * @return FileBinary
+     * {@inheritdoc}
      */
     public function getBinary(): FileBinary
     {
