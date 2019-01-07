@@ -22,7 +22,7 @@ use Webmozart\Assert\Assert;
  * @ORM\Table(
  *      name="files",
  *      indexes={
- *          @ORM\Index(name="idx_file_reference", columns={"reference"})
+ *          @ORM\Index(name="idx_file_origin", columns={"origin"})
  *      }
  * )
  */
@@ -67,11 +67,11 @@ class File
     private $mimeType;
 
     /**
-     * @ORM\Column(name="reference", type="string", length=128, nullable=true)
+     * @ORM\Column(name="origin", type="string", length=128)
      *
-     * @var string|null
+     * @var string
      */
-    private $reference;
+    private $origin;
 
     /**
      * @ORM\ManyToOne(targetEntity="FileBinary", cascade={"PERSIST"})
@@ -87,7 +87,7 @@ class File
      * @param string|null $originalName
      * @param int         $size
      * @param string      $mimeType
-     * @param string|null $reference
+     * @param string      $origin
      * @param FileBinary  $binary
      * @return File
      */
@@ -97,10 +97,10 @@ class File
         ?string $originalName,
         int $size,
         string $mimeType,
-        ?string $reference,
+        string $origin,
         FileBinary $binary
     ): self {
-        return new self($id, $name, $originalName, $size, $mimeType, $reference, $binary);
+        return new self($id, $name, $originalName, $size, $mimeType, $origin, $binary);
     }
 
     /**
@@ -109,7 +109,7 @@ class File
      * @param string|null $originalName
      * @param int         $size
      * @param string      $mimeType
-     * @param string|null $reference
+     * @param string      $origin
      * @param FileBinary  $binary
      */
     private function __construct(
@@ -118,7 +118,7 @@ class File
         ?string $originalName,
         int $size,
         string $mimeType,
-        ?string $reference,
+        ?string $origin,
         FileBinary $binary
     ) {
         Assert::uuid($id);
@@ -126,14 +126,14 @@ class File
         Assert::nullOrLengthBetween($originalName, 0, 128);
         Assert::greaterThanEq($size, 0);
         Assert::lengthBetween($mimeType, 1, 64);
-        Assert::nullOrLengthBetween($reference, 0, 128);
+        Assert::nullOrLengthBetween($origin, 0, 128);
 
         $this->id           = $id;
         $this->name         = $name;
         $this->originalName = $originalName;
         $this->size         = $size;
         $this->mimeType     = $mimeType;
-        $this->reference    = $reference;
+        $this->origin       = $origin;
         $this->binary       = $binary;
         $this->initCreateTracking();
     }
@@ -209,6 +209,14 @@ class File
     public function isPdf(): bool
     {
         return $this->getMimeType() === 'application/pdf' || $this->getMimeType() === 'application/x-pdf';
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrigin(): string
+    {
+        return $this->origin;
     }
 
     /**

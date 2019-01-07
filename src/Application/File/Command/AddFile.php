@@ -48,7 +48,7 @@ class AddFile
      *
      * @var string|null
      */
-    private $reference;
+    private $origin;
 
     /**
      * @Assert\Type("string")
@@ -60,30 +60,30 @@ class AddFile
 
     /**
      * @param \SplFileInfo $file
-     * @param string|null  $reference
+     * @param string       $origin
      * @param string|null  $originalName
      * @return self
      */
-    public static function add(\SplFileInfo $file, ?string $reference = null, ?string $originalName = null): self
+    public static function add(\SplFileInfo $file, string $origin, ?string $originalName = null): self
     {
-        return new self(self::createUuid(), $file, $reference, $originalName);
+        return new self(self::createUuid(), $file, $origin, $originalName);
     }
 
     /**
      * @param string       $id
      * @param \SplFileInfo $file
-     * @param string|null  $reference
+     * @param string       $origin
      * @param string|null  $originalName
      */
     private function __construct(
         string $id,
         \SplFileInfo $file,
-        ?string $reference = null,
+        string $origin,
         ?string $originalName = null
     ) {
         $this->id           = $id;
         $this->file         = $file;
-        $this->reference    = $reference;
+        $this->origin       = $origin;
         $this->originalName = $originalName;
     }
 
@@ -96,11 +96,11 @@ class AddFile
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getReference(): ?string
+    public function getOrigin(): string
     {
-        return $this->reference;
+        return $this->origin;
     }
 
     /**

@@ -88,8 +88,8 @@ class AddDocument
     /**
      * @return string
      */
-    public function getReference(): string
+    public function getOrigin(): string
     {
-        return self::createReference($this->getId(), 'legacy_doc');
+        return 'com.iishf.article.legacy.document';
     }
 }

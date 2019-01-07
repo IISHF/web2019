@@ -65,26 +65,26 @@ class FileManager
 
     /**
      * @param \SplFileInfo $file
-     * @param string|null  $reference
+     * @param string       $origin
      * @param string|null  $originalName
      * @return File
      */
-    public function createFile(\SplFileInfo $file, ?string $reference = null, ?string $originalName = null): File
+    public function createFile(\SplFileInfo $file, string $origin, ?string $originalName = null): File
     {
-        return $this->createFileWithId(Uuid::uuid4(), $file, $reference, $originalName);
+        return $this->createFileWithId(Uuid::uuid4(), $file, $origin, $originalName);
     }
 
     /**
      * @param string|null  $id
      * @param \SplFileInfo $file
-     * @param string|null  $reference
+     * @param string|null  $origin
      * @param string|null  $originalName
      * @return File
      */
     public function createFileWithId(
         string $id,
         \SplFileInfo $file,
-        ?string $reference = null,
+        string $origin,
         ?string $originalName = null
     ): File {
         $mimeType = self::guessMimeType($file);
@@ -96,7 +96,7 @@ class FileManager
             $originalName,
             $file->getSize(),
             $mimeType,
-            $reference,
+            $origin,
             $this->ensureBinary($file)
         );
     }

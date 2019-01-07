@@ -121,8 +121,8 @@ class AddImage
     /**
      * @return string
      */
-    public function getReference(): string
+    public function getOrigin(): string
     {
-        return self::createReference($this->getId(), 'legacy_img');
+        return 'com.iishf.article.legacy.image';
     }
 }

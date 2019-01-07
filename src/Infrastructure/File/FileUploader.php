@@ -60,7 +60,7 @@ class FileUploader
 
         $originalName = $uploadedFile->getClientOriginalName();
 
-        $addFile = AddFile::add($uploadedFile->move(sys_get_temp_dir()), null, $originalName);
+        $addFile = AddFile::add($uploadedFile->move(sys_get_temp_dir()), 'com.iishf.upload', $originalName);
         $this->commandBus->dispatch($addFile);
 
         $file = $this->fileRepository->findById($addFile->getId());

@@ -23,7 +23,7 @@ class AddFileHandler extends FileCommandHandler
         $file = $this->fileManager->createFileWithId(
             $command->getId(),
             $command->getFile(),
-            $command->getReference(),
+            $command->getOrigin(),
             $command->getOriginalName()
         );
         $this->fileManager->save($file);

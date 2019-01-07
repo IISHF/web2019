@@ -43,14 +43,4 @@ trait AttachmentProperties
     {
         return $this->file;
     }
-
-    /**
-     * @param string $id
-     * @param string $designator
-     * @return string
-     */
-    private static function createReference(string $id, string $designator): string
-    {
-        return $id . '@' . $designator;
-    }
 }

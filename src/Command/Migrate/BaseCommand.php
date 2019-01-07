@@ -76,7 +76,11 @@ abstract class BaseCommand extends Command
      */
     protected function commitTransaction(): void
     {
-        $this->em->commit();
+        if ($this->em->getConnection()->isRollbackOnly()) {
+            $this->em->rollback();
+        } else {
+            $this->em->commit();
+        }
     }
 
     /**
