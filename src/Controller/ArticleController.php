@@ -66,7 +66,7 @@ class ArticleController extends AbstractController
      */
     public function upload(Request $request, FileUploader $fileUploader): Response
     {
-        $file = $fileUploader->uploadFile($request, 'com.iishf.article.legacy');
+        $file = $fileUploader->uploadFile($request, 'com.iishf.article');
 
         return JsonResponse::create(
             [
