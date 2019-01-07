@@ -3,6 +3,7 @@ import Dropzone from 'react-dropzone';
 import {fromEvent} from 'file-selector';
 import fileSize from 'filesize';
 import classNames from 'classnames';
+import Button from 'react-bootstrap/lib/Button';
 
 export default class Upload extends React.Component {
     constructor(props) {
@@ -71,10 +72,9 @@ export default class Upload extends React.Component {
                             {file ? (
                                 <div className="dropzone-preview dz-image-preview">
                                     <div className="dz-size">{fileSize(file.size)}</div>
-                                    <button type="button" className="btn btn-danger dz-remove"
-                                            onClick={this.onRemove.bind(this)}>Remove
-                                    </button>
-                                    <img className="dz-thumbnail" src={file.preview}/>
+                                    <Button variant="danger" className="dz-remove" onClick={this.onRemove.bind(this)}>Remove
+                                    </Button>
+                                    <img className="dz-thumbnail" alt={file.name} src={file.preview}/>
                                 </div>
                             ) : (
                                 <p className="dz-message">Drop files here, or click to select files</p>
