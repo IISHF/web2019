@@ -26,6 +26,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_article_getlist') }}">Articles</a>
                 </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_file_getlist') }}">Files</a>
+                    </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_nationalgoverningbody_getlist') }}">NGBs</a>
                 </li>
