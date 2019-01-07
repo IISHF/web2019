@@ -4,7 +4,8 @@ import 'time-elements';
 import './web_components/app-email';
 import Trix from 'trix';
 import moment from 'moment';
-import Dropzone from 'dropzone';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 import '../css/public.scss';
 import '@fortawesome/fontawesome-free/css/all.css';
@@ -20,8 +21,6 @@ $.fn.select2.defaults.set('theme', 'bootstrap4');
 Trix.config.attachments.preview.caption.name = false;
 Trix.config.attachments.preview.caption.size = false;
 Trix.config.attachments.file.caption.size = false;
-
-Dropzone.autoDiscover = false;
 
 global.moment = moment;
 require('tempusdominus-bootstrap-4');
@@ -55,30 +54,8 @@ $(document).ready(function () {
         $(this).datetimepicker($(this).data('datepicker-options') || {});
     });
 
-    $('[data-enable-dropzone="true"]').each(function () {
-        const templateSelector = $(this).data('dropzone-template') || null;
-
-        const options = $.extend({
-            url: $(this).data('dropzone-url') || null,
-            init: function () {
-                this.on('error', (file, msg, xhr) => {
-                    if (!file.accepted) {
-                        this.removeFile(file);
-                    }
-                });
-                this.on('maxfilesexceeded', (file) => {
-                    this.removeFile(this.getQueuedFiles()[0]);
-                    this.emit("addedfile", file);
-                    this.emit("complete", file);
-                });
-            }
-        }, $(this).data('dropzone-options') || {});
-
-        if (templateSelector) {
-            options.previewTemplate = $(templateSelector).html();
-            $(templateSelector).remove();
-        }
-
-        $(this).dropzone(options);
+    $('[data-enable-dropzone="true"]').each(async function () {
+        const {default: Upload} = await import('./components/Upload.js');
+        ReactDOM.render(<Upload/>, this);
     });
 });

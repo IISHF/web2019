@@ -10,6 +10,14 @@
     &.dz-drag-hover {
         outline-color: $info;
         background-color: $light;
+
+        &.dz-drag-hover-ok {
+            outline-color: $success;
+        }
+
+        &.dz-drag-hover-nok {
+            outline-color: $danger;
+        }
     }
 
     .dz-message {
@@ -24,7 +32,7 @@
     }
 
     .dropzone-preview {
-        div[data-dz-size] {
+        div[data-dz-size], div.dz-size {
             position: absolute;
             top: map-get($spacers, 2);
             left: map-get($spacers, 2);
@@ -32,7 +40,7 @@
             padding: map-get($spacers, 2) $spacer;
         }
 
-        button[data-dz-remove] {
+        button[data-dz-remove], button.dz-remove {
             position: absolute;
             top: map-get($spacers, 2);
             right: map-get($spacers, 2);
@@ -44,7 +52,7 @@
             top: 0;
             left: 0;
 
-            img[data-dz-thumbnail] {
+            img[data-dz-thumbnail], img.dz-thumbnail {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
