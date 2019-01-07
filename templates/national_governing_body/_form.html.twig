@@ -1,0 +1,52 @@
+{% macro withHelp(field, help) %}
+    <div class="form-group">
+        {{- form_label(field) -}}
+        {{- form_widget(field) -}}
+        {% if help|default(null) %}
+            <small class="form-text text-muted">{{ help }}</small>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% import _self as forms %}
+
+{{ form_start(form) }}
+
+{{ form_row(form.name) }}
+{{ form_row(form.acronym) }}
+
+{% set iocCodeHelp %}
+    Please see <a href="https://en.wikipedia.org/wiki/List_of_IOC_country_codes">List of IOC country
+    codes</a> on Wikipedia.
+{% endset %}
+{{ forms.withHelp(form.iocCode, iocCodeHelp) }}
+
+{{ form_row(form.country) }}
+{{ form_row(form.email) }}
+{{ form_row(form.website) }}
+{{ form_row(form.phoneNumber) }}
+
+{% set facebookProfileHelp %}
+    Extract the Facebook profile from the profile URL <code>https://www.facebook.com/PROFILE/</code>.
+{% endset %}
+{{ forms.withHelp(form.facebookProfile, facebookProfileHelp) }}
+
+{% set twitterProfileHelp %}
+    The Twitter profile is the Twitter username (<code>@PROFILE</code> for <code>https://twitter.com/PROFILE</code>).
+{% endset %}
+{{ forms.withHelp(form.twitterProfile, twitterProfileHelp) }}
+
+{% set instagramProfileHelp %}
+    The Instagram profile is the Instagram username (<code>PROFILE</code> for
+    <code>https://www.instagram.com/PROFILE/</code>).
+{% endset %}
+{{ forms.withHelp(form.instagramProfile, instagramProfileHelp) }}
+
+{{ form_rest(form) }}
+
+<div class="btn-group" role="group">
+    <button type="submit" class="btn btn-primary">{{ submitBtnText|default('Update') }}</button>
+    <a href="{{ path('app_nationalgoverningbody_getlist') }}" class="btn btn-outline-secondary">Back</a>
+</div>
+
+{{ form_end(form) }}

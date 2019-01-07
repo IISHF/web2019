@@ -95,6 +95,9 @@ trait NationalGoverningBodyProperties
     /**
      * @Assert\Type("string")
      * @Assert\Length(max=128)
+     * @Assert\Regex"/^[a-zA-Z0-9_]{1,20}$/")
+     *
+     * @see https://github.com/twitter/twitter-text/blob/master/js/src/regexp/validMentionOrList.js
      *
      * @var string|null
      */
@@ -103,6 +106,9 @@ trait NationalGoverningBodyProperties
     /**
      * @Assert\Type("string")
      * @Assert\Length(max=128)
+     * @Assert\Regex("/^[A-Za-z0-9_](([A-Za-z0-9_]|(\.(?!\.))){0,28}[A-Za-z0-9_])?$/")
+     *
+     * @see https://blog.jstassen.com/2016/03/code-regex-for-instagram-username-and-hashtags/
      *
      * @var string|null
      */

@@ -10,19 +10,5 @@
         {{ article.title }}
     </h1>
 
-    {{ form_start(form) }}
-
-    <div class="form-group">
-        <label for="author">Author</label>
-        <input type="text" readonly class="form-control-plaintext" id="author" value="{{ article.author }}">
-    </div>
-
-    {{ form_rest(form) }}
-
-    <div class="btn-group" role="group">
-        <button type="submit" class="btn btn-primary">Update</button>
-        <a href="{{ path('app_article_getlist') }}" class="btn btn-outline-secondary">Back</a>
-    </div>
-
-    {{ form_end(form) }}
+    {% include 'article/_form.html.twig' with {form: form} %}
 {% endblock %}
