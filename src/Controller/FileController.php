@@ -34,6 +34,27 @@ use Symfony\Component\Routing\Annotation\Route;
 class FileController extends AbstractController
 {
     /**
+     * @Route("", methods={"GET"})
+     * @Security("is_granted('ROLE_ADMIN')")
+     *
+     * @param Request        $request
+     * @param FileRepository $fileRepository
+     * @return Response
+     */
+    public function getList(Request $request, FileRepository $fileRepository): Response
+    {
+        $page  = $request->query->getInt('page', 1);
+        $limit = $request->query->getInt('limit', 30);
+
+        return $this->render(
+            'file/list.html.twig',
+            [
+                'files' => $fileRepository->findPaged($page, $limit),
+            ]
+        );
+    }
+
+    /**
      * @Route("/upload", methods={"POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      *

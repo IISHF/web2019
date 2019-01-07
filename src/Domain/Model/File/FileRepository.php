@@ -11,6 +11,8 @@ namespace App\Domain\Model\File;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
 
 /**
  * Class FileRepository
@@ -87,6 +89,21 @@ class FileRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('f')
                     ->addSelect('fb')
                     ->innerJoin('f.binary', 'fb');
+    }
+
+    /**
+     * @param int $page
+     * @param int $limit
+     * @return iterable|Pagerfanta|File[]
+     */
+    public function findPaged(int $page = 1, int $limit = 30): iterable
+    {
+        $queryBuilder = $this->createQueryBuilder('f')
+                             ->orderBy('f.createdAt', 'DESC');
+        $pager        = new Pagerfanta(new DoctrineORMAdapter($queryBuilder));
+        $pager->setCurrentPage($page)
+              ->setMaxPerPage($limit);
+        return $pager;
     }
 
     /**

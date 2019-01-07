@@ -1,0 +1,49 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    <h1>Files</h1>
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Size</th>
+            <th scope="col">Created</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for file in files %}
+            <tr>
+                <th scope="row">{{ files.nbResults -  loop.index0 - files.currentPageOffsetStart + 1 }}</th>
+                <td>
+                    {{ file.name }}
+                    <div class="small">
+                        <span class="badge badge-dark">{{ file.origin }}</span>
+                    </div>
+                    {% if file.originalName %}
+                        <p class="small text-muted">{{ file.originalName }}</p>
+                    {% endif %}
+                </td>
+                <td>{{ file.mimeType }}</td>
+                <td>{{ file.size|file_size }}</td>
+                <td class="text-nowrap">
+                    <relative-time datetime="{{ file.createdAt()|date }}" data-toggle="tooltip" data-placement="top">
+                        {{ file.createdAt|date('F j, Y H:i') }}
+                    </relative-time>
+                </td>
+                <td>
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if files.haveToPaginate %}
+        <nav>
+            {{ pagerfanta(files) }}
+        </nav>
+    {% endif %}
+{% endblock %}

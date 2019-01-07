@@ -18,3 +18,5 @@ services:
     App\Application\File\ImageResizer: '@App\Application\File\ImagickResizer'
 
     App\Infrastructure\File\FileUploader:
+
+    App\Infrastructure\File\Twig\FileExtension:
