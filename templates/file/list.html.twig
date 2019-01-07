@@ -21,9 +21,10 @@
                     {{ file.name }}
                     <div class="small">
                         <span class="badge badge-dark">{{ file.origin }}</span>
+                        <span>{{ file.binary.hash|file_hash }}</span>
                     </div>
                     {% if file.originalName %}
-                        <p class="small text-muted">{{ file.originalName }}</p>
+                        <div class="small text-muted">{{ file.originalName }}</div>
                     {% endif %}
                 </td>
                 <td>{{ file.mimeType }}</td>
