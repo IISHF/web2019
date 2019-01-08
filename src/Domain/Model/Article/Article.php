@@ -34,6 +34,8 @@ class Article
 {
     use CreateTracking, UpdateTracking, SoftDeleteableEntity;
 
+    public const FILE_ORIGIN = 'com.iishf.article';
+
     public const STATE_DRAFT     = 0b001;
     public const STATE_REVIEW    = 0b010;
     public const STATE_PUBLISHED = 0b100;

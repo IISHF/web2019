@@ -11,7 +11,8 @@ namespace App\Domain\Model\File;
 use App\Domain\Common\Repository\DoctrinePaging;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\Query;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Types\Type;
 use Pagerfanta\Pagerfanta;
 
 /**
@@ -126,13 +127,7 @@ class FileRepository extends ServiceEntityRepository
         try {
             $this->_em->remove($file);
             $this->_em->flush();
-
-            $this->_em->getConnection()
-                      ->createQueryBuilder()
-                      ->delete('file_binary')
-                      ->where('hash NOT IN (SELECT binary_hash FROM files)')
-                      ->execute();
-
+            $this->cleanupFileBinaries();
             $this->_em->commit();
         } catch (\Exception $e) {
             $this->_em->rollback();
@@ -141,20 +136,56 @@ class FileRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param string[] $ids
+     */
+    public function deleteById(string ...$ids): void
+    {
+        $db = $this->_em->getConnection();
+        $db->beginTransaction();
+        try {
+            $db->executeUpdate(
+                'DELETE FROM files WHERE id IN (:ids)',
+                [
+                    'ids' => $ids,
+                ],
+                [
+                    'ids' => Connection::PARAM_STR_ARRAY,
+                ]
+            );
+            $this->cleanupFileBinaries();
+            $db->commit();
+        } catch (\Exception $e) {
+            $db->rollBack();
+            throw $e;
+        }
+    }
+
+    /**
+     */
+    public function cleanupFileBinaries(): int
+    {
+        return $this->_em->getConnection()
+                         ->executeUpdate('DELETE FROM file_binary WHERE hash NOT IN (SELECT binary_hash FROM files)');
+    }
+
+    /**
      * @param string $hash
      * @return FileBinary|null
      */
     public function findFileBinaryReference(string $hash): ?FileBinary
     {
-        $hasHash = $this->_em->createQueryBuilder()
-                             ->select('fb.hash')
-                             ->from(FileBinary::class, 'fb')
-                             ->where('fb.hash = :hash')
-                             ->setParameter('hash', $hash)
-                             ->getQuery()
-                             ->getOneOrNullResult(Query::HYDRATE_SCALAR);
+        $hasHash = $this->_em->getConnection()->fetchColumn(
+            'SELECT hash FROM file_binary WHERE hash = :hash',
+            [
+                'hash' => $hash,
+            ],
+            0,
+            [
+                'hash' => Type::STRING,
+            ]
+        );
 
-        if ($hasHash !== null && $hash === $hasHash['hash']) {
+        if ($hash === $hasHash) {
             return $this->_em->getReference(FileBinary::class, $hash);
         }
         return null;

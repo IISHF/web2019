@@ -21,6 +21,8 @@ use Webmozart\Assert\Assert;
  */
 class ArticleImage extends ArticleAttachment
 {
+    public const FILE_ORIGIN = 'com.iishf.article.legacy.image';
+
     /**
      * @ORM\Column(name="primary_image", type="boolean")
      *

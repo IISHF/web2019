@@ -21,6 +21,8 @@ use Webmozart\Assert\Assert;
  */
 class ArticleDocument extends ArticleAttachment
 {
+    public const FILE_ORIGIN = 'com.iishf.article.legacy.document';
+
     /**
      * @ORM\Column(name="title", type="string", length=255, nullable=true)
      *

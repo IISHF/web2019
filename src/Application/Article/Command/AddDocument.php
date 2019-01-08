@@ -84,12 +84,4 @@ class AddDocument
     {
         return $this->title;
     }
-
-    /**
-     * @return string
-     */
-    public function getOrigin(): string
-    {
-        return 'com.iishf.article.legacy.document';
-    }
 }

@@ -117,12 +117,4 @@ class AddImage
     {
         return $this->caption;
     }
-
-    /**
-     * @return string
-     */
-    public function getOrigin(): string
-    {
-        return 'com.iishf.article.legacy.image';
-    }
 }
