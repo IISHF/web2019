@@ -107,7 +107,7 @@ export default class TrixEditor extends React.Component {
     onRemoveAttachment(e) {
         const attachment = e.attachment;
         const {allowDelete} = this.props;
-        if (allowDelete && attachment.file) {
+        if (allowDelete && attachment.file && attachment.hasAttribute('url')) {
             api.delete(attachment.getURL())
                 .catch(() => attachment.remove());
         }
