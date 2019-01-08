@@ -61,7 +61,7 @@ class MagicLinkLoginAuthenticator extends AbstractGuardAuthenticator
      * @param string|null $redirectTo
      * @return string
      */
-    protected function getLoginUrl($redirectTo = null): string
+    private function getLoginUrl($redirectTo = null): string
     {
         return $this->urlGenerator->generate(
             'login',
