@@ -22,6 +22,6 @@ class AddAttachmentsHandler extends DelegatingMessageHandler
      */
     public function __invoke(AddAttachments $command): void
     {
-        $this->dispatch($command);
+        $this->dispatchCommands($command);
     }
 }

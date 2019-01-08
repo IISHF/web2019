@@ -25,7 +25,7 @@ trait DelegatingHandler
     /**
      * @param object[] $commands
      */
-    protected function dispatch(iterable $commands): void
+    protected function dispatchCommands(iterable $commands): void
     {
         foreach ($commands as $command) {
             $this->commandBus->dispatch($command);
