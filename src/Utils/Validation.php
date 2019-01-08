@@ -16,8 +16,14 @@ use Symfony\Component\Validator\ConstraintViolationInterface;
  *
  * @package App\Utils
  */
-class Validation
+final class Validation
 {
+    /**
+     */
+    private function __construct()
+    {
+    }
+
     /**
      * @param ValidationFailedException $e
      * @return string[]
