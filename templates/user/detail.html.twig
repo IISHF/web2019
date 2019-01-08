@@ -12,6 +12,14 @@
         <dd class="col-10">{{ user.firstName }}</dd>
         <dt class="col-2">E-mail</dt>
         <dd class="col-10">{{ user.email|safe_email }}</dd>
+        <dt class="col-2">Confirmation</dt>
+        <dd class="col-10">
+            {% if not user.confirmed %}
+                <span class="badge badge-warning">pending</span>
+            {% else %}
+                <span class="badge badge-success">confirmed</span>
+            {% endif %}
+        </dd>
         <dt class="col-2">Roles</dt>
         <dd class="col-10">
             {% for role in user.roles %}

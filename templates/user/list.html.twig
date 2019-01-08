@@ -13,6 +13,7 @@
         <thead class="thead-dark">
         <tr>
             <th scope="col">Name</th>
+            <th scope="col">Confirmation</th>
             <th scope="col">E-mail</th>
             <th scope="col">Roles</th>
             <th scope="col">Updated</th>
@@ -24,6 +25,13 @@
             <tr>
                 <td>
                     <a href="{{ path('app_user_getdetail', {'user': user.id}) }}">{{ user.name(true) }}</a>
+                </td>
+                <td>
+                    {% if not user.confirmed %}
+                        <span class="badge badge-warning">pending</span>
+                    {% else %}
+                        <span class="badge badge-success">confirmed</span>
+                    {% endif %}
                 </td>
                 <td>{{ user.email|safe_email }}</td>
                 <td>
