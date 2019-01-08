@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Trix from 'trix';
+import api from '../api';
 
 Trix.config.attachments.preview.caption.name = false;
 Trix.config.attachments.preview.caption.size = false;
@@ -88,18 +89,9 @@ export default class TrixEditor extends React.Component {
             const data = new FormData();
             data.append('file', attachment.file);
 
-            fetch(uploadUrl, {
-                method: 'POST',
-                cache: 'no-cache',
-                credentials: 'same-origin',
-                mode: 'same-origin',
-                body: data
-            })
+            api.post(uploadUrl, data)
                 .then((response) => {
-                    if (response.ok) {
-                        return response.json();
-                    }
-                    throw new Error('Response was not ok.');
+                    return response.json();
                 })
                 .then((response) => {
                     if (response.url && response.href) {
@@ -115,9 +107,9 @@ export default class TrixEditor extends React.Component {
     onRemoveAttachment(e) {
         const attachment = e.attachment;
         const {allowDelete} = this.props;
-        if (allowDelete) {
-            const attachmentUrl = attachment.getURL();
-            console.log(attachmentUrl);
+        if (allowDelete && attachment.file) {
+            api.delete(attachment.getURL())
+                .catch(() => attachment.remove());
         }
     }
 
