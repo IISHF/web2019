@@ -337,6 +337,14 @@ class User implements UserInterface
     }
 
     /**
+     * @return \DateTimeImmutable|null
+     */
+    public function getPasswordChanged(): ?\DateTimeImmutable
+    {
+        return $this->passwordChanged;
+    }
+
+    /**
      * @param string $password
      * @return $this
      */
@@ -397,6 +405,30 @@ class User implements UserInterface
     }
 
     /**
+     * @return \DateTimeImmutable|null
+     */
+    public function getLastLogin(): ?\DateTimeImmutable
+    {
+        return $this->lastLogin;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLastLoginIp(): ?string
+    {
+        return $this->lastLoginIp;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLastLoginUserAgent(): ?string
+    {
+        return $this->lastLoginUserAgent;
+    }
+
+    /**
      * @param string $logout
      * @return $this
      */
@@ -404,6 +436,14 @@ class User implements UserInterface
     {
         $this->lastLogout = new \DateTimeImmutable($logout);
         return $this;
+    }
+
+    /**
+     * @return \DateTimeImmutable|null
+     */
+    public function getLastLogout(): ?\DateTimeImmutable
+    {
+        return $this->lastLogout;
     }
 
     /**
@@ -419,6 +459,38 @@ class User implements UserInterface
         $this->lastLoginFailureUserAgent = Text::shorten($userAgent, 255);
         $this->loginFailures++;
         return $this;
+    }
+
+    /**
+     * @return \DateTimeImmutable|null
+     */
+    public function getLastLoginFailure(): ?\DateTimeImmutable
+    {
+        return $this->lastLoginFailure;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLastLoginFailureIp(): ?string
+    {
+        return $this->lastLoginFailureIp;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLastLoginFailureUserAgent(): ?string
+    {
+        return $this->lastLoginFailureUserAgent;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLoginFailures(): int
+    {
+        return $this->loginFailures;
     }
 
     /**

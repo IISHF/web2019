@@ -26,6 +26,30 @@
                 <span class="badge badge-info">{{ role }}</span>
             {% endfor %}
         </dd>
+        <dt class="col-2">Password Changed</dt>
+        <dd class="col-10">{{ user.passwordChanged ? user.passwordChanged|relative_date : '' }}</dd>
+        <dt class="col-2">Last Login</dt>
+        <dd class="col-10">
+            {% if user.lastLogin %}
+                {{ user.lastLogin|relative_date }} from <code>{{ user.lastLoginIp }}</code>
+                using <code>{{ user.lastLoginUserAgent }}</code>
+            {% endif %}
+        </dd>
+        <dt class="col-2">Last Logout</dt>
+        <dd class="col-10">
+            {% if user.lastLogout %}
+                {{ user.lastLogout|relative_date }}
+            {% endif %}
+        </dd>
+        <dt class="col-2">Login Failures</dt>
+        <dd class="col-10">{{ user.loginFailures|number_format(0) }}</dd>
+        <dt class="col-2">Last Login Failure</dt>
+        <dd class="col-10">
+            {% if user.lastLoginFailure %}
+                {{ user.lastLoginFailure|relative_date }} from <code>{{ user.lastLoginFailureIp }}</code>
+                using <code>{{ user.lastLoginFailureUserAgent }}</code>
+            {% endif %}
+        </dd>
         <dt class="col-2">Last Updated</dt>
         <dd class="col-10">{{ user.updatedAt|relative_date }}</dd>
         <dt class="col-2">Created</dt>
