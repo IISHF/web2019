@@ -55,12 +55,13 @@ class UserType extends AbstractType
                 'roles',
                 ChoiceType::class,
                 [
-                    'label'    => 'Roles',
-                    'choices'  => [
+                    'label'                     => 'Roles',
+                    'choices'                   => [
                         'Administrator' => 'ROLE_ADMIN',
                     ],
-                    'multiple' => true,
-                    'expanded' => true,
+                    'multiple'                  => true,
+                    'choice_translation_domain' => false,
+                    'enable_select2'            => true,
                 ]
             );
     }
