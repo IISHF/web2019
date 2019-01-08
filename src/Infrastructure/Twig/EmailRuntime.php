@@ -29,7 +29,7 @@ class EmailRuntime
                 strrev(
                     str_replace(['@', '.'], [' [at] ', ' [dot] '], $email)
                 ),
-                'html'
+                'html_attr'
             )
         );
     }
