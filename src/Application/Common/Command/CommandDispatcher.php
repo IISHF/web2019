@@ -11,11 +11,11 @@ namespace App\Application\Common\Command;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
- * Trait DelegatingHandler
+ * Trait CommandDispatcher
  *
  * @package App\Application\Common\Command
  */
-trait DelegatingHandler
+trait CommandDispatcher
 {
     /**
      * @var MessageBusInterface
@@ -28,7 +28,15 @@ trait DelegatingHandler
     protected function dispatchCommands(iterable $commands): void
     {
         foreach ($commands as $command) {
-            $this->commandBus->dispatch($command);
+            $this->dispatchCommand($command);
         }
+    }
+
+    /**
+     * @param object $command
+     */
+    protected function dispatchCommand(object $command): void
+    {
+        $this->commandBus->dispatch($command);
     }
 }

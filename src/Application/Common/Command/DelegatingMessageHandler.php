@@ -18,7 +18,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
  */
 class DelegatingMessageHandler implements MessageHandlerInterface
 {
-    use DelegatingHandler;
+    use CommandDispatcher;
 
     /**
      * @param MessageBusInterface $commandBus

@@ -8,6 +8,7 @@
 
 namespace App\Application\User\Command;
 
+use App\Application\Common\Command\EventEmitter;
 use App\Domain\Model\User\UserRepository;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -18,10 +19,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
  */
 class UnconfirmUserHandler extends UserCommandHandler
 {
-    /**
-     * @var MessageBusInterface
-     */
-    private $eventBus;
+    use EventEmitter;
 
     /**
      * @param UserRepository      $repository
@@ -41,6 +39,6 @@ class UnconfirmUserHandler extends UserCommandHandler
         $user = $this->getUserByEmail($command->getEmail());
         $user->markUserAsUnconfirmed($command->getConfirmToken());
         $this->repository->save($user);
-        $this->eventBus->dispatch(UserUnconfirmed::unconfirmed($user, $command->getConfirmToken()));
+        $this->emitEvent(UserUnconfirmed::unconfirmed($user, $command->getConfirmToken()));
     }
 }

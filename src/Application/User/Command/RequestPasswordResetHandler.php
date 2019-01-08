@@ -8,6 +8,7 @@
 
 namespace App\Application\User\Command;
 
+use App\Application\Common\Command\EventEmitter;
 use App\Domain\Model\User\UserRepository;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -18,10 +19,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
  */
 class RequestPasswordResetHandler extends UserCommandHandler
 {
-    /**
-     * @var MessageBusInterface
-     */
-    private $eventBus;
+    use EventEmitter;
 
     /**
      * @param UserRepository      $repository
@@ -44,6 +42,6 @@ class RequestPasswordResetHandler extends UserCommandHandler
         }
         $user->resetPassword($command->getResetPasswordToken());
         $this->repository->save($user);
-        $this->eventBus->dispatch(PasswordResetRequested::requested($user, $command->getResetPasswordToken()));
+        $this->emitEvent(PasswordResetRequested::requested($user, $command->getResetPasswordToken()));
     }
 }
