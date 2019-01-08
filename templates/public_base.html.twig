@@ -34,6 +34,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_nationalgoverningbody_getlist') }}">NGBs</a>
                 </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_user_getlist') }}">Users</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </nav>

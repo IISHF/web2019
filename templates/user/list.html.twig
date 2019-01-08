@@ -1,0 +1,57 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    <h1>Articles</h1>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="btn-group" role="group">
+            <a href="{{ path('app_user_create') }}" class="btn btn-primary">Create</a>
+        </div>
+    {% endif %}
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Roles</th>
+            <th scope="col">Updated</th>
+            <th scope="col">&#160;</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>
+                    <a href="{{ path('app_user_getdetail', {'user': user.id}) }}">{{ user.name(true) }}</a>
+                </td>
+                <td>{{ user.email }}</td>
+                <td>
+                    {% for role in user.roles %}
+                        <span class="badge badge-info">{{ role }}</span>
+                    {% endfor %}
+                </td>
+                <td class="text-nowrap">
+                    <relative-time datetime="{{ user.updatedAt|date }}" data-toggle="tooltip" data-placement="top">
+                        {{ user.updatedAt|date('F j, Y H:i') }}
+                    </relative-time>
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
+                        {% if is_granted('USER_EDIT', user) %}
+                            <a href="{{ path('app_user_update', {'user': user.id}) }}"
+                               class="btn btn-primary">Edit</a>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if users.haveToPaginate %}
+        <nav>
+            {{ pagerfanta(user) }}
+        </nav>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    <h1>{{ user.name }}</h1>
+
+    <dl class="row">
+        <dt class="col-2">ID</dt>
+        <dd class="col-10">{{ user.id }}</dd>
+        <dt class="col-2">Last Name</dt>
+        <dd class="col-10">{{ user.lastName }}</dd>
+        <dt class="col-2">First Name</dt>
+        <dd class="col-10">{{ user.firstName }}</dd>
+        <dt class="col-2">E-mail</dt>
+        <dd class="col-10">{{ user.email }}</dd>
+        <dt class="col-2">Roles</dt>
+        <dd class="col-10">
+            {% for role in user.roles %}
+                <span class="badge badge-info">{{ role }}</span>
+            {% endfor %}
+        </dd>
+        <dt class="col-2">Last Updated</dt>
+        <dd class="col-10">
+            <relative-time datetime="{{ user.updatedAt|date }}" data-toggle="tooltip" data-placement="top">
+                {{ user.updatedAt|date('F j, Y H:i') }}
+            </relative-time>
+        </dd>
+        <dt class="col-2">Created</dt>
+        <dd class="col-10">
+            <relative-time datetime="{{ user.createdAt|date }}" data-toggle="tooltip" data-placement="top">
+                {{ user.createdAt|date('F j, Y H:i') }}
+            </relative-time>
+        </dd>
+    </dl>
+
+    <div class="btn-group" role="group">
+        {% if is_granted('USER_EDIT', user) %}
+            <a href="{{ path('app_user_update', {'user': user.id}) }}" class="btn btn-primary">Edit</a>
+        {% endif %}
+        <a href="{{ path('app_user_getlist') }}" class="btn btn-outline-secondary">Back</a>
+    </div>
+{% endblock %}
