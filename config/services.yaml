@@ -44,3 +44,9 @@ services:
     App\Infrastructure\Form\Select2Extension:
 
     App\Infrastructure\Form\TrixEditorType:
+
+    App\Infrastructure\Twig\DateExtension:
+    App\Infrastructure\Twig\EmailExtension:
+    App\Infrastructure\Twig\EmailRuntime:
+        tags:
+            - twig.runtime

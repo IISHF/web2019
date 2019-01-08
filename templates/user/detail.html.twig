@@ -11,7 +11,7 @@
         <dt class="col-2">First Name</dt>
         <dd class="col-10">{{ user.firstName }}</dd>
         <dt class="col-2">E-mail</dt>
-        <dd class="col-10">{{ user.email }}</dd>
+        <dd class="col-10">{{ user.email|safe_email }}</dd>
         <dt class="col-2">Roles</dt>
         <dd class="col-10">
             {% for role in user.roles %}
@@ -19,17 +19,9 @@
             {% endfor %}
         </dd>
         <dt class="col-2">Last Updated</dt>
-        <dd class="col-10">
-            <relative-time datetime="{{ user.updatedAt|date }}" data-toggle="tooltip" data-placement="top">
-                {{ user.updatedAt|date('F j, Y H:i') }}
-            </relative-time>
-        </dd>
+        <dd class="col-10">{{ user.updatedAt|relative_date }}</dd>
         <dt class="col-2">Created</dt>
-        <dd class="col-10">
-            <relative-time datetime="{{ user.createdAt|date }}" data-toggle="tooltip" data-placement="top">
-                {{ user.createdAt|date('F j, Y H:i') }}
-            </relative-time>
-        </dd>
+        <dd class="col-10">{{ user.createdAt|relative_date }}</dd>
     </dl>
 
     <div class="btn-group" role="group">

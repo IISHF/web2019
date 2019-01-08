@@ -29,11 +29,7 @@
                 </td>
                 <td>{{ file.mimeType }}</td>
                 <td>{{ file.size|file_size }}</td>
-                <td class="text-nowrap">
-                    <relative-time datetime="{{ file.createdAt()|date }}" data-toggle="tooltip" data-placement="top">
-                        {{ file.createdAt|date('F j, Y H:i') }}
-                    </relative-time>
-                </td>
+                <td class="text-nowrap">{{ file.createdAt|relative_date }}</td>
                 <td>
 
                 </td>

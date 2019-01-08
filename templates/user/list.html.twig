@@ -25,17 +25,13 @@
                 <td>
                     <a href="{{ path('app_user_getdetail', {'user': user.id}) }}">{{ user.name(true) }}</a>
                 </td>
-                <td>{{ user.email }}</td>
+                <td>{{ user.email|safe_email }}</td>
                 <td>
                     {% for role in user.roles %}
                         <span class="badge badge-info">{{ role }}</span>
                     {% endfor %}
                 </td>
-                <td class="text-nowrap">
-                    <relative-time datetime="{{ user.updatedAt|date }}" data-toggle="tooltip" data-placement="top">
-                        {{ user.updatedAt|date('F j, Y H:i') }}
-                    </relative-time>
-                </td>
+                <td class="text-nowrap">{{ user.updatedAt|relative_date }}</td>
                 <td>
                     <div class="btn-group btn-group-sm" role="group">
                         {% if is_granted('USER_EDIT', user) %}

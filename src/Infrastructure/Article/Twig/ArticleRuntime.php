@@ -9,6 +9,7 @@
 namespace App\Infrastructure\Article\Twig;
 
 use App\Domain\Model\User\UserRepository;
+use App\Infrastructure\Twig\EmailRuntime;
 use App\Utils\Text;
 
 /**
@@ -46,11 +47,18 @@ class ArticleRuntime
     private $userRepository;
 
     /**
-     * @param UserRepository $userRepository
+     * @var EmailRuntime
      */
-    public function __construct(UserRepository $userRepository)
+    private $emailRuntime;
+
+    /**
+     * @param UserRepository $userRepository
+     * @param EmailRuntime   $emailRuntime
+     */
+    public function __construct(UserRepository $userRepository, EmailRuntime $emailRuntime)
     {
         $this->userRepository = $userRepository;
+        $this->emailRuntime   = $emailRuntime;
     }
 
     /**
@@ -60,32 +68,13 @@ class ArticleRuntime
      */
     public function renderArticleAuthor(\Twig_Environment $env, string $author): string
     {
-        $renderedAuthor = $this->createEmailTag($env, $author);
+        $renderedAuthor = $this->emailRuntime->formatSafeEmail($env, $author);
         if ($user = $this->userRepository->findByEmail($author)) {
             $renderedAuthor = \twig_escape_filter($env, $user->getName(), 'html')
                 . ' <small>' . $renderedAuthor . '</small>';
         }
 
         return $renderedAuthor;
-    }
-
-    /**
-     * @param \Twig_Environment $env
-     * @param string            $email
-     * @return string
-     */
-    private function createEmailTag(\Twig_Environment $env, string $email): string
-    {
-        return sprintf(
-            '<a email="%s" is="app-email">email</a>',
-            \twig_escape_filter(
-                $env,
-                strrev(
-                    str_replace(['@', '.'], [' [at] ', ' [dot] '], $email)
-                ),
-                'html'
-            )
-        );
     }
 
     /**
@@ -130,7 +119,7 @@ class ArticleRuntime
         $body = preg_replace_callback(
             '/\x1E([a-z0-9+\/=]+)\x1E/i',
             function (array $matches) use ($env): string {
-                return $this->createEmailTag($env, base64_decode($matches[1]));
+                return $this->emailRuntime->formatSafeEmail($env, base64_decode($matches[1]));
             },
             $body
         );

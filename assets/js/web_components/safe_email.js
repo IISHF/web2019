@@ -28,7 +28,7 @@ class AppEmailElement extends HTMLAnchorElement {
     }
 }
 
-if (!window.customElements.get('app-email')) {
+if (!window.customElements.get('safe-email')) {
     window.AppEmailElement = AppEmailElement;
-    window.customElements.define('app-email', AppEmailElement, {extends: "a"});
+    window.customElements.define('safe-email', AppEmailElement, {extends: "a"});
 }
