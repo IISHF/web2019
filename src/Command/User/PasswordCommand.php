@@ -55,7 +55,7 @@ class PasswordCommand extends Command
             ->setName('app:user:password')
             ->setDescription('Confirms a user.')
             ->setHelp('This command allows you to confirm a user.')
-            ->addArgument('email', InputArgument::REQUIRED, 'Email Address')
+            ->addArgument('email', InputArgument::REQUIRED, 'E-mail')
             ->addOption('password', 'p', InputOption::VALUE_REQUIRED, 'Password');
     }
 
@@ -81,7 +81,7 @@ class PasswordCommand extends Command
             [
                 ['First Name', $user->getFirstName()],
                 ['Last Name', $user->getLastName()],
-                ['Email Address', $user->getEmail()],
+                ['E-mail', $user->getEmail()],
                 ['Roles', !empty($user->getRoles()) ? implode(', ', $user->getRoles()) : 'none'],
             ]
         );

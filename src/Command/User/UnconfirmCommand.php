@@ -54,7 +54,7 @@ class UnconfirmCommand extends Command
             ->setName('app:user:unconfirm')
             ->setDescription('Marks a user as unconfirmed.')
             ->setHelp('This command allows you to mark a user as unconfirmed.')
-            ->addArgument('email', InputArgument::REQUIRED, 'Email Address');
+            ->addArgument('email', InputArgument::REQUIRED, 'E-mail');
     }
 
     /**
@@ -83,7 +83,7 @@ class UnconfirmCommand extends Command
             [
                 ['First Name', $user->getFirstName()],
                 ['Last Name', $user->getLastName()],
-                ['Email Address', $user->getEmail()],
+                ['E-mail', $user->getEmail()],
                 ['Roles', !empty($user->getRoles()) ? implode(', ', $user->getRoles()) : 'none'],
             ]
         );

@@ -65,7 +65,7 @@ class NationalGoverningBodyType extends AbstractType
                 'email',
                 EmailType::class,
                 [
-                    'label'    => 'Email',
+                    'label'    => 'E-mail',
                     'required' => true,
                 ]
             )

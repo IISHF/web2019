@@ -85,7 +85,7 @@ class ConfirmCommand extends Command
             [
                 ['First Name', $user->getFirstName()],
                 ['Last Name', $user->getLastName()],
-                ['Email Address', $user->getEmail()],
+                ['E-mail', $user->getEmail()],
                 ['Roles', !empty($user->getRoles()) ? implode(', ', $user->getRoles()) : 'none'],
             ]
         );

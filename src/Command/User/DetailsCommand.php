@@ -45,7 +45,7 @@ class DetailsCommand extends Command
             ->setName('app:user:details')
             ->setDescription('Shows user details.')
             ->setHelp('This command allows you to show user details.')
-            ->addArgument('email', InputArgument::REQUIRED, 'Email Address');
+            ->addArgument('email', InputArgument::REQUIRED, 'E-mail');
     }
 
     /**
@@ -70,7 +70,7 @@ class DetailsCommand extends Command
             [
                 ['First Name', $user->getFirstName()],
                 ['Last Name', $user->getLastName()],
-                ['Email Address', $user->getEmail()],
+                ['E-mail', $user->getEmail()],
                 ['Roles', !empty($user->getRoles()) ? implode(', ', $user->getRoles()) : 'none'],
                 ['Confirmed', $user->isConfirmed() ? 'yes' : 'no'],
             ]

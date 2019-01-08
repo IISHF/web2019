@@ -59,7 +59,7 @@
              role="tabpanel" aria-labelledby="magic-tab">
             <form action="{{ path('login_magic') }}" method="post">
                 <div class="form-group row">
-                    <label for="email" class="col-form-label col-sm-2">Email</label>
+                    <label for="email" class="col-form-label col-sm-2">E-mail</label>
                     <div class="col-sm-10">
                         <input type="email" id="email" name="email" required
                                {% if not last_username %}autofocus{% endif %} value="{{ last_username }}"

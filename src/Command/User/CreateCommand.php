@@ -52,7 +52,7 @@ class CreateCommand extends Command
             ->setHelp('This command allows you to create a new user.')
             ->addOption('first-name', 'fn', InputOption::VALUE_REQUIRED, 'First Name')
             ->addOption('last-name', 'ln', InputOption::VALUE_REQUIRED, 'Last Name')
-            ->addOption('email', null, InputOption::VALUE_REQUIRED, 'Email Address')
+            ->addOption('email', null, InputOption::VALUE_REQUIRED, 'E-mail')
             ->addOption('role', 'r', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Role(s)')
             ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'Password', false);
     }
@@ -76,7 +76,7 @@ class CreateCommand extends Command
         }
         $email = $input->getOption('email');
         if (!$email) {
-            $email = $io->ask('Email Address', 'first.last@test.com');
+            $email = $io->ask('E-mail', 'first.last@test.com');
         }
         $roles = $input->getOption('role');
         if (empty($roles)) {
@@ -105,7 +105,7 @@ class CreateCommand extends Command
             [
                 ['First Name', $firstName],
                 ['Last Name', $lastName],
-                ['Email Address', $email],
+                ['E-mail', $email],
                 ['Roles', !empty($roles) ? implode(', ', $roles) : 'none'],
                 ['Password', $withPassword ? 'yes' : 'no'],
             ]

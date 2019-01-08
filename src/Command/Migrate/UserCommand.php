@@ -78,7 +78,7 @@ class UserCommand extends BaseCommand
         }
         $this->io->progressFinish();
         $this->io->table(
-            ['#', 'Email', 'First Name', 'Last Name', 'Confirmation Token'],
+            ['#', 'E-mail', 'First Name', 'Last Name', 'Confirmation Token'],
             $results
         );
 

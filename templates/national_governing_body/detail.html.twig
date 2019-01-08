@@ -20,12 +20,21 @@
         <dd class="col-10">{{ ngb.country }}</dd>
         <dt class="col-2">Country</dt>
         <dd class="col-10">{{ ngb.countryName }}</dd>
-        <dt class="col-2">Email</dt>
+        <dt class="col-2">E-mail</dt>
         <dd class="col-10">{{ ngb.email|safe_email }}</dd>
         <dt class="col-2">Website</dt>
-        <dd class="col-10">{{ ngb.website }}</dd>
+        <dd class="col-10">
+            {% if ngb.website %}
+                <a href="{{ ngb.website }}" target="_blank" rel="noopener"
+                   referrerpolicy="origin-when-cross-origin">{{ ngb.website }}</a>
+            {% endif %}
+        </dd>
         <dt class="col-2">Telephone</dt>
-        <dd class="col-10">{{ ngb.phoneNumber ? ngb.phoneNumber|phone_number_format() : '' }}</dd>
+        <dd class="col-10">
+            {% if ngb.phoneNumber %}
+                <a href="{{ ngb.phoneNumber|phone_number_format('RFC3966') }}">{{ ngb.phoneNumber|phone_number_format() }}</a>
+            {% endif %}
+        </dd>
         <dt class="col-2">Facebook Profile</dt>
         <dd class="col-10">{{ ngb.facebookProfile }}</dd>
         <dt class="col-2">Twitter Profile</dt>
