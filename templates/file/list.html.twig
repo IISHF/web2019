@@ -18,7 +18,11 @@
             <tr>
                 <th scope="row">{{ files.nbResults -  loop.index0 - files.currentPageOffsetStart + 1 }}</th>
                 <td>
-                    {{ file.name }}
+                    <a href="{{ path('app_file_download', {'name': file.name, 'download': 1}) }}" target="_blank"
+                       title="Download {{ file.clientName|e('html_attr') }}" data-toggle="tooltip" data-placement="top">
+                        <i class="fas fa-download"></i>
+                    </a>
+                    <a href="{{ path('app_file_download', {'name': file.name}) }}" target="_blank">{{ file.name }}</a>
                     <div class="small">
                         <span class="badge badge-dark">{{ file.origin }}</span>
                         <span>{{ file.binary.hash|file_hash }}</span>
