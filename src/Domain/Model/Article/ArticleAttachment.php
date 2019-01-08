@@ -35,7 +35,7 @@ abstract class ArticleAttachment
 
     /**
      * @ORM\ManyToOne(targetEntity="Article")
-     * @ORM\JoinColumn(name="article_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="article_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      *
      * @var Article
      */
@@ -43,7 +43,7 @@ abstract class ArticleAttachment
 
     /**
      * @ORM\OneToOne(targetEntity="\App\Domain\Model\File\File")
-     * @ORM\JoinColumn(name="file_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="file_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      *
      * @var File
      */
