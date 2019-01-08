@@ -1,0 +1,84 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: stefan
+ * Date: 2019-01-08
+ * Time: 16:49
+ */
+
+namespace App\Application\Document\Command;
+
+use App\Application\File\FileManager;
+use App\Domain\Common\Urlizer;
+use App\Domain\Model\Document\Document;
+use App\Domain\Model\Document\DocumentRepository;
+use App\Domain\Model\File\File;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+
+/**
+ * Class DocumentCommandHandler
+ *
+ * @package App\Application\Document\Command
+ */
+abstract class DocumentCommandHandler implements MessageHandlerInterface
+{
+    /**
+     * @var DocumentRepository
+     */
+    protected $repository;
+
+    /**
+     * @var FileManager
+     */
+    private $fileManager;
+
+    /**
+     * @param DocumentRepository $repository
+     * @param FileManager        $fileManager
+     */
+    public function __construct(DocumentRepository $repository, FileManager $fileManager)
+    {
+        $this->repository  = $repository;
+        $this->fileManager = $fileManager;
+    }
+
+    /**
+     * @param string $id
+     * @return Document
+     */
+    protected function getDocument(string $id): Document
+    {
+        $document = $this->repository->findById($id);
+        if (!$document) {
+            throw new \OutOfBoundsException('No document found for id ' . $id);
+        }
+        return $document;
+    }
+
+    /**
+     * @param string      $title
+     * @param string      $version
+     * @param string|null $id
+     * @return string
+     */
+    protected function findSuitableSlug(string $title, string $version, ?string $id): string
+    {
+        return Urlizer::urlizeUnique(
+            $title . '-' . $version,
+            function (string $slug) use ($id) {
+                return ($tryVersion = $this->repository->findVersionBySlug($slug)) !== null
+                    && $tryVersion->getId() !== $id;
+            }
+        );
+    }
+
+    /**
+     * @param string       $origin
+     * @param \SplFileInfo $file
+     * @return File
+     */
+    protected function createFile(string $origin, \SplFileInfo $file): File
+    {
+        return $this->fileManager->createFile($file, $origin);
+    }
+}

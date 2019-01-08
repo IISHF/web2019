@@ -1,0 +1,15 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    App\Domain\Model\Document\DocumentRepository:
+
+    App\Application\Document\Command\CreateDocumentHandler:
+    App\Application\Document\Command\UpdateDocumentHandler:
+    App\Application\Document\Command\DeleteDocumentHandler:
+
+    App\Application\Document\Command\CreateDocumentVersionHandler:
+    App\Application\Document\Command\UpdateDocumentVersionHandler:
+    App\Application\Document\Command\DeleteDocumentVersionHandler:
