@@ -36,7 +36,7 @@
                         <p class="small text-muted">{{ article.subtitle }}</p>
                     {% endif %}
                 </td>
-                <td class="text-nowrap">{{ article.publishedAt|relative_date }}</td>
+                <td class="text-nowrap">{{ article.publishedAt|relative_time }}</td>
                 <td>
                     {% set transitions = workflow_transitions(article) %}
                     {% set modalIds = {} %}
