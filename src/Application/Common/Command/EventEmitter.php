@@ -8,8 +8,6 @@
 
 namespace App\Application\Common\Command;
 
-use Symfony\Component\Messenger\MessageBusInterface;
-
 /**
  * Trait EventEmitter
  *
@@ -18,9 +16,9 @@ use Symfony\Component\Messenger\MessageBusInterface;
 trait EventEmitter
 {
     /**
-     * @var MessageBusInterface
+     * @var RecordsEvents
      */
-    private $eventBus;
+    private $eventRecorder;
 
     /**
      * @param object[] $events
@@ -37,6 +35,6 @@ trait EventEmitter
      */
     protected function emitEvent(object $event): void
     {
-        $this->eventBus->dispatch($event);
+        $this->eventRecorder->recordEvent($event);
     }
 }

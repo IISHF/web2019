@@ -9,8 +9,8 @@
 namespace App\Application\User\Command;
 
 use App\Application\Common\Command\EventEmitter;
+use App\Application\Common\Command\RecordsEvents;
 use App\Domain\Model\User\UserRepository;
-use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
  * Class UnconfirmUserHandler
@@ -22,13 +22,13 @@ class UnconfirmUserHandler extends UserCommandHandler
     use EventEmitter;
 
     /**
-     * @param UserRepository      $repository
-     * @param MessageBusInterface $eventBus
+     * @param UserRepository $repository
+     * @param RecordsEvents  $eventRecorder
      */
-    public function __construct(UserRepository $repository, MessageBusInterface $eventBus)
+    public function __construct(UserRepository $repository, RecordsEvents $eventRecorder)
     {
         parent::__construct($repository);
-        $this->eventBus = $eventBus;
+        $this->eventRecorder = $eventRecorder;
     }
 
     /**
