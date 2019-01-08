@@ -25,7 +25,7 @@ trait UserProperties
      *
      * @var string
      */
-    protected $firstName = '';
+    private $firstName = '';
 
     /**
      * @Assert\Type("string")
@@ -34,7 +34,7 @@ trait UserProperties
      *
      * @var string
      */
-    protected $lastName = '';
+    private $lastName = '';
 
     /**
      * @Assert\Type("string")
@@ -45,7 +45,7 @@ trait UserProperties
      *
      * @var string
      */
-    protected $email = '';
+    private $email = '';
 
     /**
      * @Assert\Type("array")
@@ -56,7 +56,7 @@ trait UserProperties
      *
      * @var string[]
      */
-    protected $roles = [];
+    private $roles = [];
 
     /**
      * @return string
