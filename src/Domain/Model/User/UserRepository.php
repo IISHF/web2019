@@ -11,6 +11,8 @@ namespace App\Domain\Model\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
 
 /**
  * Class UserRepository
@@ -80,6 +82,22 @@ class UserRepository extends ServiceEntityRepository
             return $user;
         }
         return null;
+    }
+
+    /**
+     * @param int $page
+     * @param int $limit
+     * @return iterable|Pagerfanta|User[]
+     */
+    public function findPaged(int $page = 1, int $limit = 30): iterable
+    {
+        $queryBuilder = $this->createQueryBuilder('u')
+                             ->orderBy('u.lastName', 'ASC')
+                             ->addOrderBy('u.firstName', 'ASC');
+        $pager        = new Pagerfanta(new DoctrineORMAdapter($queryBuilder));
+        $pager->setCurrentPage($page)
+              ->setMaxPerPage($limit);
+        return $pager;
     }
 
     /**
