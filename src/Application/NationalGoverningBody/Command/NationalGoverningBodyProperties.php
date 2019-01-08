@@ -27,7 +27,7 @@ trait NationalGoverningBodyProperties
      *
      * @var string
      */
-    protected $name = '';
+    private $name = '';
 
     /**
      * @Assert\Type("string")
@@ -36,7 +36,7 @@ trait NationalGoverningBodyProperties
      *
      * @var string
      */
-    protected $acronym = '';
+    private $acronym = '';
 
     /**
      * @Assert\Type("string")
@@ -45,7 +45,7 @@ trait NationalGoverningBodyProperties
      *
      * @var string
      */
-    protected $iocCode = '';
+    private $iocCode = '';
 
     /**
      * @Assert\Type("string")
@@ -54,7 +54,7 @@ trait NationalGoverningBodyProperties
      *
      * @var string
      */
-    protected $country = '';
+    private $country = '';
 
     /**
      * @Assert\Type("string")
@@ -64,7 +64,7 @@ trait NationalGoverningBodyProperties
      *
      * @var string
      */
-    protected $email = '';
+    private $email = '';
 
     /**
      * @Assert\Type("string")
@@ -73,7 +73,7 @@ trait NationalGoverningBodyProperties
      *
      * @var string|null
      */
-    protected $website;
+    private $website;
 
     /**
      * @Assert\Type("libphonenumber\PhoneNumber")
@@ -82,7 +82,7 @@ trait NationalGoverningBodyProperties
      *
      * @var PhoneNumber|null
      */
-    protected $phoneNumber;
+    private $phoneNumber;
 
     /**
      * @Assert\Type("string")
@@ -90,7 +90,7 @@ trait NationalGoverningBodyProperties
      *
      * @var string|null
      */
-    protected $facebookProfile;
+    private $facebookProfile;
 
     /**
      * @Assert\Type("string")
@@ -101,7 +101,7 @@ trait NationalGoverningBodyProperties
      *
      * @var string|null
      */
-    protected $twitterProfile;
+    private $twitterProfile;
 
     /**
      * @Assert\Type("string")
@@ -112,7 +112,7 @@ trait NationalGoverningBodyProperties
      *
      * @var string|null
      */
-    protected $instagramProfile;
+    private $instagramProfile;
 
     /**
      * @return string

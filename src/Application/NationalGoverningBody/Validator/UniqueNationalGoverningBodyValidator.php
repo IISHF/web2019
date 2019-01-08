@@ -26,7 +26,7 @@ class UniqueNationalGoverningBodyValidator extends ConstraintValidator
     /**
      * @var NationalGoverningBodyRepository
      */
-    protected $repository;
+    private $repository;
 
     /**
      * @param NationalGoverningBodyRepository $repository
