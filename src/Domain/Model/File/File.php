@@ -89,30 +89,8 @@ class File implements FileInterface
      * @param string      $mimeType
      * @param string      $origin
      * @param FileBinary  $binary
-     * @return File
      */
-    public static function create(
-        string $id,
-        string $name,
-        ?string $originalName,
-        int $size,
-        string $mimeType,
-        string $origin,
-        FileBinary $binary
-    ): self {
-        return new self($id, $name, $originalName, $size, $mimeType, $origin, $binary);
-    }
-
-    /**
-     * @param string      $id
-     * @param string      $name
-     * @param string|null $originalName
-     * @param int         $size
-     * @param string      $mimeType
-     * @param string      $origin
-     * @param FileBinary  $binary
-     */
-    private function __construct(
+    public function __construct(
         string $id,
         string $name,
         ?string $originalName,

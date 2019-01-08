@@ -90,7 +90,7 @@ class FileManager
         $mimeType = self::guessMimeType($file);
         $name     = $id . '.' . self::guessExtension($mimeType);
 
-        return File::create(
+        return new File(
             $id,
             $name,
             $originalName,
