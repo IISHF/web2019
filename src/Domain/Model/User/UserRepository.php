@@ -8,10 +8,10 @@
 
 namespace App\Domain\Model\User;
 
+use App\Domain\Common\Repository\DoctrinePaging;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 
 /**
@@ -21,6 +21,8 @@ use Pagerfanta\Pagerfanta;
  */
 class UserRepository extends ServiceEntityRepository
 {
+    use DoctrinePaging;
+
     /**
      * @param ManagerRegistry $managerRegistry
      */
@@ -94,10 +96,7 @@ class UserRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('u')
                              ->orderBy('u.lastName', 'ASC')
                              ->addOrderBy('u.firstName', 'ASC');
-        $pager        = new Pagerfanta(new DoctrineORMAdapter($queryBuilder));
-        $pager->setCurrentPage($page)
-              ->setMaxPerPage($limit);
-        return $pager;
+        return $this->createPager($queryBuilder, $page, $limit);
     }
 
     /**

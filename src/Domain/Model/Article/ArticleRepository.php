@@ -8,10 +8,10 @@
 
 namespace App\Domain\Model\Article;
 
+use App\Domain\Common\Repository\DoctrinePaging;
 use App\Domain\Model\File\FileRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 
 /**
@@ -21,6 +21,8 @@ use Pagerfanta\Pagerfanta;
  */
 class ArticleRepository extends ServiceEntityRepository
 {
+    use DoctrinePaging;
+
     /**
      * @var FileRepository
      */
@@ -73,10 +75,7 @@ class ArticleRepository extends ServiceEntityRepository
                              ->andWhere('a.currentState IN (:states)')
                              ->setParameter('states', $stateFilter)
                              ->orderBy('a.publishedAt', 'DESC');
-        $pager        = new Pagerfanta(new DoctrineORMAdapter($queryBuilder));
-        $pager->setCurrentPage($page)
-              ->setMaxPerPage($limit);
-        return $pager;
+        return $this->createPager($queryBuilder, $page, $limit);
     }
 
     /**

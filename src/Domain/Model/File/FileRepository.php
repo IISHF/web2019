@@ -8,10 +8,10 @@
 
 namespace App\Domain\Model\File;
 
+use App\Domain\Common\Repository\DoctrinePaging;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
-use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 
 /**
@@ -21,6 +21,8 @@ use Pagerfanta\Pagerfanta;
  */
 class FileRepository extends ServiceEntityRepository
 {
+    use DoctrinePaging;
+
     /**
      * @param ManagerRegistry $managerRegistry
      */
@@ -100,10 +102,7 @@ class FileRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->createQueryBuilder('f')
                              ->orderBy('f.createdAt', 'DESC');
-        $pager        = new Pagerfanta(new DoctrineORMAdapter($queryBuilder));
-        $pager->setCurrentPage($page)
-              ->setMaxPerPage($limit);
-        return $pager;
+        return $this->createPager($queryBuilder, $page, $limit);
     }
 
     /**
