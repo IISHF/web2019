@@ -57,7 +57,7 @@ class Document
     private $tags;
 
     /**
-     * @ORM\OneToMany(targetEntity="Document", mappedBy="document", cascade={"PERSIST", "REMOVE"})
+     * @ORM\OneToMany(targetEntity="Document", mappedBy="document")
      *
      * @var DocumentVersion[]|ArrayCollection
      */

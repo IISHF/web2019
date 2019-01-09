@@ -78,8 +78,19 @@ class DocumentRepository extends ServiceEntityRepository
      */
     public function save(Document $document): Document
     {
-        $this->_em->persist($document);
-        $this->_em->flush();
+        $this->_em->beginTransaction();
+        try {
+            $this->_em->persist($document);
+            foreach ($document->getVersions() as $version) {
+                $this->fileRepository->save($version->getFile());
+                $this->_em->persist($version);
+            }
+            $this->_em->flush();
+            $this->_em->commit();
+        } catch (\Exception $e) {
+            $this->_em->rollback();
+            throw $e;
+        }
         return $document;
     }
 
@@ -88,8 +99,19 @@ class DocumentRepository extends ServiceEntityRepository
      */
     public function delete(Document $document): void
     {
-        $this->_em->remove($document);
-        $this->_em->flush();
+        $this->_em->beginTransaction();
+        try {
+            $this->_em->remove($document);
+            foreach ($document->getVersions() as $version) {
+                $this->fileRepository->delete($version->getFile());
+                $this->_em->remove($version);
+            }
+            $this->_em->flush();
+            $this->_em->commit();
+        } catch (\Exception $e) {
+            $this->_em->rollback();
+            throw $e;
+        }
     }
 
     /**

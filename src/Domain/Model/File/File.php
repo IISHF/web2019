@@ -74,7 +74,7 @@ class File implements FileInterface
     private $origin;
 
     /**
-     * @ORM\ManyToOne(targetEntity="FileBinary", cascade={"PERSIST"})
+     * @ORM\ManyToOne(targetEntity="FileBinary")
      * @ORM\JoinColumn(name="binary_hash", referencedColumnName="hash", nullable=false, onDelete="CASCADE")
      *
      * @var FileBinary
