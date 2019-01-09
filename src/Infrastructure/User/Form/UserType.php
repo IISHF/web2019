@@ -62,6 +62,7 @@ class UserType extends AbstractType
                     'multiple'                  => true,
                     'choice_translation_domain' => false,
                     'enable_select2'            => true,
+                    'required'                  => false,
                 ]
             );
     }
