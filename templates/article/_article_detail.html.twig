@@ -84,8 +84,10 @@
     </dd>
     <dt class="col-2">Published</dt>
     <dd class="col-10">{{ article.publishedAt|relative_time }}</dd>
-    <dt class="col-2">Last Updated</dt>
-    <dd class="col-10">{{ article.updatedAt|relative_time }}</dd>
-    <dt class="col-2">Created</dt>
-    <dd class="col-10">{{ article.createdAt|relative_time }}</dd>
+    {% if not article.legacyFormat %}
+        <dt class="col-2">Last Updated</dt>
+        <dd class="col-10">{{ article.updatedAt|relative_time }}</dd>
+        <dt class="col-2">Created</dt>
+        <dd class="col-10">{{ article.createdAt|relative_time }}</dd>
+    {% endif %}
 </dl>
