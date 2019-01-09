@@ -1,0 +1,51 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    <h1>Documents</h1>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="btn-group" role="group">
+            <a href="{{ path('app_document_create') }}" class="btn btn-primary">Create</a>
+        </div>
+    {% endif %}
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Tags</th>
+            <th scope="col">&#160;</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for document in documents %}
+            <tr>
+                <th scope="row">{{ loop.index0 + documents.currentPageOffsetStart }}</th>
+                <td>
+                    <a href="{{ path('app_document_getdetail', {'document': document.slug}) }}">{{ document.title }}</a>
+                </td>
+                <td class="text-nowrap">
+                    {% for tag in document.tags %}
+                        <span class="badge badge-secondary">{{ tag }}</span>
+                    {% endfor %}
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
+                        {% if is_granted('DOCUMENT_EDIT', document) %}
+                            <a href="{{ path('app_document_update', {'document': document.id}) }}"
+                               class="btn btn-primary">Edit</a>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if documents.haveToPaginate %}
+        <nav>
+            {{ pagerfanta(documents) }}
+        </nav>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    <h1>{{ version.title }}</h1>
+
+    <dl class="row">
+        <dt class="col-2">ID</dt>
+        <dd class="col-10">{{ version.id }}</dd>
+        <dt class="col-2">Slug</dt>
+        <dd class="col-10">{{ version.slug }}</dd>
+        <dt class="col-2">Version</dt>
+        <dd class="col-10">
+            <a href="{{ path('app_file_download', {'name': version.fileName, 'download': 1}) }}" target="_blank"
+               title="Download {{ version.fileClientName|e('html_attr') }}" data-toggle="tooltip" data-placement="top">
+                <i class="fas fa-download"></i>
+            </a>
+            <a href="{{ path('app_file_download', {'name': version.fileName}) }}"
+               target="_blank">{{ version.version }}</a>
+        </dd>
+        <dt class="col-2">Valid From</dt>
+        <dd class="col-10">{{ version.validFrom ? version.validFrom|date('F j, Y') : '' }}</dd>
+        <dt class="col-2">Valid Until</dt>
+        <dd class="col-10">{{ version.validUntil ? version.validUntil|date('F j, Y') : '' }}</dd>
+        <dt class="col-2">Type</dt>
+        <dd class="col-10">{{ version.fileType }}</dd>
+        <dt class="col-2">Size</dt>
+        <dd class="col-10">{{ version.fileSize|file_size }}</dd>
+        <dt class="col-2">Last Updated</dt>
+        <dd class="col-10">{{ version.updatedAt|relative_time }}</dd>
+        <dt class="col-2">Created</dt>
+        <dd class="col-10">{{ version.createdAt|relative_time }}</dd>
+    </dl>
+
+    <div class="card my-4">
+        <div class="card-body">
+            <h5 class="card-title">Document</h5>
+            {% with {document: version.document} %}
+                <dl class="row">
+                    <dt class="col-2">ID</dt>
+                    <dd class="col-10">{{ document.id }}</dd>
+                    <dt class="col-2">Slug</dt>
+                    <dd class="col-10">{{ document.slug }}</dd>
+                    <dt class="col-2">Title</dt>
+                    <dd class="col-10"><a href="{{ path('app_document_getdetail', {'document': document.slug}) }}">
+                            {{ document.title }}</a>
+                    </dd>
+                    <dt class="col-2">Tags</dt>
+                    <dd class="col-10">
+                        {% for tag in document.tags %}
+                            <span class="badge badge-secondary">{{ tag }}</span>
+                        {% endfor %}
+                    </dd>
+                    <dt class="col-2">Last Updated</dt>
+                    <dd class="col-10">{{ document.updatedAt|relative_time }}</dd>
+                    <dt class="col-2">Created</dt>
+                    <dd class="col-10">{{ document.createdAt|relative_time }}</dd>
+                </dl>
+            {% endwith %}
+        </div>
+    </div>
+
+    <div class="btn-group" role="group">
+        {% if is_granted('DOCUMENT_VERSION_EDIT', version) %}
+            <a href="{{ path('app_document_updateversion', {
+                'document': version.document.slug,
+                'version': version.id
+            }) }}"
+               class="btn btn-primary">Edit</a>
+        {% endif %}
+        <a href="{{ path('app_document_getdetail', {'document': version.document.slug}) }}"
+           class="btn btn-outline-secondary">Back</a>
+    </div>
+{% endblock %}

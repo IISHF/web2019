@@ -1,0 +1,86 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    <h1>{{ document.title }}</h1>
+
+    <dl class="row">
+        <dt class="col-2">ID</dt>
+        <dd class="col-10">{{ document.id }}</dd>
+        <dt class="col-2">Slug</dt>
+        <dd class="col-10">{{ document.slug }}</dd>
+        <dt class="col-2">Title</dt>
+        <dd class="col-10">{{ document.title }}</dd>
+        <dt class="col-2">Tags</dt>
+        <dd class="col-10">
+            {% for tag in document.tags %}
+                <span class="badge badge-secondary">{{ tag }}</span>
+            {% endfor %}
+        </dd>
+        <dt class="col-2">Last Updated</dt>
+        <dd class="col-10">{{ document.updatedAt|relative_time }}</dd>
+        <dt class="col-2">Created</dt>
+        <dd class="col-10">{{ document.createdAt|relative_time }}</dd>
+    </dl>
+
+    <div class="card my-4">
+        <div class="card-body">
+            <h5 class="card-title">Versions</h5>
+            {% if is_granted('DOCUMENT_EDIT', document) %}
+                <div class="btn-group" role="group">
+                    <a href="{{ path('app_document_createversion', {document: document.id}) }}" class="btn btn-primary">Create</a>
+                </div>
+            {% endif %}
+            <table class="table table-sm">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Version</th>
+                    <th scope="col">Valid From</th>
+                    <th scope="col">Valid Until</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Created</th>
+                    <th scope="col">&#160;</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for version in document.versions %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>
+                            <a href="{{ path('app_document_getversiondetail', {
+                                'document': version.document.slug,
+                                'version': version.slug
+                            }) }}">{{ version.version }}</a>
+                        </td>
+                        <td>{{ version.validFrom ? version.validFrom|date('F j, Y') : '' }}</td>
+                        <td>{{ version.validUntil ? version.validUntil|date('F j, Y') : '' }}</td>
+                        <td>{{ version.fileType }}</td>
+                        <td>{{ version.fileSize|file_size }}</td>
+                        <td class="text-nowrap">{{ version.createdAt|relative_time }}</td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group">
+                                {% if is_granted('DOCUMENT_VERSION_EDIT', version) %}
+                                    <a href="{{ path('app_document_updateversion', {
+                                        'document': version.document.slug,
+                                        'version': version.id
+                                    }) }}"
+                                       class="btn btn-primary">Edit</a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="btn-group" role="group">
+        {% if is_granted('DOCUMENT_EDIT', document) %}
+            <a href="{{ path('app_document_update', {'document': document.id}) }}"
+               class="btn btn-primary">Edit</a>
+        {% endif %}
+        <a href="{{ path('app_document_getlist') }}" class="btn btn-outline-secondary">Back</a>
+    </div>
+{% endblock %}
