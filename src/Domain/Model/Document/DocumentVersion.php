@@ -171,6 +171,46 @@ class DocumentVersion
     /**
      * @return string
      */
+    public function getFileName(): string
+    {
+        return $this->getFile()->getName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileClientName(): string
+    {
+        return $this->getFile()->getClientName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileType(): string
+    {
+        return $this->getFile()->getMimeType();
+    }
+
+    /**
+     * @return int
+     */
+    public function getFileSize(): int
+    {
+        return $this->getFile()->getSize();
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->getDocument()->getTitle() . ' ' . $this->getVersion();
+    }
+
+    /**
+     * @return string
+     */
     public function getVersion(): string
     {
         return $this->version;

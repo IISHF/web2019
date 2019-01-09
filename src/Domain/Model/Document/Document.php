@@ -57,7 +57,7 @@ class Document
     private $tags;
 
     /**
-     * @ORM\OneToMany(targetEntity="Document", mappedBy="document")
+     * @ORM\OneToMany(targetEntity="DocumentVersion", mappedBy="document")
      *
      * @var DocumentVersion[]|ArrayCollection
      */

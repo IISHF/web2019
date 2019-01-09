@@ -47,32 +47,6 @@ class FileRepository extends ServiceEntityRepository
      * @param string $name
      * @return File|null
      */
-    public function findByName(string $name): ?File
-    {
-        /** @var File|null $file */
-        $file = $this->findOneBy(['name' => $name]);
-        return $file;
-    }
-
-    /**
-     * @param string $id
-     * @return File|null
-     */
-    public function findByIdWithBinary(string $id): ?File
-    {
-        /** @var File|null $file */
-        $file = $this->createQueryBuilderWithBinary()
-                     ->where('f.id = :id')
-                     ->setParameter('id', $id)
-                     ->getQuery()
-                     ->getOneOrNullResult();
-        return $file;
-    }
-
-    /**
-     * @param string $name
-     * @return File|null
-     */
     public function findByNameWithBinary(string $name): ?File
     {
         /** @var File|null $file */
@@ -108,13 +82,16 @@ class FileRepository extends ServiceEntityRepository
 
     /**
      * @param File $file
+     * @param bool $flush
      * @return File
      */
-    public function save(File $file): File
+    public function save(File $file, bool $flush): File
     {
         $this->_em->persist($file);
         $this->_em->persist($file->getBinary());
-        $this->_em->flush();
+        if ($flush) {
+            $this->_em->flush();
+        }
         return $file;
     }
 

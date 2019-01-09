@@ -48,6 +48,13 @@ class DocumentParamConverter extends LoaderParamConverter
      */
     protected function loadObject($value, Request $request, ParamConverter $configuration): ?object
     {
+        if ($configuration->getOptions()['with_versions'] ?? false) {
+            if (Uuid::isValid($value)) {
+                return $this->repository->findByIdWithVersions($value);
+            }
+            return $this->repository->findBySlugWithVersions($value);
+        }
+
         if (Uuid::isValid($value)) {
             return $this->repository->findById($value);
         }

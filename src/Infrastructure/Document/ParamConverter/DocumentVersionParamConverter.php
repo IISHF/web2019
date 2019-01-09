@@ -51,7 +51,7 @@ class DocumentVersionParamConverter extends LoaderParamConverter
     protected function loadObject($value, Request $request, ParamConverter $configuration): ?object
     {
         if (Uuid::isValid($value)) {
-            return $this->repository->findById($value);
+            return $this->repository->findVersionById($value);
         }
 
         $documentParam = $configuration->getOptions()['document'] ?? 'document';

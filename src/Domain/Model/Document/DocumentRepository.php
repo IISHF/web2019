@@ -52,6 +52,21 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
     }
 
     /**
+     * @param string $id
+     * @return Document|null
+     */
+    public function findByIdWithVersions(string $id): ?Document
+    {
+        /** @var Document|null $document */
+        $document = $this->createQueryBuilderWithVersions()
+                         ->where('d.id = :id')
+                         ->setParameter('id', $id)
+                         ->getQuery()
+                         ->getOneOrNullResult();
+        return $document;
+    }
+
+    /**
      * @param string $slug
      * @return Document|null
      */
@@ -60,6 +75,32 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
         /** @var Document|null $document */
         $document = $this->findOneBy(['slug' => $slug]);
         return $document;
+    }
+
+    /**
+     * @param string $slug
+     * @return Document|null
+     */
+    public function findBySlugWithVersions(string $slug): ?Document
+    {
+        /** @var Document|null $document */
+        $document = $this->createQueryBuilderWithVersions()
+                         ->where('d.slug = :slug')
+                         ->setParameter('slug', $slug)
+                         ->getQuery()
+                         ->getOneOrNullResult();
+        return $document;
+    }
+
+    /**
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    private function createQueryBuilderWithVersions(): \Doctrine\ORM\QueryBuilder
+    {
+        return $this->createQueryBuilder('d')
+                    ->addSelect('dv', 'f')
+                    ->join('d.versions', 'dv')
+                    ->join('dv.file', 'f');
     }
 
     /**
@@ -84,8 +125,8 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
         try {
             $this->_em->persist($document);
             foreach ($document->getVersions() as $version) {
-                $this->fileRepository->save($version->getFile());
                 $this->_em->persist($version);
+                $this->fileRepository->save($version->getFile(), false);
             }
             $this->_em->flush();
             $this->_em->commit();
@@ -105,8 +146,8 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
         try {
             $this->_em->remove($document);
             foreach ($document->getVersions() as $version) {
-                $this->fileRepository->delete($version->getFile());
                 $this->_em->remove($version);
+                $this->fileRepository->delete($version->getFile());
             }
             $this->_em->flush();
             $this->_em->commit();
@@ -136,9 +177,7 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
     public function findVersionById(string $id): ?DocumentVersion
     {
         /** @var DocumentVersion|null $version */
-        $version = $this->createQueryBuilder('dv')
-                        ->addSelect('d')
-                        ->join('dv.document', 'd')
+        $version = $this->createVersionQueryBuilder()
                         ->where('dv.id = :id')
                         ->setParameter('id', $id)
                         ->getQuery()
@@ -154,9 +193,7 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
     public function findVersionBySlug(string $documentSlug, string $versionSlug): ?DocumentVersion
     {
         /** @var DocumentVersion|null $version */
-        $version = $this->createQueryBuilder('dv')
-                        ->addSelect('d')
-                        ->join('dv.document', 'd')
+        $version = $this->createVersionQueryBuilder()
                         ->where('dv.slug = :versionSlug')
                         ->andWhere('d.slug = :documentSlug')
                         ->setParameter('versionSlug', $versionSlug)
@@ -167,6 +204,18 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
     }
 
     /**
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    private function createVersionQueryBuilder(): \Doctrine\ORM\QueryBuilder
+    {
+        return $this->_em->createQueryBuilder()
+                         ->select('dv', 'd', 'f')
+                         ->from(DocumentVersion::class, 'dv')
+                         ->join('dv.document', 'd')
+                         ->join('dv.file', 'f');
+    }
+
+    /**
      * @param DocumentVersion $documentVersion
      * @return DocumentVersion
      */
@@ -174,8 +223,8 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
     {
         $this->_em->beginTransaction();
         try {
-            $this->fileRepository->save($documentVersion->getFile());
             $this->_em->persist($documentVersion);
+            $this->fileRepository->save($documentVersion->getFile(), false);
             $this->_em->flush();
             $this->_em->commit();
         } catch (\Exception $e) {
@@ -192,8 +241,8 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
     {
         $this->_em->beginTransaction();
         try {
-            $this->fileRepository->delete($documentVersion->getFile());
             $this->_em->remove($documentVersion);
+            $this->fileRepository->delete($documentVersion->getFile());
             $this->_em->flush();
             $this->_em->commit();
         } catch (\Exception $e) {

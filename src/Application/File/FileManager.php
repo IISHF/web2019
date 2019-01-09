@@ -52,7 +52,7 @@ class FileManager
      */
     public function save(File $file): File
     {
-        return $this->repository->save($file);
+        return $this->repository->save($file, true);
     }
 
     /**
@@ -87,8 +87,13 @@ class FileManager
         string $origin,
         ?string $originalName = null
     ): File {
-        $mimeType = self::guessMimeType($file);
-        $name     = $id . '.' . self::guessExtension($mimeType);
+        $mimeType  = self::guessMimeType($file);
+        $extension = self::guessExtension($mimeType);
+        $name      = $id . '.' . $extension;
+
+        if ($originalName !== null && !pathinfo($originalName, PATHINFO_EXTENSION)) {
+            $originalName .= '.' . $extension;
+        }
 
         return new File(
             $id,
