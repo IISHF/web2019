@@ -30,8 +30,8 @@ $.fn.datetimepicker.Constructor.Default = Object.assign({}, $.fn.datetimepicker.
         previous: 'fas fa-chevron-left',
         next: 'fas fa-chevron-right',
         today: 'far fa-calendar-check',
-        clear: 'fas fa-trash',
-        close: 'fas fa-times'
+        clear: 'fas fa-times',
+        close: 'fas fa-minus'
     },
     buttons: {
         showToday: true,
