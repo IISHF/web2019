@@ -110,8 +110,8 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
     {
         return $this->createQueryBuilder('d')
                     ->addSelect('dv', 'f')
-                    ->join('d.versions', 'dv')
-                    ->join('dv.file', 'f');
+                    ->leftJoin('d.versions', 'dv')
+                    ->leftJoin('dv.file', 'f');
     }
 
     /**
