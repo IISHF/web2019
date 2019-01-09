@@ -121,7 +121,7 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
      */
     public function findPaged(int $page = 1, int $limit = 30): iterable
     {
-        $queryBuilder = $this->createQueryBuilder('d')
+        $queryBuilder = $this->createQueryBuilderWithVersions()
                              ->orderBy('d.title', 'ASC');
         return $this->createPager($queryBuilder, $page, $limit);
     }
@@ -190,7 +190,7 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
     public function findVersion(string $documentId, string $documentVersion): ?DocumentVersion
     {
         /** @var DocumentVersion|null $version */
-        $version = $this->createVersionQueryBuilderWithFile()
+        $version = $this->createVersionQueryBuilder()
                         ->where('dv.version = :version')
                         ->andWhere('d.id = :documentId')
                         ->setParameter('version', $documentVersion)
@@ -207,7 +207,7 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
     public function findVersionById(string $id): ?DocumentVersion
     {
         /** @var DocumentVersion|null $version */
-        $version = $this->createVersionQueryBuilderWithFile()
+        $version = $this->createVersionQueryBuilder()
                         ->where('dv.id = :id')
                         ->setParameter('id', $id)
                         ->getQuery()
@@ -223,7 +223,7 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
     public function findVersionBySlug(string $documentSlug, string $versionSlug): ?DocumentVersion
     {
         /** @var DocumentVersion|null $version */
-        $version = $this->createVersionQueryBuilderWithFile()
+        $version = $this->createVersionQueryBuilder()
                         ->where('dv.slug = :versionSlug')
                         ->andWhere('d.slug = :documentSlug')
                         ->setParameter('versionSlug', $versionSlug)
@@ -239,19 +239,10 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
     private function createVersionQueryBuilder(): \Doctrine\ORM\QueryBuilder
     {
         return $this->_em->createQueryBuilder()
-                         ->select('dv', 'd')
+                         ->select('dv', 'd', 'f')
                          ->from(DocumentVersion::class, 'dv')
-                         ->join('dv.document', 'd');
-    }
-
-    /**
-     * @return \Doctrine\ORM\QueryBuilder
-     */
-    private function createVersionQueryBuilderWithFile(): \Doctrine\ORM\QueryBuilder
-    {
-        return $this->createVersionQueryBuilder()
-                    ->addSelect('f')
-                    ->join('dv.file', 'f');
+                         ->join('dv.document', 'd')
+                         ->join('dv.file', 'f');
     }
 
     /**
@@ -280,6 +271,7 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
     {
         $this->_em->beginTransaction();
         try {
+            $documentVersion->removeFromDocument();
             $this->_em->remove($documentVersion);
             $this->fileRepository->delete($documentVersion->getFile(), false);
             $this->_em->flush();
