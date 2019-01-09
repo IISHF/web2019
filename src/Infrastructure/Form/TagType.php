@@ -8,7 +8,9 @@
 
 namespace App\Infrastructure\Form;
 
+use App\Domain\Model\Common\TagProvider;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -39,6 +41,16 @@ class TagType extends AbstractType implements DataTransformerInterface
     {
         $resolver->setDefaults(
             [
+                'choice_loader'             => function (Options $options) {
+                    /** @var TagProvider $tagProvider */
+                    $tagProvider = $options['tag_provider'];
+                    return new CallbackChoiceLoader(
+                        function () use ($tagProvider) {
+                            $tags = $tagProvider->findAvailableTags();
+                            return array_combine($tags, $tags);
+                        }
+                    );
+                },
                 'choice_translation_domain' => false,
                 'multiple'                  => true,
                 'enable_select2'            => true,
@@ -55,6 +67,8 @@ class TagType extends AbstractType implements DataTransformerInterface
                 },
             ]
         );
+        $resolver->setRequired('tag_provider');
+        $resolver->setAllowedTypes('tag_provider', TagProvider::class);
     }
 
     /**
