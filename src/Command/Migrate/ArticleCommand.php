@@ -13,9 +13,7 @@ use App\Application\Article\Command\CreateArticle;
 use App\Utils\Text;
 use App\Utils\Validation;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Messenger\Exception\ValidationFailedException;
 
 /**
@@ -23,42 +21,18 @@ use Symfony\Component\Messenger\Exception\ValidationFailedException;
  *
  * @package App\Command\Migrate
  */
-class ArticleCommand extends BaseCommand
+class ArticleCommand extends BaseCommandWithFilesystem
 {
-    /**
-     * @var Filesystem
-     */
-    private $fs;
-
-    /**
-     * @var string
-     */
-    private $currentDirectory;
-
     /**
      * {@inheritdoc}
      */
     protected function configure(): void
     {
-        $this->fs               = new Filesystem();
-        $this->currentDirectory = getcwd();
-        $legacyDefaultPath      = $this->fs->makePathRelative(
-            __DIR__ . '/../../../../website',
-            $this->currentDirectory
-        );
-
         parent::configure();
         $this
             ->setName('app:migrate:article')
             ->setDescription('Migrates news articles from legacy database.')
-            ->setHelp('This command allows you to migrate news articles from a IISHF legacy database.')
-            ->addOption(
-                'legacy-path',
-                'p',
-                InputOption::VALUE_REQUIRED,
-                'Path to legacy website',
-                $legacyDefaultPath
-            );
+            ->setHelp('This command allows you to migrate news articles from a IISHF legacy database.');
     }
 
     /**
@@ -68,17 +42,9 @@ class ArticleCommand extends BaseCommand
     {
         $this->io->title('Migrate news articles rom legacy database');
 
-        $legacyPath = $input->getOption('legacy-path');
-        $this->io->note('Using legacy website path ' . $legacyPath);
-        $legacyPathFull = $legacyPath;
-        if ($legacyPathFull[0] !== '/') {
-            $legacyPathFull = $this->currentDirectory . '/' . $legacyPathFull;
-            $this->io->comment('Full legacy website path ' . $legacyPathFull);
-        }
-
-        $articlePath        = $legacyPathFull . '/www/wwwroot/news/articles';
+        $articlePath        = $this->legacyPath . '/www/wwwroot/news/articles';
         $migrateAttachments = true;
-        if (!realpath($articlePath) || !is_dir($articlePath) || !is_readable($articlePath . '/.')) {
+        if (!self::isDirectoryReadable($articlePath)) {
             $this->io->warning('Legacy article path ' . $articlePath . ' does not exist or is not readable.');
             $migrateAttachments = false;
         } else {
@@ -204,17 +170,5 @@ class ArticleCommand extends BaseCommand
             $map[$a[$keyColumn]][] = $a;
         }
         return $map;
-    }
-
-    /**
-     * @param string $path
-     * @return \SplFileInfo|null
-     */
-    private static function getFile(string $path): ?\SplFileInfo
-    {
-        if (file_exists($path) && is_file($path) && is_readable($path)) {
-            return new \SplFileInfo($path);
-        }
-        return null;
     }
 }
