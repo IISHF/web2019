@@ -23,7 +23,8 @@ use Webmozart\Assert\Assert;
  * @ORM\Table(
  *      name="document_versions",
  *      uniqueConstraints={
- *          @ORM\UniqueConstraint(name="uniq_document_version", columns={"document_id", "version"})
+ *          @ORM\UniqueConstraint(name="uniq_document_version", columns={"document_id", "version"}),
+ *          @ORM\UniqueConstraint(name="uniq_document_slug", columns={"document_id", "slug"})
  *      }
  * )
  */
@@ -65,7 +66,7 @@ class DocumentVersion
     private $version;
 
     /**
-     * @ORM\Column(name="slug", type="string", length=255, unique=true)
+     * @ORM\Column(name="slug", type="string", length=128)
      *
      * @var string
      */
@@ -201,7 +202,7 @@ class DocumentVersion
     public function setSlug(string $slug): self
     {
         Assert::regex($slug, '/^[0-9a-z-]+$/');
-        Assert::lengthBetween($slug, 1, 255);
+        Assert::lengthBetween($slug, 1, 128);
         $this->slug = $slug;
         return $this;
     }

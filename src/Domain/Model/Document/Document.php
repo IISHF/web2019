@@ -43,6 +43,13 @@ class Document
     private $title;
 
     /**
+     * @ORM\Column(name="slug", type="string", length=128)
+     *
+     * @var string
+     */
+    private $slug;
+
+    /**
      * @ORM\Column(name="tags", type="json")
      *
      * @var string[]
@@ -59,15 +66,17 @@ class Document
     /**
      * @param string $id
      * @param string $title
+     * @param string $slug
      * @param array  $tags
      */
-    public function __construct(string $id, string $title, array $tags)
+    public function __construct(string $id, string $title, string $slug, array $tags)
     {
         Assert::uuid($id);
 
         $this->id       = $id;
         $this->versions = new ArrayCollection();
         $this->setTitle($title)
+             ->setSlug($slug)
              ->setTags($tags)
              ->initCreateTracking()
              ->initUpdateTracking();
@@ -97,6 +106,26 @@ class Document
     {
         Assert::lengthBetween($title, 1, 128);
         $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param string $slug
+     * @return $this
+     */
+    public function setSlug(string $slug): self
+    {
+        Assert::regex($slug, '/^[0-9a-z-]+$/');
+        Assert::lengthBetween($slug, 1, 128);
+        $this->slug = $slug;
         return $this;
     }
 
