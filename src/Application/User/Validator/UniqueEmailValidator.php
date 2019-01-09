@@ -13,6 +13,7 @@ use App\Domain\Model\User\UserRepository;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
+use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 /**
  * Class UniqueEmailValidator
@@ -46,7 +47,7 @@ class UniqueEmailValidator extends ConstraintValidator
             return;
         }
         if (!\is_string($value)) {
-            throw new UnexpectedTypeException($value, 'string');
+            throw new UnexpectedValueException($value, 'string');
         }
 
         $tryUser = $this->repository->findByEmail($value);
