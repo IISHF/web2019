@@ -8,8 +8,11 @@
 
 namespace App\Infrastructure\Article\Form;
 
+use App\Domain\Model\Article\ArticleRepository;
+use App\Infrastructure\Form\TagType;
 use App\Infrastructure\Form\TrixEditorType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,6 +24,19 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class ArticleType extends AbstractType
 {
+    /**
+     * @var ArticleRepository
+     */
+    private $articleRepository;
+
+    /**
+     * @param ArticleRepository $articleRepository
+     */
+    public function __construct(ArticleRepository $articleRepository)
+    {
+        $this->articleRepository = $articleRepository;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -47,8 +63,14 @@ class ArticleType extends AbstractType
                 'tags',
                 TagType::class,
                 [
-                    'label'    => 'Tags',
-                    'required' => false,
+                    'label'         => 'Tags',
+                    'required'      => false,
+                    'choice_loader' => new CallbackChoiceLoader(
+                        function () {
+                            $tags = $this->articleRepository->findAvailableTags();
+                            return array_combine($tags, $tags);
+                        }
+                    ),
                 ]
             )
             ->add(
