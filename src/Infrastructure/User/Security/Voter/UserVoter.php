@@ -40,6 +40,9 @@ class UserVoter extends DelegatingVoter
         if (!$this->decide($token, ['ROLE_ADMIN'])) {
             return false;
         }
+        if ($attribute === 'USER_DELETE') {
+            return $subject->getEmail() !== $token->getUsername();
+        }
         return true;
     }
 }
