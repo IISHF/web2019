@@ -36,34 +36,20 @@
                         <span class="badge badge-secondary">{{ tag }}</span>
                     {% endfor %}
                 </td>
-                <td>
-                    {% if validVersion %}
+                {% if validVersion %}
+                    <td>
                         <a href="{{ path('app_document_getversiondetail', {
                             'document': document.slug,
                             'version': validVersion.slug
                         }) }}">{{ validVersion.version }}</a>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if validVersion %}
-                        {{ include('document/_version_validity.html.twig', {version: validVersion}) }}
-                    {% endif %}
-                </td>
-                <td>
-                    {% if validVersion %}
-                        {{ validVersion.fileType }}
-                    {% endif %}
-                </td>
-                <td>
-                    {% if validVersion %}
-                        {{ validVersion.fileSize|file_size }}
-                    {% endif %}
-                </td>
-                <td class="text-nowrap">
-                    {% if validVersion %}
-                        {{ validVersion.createdAt|relative_time }}
-                    {% endif %}
-                </td>
+                    </td>
+                    <td>{{ include('document/_version_validity.html.twig', {version: validVersion}) }}</td>
+                    <td>{{ validVersion.fileType }}</td>
+                    <td>{{ validVersion.fileSize|file_size }}</td>
+                    <td class="text-nowrap">{{ validVersion.createdAt|relative_time }}</td>
+                {% else %}
+                    <td colspan="5" class="text-muted">No valid version.</td>
+                {% endif %}
                 <td>
                     <div class="btn-group btn-group-sm" role="group">
                         {% if is_granted('DOCUMENT_EDIT', document) %}
@@ -80,7 +66,10 @@
                         {% endif %}
                     </div>
                 </td>
-
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">No documents found.</td>
             </tr>
         {% endfor %}
         </tbody>
