@@ -41,6 +41,10 @@ class DocumentVersionVoter extends DelegatingVoter
             return false;
         }
 
+        if ($attribute === 'DOCUMENT_VERSION_DELETE') {
+            return count($subject->getDocument()->getVersions()) > 1;
+        }
+
         return true;
     }
 
