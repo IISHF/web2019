@@ -13,6 +13,7 @@ use App\Domain\Model\Article\ArticleRepository;
 use App\Infrastructure\ParamConverter\LoaderParamConverter;
 use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class ArticleParamConverter
@@ -45,7 +46,7 @@ class ArticleParamConverter extends LoaderParamConverter
     /**
      * {@inheritdoc}
      */
-    protected function loadObject($value, ParamConverter $configuration): ?object
+    protected function loadObject($value, Request $request, ParamConverter $configuration): ?object
     {
         if (Uuid::isValid($value)) {
             return $this->repository->findById($value);

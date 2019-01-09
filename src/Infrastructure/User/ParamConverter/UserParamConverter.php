@@ -12,6 +12,7 @@ use App\Domain\Model\User\User;
 use App\Domain\Model\User\UserRepository;
 use App\Infrastructure\ParamConverter\LoaderParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class UserParamConverter
@@ -44,7 +45,7 @@ class UserParamConverter extends LoaderParamConverter
     /**
      * {@inheritdoc}
      */
-    protected function loadObject($value, ParamConverter $configuration): ?object
+    protected function loadObject($value, Request $request, ParamConverter $configuration): ?object
     {
         return $this->repository->findById($value);
     }

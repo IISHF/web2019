@@ -13,6 +13,7 @@ use App\Domain\Model\NationalGoverningBody\NationalGoverningBodyRepository;
 use App\Infrastructure\ParamConverter\LoaderParamConverter;
 use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class NationalGoverningBodyParamConverter
@@ -45,7 +46,7 @@ class NationalGoverningBodyParamConverter extends LoaderParamConverter
     /**
      * {@inheritdoc}
      */
-    protected function loadObject($value, ParamConverter $configuration): ?object
+    protected function loadObject($value, Request $request, ParamConverter $configuration): ?object
     {
         if (Uuid::isValid($value)) {
             return $this->repository->findById($value);

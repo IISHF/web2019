@@ -11,6 +11,7 @@ namespace App\Infrastructure\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -37,7 +38,7 @@ abstract class LoaderParamConverter implements ParamConverterInterface
             return false;
         }
 
-        $object = $this->loadObject($value, $configuration);
+        $object = $this->loadObject($value, $request, $configuration);
         if (!$object && !$configuration->isOptional()) {
             throw new NotFoundHttpException(
                 sprintf(
@@ -55,8 +56,10 @@ abstract class LoaderParamConverter implements ParamConverterInterface
 
     /**
      * @param mixed          $value
+     * @param Request        $request
      * @param ParamConverter $configuration
      * @return object|null
+     * @throws HttpException
      */
-    abstract protected function loadObject($value, ParamConverter $configuration): ?object;
+    abstract protected function loadObject($value, Request $request, ParamConverter $configuration): ?object;
 }
