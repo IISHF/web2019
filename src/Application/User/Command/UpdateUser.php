@@ -18,7 +18,7 @@ use App\Domain\Model\User\User;
  */
 class UpdateUser
 {
-    use UuidAware, MutableUser, UserProperties;
+    use UuidAware, UserProperties, MutableUser;
 
     /**
      * @param User $user

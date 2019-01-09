@@ -18,7 +18,7 @@ use App\Domain\Model\Article\Article;
  */
 class UpdateArticle
 {
-    use UuidAware, MutableArticle, ArticleProperties;
+    use UuidAware, ArticleProperties, MutableArticle;
 
     /**
      * @param Article $article

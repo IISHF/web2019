@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class CreateArticle
 {
-    use UuidAware, MutableArticle, ArticleProperties;
+    use UuidAware, ArticleProperties, MutableArticle;
 
     /**
      * @Assert\Type("string")
