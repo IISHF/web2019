@@ -9,6 +9,7 @@
 namespace App\Domain\Model\Document;
 
 use App\Domain\Common\Repository\DoctrinePaging;
+use App\Domain\Model\Common\TagProvider;
 use App\Domain\Model\File\FileRepository;
 use App\Utils\Tags;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -20,7 +21,7 @@ use Pagerfanta\Pagerfanta;
  *
  * @package App\Domain\Model\Document
  */
-class DocumentRepository extends ServiceEntityRepository
+class DocumentRepository extends ServiceEntityRepository implements TagProvider
 {
     use DoctrinePaging;
 
@@ -116,9 +117,9 @@ class DocumentRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return string[]
+     * {@inheritdoc}
      */
-    public function findAvailableTags(): iterable
+    public function findAvailableTags(): array
     {
         return Tags::createTagList(
             $this->createQueryBuilder('d')
