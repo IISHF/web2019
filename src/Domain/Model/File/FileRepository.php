@@ -69,14 +69,30 @@ class FileRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param int $page
-     * @param int $limit
+     * @param string|null $mimeType
+     * @param string|null $origin
+     * @param int         $page
+     * @param int         $limit
      * @return iterable|Pagerfanta|File[]
      */
-    public function findPaged(int $page = 1, int $limit = 30): iterable
-    {
+    public function findPaged(
+        ?string $mimeType = null,
+        ?string $origin = null,
+        int $page = 1,
+        int $limit = 30
+    ): iterable {
         $queryBuilder = $this->createQueryBuilder('f')
                              ->orderBy('f.createdAt', 'DESC');
+
+        if ($mimeType) {
+            $queryBuilder->andWhere('f.mimeType = :mimeType')
+                         ->setParameter('mimeType', $mimeType);
+        }
+        if ($origin) {
+            $queryBuilder->andWhere('f.origin = :origin')
+                         ->setParameter('origin', $origin);
+        }
+
         return $this->createPager($queryBuilder, $page, $limit);
     }
 

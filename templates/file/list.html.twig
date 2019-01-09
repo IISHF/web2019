@@ -3,6 +3,17 @@
 {% block content %}
     <h1>Files</h1>
 
+    {% if activeFilters is not empty %}
+        <div class="card mb-4">
+            <div class="card-body">
+                {% for activeFilter in activeFilters %}
+                    <a class="badge badge-pill badge-primary"
+                       href="{{ activeFilter.removeUrl }}">{{ activeFilter.value }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
     <table class="table">
         <thead class="thead-dark">
         <tr>
@@ -11,6 +22,7 @@
             <th scope="col">Type</th>
             <th scope="col">Size</th>
             <th scope="col">Created</th>
+            <th scope="col">&#160;</th>
         </tr>
         </thead>
         <tbody>
@@ -24,14 +36,17 @@
                     </a>
                     <a href="{{ path('app_file_download', {'name': file.name}) }}" target="_blank">{{ file.name }}</a>
                     <div class="small">
-                        <span class="badge badge-dark">{{ file.origin }}</span>
+                        <a class="badge badge-dark"
+                           href="{{ path('app_file_getlist', currentFilters|merge({origin: file.origin})) }}">{{ file.origin }}</a>
                         <span>{{ file.binary.hash|file_hash }}</span>
                     </div>
                     {% if file.originalName %}
                         <div class="small text-muted">{{ file.originalName }}</div>
                     {% endif %}
                 </td>
-                <td>{{ file.mimeType }}</td>
+                <td>
+                    <a href="{{ path('app_file_getlist', currentFilters|merge({type: file.mimeType})) }}">{{ file.mimeType }}</a>
+                </td>
                 <td>{{ file.size|file_size }}</td>
                 <td class="text-nowrap">{{ file.createdAt|relative_time }}</td>
                 <td>

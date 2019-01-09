@@ -44,10 +44,42 @@ class FileController extends AbstractController
         $page  = $request->query->getInt('page', 1);
         $limit = $request->query->getInt('limit', 30);
 
+        $activeFilters     = [];
+        $addFilterIfActive = function (string $filter) use ($request, &$activeFilters) {
+            $value = $request->query->get($filter);
+            if ($value) {
+                $activeFilters[$filter] = [
+                    'value'     => $value,
+                    'removeUrl' => $this->generateUrl(
+                        'app_file_getlist',
+                        array_merge(
+                            $request->query->all(),
+                            [
+                                'page'  => null,
+                                $filter => null,
+                            ]
+                        )
+                    ),
+                ];
+            }
+            return $value;
+        };
+        $currentFilters    = [
+            'type'   => $addFilterIfActive('type'),
+            'origin' => $addFilterIfActive('origin'),
+        ];
+
         return $this->render(
             'file/list.html.twig',
             [
-                'files' => $fileRepository->findPaged($page, $limit),
+                'activeFilters'  => $activeFilters,
+                'currentFilters' => $currentFilters,
+                'files'          => $fileRepository->findPaged(
+                    $currentFilters['type'],
+                    $currentFilters['origin'],
+                    $page,
+                    $limit
+                ),
             ]
         );
     }
