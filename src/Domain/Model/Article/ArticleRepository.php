@@ -10,6 +10,7 @@ namespace App\Domain\Model\Article;
 
 use App\Domain\Common\Repository\DoctrinePaging;
 use App\Domain\Model\File\FileRepository;
+use App\Utils\Tags;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Pagerfanta\Pagerfanta;
@@ -103,29 +104,12 @@ class ArticleRepository extends ServiceEntityRepository
      */
     public function findAvailableTags(): iterable
     {
-        $tags = array_keys(
-            array_reduce(
-                array_column(
-                    $this->createQueryBuilder('a')
-                         ->select('a.tags')
-                         ->getQuery()
-                         ->getArrayResult(),
-                    'tags'
-                ),
-                function (array $carry, array $tags) {
-                    foreach ($tags as $tag) {
-                        $carry[$tag] = true;
-                    }
-                    return $carry;
-                },
-                []
-            )
+        return Tags::createTagList(
+            $this->createQueryBuilder('a')
+                 ->select('a.tags')
+                 ->getQuery()
+                 ->getArrayResult()
         );
-
-        $collator = new \Collator('en_GB');
-        $collator->sort($tags, \Collator::SORT_STRING);
-
-        return $tags;
     }
 
     /**
