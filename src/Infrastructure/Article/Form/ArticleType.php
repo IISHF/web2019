@@ -8,8 +8,6 @@
 
 namespace App\Infrastructure\Article\Form;
 
-use App\Domain\Model\Article\ArticleRepository;
-use App\Infrastructure\Form\TagType;
 use App\Infrastructure\Form\TrixEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -23,19 +21,6 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class ArticleType extends AbstractType
 {
-    /**
-     * @var ArticleRepository
-     */
-    private $articleRepository;
-
-    /**
-     * @param ArticleRepository $articleRepository
-     */
-    public function __construct(ArticleRepository $articleRepository)
-    {
-        $this->articleRepository = $articleRepository;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -60,11 +45,10 @@ class ArticleType extends AbstractType
             )
             ->add(
                 'tags',
-                TagType::class,
+                ArticleTagType::class,
                 [
-                    'label'        => 'Tags',
-                    'required'     => false,
-                    'tag_provider' => $this->articleRepository,
+                    'label'    => 'Tags',
+                    'required' => false,
                 ]
             )
             ->add(

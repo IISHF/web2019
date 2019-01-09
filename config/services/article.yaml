@@ -24,7 +24,7 @@ services:
         tags:
             - { name: request.param_converter, converter: app.article }
 
-    App\Infrastructure\Article\Form\ArticleType:
+    App\Infrastructure\Article\Form\ArticleTagType:
 
     App\Infrastructure\Article\Twig\ArticleExtension:
     App\Infrastructure\Article\Twig\ArticleRuntime:
