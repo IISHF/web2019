@@ -27,28 +27,6 @@ trait DocumentVersionProperties
     private $documentId;
 
     /**
-     * @Assert\File(
-     *      maxSize="16M",
-     *      mimeTypes={
-     *          "application/pdf",
-     *          "application/x-pdf",
-     *          "application/zip",
-     *          "application/vnd.ms-excel",
-     *          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-     *          "application/msword",
-     *          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-     *          "application/vnd.ms-powerpoint",
-     *          "application/vnd.openxmlformats-officedocument.presentationml.presentation"
-     *      }
-     * )
-     * @Assert\Type("SplFileInfo")
-     * @Assert\NotNull()
-     *
-     * @var \SplFileInfo
-     */
-    private $file;
-
-    /**
      * @Assert\Type("string")
      * @Assert\Length(max=128)
      * @Assert\NotBlank()
@@ -77,14 +55,6 @@ trait DocumentVersionProperties
     public function getDocumentId(): string
     {
         return $this->documentId;
-    }
-
-    /**
-     * @return \SplFileInfo
-     */
-    public function getFile(): \SplFileInfo
-    {
-        return $this->file;
     }
 
     /**
