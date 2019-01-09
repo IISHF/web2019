@@ -8,6 +8,8 @@
 
 namespace App\Application\Document\Command;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Trait DocumentVersionFile
  *
@@ -33,14 +35,14 @@ trait DocumentVersionFile
      * @Assert\Type("SplFileInfo")
      * @Assert\NotNull()
      *
-     * @var \SplFileInfo
+     * @var \SplFileInfo|null
      */
     private $file;
 
     /**
-     * @return \SplFileInfo
+     * @return \SplFileInfo|null
      */
-    public function getFile(): \SplFileInfo
+    public function getFile(): ?\SplFileInfo
     {
         return $this->file;
     }

@@ -28,17 +28,20 @@ class UpdateDocument
     {
         return new self(
             $document->getId(),
-            $document->getTitle()
+            $document->getTitle(),
+            $document->getTags()
         );
     }
 
     /**
      * @param string $id
      * @param string $title
+     * @param array  $tags
      */
-    private function __construct(string $id, string $title)
+    private function __construct(string $id, string $title, array $tags)
     {
         $this->id    = $id;
         $this->title = $title;
+        $this->tags  = $tags;
     }
 }

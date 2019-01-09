@@ -103,10 +103,11 @@ abstract class DocumentCommandHandler implements MessageHandlerInterface
 
     /**
      * @param \SplFileInfo $file
+     * @param string       $originalName
      * @return File
      */
-    protected function createFile(\SplFileInfo $file): File
+    protected function createFile(\SplFileInfo $file, string $originalName): File
     {
-        return $this->fileManager->createFile($file, DocumentVersion::FILE_ORIGIN);
+        return $this->fileManager->createFile($file, DocumentVersion::FILE_ORIGIN, $originalName);
     }
 }

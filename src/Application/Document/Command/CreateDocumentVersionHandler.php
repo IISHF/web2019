@@ -23,7 +23,7 @@ class CreateDocumentVersionHandler extends DocumentCommandHandler
         $document = $this->getDocument($command->getDocumentId());
         $version  = $document->createVersion(
             $command->getId(),
-            $this->createFile($command->getFile()),
+            $this->createFile($command->getFile(), $document->getTitle() . ' ' . $command->getVersion()),
             $command->getVersion(),
             $this->findSuitableDocumentVersionSlug($document->getSlug(), $command->getVersion(), null),
             $command->getValidFrom(),
