@@ -38,49 +38,14 @@
                 </td>
                 <td class="text-nowrap">{{ article.publishedAt|relative_time }}</td>
                 <td>
-                    {% set transitions = workflow_transitions(article) %}
-                    {% set modalIds = {} %}
-                    {% for transition in transitions %}
-                        {% set modalIds = modalIds|merge({(transition.name): 'confirm_' ~ random()}) %}
-                        <div class="modal" role="dialog" id="{{ modalIds[transition.name] }}">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">{{ article.title }}</h5>
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>{{ workflow_metadata(article, 'title', transition) }}</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <form action="{{ path('app_article_workflow', {'article': article.id}) }}"
-                                              method="post">
-                                            <input type="hidden" name="transition" value="{{ transition.name }}"/>
-                                            <input type="hidden" name="_token"
-                                                   value="{{ csrf_token('article_'~transition.name~'_'~article.id) }}"/>
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel
-                                            </button>
-                                            <button type="submit" class="btn btn-outline-primary">
-                                                {{ workflow_metadata(article, 'title', transition) }}
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                    <div class="btn-group btn-group-sm" role="group">
-                        {% if is_granted('ARTICLE_EDIT', article) %}
-                            <a href="{{ path('app_article_update', {'article': article.id}) }}"
-                               class="btn btn-primary">Edit</a>
-                        {% endif %}
-                        {% for transition in transitions %}
-                            <button type="button" class="btn btn-outline-primary" data-toggle="modal"
-                                    data-target="#{{ modalIds[transition.name] }}">
-                                {{ workflow_metadata(article, 'title', transition) }}
-                            </button>
-                        {% endfor %}
-                    </div>
+                    {% embed 'article/_article_workflow_buttons.html.twig' with {article: article, size: 'sm'} %}
+                        {% block before_workflow %}
+                            {% if is_granted('ARTICLE_EDIT', article) %}
+                                <a href="{{ path('app_article_update', {'article': article.id}) }}"
+                                   class="btn btn-primary">Edit</a>
+                            {% endif %}
+                        {% endblock %}
+                    {% endembed %}
                 </td>
             </tr>
         {% endfor %}

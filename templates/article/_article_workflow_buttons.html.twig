@@ -1,0 +1,32 @@
+{% set btnGroupClass = size|default(false) ? 'btn-group btn-group-' ~ size : 'btn-group' %}
+{% set transitions = workflow_transitions(article) %}
+{% set modalIds = {} %}
+{% for transition in transitions %}
+    {% set modalIds = modalIds|merge({(transition.name): 'confirm_' ~ random()}) %}
+    {% embed 'common/_modal.html.twig' with {modalId: modalIds[transition.name], title: article.title} %}
+        {% block modal_body %}
+            <p>{{ workflow_metadata(article, 'title', transition) }}</p>
+        {% endblock %}
+        {% block modal_footer %}
+            {% embed 'common/_form.html.twig' with {
+                action: path('app_article_workflow', {'article': article.id}),
+                csrfIntention: 'article_'~transition.name~'_'~article.id,
+                submitBtn: workflow_metadata(article, 'title', transition)
+            } %}
+                {% block form_fields %}
+                    <input type="hidden" name="transition" value="{{ transition.name }}"/>
+                {% endblock %}
+            {% endembed %}
+        {% endblock %}
+    {% endembed %}
+{% endfor %}
+<div class="{{ btnGroupClass }}" role="group">
+    {% block before_workflow %}{% endblock %}
+    {% for transition in transitions %}
+        <button type="button" class="btn btn-outline-primary" data-toggle="modal"
+                data-target="#{{ modalIds[transition.name] }}">
+            {{ workflow_metadata(article, 'title', transition) }}
+        </button>
+    {% endfor %}
+    {% block after_workflow %}{% endblock %}
+</div>

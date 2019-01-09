@@ -1,0 +1,16 @@
+<div class="modal" role="dialog" id="{{ modalId }}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{% block modal_title %}{{ title|default('') }}{% endblock %}</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                {% block modal_body %}<p>{{ body|default('') }}</p>{% endblock %}
+            </div>
+            <div class="modal-footer">
+                {% block modal_footer %}<p>{{ footer|default('') }}</p>{% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
