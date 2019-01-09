@@ -14,6 +14,9 @@ services:
     App\Application\Document\Command\UpdateDocumentVersionHandler:
     App\Application\Document\Command\DeleteDocumentVersionHandler:
 
+    App\Infrastructure\Document\Security\Voter\DocumentVoter:
+    App\Infrastructure\Document\Security\Voter\DocumentVersionVoter:
+
     App\Infrastructure\Document\ParamConverter\DocumentParamConverter:
         tags:
             - { name: request.param_converter, converter: app.document }
