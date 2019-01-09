@@ -18,29 +18,16 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class CreateDocumentVersion
 {
-    use UuidAware, MutableDocumentVersion, DocumentVersionProperties;
+    use UuidAware, DocumentVersionProperties, MutableDocumentVersion, DocumentVersionFile;
 
     /**
-     * @Assert\File(
-     *      maxSize="16M",
-     *      mimeTypes={
-     *          "application/pdf",
-     *          "application/x-pdf",
-     *          "application/zip",
-     *          "application/vnd.ms-excel",
-     *          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-     *          "application/msword",
-     *          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-     *          "application/vnd.ms-powerpoint",
-     *          "application/vnd.openxmlformats-officedocument.presentationml.presentation"
-     *      }
-     * )
-     * @Assert\Type("SplFileInfo")
-     * @Assert\NotNull()
+     * @Assert\Type("string")
+     * @Assert\Uuid()
+     * @Assert\NotBlank()
      *
-     * @var \SplFileInfo
+     * @var string
      */
-    private $file;
+    private $documentId;
 
     /**
      * @param string $documentId
@@ -62,20 +49,10 @@ class CreateDocumentVersion
     }
 
     /**
-     * @return \SplFileInfo
+     * @return string
      */
-    public function getFile(): \SplFileInfo
+    public function getDocumentId(): string
     {
-        return $this->file;
-    }
-
-    /**
-     * @param \SplFileInfo $file
-     * @return $this
-     */
-    public function setFile(\SplFileInfo $file): self
-    {
-        $this->file = $file;
-        return $this;
+        return $this->documentId;
     }
 }

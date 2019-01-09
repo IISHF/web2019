@@ -19,15 +19,6 @@ trait DocumentVersionProperties
 {
     /**
      * @Assert\Type("string")
-     * @Assert\Uuid()
-     * @Assert\NotBlank()
-     *
-     * @var string
-     */
-    private $documentId;
-
-    /**
-     * @Assert\Type("string")
      * @Assert\Length(max=128)
      * @Assert\NotBlank()
      *
@@ -48,14 +39,6 @@ trait DocumentVersionProperties
      * @var \DateTimeImmutable|null
      */
     private $validUntil;
-
-    /**
-     * @return string
-     */
-    public function getDocumentId(): string
-    {
-        return $this->documentId;
-    }
 
     /**
      * @return string

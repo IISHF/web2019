@@ -18,7 +18,7 @@ use App\Domain\Model\Document\Document;
  */
 class UpdateDocument
 {
-    use UuidAware, MutableDocument, DocumentProperties;
+    use UuidAware, DocumentProperties, MutableDocument;
 
     /**
      * @param Document $document
