@@ -111,8 +111,8 @@ class ArticleController extends AbstractController
         return $this->render(
             'article/create.html.twig',
             [
-                'article' => $createArticle,
-                'form'    => $form->createView(),
+                'author' => $createArticle->getAuthor(),
+                'form'   => $form->createView(),
             ]
         );
     }

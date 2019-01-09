@@ -10,5 +10,5 @@
         {{ article.title }}
     </h1>
 
-    {% include 'article/_form.html.twig' with {form: form} %}
+    {% include 'article/_form.html.twig' with {author: article.author, form: form} %}
 {% endblock %}
