@@ -207,7 +207,7 @@ class DocumentController extends AbstractController
      */
     public function createVersion(Request $request, Document $document, MessageBusInterface $commandBus): Response
     {
-        $createVersion = CreateDocumentVersion::create($document);
+        $createVersion = CreateDocumentVersion::create($document->getId());
         $form          = $this->createForm(CreateDocumentVersionType::class, $createVersion);
         $form->handleRequest($request);
 

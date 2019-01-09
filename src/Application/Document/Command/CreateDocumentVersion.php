@@ -9,7 +9,6 @@
 namespace App\Application\Document\Command;
 
 use App\Application\Common\Command\UuidAware;
-use App\Domain\Model\Document\Document;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -31,12 +30,12 @@ class CreateDocumentVersion
     private $documentId;
 
     /**
-     * @param Document $document
+     * @param string $documentId
      * @return self
      */
-    public static function create(Document $document): self
+    public static function create(string $documentId): self
     {
-        return new self(self::createUuid(), $document->getId());
+        return new self(self::createUuid(), $documentId);
     }
 
     /**
