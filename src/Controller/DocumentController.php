@@ -233,7 +233,7 @@ class DocumentController extends AbstractController
      *     "/{document}/{version}/edit",
      *     methods={"GET", "POST"},
      *     requirements={
-     *          "document": "%routing.slug%",
+     *          "document": "%routing.uuid%",
      *          "version": "%routing.uuid%"
      *      }
      * )

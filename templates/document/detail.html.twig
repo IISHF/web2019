@@ -53,7 +53,7 @@
                             <div class="btn-group btn-group-sm" role="group">
                                 {% if is_granted('DOCUMENT_VERSION_EDIT', version) %}
                                     <a href="{{ path('app_document_updateversion', {
-                                        'document': document.slug,
+                                        'document': document.id,
                                         'version': version.id
                                     }) }}" class="btn btn-primary">Edit</a>
                                 {% endif %}

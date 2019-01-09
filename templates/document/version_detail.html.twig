@@ -15,7 +15,7 @@
     <div class="btn-group" role="group">
         {% if is_granted('DOCUMENT_VERSION_EDIT', version) %}
             <a href="{{ path('app_document_updateversion', {
-                'document': version.document.slug,
+                'document': version.document.id,
                 'version': version.id
             }) }}" class="btn btn-primary">Edit</a>
         {% endif %}
