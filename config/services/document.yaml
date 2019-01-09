@@ -21,5 +21,4 @@ services:
         tags:
             - { name: request.param_converter, converter: app.document_version }
 
-    App\Infrastructure\Document\Form\CreateDocumentType:
-    App\Infrastructure\Document\Form\UpdateDocumentType:
+    App\Infrastructure\Document\Form\DocumentTagType:

@@ -9,10 +9,7 @@
 namespace App\Infrastructure\Document\Form;
 
 use App\Application\Document\Command\CreateDocument;
-use App\Domain\Model\Document\DocumentRepository;
-use App\Infrastructure\Form\TagType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -26,19 +23,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class CreateDocumentType extends AbstractType
 {
-    /**
-     * @var DocumentRepository
-     */
-    private $documentRepository;
-
-    /**
-     * @param DocumentRepository $documentRepository
-     */
-    public function __construct(DocumentRepository $documentRepository)
-    {
-        $this->documentRepository = $documentRepository;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -71,16 +55,10 @@ class CreateDocumentType extends AbstractType
             )
             ->add(
                 'tags',
-                TagType::class,
+                DocumentTagType::class,
                 [
-                    'label'         => 'Tags',
-                    'required'      => false,
-                    'choice_loader' => new CallbackChoiceLoader(
-                        function () {
-                            $tags = $this->articleRepository->findAvailableTags();
-                            return array_combine($tags, $tags);
-                        }
-                    ),
+                    'label'    => 'Tags',
+                    'required' => false,
                 ]
             )
             ->add(

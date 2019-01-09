@@ -9,10 +9,7 @@
 namespace App\Infrastructure\Document\Form;
 
 use App\Application\Document\Command\UpdateDocument;
-use App\Domain\Model\Document\DocumentRepository;
-use App\Infrastructure\Form\TagType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,19 +21,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class UpdateDocumentType extends AbstractType
 {
-    /**
-     * @var DocumentRepository
-     */
-    private $documentRepository;
-
-    /**
-     * @param DocumentRepository $documentRepository
-     */
-    public function __construct(DocumentRepository $documentRepository)
-    {
-        $this->documentRepository = $documentRepository;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -53,16 +37,10 @@ class UpdateDocumentType extends AbstractType
             )
             ->add(
                 'tags',
-                TagType::class,
+                DocumentTagType::class,
                 [
-                    'label'         => 'Tags',
-                    'required'      => false,
-                    'choice_loader' => new CallbackChoiceLoader(
-                        function () {
-                            $tags = $this->documentRepository->findAvailableTags();
-                            return array_combine($tags, $tags);
-                        }
-                    ),
+                    'label'    => 'Tags',
+                    'required' => false,
                 ]
             );
     }
