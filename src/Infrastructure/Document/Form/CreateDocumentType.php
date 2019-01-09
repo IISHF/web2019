@@ -50,6 +50,9 @@ class CreateDocumentType extends AbstractType
                 FileType::class,
                 [
                     'label'    => 'File',
+                    'attr'     => [
+                        'placeholder' => 'Select a file...',
+                    ],
                     'required' => true,
                 ]
             )

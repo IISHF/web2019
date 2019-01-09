@@ -41,13 +41,13 @@ $.fn.datetimepicker.Constructor.Default = Object.assign({}, $.fn.datetimepicker.
 });
 
 const Upload = React.lazy(() => import('./components/Upload.js'));
-document.querySelectorAll('[data-enable-dropzone="true"]')
+document.querySelectorAll('[data-enable-dropzone=true]')
     .forEach((el) => {
         ReactDOM.render(<Lazy><Upload/></Lazy>, el);
     });
 
 const TrixEditor = React.lazy(() => import('./components/TrixEditor.js'));
-document.querySelectorAll('[data-enable-trix="true"]')
+document.querySelectorAll('[data-enable-trix=true]')
     .forEach((el) => {
         const {name, value = '', trixOptions} = el.dataset;
         let properties = {};
@@ -58,13 +58,29 @@ document.querySelectorAll('[data-enable-trix="true"]')
     });
 
 $(document).ready(function () {
-    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle=tooltip]').tooltip();
 
-    $('select[data-enable-select2="true"]').each(function () {
+    $('select[data-enable-select2=true]').each(function () {
         $(this).select2($(this).data('select2-options') || {});
     });
 
-    $('[data-enable-datepicker="true"]').each(function () {
+    $('[data-enable-datepicker=true]').each(function () {
         $(this).datetimepicker($(this).data('datepicker-options') || {});
+    });
+
+    $('input[type=file].custom-file-input').on('change', function () {
+        // @see https://github.com/twbs/bootstrap/issues/23994#issuecomment-408644190
+        let fileName = $(this).val().split('\\').pop();
+        let label = $(this).siblings('.custom-file-label');
+
+        if (label.data('default-title') === undefined) {
+            label.data('default-title', label.html());
+        }
+
+        if (fileName === '') {
+            label.removeClass("selected").html(label.data('default-title'));
+        } else {
+            label.addClass("selected").html(fileName);
+        }
     });
 });
