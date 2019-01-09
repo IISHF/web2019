@@ -8,6 +8,7 @@
 
 namespace App\Application\Document\Command;
 
+use App\Application\Document\Validator\UniqueDocumentTitle;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -21,6 +22,7 @@ trait DocumentProperties
      * @Assert\Type("string")
      * @Assert\Length(max=128)
      * @Assert\NotBlank()
+     * @UniqueDocumentTitle()
      *
      * @var string
      */

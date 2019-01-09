@@ -52,6 +52,28 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
     }
 
     /**
+     * @param string $slug
+     * @return Document|null
+     */
+    public function findBySlug(string $slug): ?Document
+    {
+        /** @var Document|null $document */
+        $document = $this->findOneBy(['slug' => $slug]);
+        return $document;
+    }
+
+    /**
+     * @param string $title
+     * @return Document|null
+     */
+    public function findByTitle(string $title): ?Document
+    {
+        /** @var Document|null $document */
+        $document = $this->findOneBy(['title' => $title]);
+        return $document;
+    }
+
+    /**
      * @param string $id
      * @return Document|null
      */
@@ -63,17 +85,6 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
                          ->setParameter('id', $id)
                          ->getQuery()
                          ->getOneOrNullResult();
-        return $document;
-    }
-
-    /**
-     * @param string $slug
-     * @return Document|null
-     */
-    public function findBySlug(string $slug): ?Document
-    {
-        /** @var Document|null $document */
-        $document = $this->findOneBy(['slug' => $slug]);
         return $document;
     }
 
@@ -172,13 +183,31 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
     }
 
     /**
+     * @param string $documentId
+     * @param string $documentVersion
+     * @return DocumentVersion|null
+     */
+    public function findVersion(string $documentId, string $documentVersion): ?DocumentVersion
+    {
+        /** @var DocumentVersion|null $version */
+        $version = $this->createVersionQueryBuilderWithFile()
+                        ->where('dv.version = :version')
+                        ->andWhere('d.id = :documentId')
+                        ->setParameter('version', $documentVersion)
+                        ->setParameter('documentId', $documentId)
+                        ->getQuery()
+                        ->getOneOrNullResult();
+        return $version;
+    }
+
+    /**
      * @param string $id
      * @return DocumentVersion|null
      */
     public function findVersionById(string $id): ?DocumentVersion
     {
         /** @var DocumentVersion|null $version */
-        $version = $this->createVersionQueryBuilder()
+        $version = $this->createVersionQueryBuilderWithFile()
                         ->where('dv.id = :id')
                         ->setParameter('id', $id)
                         ->getQuery()
@@ -194,7 +223,7 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
     public function findVersionBySlug(string $documentSlug, string $versionSlug): ?DocumentVersion
     {
         /** @var DocumentVersion|null $version */
-        $version = $this->createVersionQueryBuilder()
+        $version = $this->createVersionQueryBuilderWithFile()
                         ->where('dv.slug = :versionSlug')
                         ->andWhere('d.slug = :documentSlug')
                         ->setParameter('versionSlug', $versionSlug)
@@ -210,10 +239,19 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
     private function createVersionQueryBuilder(): \Doctrine\ORM\QueryBuilder
     {
         return $this->_em->createQueryBuilder()
-                         ->select('dv', 'd', 'f')
+                         ->select('dv', 'd')
                          ->from(DocumentVersion::class, 'dv')
-                         ->join('dv.document', 'd')
-                         ->join('dv.file', 'f');
+                         ->join('dv.document', 'd');
+    }
+
+    /**
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    private function createVersionQueryBuilderWithFile(): \Doctrine\ORM\QueryBuilder
+    {
+        return $this->createVersionQueryBuilder()
+                    ->addSelect('f')
+                    ->join('dv.file', 'f');
     }
 
     /**

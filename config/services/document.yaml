@@ -25,3 +25,6 @@ services:
             - { name: request.param_converter, converter: app.document_version }
 
     App\Infrastructure\Document\Form\DocumentTagType:
+
+    App\Application\Document\Validator\UniqueDocumentTitleValidator:
+    App\Application\Document\Validator\UniqueDocumentVersionValidator:
