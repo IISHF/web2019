@@ -188,8 +188,9 @@ class ArticleRepository extends ServiceEntityRepository implements TagProvider
         $this->_em->beginTransaction();
         try {
             $this->_em->remove($attachment);
-            $this->fileRepository->delete($attachment->getFile());
+            $this->fileRepository->delete($attachment->getFile(), false);
             $this->_em->flush();
+            $this->fileRepository->cleanupFileBinaries();
             $this->_em->commit();
         } catch (\Exception $e) {
             $this->_em->rollback();

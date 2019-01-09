@@ -60,7 +60,7 @@ class FileManager
      */
     public function delete(File $file): void
     {
-        $this->repository->delete($file);
+        $this->repository->delete($file, true);
     }
 
     /**

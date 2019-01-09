@@ -97,18 +97,23 @@ class FileRepository extends ServiceEntityRepository
 
     /**
      * @param File $file
+     * @param bool $flush
      */
-    public function delete(File $file): void
+    public function delete(File $file, bool $flush): void
     {
-        $this->_em->beginTransaction();
-        try {
+        if ($flush) {
+            $this->_em->beginTransaction();
+            try {
+                $this->_em->remove($file);
+                $this->_em->flush();
+                $this->cleanupFileBinaries();
+                $this->_em->commit();
+            } catch (\Exception $e) {
+                $this->_em->rollback();
+                throw $e;
+            }
+        } else {
             $this->_em->remove($file);
-            $this->_em->flush();
-            $this->cleanupFileBinaries();
-            $this->_em->commit();
-        } catch (\Exception $e) {
-            $this->_em->rollback();
-            throw $e;
         }
     }
 
