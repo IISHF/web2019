@@ -50,21 +50,10 @@ class DocumentRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $title
-     * @return Document|null
-     */
-    public function findByTitle(string $title): ?Document
-    {
-        /** @var Document|null $document */
-        $document = $this->findOneBy(['title' => $title]);
-        return $document;
-    }
-
-    /**
      * @param string $slug
      * @return Document|null
      */
-    public function findVersionBySlug(string $slug): ?Document
+    public function findBySlug(string $slug): ?Document
     {
         /** @var Document|null $document */
         $document = $this->findOneBy(['slug' => $slug]);
@@ -79,10 +68,7 @@ class DocumentRepository extends ServiceEntityRepository
     public function findPaged(int $page = 1, int $limit = 30): iterable
     {
         $queryBuilder = $this->createQueryBuilder('d')
-                             ->addSelect('dv')
-                             ->join('d.versions', 'dv')
-                             ->orderBy('d.title', 'ASC')
-                             ->addOrderBy('dv.version', 'ASC');
+                             ->orderBy('d.title', 'ASC');
         return $this->createPager($queryBuilder, $page, $limit);
     }
 
@@ -134,6 +120,26 @@ class DocumentRepository extends ServiceEntityRepository
         $collator->sort($tags, \Collator::SORT_STRING);
 
         return $tags;
+    }
+
+    /**
+     * @param string $documentSlug
+     * @param string $versionSlug
+     * @return DocumentVersion|null
+     */
+    public function findVersionBySlug(string $documentSlug, string $versionSlug): ?DocumentVersion
+    {
+        /** @var DocumentVersion|null $version */
+        $version = $this->createQueryBuilder('dv')
+                        ->addSelect('d')
+                        ->join('dv.document', 'd')
+                        ->where('dv.slug = :versionSlug')
+                        ->andWhere('d.slug = :documentSlug')
+                        ->setParameter('versionSlug', $versionSlug)
+                        ->setParameter('documentSlug', $documentSlug)
+                        ->getQuery()
+                        ->getOneOrNullResult();
+        return $version;
     }
 
     /**

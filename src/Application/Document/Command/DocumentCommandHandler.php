@@ -57,16 +57,31 @@ abstract class DocumentCommandHandler implements MessageHandlerInterface
 
     /**
      * @param string      $title
+     * @param string|null $id
+     * @return string
+     */
+    protected function findSuitableDocumentSlug(string $title, ?string $id): string
+    {
+        return Urlizer::urlizeUnique(
+            $title,
+            function (string $slug) use ($id) {
+                return ($tryDocument = $this->repository->findBySlug($slug)) !== null && $tryDocument->getId() !== $id;
+            }
+        );
+    }
+
+    /**
+     * @param string      $documentSlug
      * @param string      $version
      * @param string|null $id
      * @return string
      */
-    protected function findSuitableSlug(string $title, string $version, ?string $id): string
+    protected function findSuitableDocumentVersionSlug(string $documentSlug, string $version, ?string $id): string
     {
         return Urlizer::urlizeUnique(
-            $title . '-' . $version,
-            function (string $slug) use ($id) {
-                return ($tryVersion = $this->repository->findVersionBySlug($slug)) !== null
+            $version,
+            function (string $slug) use ($id, $documentSlug) {
+                return ($tryVersion = $this->repository->findVersionBySlug($documentSlug, $slug)) !== null
                     && $tryVersion->getId() !== $id;
             }
         );
