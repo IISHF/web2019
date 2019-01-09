@@ -16,11 +16,17 @@
                     <h5 class="card-title">{{ ngb.countryName }}</h5>
                     <h6 class="card-subtitle">{{ ngb.acronym }}</h6>
                     <p class="card-text">{{ ngb.name }}</p>
-                    <a href="{{ path('app_nationalgoverningbody_getdetail', {'ngb': ngb.slug}) }}" class="card-link">Details</a>
-                    {% if is_granted('NATIONAL_GOVERNING_BODY_EDIT', ngb) %}
-                        <a href="{{ path('app_nationalgoverningbody_update', {'ngb': ngb.id}) }}"
-                           class="card-link">Edit</a>
-                    {% endif %}
+                    <div class="btn-group btn-group" role="group">
+                        <a href="{{ path('app_nationalgoverningbody_getdetail', {'ngb': ngb.slug}) }}"
+                           class="btn btn-outline-primary">Details</a>
+                        {% if is_granted('NATIONAL_GOVERNING_BODY_EDIT', ngb) %}
+                            <a href="{{ path('app_nationalgoverningbody_update', {'ngb': ngb.id}) }}"
+                               class="btn btn-primary">Edit</a>
+                        {% endif %}
+                        {% if is_granted('NATIONAL_GOVERNING_BODY_DELETE', ngb) %}
+                            <a href="#" class="btn btn-danger">Delete</a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         {% endfor %}

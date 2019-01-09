@@ -70,6 +70,9 @@
                             <a href="{{ path('app_document_update', {'document': document.id}) }}"
                                class="btn btn-primary">Edit</a>
                         {% endif %}
+                        {% if is_granted('DOCUMENT_DELETE', document) %}
+                            <a href="#" class="btn btn-danger">Delete</a>
+                        {% endif %}
                     </div>
                 </td>
 

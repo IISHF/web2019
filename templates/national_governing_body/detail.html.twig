@@ -52,6 +52,9 @@
             <a href="{{ path('app_nationalgoverningbody_update', {'ngb': ngb.id}) }}"
                class="btn btn-primary">Edit</a>
         {% endif %}
+        {% if is_granted('NATIONAL_GOVERNING_BODY_DELETE', ngb) %}
+            <a href="#" class="btn btn-danger">Delete</a>
+        {% endif %}
         <a href="{{ path('app_nationalgoverningbody_getlist') }}" class="btn btn-outline-secondary">Back</a>
     </div>
 

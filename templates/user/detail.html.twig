@@ -1,7 +1,12 @@
 {% extends 'public_base.html.twig' %}
 
 {% block content %}
-    <h1>{{ user.name }}</h1>
+    <h1>
+        {% if app.user and app.user.username == user.email %}
+            <i class="fas fa-user" title="That's me!" data-toggle="tooltip" data-placement="right"></i>
+        {% endif %}
+        {{ user.name }}
+    </h1>
 
     <dl class="row">
         <dt class="col-2">ID</dt>
@@ -59,6 +64,9 @@
     <div class="btn-group" role="group">
         {% if is_granted('USER_EDIT', user) %}
             <a href="{{ path('app_user_update', {'user': user.id}) }}" class="btn btn-primary">Edit</a>
+        {% endif %}
+        {% if is_granted('USER_DELETE', user) %}
+            <a href="#" class="btn btn-danger">Delete</a>
         {% endif %}
         <a href="{{ path('app_user_getlist') }}" class="btn btn-outline-secondary">Back</a>
     </div>

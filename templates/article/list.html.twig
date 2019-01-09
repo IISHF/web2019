@@ -45,6 +45,11 @@
                                    class="btn btn-primary">Edit</a>
                             {% endif %}
                         {% endblock %}
+                        {% block after_workflow %}
+                            {% if is_granted('ARTICLE_DELETE', article) %}
+                                <a href="#" class="btn btn-danger">Delete</a>
+                            {% endif %}
+                        {% endblock %}
                     {% endembed %}
                 </td>
             </tr>

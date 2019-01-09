@@ -109,6 +109,9 @@
             {% endif %}
         {% endblock %}
         {% block after_workflow %}
+            {% if is_granted('ARTICLE_DELETE', article) %}
+                <a href="#" class="btn btn-danger">Delete</a>
+            {% endif %}
             <a href="{{ path('app_article_getlist') }}" class="btn btn-outline-secondary">Back</a>
         {% endblock %}
     {% endembed %}

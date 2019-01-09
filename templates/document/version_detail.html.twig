@@ -17,8 +17,10 @@
             <a href="{{ path('app_document_updateversion', {
                 'document': version.document.slug,
                 'version': version.id
-            }) }}"
-               class="btn btn-primary">Edit</a>
+            }) }}" class="btn btn-primary">Edit</a>
+        {% endif %}
+        {% if is_granted('DOCUMENT_VERSION_DELETE', version) %}
+            <a href="#" class="btn btn-danger">Delete</a>
         {% endif %}
         <a href="{{ path('app_document_getdetail', {'document': version.document.slug}) }}"
            class="btn btn-outline-secondary">Back</a>

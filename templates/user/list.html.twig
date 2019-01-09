@@ -22,8 +22,12 @@
         </thead>
         <tbody>
         {% for user in users %}
-            <tr>
+            {% set isCurrentUser = app.user and app.user.username == user.email %}
+            <tr {% if isCurrentUser %}class="table-info"{% endif %}>
                 <td>
+                    {% if isCurrentUser %}
+                        <i class="fas fa-user" title="That's me!" data-toggle="tooltip" data-placement="top"></i>
+                    {% endif %}
                     <a href="{{ path('app_user_getdetail', {'user': user.id}) }}">{{ user.name(true) }}</a>
                 </td>
                 <td>
@@ -45,6 +49,9 @@
                         {% if is_granted('USER_EDIT', user) %}
                             <a href="{{ path('app_user_update', {'user': user.id}) }}"
                                class="btn btn-primary">Edit</a>
+                        {% endif %}
+                        {% if is_granted('USER_DELETE', user) %}
+                            <a href="#" class="btn btn-danger">Delete</a>
                         {% endif %}
                     </div>
                 </td>
