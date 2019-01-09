@@ -7,7 +7,7 @@ services:
     App\Domain\Model\Article\ArticleRepository:
 
     App\Domain\Model\Article\ArticleVersionRepository:
-        factory: 'doctrine.orm.entity_manager::getRepository'
+        factory: 'doctrine.orm.entity_manager:getRepository'
         arguments: ['App\Domain\Model\Article\ArticleVersion']
 
     App\Application\Article\Command\CreateArticleHandler:

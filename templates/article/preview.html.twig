@@ -1,0 +1,13 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    <h1>
+        <span class="badge badge-info">Version {{ version }}</span> {{ article.title }}
+    </h1>
+
+    {{ include('article/_article_detail.html.twig', {article: article}) }}
+
+    <div class="btn-group" role="group">
+        <a href="{{ path('app_article_getdetail', {article: articleSlug}) }}" class="btn btn-outline-secondary">Back</a>
+    </div>
+{% endblock %}

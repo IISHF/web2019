@@ -14,6 +14,7 @@ use App\Application\Article\Command\UpdateArticle;
 use App\Application\Article\Command\WorkflowCommand;
 use App\Domain\Model\Article\Article;
 use App\Domain\Model\Article\ArticleRepository;
+use App\Domain\Model\Article\ArticleVersionRepository;
 use App\Infrastructure\Article\Form\CreateArticleType;
 use App\Infrastructure\Article\Form\UpdateArticleType;
 use App\Infrastructure\File\FileUploader;
@@ -127,14 +128,23 @@ class ArticleController extends AbstractController
      *      converter="app.article"
      * )
      *
-     * @param Article           $article
-     * @param ArticleRepository $repository
+     * @param Article                  $article
+     * @param ArticleRepository        $repository
+     * @param ArticleVersionRepository $versionRepository
      * @return Response
      */
-    public function getDetail(Article $article, ArticleRepository $repository): Response
-    {
+    public function getDetail(
+        Article $article,
+        ArticleRepository $repository,
+        ArticleVersionRepository $versionRepository
+    ): Response {
         $images    = $repository->findImages($article);
         $documents = $repository->findDocuments($article);
+
+        $versions = [];
+        if ($this->isGranted('ARTICLE_EDIT', $article)) {
+            $versions = $versionRepository->getLogEntries($article);
+        }
 
         return $this->render(
             'article/detail.html.twig',
@@ -142,6 +152,44 @@ class ArticleController extends AbstractController
                 'article'   => $article,
                 'images'    => $images,
                 'documents' => $documents,
+                'versions'  => $versions,
+            ]
+        );
+    }
+
+    /**
+     * @Route(
+     *     "/{article}/preview/{version<\d+>}",
+     *     methods={"GET"},
+     *     requirements={"article": "%routing.slug%"}
+     * )
+     * @Security("is_granted('ARTICLE_EDIT', article)")
+     * @ParamConverter(
+     *      name="article",
+     *      class="App\Domain\Model\Article\Article",
+     *      converter="app.article"
+     * )
+     *
+     * @param Article                  $article
+     * @param int                      $version
+     * @param ArticleVersionRepository $versionRepository
+     * @return Response
+     */
+    public function preview(Article $article, int $version, ArticleVersionRepository $versionRepository): Response
+    {
+        if ($article->isLegacyFormat()) {
+            throw $this->createNotFoundException();
+        }
+
+        $articleSlug = $article->getSlug();
+        $versionRepository->revert($article, $version);
+
+        return $this->render(
+            'article/preview.html.twig',
+            [
+                'article'     => $article,
+                'version'     => $version,
+                'articleSlug' => $articleSlug,
             ]
         );
     }
