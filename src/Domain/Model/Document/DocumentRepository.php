@@ -10,6 +10,7 @@ namespace App\Domain\Model\Document;
 
 use App\Domain\Common\Repository\DoctrinePaging;
 use App\Domain\Model\File\FileRepository;
+use App\Utils\Tags;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Pagerfanta\Pagerfanta;
@@ -119,29 +120,29 @@ class DocumentRepository extends ServiceEntityRepository
      */
     public function findAvailableTags(): iterable
     {
-        $tags = array_keys(
-            array_reduce(
-                array_column(
-                    $this->createQueryBuilder('d')
-                         ->select('d.tags')
-                         ->getQuery()
-                         ->getArrayResult(),
-                    'tags'
-                ),
-                function (array $carry, array $tags) {
-                    foreach ($tags as $tag) {
-                        $carry[$tag] = true;
-                    }
-                    return $carry;
-                },
-                []
-            )
+        return Tags::createTagList(
+            $this->createQueryBuilder('d')
+                 ->select('d.tags')
+                 ->getQuery()
+                 ->getArrayResult()
         );
+    }
 
-        $collator = new \Collator('en_GB');
-        $collator->sort($tags, \Collator::SORT_STRING);
-
-        return $tags;
+    /**
+     * @param string $id
+     * @return DocumentVersion|null
+     */
+    public function findVersionById(string $id): ?DocumentVersion
+    {
+        /** @var DocumentVersion|null $version */
+        $version = $this->createQueryBuilder('dv')
+                        ->addSelect('d')
+                        ->join('dv.document', 'd')
+                        ->where('dv.id = :id')
+                        ->setParameter('id', $id)
+                        ->getQuery()
+                        ->getOneOrNullResult();
+        return $version;
     }
 
     /**
