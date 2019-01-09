@@ -93,7 +93,7 @@ abstract class ArticleAttachment
      */
     public function getName(): string
     {
-        return $this->getFile()->getName();
+        return $this->file->getName();
     }
 
     /**
@@ -101,6 +101,6 @@ abstract class ArticleAttachment
      */
     public function getClientName(): string
     {
-        return $this->getFile()->getClientName();
+        return $this->file->getClientName();
     }
 }

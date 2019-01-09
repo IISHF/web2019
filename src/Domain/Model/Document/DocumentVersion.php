@@ -73,14 +73,14 @@ class DocumentVersion
     private $slug;
 
     /**
-     * @ORM\Column(name="valid_from", type="datetime_immutable", nullable=true)
+     * @ORM\Column(name="valid_from", type="date_immutable", nullable=true)
      *
      * @var \DateTimeImmutable|null
      */
     private $validFrom;
 
     /**
-     * @ORM\Column(name="valid_until", type="datetime_immutable", nullable=true)
+     * @ORM\Column(name="valid_until", type="date_immutable", nullable=true)
      *
      * @var \DateTimeImmutable|null
      */
@@ -181,7 +181,7 @@ class DocumentVersion
      */
     public function getFileName(): string
     {
-        return $this->getFile()->getName();
+        return $this->file->getName();
     }
 
     /**
@@ -189,7 +189,7 @@ class DocumentVersion
      */
     public function getFileClientName(): string
     {
-        return $this->getFile()->getClientName();
+        return $this->file->getClientName();
     }
 
     /**
@@ -197,7 +197,7 @@ class DocumentVersion
      */
     public function getFileType(): string
     {
-        return $this->getFile()->getMimeType();
+        return $this->file->getMimeType();
     }
 
     /**
@@ -205,7 +205,7 @@ class DocumentVersion
      */
     public function getFileSize(): int
     {
-        return $this->getFile()->getSize();
+        return $this->file->getSize();
     }
 
     /**
@@ -213,7 +213,7 @@ class DocumentVersion
      */
     public function getTitle(): string
     {
-        return $this->getDocument()->getTitle() . ' ' . $this->getVersion();
+        return $this->document->getTitle() . ' ' . $this->version;
     }
 
     /**
@@ -289,5 +289,58 @@ class DocumentVersion
     {
         $this->validUntil = $validUntil;
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasValidity(): bool
+    {
+        return !($this->validFrom === null && $this->validUntil === null);
+    }
+
+    /**
+     * @param \DateTimeImmutable|null $date
+     * @return bool
+     */
+    public function isValid(?\DateTimeImmutable $date = null): bool
+    {
+        if (!$this->hasValidity()) {
+            return true;
+        }
+        $date = $date ?? new \DateTimeImmutable('now');
+        if ($this->validFrom !== null && $date < $this->validFrom) {
+            return false;
+        }
+        if ($this->validUntil !== null && $date >= $this->validUntil->modify('+1 day')) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @param \DateTimeImmutable|null $date
+     * @return bool
+     */
+    public function isFuture(?\DateTimeImmutable $date = null): bool
+    {
+        $date = $date ?? new \DateTimeImmutable('now');
+        if ($this->validFrom !== null && $date < $this->validFrom) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param \DateTimeImmutable|null $date
+     * @return bool
+     */
+    public function isOutdated(?\DateTimeImmutable $date = null): bool
+    {
+        $date = $date ?? new \DateTimeImmutable('now');
+        if ($this->validUntil !== null && $date >= $this->validUntil->modify('+1 day')) {
+            return true;
+        }
+        return false;
     }
 }

@@ -267,7 +267,7 @@ class NationalGoverningBody
      */
     public function getCountryName(): string
     {
-        return Country::getCountryNameByCode($this->getCountry());
+        return Country::getCountryNameByCode($this->country);
     }
 
     /**

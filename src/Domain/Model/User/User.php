@@ -279,9 +279,9 @@ class User implements UserInterface
     public function getName(bool $lastNameFirst = false): string
     {
         if ($lastNameFirst) {
-            return $this->getLastName() . ', ' . $this->getFirstName();
+            return $this->lastName . ', ' . $this->firstName;
         }
-        return $this->getFirstName() . ' ' . $this->getLastName();
+        return $this->firstName . ' ' . $this->lastName;
     }
 
     /**

@@ -156,6 +156,37 @@ class Document
     }
 
     /**
+     * @param \DateTimeImmutable|null $date
+     * @return DocumentVersion[]
+     */
+    public function findValidVersions(?\DateTimeImmutable $date = null): array
+    {
+        $date  = $date ?? new \DateTimeImmutable('now');
+        $valid = [];
+        foreach ($this->versions as $version) {
+            if ($version->isValid($date)) {
+                $valid[] = $version;
+            }
+        }
+        return $valid;
+    }
+
+    /**
+     * @param \DateTimeImmutable|null $date
+     * @return DocumentVersion|null
+     */
+    public function findFirstValidVersion(?\DateTimeImmutable $date = null): ?DocumentVersion
+    {
+        $date = $date ?? new \DateTimeImmutable('now');
+        foreach ($this->versions as $version) {
+            if ($version->isValid($date)) {
+                return $version;
+            }
+        }
+        return null;
+    }
+
+    /**
      * @param string                  $id
      * @param File                    $file
      * @param string                  $version

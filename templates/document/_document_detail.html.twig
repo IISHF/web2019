@@ -1,0 +1,18 @@
+<dl class="row">
+    <dt class="col-2">ID</dt>
+    <dd class="col-10">{{ document.id }}</dd>
+    <dt class="col-2">Slug</dt>
+    <dd class="col-10">{{ document.slug }}</dd>
+    <dt class="col-2">Title</dt>
+    <dd class="col-10">{{ document.title }}</dd>
+    <dt class="col-2">Tags</dt>
+    <dd class="col-10">
+        {% for tag in document.tags %}
+            <span class="badge badge-secondary">{{ tag }}</span>
+        {% endfor %}
+    </dd>
+    <dt class="col-2">Last Updated</dt>
+    <dd class="col-10">{{ document.updatedAt|relative_time }}</dd>
+    <dt class="col-2">Created</dt>
+    <dd class="col-10">{{ document.createdAt|relative_time }}</dd>
+</dl>

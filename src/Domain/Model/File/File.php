@@ -145,7 +145,7 @@ class File implements FileInterface
      */
     public function getClientName(): string
     {
-        return $this->getOriginalName() ?? $this->getName();
+        return $this->originalName ?? $this->name;
     }
 
     /**
@@ -178,7 +178,7 @@ class File implements FileInterface
      */
     public function isImage(): bool
     {
-        return strpos($this->getMimeType(), 'image/') === 0;
+        return strpos($this->mimeType, 'image/') === 0;
     }
 
     /**
@@ -186,7 +186,7 @@ class File implements FileInterface
      */
     public function isPdf(): bool
     {
-        return $this->getMimeType() === 'application/pdf' || $this->getMimeType() === 'application/x-pdf';
+        return $this->mimeType === 'application/pdf' || $this->mimeType === 'application/x-pdf';
     }
 
     /**
@@ -210,7 +210,7 @@ class File implements FileInterface
      */
     public function getEtag(): string
     {
-        return $this->getBinary()->getHash();
+        return $this->binary->getHash();
     }
 
     /**
@@ -222,7 +222,7 @@ class File implements FileInterface
         if ($filename === null && ($filename = tempnam(sys_get_temp_dir(), 'file_')) === false) {
             throw new \RuntimeException('Cannot create a temporary filename.');
         }
-        if (file_put_contents($filename, $this->getBinary()->getData(), LOCK_EX) === false) {
+        if (file_put_contents($filename, $this->binary->getData(), LOCK_EX) === false) {
             throw new \RuntimeException('Cannot write to file ' . $filename . '.');
         }
         return $filename;

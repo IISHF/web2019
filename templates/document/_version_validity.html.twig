@@ -1,0 +1,26 @@
+{% if version.valid %}
+    <span class="badge badge-success">valid</span>
+{% elseif version.future %}
+    <span class="badge badge-info">future</span>
+{% elseif version.outdated %}
+    <span class="badge badge-warning">outdated</span>
+{% endif %}
+<small>
+    {%- if version.validity -%}
+        <span class="text-nowrap">
+            {%- if version.validFrom -%}
+                {{- version.validFrom|date('F j, Y') -}}
+            {%- else -%}
+                <i class="fas fa-infinity"></i>
+            {%- endif -%}
+            &#160;<i class="fas fa-long-arrow-alt-right"></i>&#160;
+            {%- if version.validUntil -%}
+                {{- version.validUntil|date('F j, Y') -}}
+            {%- else -%}
+                <i class="fas fa-infinity"></i>
+            {%- endif -%}
+        </span>
+    {%- else -%}
+        <i class="fas fa-infinity"></i>
+    {%- endif -%}
+</small>

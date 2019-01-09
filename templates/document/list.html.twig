@@ -15,11 +15,17 @@
             <th scope="col">#</th>
             <th scope="col">Title</th>
             <th scope="col">Tags</th>
+            <th scope="col">Version</th>
+            <th scope="col">Valid</th>
+            <th scope="col">Type</th>
+            <th scope="col">Size</th>
+            <th scope="col">Created</th>
             <th scope="col">&#160;</th>
         </tr>
         </thead>
         <tbody>
         {% for document in documents %}
+            {% set validVersion = document.findFirstValidVersion %}
             <tr>
                 <th scope="row">{{ loop.index0 + documents.currentPageOffsetStart }}</th>
                 <td>
@@ -31,6 +37,34 @@
                     {% endfor %}
                 </td>
                 <td>
+                    {% if validVersion %}
+                        <a href="{{ path('app_document_getversiondetail', {
+                            'document': document.slug,
+                            'version': validVersion.slug
+                        }) }}">{{ validVersion.version }}</a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if validVersion %}
+                        {{ include('document/_version_validity.html.twig', {version: validVersion}) }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if validVersion %}
+                        {{ validVersion.fileType }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if validVersion %}
+                        {{ validVersion.fileSize|file_size }}
+                    {% endif %}
+                </td>
+                <td class="text-nowrap">
+                    {% if validVersion %}
+                        {{ validVersion.createdAt|relative_time }}
+                    {% endif %}
+                </td>
+                <td>
                     <div class="btn-group btn-group-sm" role="group">
                         {% if is_granted('DOCUMENT_EDIT', document) %}
                             <a href="{{ path('app_document_update', {'document': document.id}) }}"
@@ -38,6 +72,7 @@
                         {% endif %}
                     </div>
                 </td>
+
             </tr>
         {% endfor %}
         </tbody>
