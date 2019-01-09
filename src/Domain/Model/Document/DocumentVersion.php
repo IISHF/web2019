@@ -161,6 +161,14 @@ class DocumentVersion
     }
 
     /**
+     * @return $this
+     */
+    public function removeFromDocument(): self
+    {
+        return $this->setDocument(null);
+    }
+
+    /**
      * @return File
      */
     public function getFile(): File

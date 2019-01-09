@@ -195,6 +195,8 @@ class Document
     }
 
     /**
+     * @internal
+     *
      * @param DocumentVersion $version
      * @return $this
      */
