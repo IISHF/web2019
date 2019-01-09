@@ -1,0 +1,17 @@
+{% set modalId = 'delete_' ~ random() %}
+{% embed 'common/_modal.html.twig' with {modalId: modalId, title: title} %}
+    {% block modal_body %}
+        <p>{{ body }}</p>
+    {% endblock %}
+    {% block modal_footer %}
+        {{ include('common/_form.html.twig', {
+            action: deleteAction,
+            csrfIntention: csrfIntention,
+            submitBtn: deleteBtn|default('Delete'),
+            submitBtnType: 'danger'
+        }) }}
+    {% endblock %}
+{% endembed %}
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#{{ modalId }}">
+    {{ deleteBtn|default('Delete') }}
+</button>

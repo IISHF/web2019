@@ -51,7 +51,12 @@
                                class="btn btn-primary">Edit</a>
                         {% endif %}
                         {% if is_granted('USER_DELETE', user) %}
-                            <a href="#" class="btn btn-danger">Delete</a>
+                            {{ include('common/_delete_btn.html.twig', {
+                                title: 'Delete user',
+                                body: 'Do you really want to delete the user?',
+                                deleteAction: path('app_user_delete', {'user': user.id}),
+                                csrfIntention: 'user_delete_' ~ user.id,
+                            }) }}
                         {% endif %}
                     </div>
                 </td>

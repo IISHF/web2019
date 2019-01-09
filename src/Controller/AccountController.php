@@ -52,10 +52,7 @@ class AccountController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $commandBus->dispatch($changePassword);
-            $this->addFlash(
-                'success',
-                'Your password has been changed.'
-            );
+            $this->addFlash('success', 'Your password has been changed.');
             return $this->redirectToRoute('home');
         }
 
@@ -135,10 +132,7 @@ class AccountController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $commandBus->dispatch($resetPassword);
-            $this->addFlash(
-                'success',
-                'Your password has been reset. Please login.'
-            );
+            $this->addFlash('success', 'Your password has been reset. Please login.');
 
             return $this->redirectToRoute('home');
         }
@@ -184,10 +178,7 @@ class AccountController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $commandBus->dispatch($confirmUser);
-            $this->addFlash(
-                'success',
-                'Your user account has been confirmed. Please login.'
-            );
+            $this->addFlash('success', 'Your user account has been confirmed. Please login.');
 
             return $this->redirectToRoute('home');
         }

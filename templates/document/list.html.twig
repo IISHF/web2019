@@ -71,7 +71,12 @@
                                class="btn btn-primary">Edit</a>
                         {% endif %}
                         {% if is_granted('DOCUMENT_DELETE', document) %}
-                            <a href="#" class="btn btn-danger">Delete</a>
+                            {{ include('common/_delete_btn.html.twig', {
+                                title: 'Delete document',
+                                body: 'Do you really want to delete the document?',
+                                deleteAction: path('app_document_delete', {'document': document.id}),
+                                csrfIntention: 'document_delete_' ~ document.id,
+                            }) }}
                         {% endif %}
                     </div>
                 </td>

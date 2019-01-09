@@ -20,7 +20,12 @@
             }) }}" class="btn btn-primary">Edit</a>
         {% endif %}
         {% if is_granted('DOCUMENT_VERSION_DELETE', version) %}
-            <a href="#" class="btn btn-danger">Delete</a>
+            {{ include('common/_delete_btn.html.twig', {
+                title: 'Delete document version',
+                body: 'Do you really want to delete the document version?',
+                deleteAction: path('app_document_deleteversion', {'document': version.document.id, 'version': version.id}),
+                csrfIntention: 'document_version_delete_' ~ version.id,
+            }) }}
         {% endif %}
         <a href="{{ path('app_document_getdetail', {'document': version.document.slug}) }}"
            class="btn btn-outline-secondary">Back</a>

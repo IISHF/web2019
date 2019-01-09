@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 use App\Application\User\Command\CreateUser;
+use App\Application\User\Command\DeleteUser;
 use App\Application\User\Command\UpdateUser;
 use App\Domain\Model\User\User;
 use App\Domain\Model\User\UserRepository;
@@ -19,6 +20,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -68,10 +70,7 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $commandBus->dispatch($createUser);
-            $this->addFlash(
-                'success',
-                'The new user has been created.'
-            );
+            $this->addFlash('success', 'The new user has been created.');
 
             return $this->redirectToRoute('app_user_getlist');
         }
@@ -135,10 +134,7 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $commandBus->dispatch($updateUser);
-            $this->addFlash(
-                'success',
-                'The user has been updated.'
-            );
+            $this->addFlash('success', 'The user has been updated.');
 
             return $this->redirectToRoute('app_user_getlist');
         }
@@ -150,5 +146,37 @@ class UserController extends AbstractController
                 'form' => $form->createView(),
             ]
         );
+    }
+
+    /**
+     * @Route(
+     *     "/{user}/delete",
+     *     methods={"POST", "DELETE"},
+     *     requirements={"user": "%routing.uuid%"}
+     * )
+     * Security("is_granted('USER_DELETE', user)")
+     * @ParamConverter(
+     *      name="user",
+     *      class="App\Domain\Model\User\User",
+     *      converter="app.user"
+     * )
+     *
+     * @param Request             $request
+     * @param User                $user
+     * @param MessageBusInterface $commandBus
+     * @return Response
+     */
+    public function delete(Request $request, User $user, MessageBusInterface $commandBus): Response
+    {
+        $deleteUser = DeleteUser::delete($user);
+
+        if (!$this->isCsrfTokenValid('user_delete_' . $user->getId(), $request->request->get('_token'))) {
+            throw new BadRequestHttpException();
+        }
+
+        $commandBus->dispatch($deleteUser);
+        $this->addFlash('success', 'The user has been deleted.');
+
+        return $this->redirectToRoute('app_user_getlist');
     }
 }

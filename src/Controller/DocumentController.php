@@ -10,6 +10,8 @@ namespace App\Controller;
 
 use App\Application\Document\Command\CreateDocument;
 use App\Application\Document\Command\CreateDocumentVersion;
+use App\Application\Document\Command\DeleteDocument;
+use App\Application\Document\Command\DeleteDocumentVersion;
 use App\Application\Document\Command\UpdateDocument;
 use App\Application\Document\Command\UpdateDocumentVersion;
 use App\Domain\Model\Document\Document;
@@ -24,6 +26,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -72,10 +75,7 @@ class DocumentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $commandBus->dispatch($createDocument);
-            $this->addFlash(
-                'success',
-                'The new document has been created.'
-            );
+            $this->addFlash('success', 'The new document has been created.');
 
             return $this->redirectToRoute('app_document_getlist');
         }
@@ -140,10 +140,7 @@ class DocumentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $commandBus->dispatch($updateDocument);
-            $this->addFlash(
-                'success',
-                'The document has been updated.'
-            );
+            $this->addFlash('success', 'The document has been updated.');
 
             return $this->redirectToRoute('app_document_getlist');
         }
@@ -155,6 +152,39 @@ class DocumentController extends AbstractController
                 'form'     => $form->createView(),
             ]
         );
+    }
+
+    /**
+     * @Route(
+     *     "/{document}/delete",
+     *     methods={"POST", "DELETE"},
+     *     requirements={"document": "%routing.uuid%"}
+     * )
+     * @Security("is_granted('DOCUMENT_DELETE', document)")
+     * @ParamConverter(
+     *      name="document",
+     *      class="App\Domain\Model\Document\Document",
+     *      converter="app.document"
+     * )
+     *
+     * @param Request             $request
+     * @param Document            $document
+     * @param MessageBusInterface $commandBus
+     * @return Response
+     */
+    public function delete(Request $request, Document $document, MessageBusInterface $commandBus): Response
+    {
+        $deleteDocument = DeleteDocument::delete($document);
+
+        if (!$this->isCsrfTokenValid('document_delete_' . $document->getId(), $request->request->get('_token'))) {
+            throw new BadRequestHttpException();
+        }
+
+        $commandBus->dispatch($deleteDocument);
+        $this->addFlash('success', 'The document has been deleted.');
+
+        return $this->redirectToRoute('app_document_getlist');
+
     }
 
     /**
@@ -183,10 +213,7 @@ class DocumentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $commandBus->dispatch($createVersion);
-            $this->addFlash(
-                'success',
-                'The new document version has been created.'
-            );
+            $this->addFlash('success', 'The new document version has been created.');
 
             return $this->redirectToRoute('app_document_getdetail', ['document' => $document->getSlug()]);
         }
@@ -257,10 +284,7 @@ class DocumentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $commandBus->dispatch($updateVersion);
-            $this->addFlash(
-                'success',
-                'The document version has been updated.'
-            );
+            $this->addFlash('success', 'The document version has been updated.');
 
             return $this->redirectToRoute('app_document_getdetail', ['document' => $version->getDocument()->getSlug()]);
         }
@@ -272,5 +296,44 @@ class DocumentController extends AbstractController
                 'form'    => $form->createView(),
             ]
         );
+    }
+
+    /**
+     * @Route(
+     *     "/{document}/{version}/delete",
+     *     methods={"POST", "DELETE"},
+     *     requirements={
+     *          "document": "%routing.uuid%",
+     *          "version": "%routing.uuid%"
+     *      }
+     * )
+     * @Security("is_granted('DOCUMENT_VERSION_DELETE', version)")
+     * @ParamConverter(
+     *      name="version",
+     *      class="App\Domain\Model\Document\DocumentVersion",
+     *      converter="app.document_version"
+     * )
+     *
+     * @param Request             $request
+     * @param DocumentVersion     $version
+     * @param MessageBusInterface $commandBus
+     * @return Response
+     */
+    public function deleteVersion(Request $request, DocumentVersion $version, MessageBusInterface $commandBus): Response
+    {
+        $document      = $version->getDocument();
+        $deleteVersion = DeleteDocumentVersion::delete($version);
+
+        if (!$this->isCsrfTokenValid(
+            'document_version_delete_' . $version->getId(),
+            $request->request->get('_token')
+        )) {
+            throw new BadRequestHttpException();
+        }
+
+        $commandBus->dispatch($deleteVersion);
+        $this->addFlash('success', 'The document version has been deleted.');
+
+        return $this->redirectToRoute('app_document_getdetail', ['document' => $document->getSlug()]);
     }
 }

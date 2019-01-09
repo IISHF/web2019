@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 use App\Application\NationalGoverningBody\Command\CreateNationalGoverningBody;
+use App\Application\NationalGoverningBody\Command\DeleteNationalGoverningBody;
 use App\Application\NationalGoverningBody\Command\UpdateNationalGoverningBody;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBody;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBodyRepository;
@@ -19,6 +20,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -63,10 +65,7 @@ class NationalGoverningBodyController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $commandBus->dispatch($createNgb);
-            $this->addFlash(
-                'success',
-                'The new national governing body has been created.'
-            );
+            $this->addFlash('success', 'The new national governing body has been created.');
 
             return $this->redirectToRoute('app_nationalgoverningbody_getlist');
         }
@@ -130,10 +129,7 @@ class NationalGoverningBodyController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $commandBus->dispatch($updateNgb);
-            $this->addFlash(
-                'success',
-                'The national governing body has been updated.'
-            );
+            $this->addFlash('success', 'The national governing body has been updated.');
 
             return $this->redirectToRoute('app_nationalgoverningbody_getlist');
         }
@@ -145,5 +141,37 @@ class NationalGoverningBodyController extends AbstractController
                 'form' => $form->createView(),
             ]
         );
+    }
+
+    /**
+     * @Route(
+     *     "/{ngb}/delete",
+     *     methods={"POST", "DELETE"},
+     *     requirements={"ngb": "%routing.uuid%"}
+     * )
+     * @Security("is_granted('NATIONAL_GOVERNING_BODY_DELETE', ngb)")
+     * @ParamConverter(
+     *      name="ngb",
+     *      class="App\Domain\Model\NationalGoverningBody\NationalGoverningBody",
+     *      converter="app.national_governing_body"
+     * )
+     *
+     * @param Request               $request
+     * @param NationalGoverningBody $ngb
+     * @param MessageBusInterface   $commandBus
+     * @return Response
+     */
+    public function delete(Request $request, NationalGoverningBody $ngb, MessageBusInterface $commandBus): Response
+    {
+        $deleteNgb = DeleteNationalGoverningBody::delete($ngb);
+
+        if (!$this->isCsrfTokenValid('ngb_delete_' . $ngb->getId(), $request->request->get('_token'))) {
+            throw new BadRequestHttpException();
+        }
+
+        $commandBus->dispatch($deleteNgb);
+        $this->addFlash('success', 'The national governing body has been deleted.');
+
+        return $this->redirectToRoute('app_nationalgoverningbody_getlist');
     }
 }

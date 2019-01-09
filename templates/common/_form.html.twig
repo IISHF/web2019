@@ -4,5 +4,5 @@
         <input type="hidden" name="_token" value="{{ csrf_token(csrfIntention) }}"/>
     {% endif %}
     <button type="button" class="btn btn-light" data-dismiss="modal">{{ cancelBtn|default('Cancel') }}</button>
-    <button type="submit" class="btn btn-primary">{{ submitBtn }}</button>
+    <button type="submit" class="btn btn-{{ submitBtnType|default('primary') }}">{{ submitBtn }}</button>
 </form>

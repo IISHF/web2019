@@ -53,7 +53,12 @@
                class="btn btn-primary">Edit</a>
         {% endif %}
         {% if is_granted('NATIONAL_GOVERNING_BODY_DELETE', ngb) %}
-            <a href="#" class="btn btn-danger">Delete</a>
+            {{ include('common/_delete_btn.html.twig', {
+                title: 'Delete national governing body',
+                body: 'Do you really want to delete the national governing body?',
+                deleteAction: path('app_nationalgoverningbody_delete', {'ngb': ngb.id}),
+                csrfIntention: 'ngb_delete_' ~ ngb.id,
+            }) }}
         {% endif %}
         <a href="{{ path('app_nationalgoverningbody_getlist') }}" class="btn btn-outline-secondary">Back</a>
     </div>

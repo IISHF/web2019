@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 use App\Application\Article\Command\CreateArticle;
+use App\Application\Article\Command\DeleteArticle;
 use App\Application\Article\Command\UpdateArticle;
 use App\Application\Article\Command\WorkflowCommand;
 use App\Domain\Model\Article\Article;
@@ -100,10 +101,7 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $commandBus->dispatch($createArticle);
-            $this->addFlash(
-                'success',
-                'The new article has been created.'
-            );
+            $this->addFlash('success', 'The new article has been created.');
 
             return $this->redirectToRoute('app_article_getlist');
         }
@@ -174,10 +172,7 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $commandBus->dispatch($updateArticle);
-            $this->addFlash(
-                'success',
-                'The article has been updated.'
-            );
+            $this->addFlash('success', 'The article has been updated.');
 
             return $this->redirectToRoute('app_article_getlist');
         }
@@ -193,8 +188,43 @@ class ArticleController extends AbstractController
 
     /**
      * @Route(
+     *     "/{article}/delete",
+     *     methods={"POST", "DELETE"},
+     *     requirements={"article": "%routing.uuid%"}
+     * )
+     * @Security("is_granted('ARTICLE_DELETE', article)")
+     * @ParamConverter(
+     *      name="article",
+     *      class="App\Domain\Model\Article\Article",
+     *      converter="app.article"
+     * )
+     *
+     * @param Request             $request
+     * @param Article             $article
+     * @param MessageBusInterface $commandBus
+     * @return Response
+     */
+    public function delete(Request $request, Article $article, MessageBusInterface $commandBus): Response
+    {
+        $deleteArticle = DeleteArticle::delete($article);
+
+        if (!$this->isCsrfTokenValid(
+            'article_delete_' . $article->getId(),
+            $request->request->get('_token')
+        )) {
+            throw new BadRequestHttpException();
+        }
+
+        $commandBus->dispatch($deleteArticle);
+        $this->addFlash('success', 'The article has been deleted.');
+
+        return $this->redirectToRoute('app_article_getlist');
+    }
+
+    /**
+     * @Route(
      *     "/{article}/workflow",
-     *     methods={"GET", "POST"},
+     *     methods={"POST"},
      *     requirements={"article": "%routing.uuid%"}
      * )
      * @Security("is_granted('ARTICLE_EDIT', article)")
@@ -222,10 +252,7 @@ class ArticleController extends AbstractController
         }
 
         $commandBus->dispatch($command);
-        $this->addFlash(
-            'success',
-            'The article has been updated.'
-        );
+        $this->addFlash('success', 'The article has been updated.');
 
         return $this->redirectToRoute('app_article_getlist');
     }
