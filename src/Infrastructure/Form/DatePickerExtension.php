@@ -116,10 +116,13 @@ class DatePickerExtension extends AbstractTypeExtension
         }
 
         $view->vars['enable_datepicker']  = true;
-        $view->vars['datepicker_options'] = array_merge(
+        $view->vars['datepicker_options'] = array_merge_recursive(
             [
-                'locale' => $this->locale,
-                'format' => $format,
+                'locale'  => $this->locale,
+                'format'  => $format,
+                'buttons' => [
+                    'showClear' => !$options['required'],
+                ],
             ],
             $options['datepicker_options']
         );
