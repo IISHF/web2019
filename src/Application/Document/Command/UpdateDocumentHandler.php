@@ -20,6 +20,10 @@ class UpdateDocumentHandler extends DocumentCommandHandler
      */
     public function __invoke(UpdateDocument $command): void
     {
-
+        $document = $this->getDocument($command->getId());
+        $document->setTitle($command->getTitle())
+                 ->setSlug($this->findSuitableDocumentSlug($command->getTitle(), $document->getId()))
+                 ->setTags($command->getTags());
+        $this->repository->save($document);
     }
 }

@@ -20,6 +20,17 @@ class UpdateDocumentVersionHandler extends DocumentCommandHandler
      */
     public function __invoke(UpdateDocumentVersion $command): void
     {
-
+        $version = $this->getDocumentVersion($command->getId());
+        $version->setVersion($command->getVersion())
+                ->setSlug(
+                    $this->findSuitableDocumentVersionSlug(
+                        $version->getDocument()->getSlug(),
+                        $command->getVersion(),
+                        $version->getId()
+                    )
+                )
+                ->setValidFrom($command->getValidFrom())
+                ->setValidUntil($command->getValidUntil());
+        $this->repository->saveVersion($version);
     }
 }

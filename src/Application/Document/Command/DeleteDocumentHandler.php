@@ -20,6 +20,7 @@ class DeleteDocumentHandler extends DocumentCommandHandler
      */
     public function __invoke(DeleteDocument $command): void
     {
-
+        $document = $this->getDocument($command->getId());
+        $this->repository->delete($document);
     }
 }

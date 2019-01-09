@@ -20,6 +20,15 @@ class CreateDocumentVersionHandler extends DocumentCommandHandler
      */
     public function __invoke(CreateDocumentVersion $command): void
     {
-
+        $document = $this->getDocument($command->getDocumentId());
+        $version  = $document->createVersion(
+            $command->getId(),
+            $this->createFile($command->getFile()),
+            $command->getVersion(),
+            $this->findSuitableDocumentVersionSlug($document->getSlug(), $command->getVersion(), null),
+            $command->getValidFrom(),
+            $command->getValidUntil()
+        );
+        $this->repository->saveVersion($version);
     }
 }

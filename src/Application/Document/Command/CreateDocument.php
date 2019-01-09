@@ -21,20 +21,34 @@ class CreateDocument
         DocumentProperties, MutableDocument,
         DocumentVersionProperties, MutableDocumentVersion,
         DocumentVersionFile;
+    /**
+     * @var string
+     */
+    private $versionId;
 
     /**
      * @return self
      */
     public static function create(): self
     {
-        return new self(self::createUuid());
+        return new self(self::createUuid(), self::createUuid());
     }
 
     /**
      * @param string $id
+     * @param string $versionId
      */
-    private function __construct(string $id)
+    private function __construct(string $id, string $versionId)
     {
-        $this->id = $id;
+        $this->id        = $id;
+        $this->versionId = $versionId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVersionId(): string
+    {
+        return $this->versionId;
     }
 }

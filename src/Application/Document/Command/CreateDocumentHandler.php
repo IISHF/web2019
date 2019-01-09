@@ -8,6 +8,8 @@
 
 namespace App\Application\Document\Command;
 
+use App\Domain\Model\Document\Document;
+
 /**
  * Class CreateDocumentHandler
  *
@@ -20,6 +22,21 @@ class CreateDocumentHandler extends DocumentCommandHandler
      */
     public function __invoke(CreateDocument $command): void
     {
-
+        $documentSlug = $this->findSuitableDocumentSlug($command->getTitle(), null);
+        $document     = new Document(
+            $command->getId(),
+            $command->getTitle(),
+            $documentSlug,
+            $command->getTags()
+        );
+        $document->createVersion(
+            $command->getVersionId(),
+            $this->createFile($command->getFile()),
+            $command->getVersion(),
+            $this->findSuitableDocumentVersionSlug($documentSlug, $command->getVersion(), null),
+            $command->getValidFrom(),
+            $command->getValidUntil()
+        );
+        $this->repository->save($document);
     }
 }

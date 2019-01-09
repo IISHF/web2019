@@ -12,6 +12,7 @@ use App\Application\File\FileManager;
 use App\Domain\Common\Urlizer;
 use App\Domain\Model\Document\Document;
 use App\Domain\Model\Document\DocumentRepository;
+use App\Domain\Model\Document\DocumentVersion;
 use App\Domain\Model\File\File;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
@@ -56,6 +57,19 @@ abstract class DocumentCommandHandler implements MessageHandlerInterface
     }
 
     /**
+     * @param string $id
+     * @return DocumentVersion
+     */
+    protected function getDocumentVersion(string $id): DocumentVersion
+    {
+        $version = $this->repository->findVersionById($id);
+        if (!$version) {
+            throw new \OutOfBoundsException('No document version found for id ' . $id);
+        }
+        return $version;
+    }
+
+    /**
      * @param string      $title
      * @param string|null $id
      * @return string
@@ -88,12 +102,11 @@ abstract class DocumentCommandHandler implements MessageHandlerInterface
     }
 
     /**
-     * @param string       $origin
      * @param \SplFileInfo $file
      * @return File
      */
-    protected function createFile(string $origin, \SplFileInfo $file): File
+    protected function createFile(\SplFileInfo $file): File
     {
-        return $this->fileManager->createFile($file, $origin);
+        return $this->fileManager->createFile($file, DocumentVersion::FILE_ORIGIN);
     }
 }
