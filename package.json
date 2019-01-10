@@ -18,7 +18,7 @@
     "license": "UNLICENSED",
     "private": true,
     "scripts": {
-        "dev-server": "encore dev-server --hot --https --port 9000 --host iishf.local --key ./vagrant/roles/webserver/files/iishf-test.key --cert ./vagrant/roles/webserver/files/iishf-test.crt",
+        "dev-server": "encore dev-server --hot --https --port 9010 --host iishf.local --key ./vagrant/roles/webserver/files/iishf-test.key --cert ./vagrant/roles/webserver/files/iishf-test.crt",
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production"
