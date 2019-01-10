@@ -138,6 +138,7 @@ class Article
 
     /**
      * @ORM\Column(name="tags", type="json")
+     * @Gedmo\Versioned()
      *
      * @var string[]
      */
