@@ -152,13 +152,15 @@ class ArticleController extends AbstractController
         ArticleRepository $repository,
         ArticleVersionRepository $versionRepository
     ): Response {
-        $images    = $repository->findImages($article);
-        $documents = $repository->findDocuments($article);
-
         $versions = [];
         if ($this->isGranted('ARTICLE_EDIT', $article)) {
             $versions = $versionRepository->getLogEntries($article);
+        } elseif (!$article->isPublished()) {
+            throw $this->createNotFoundException();
         }
+
+        $images    = $repository->findImages($article);
+        $documents = $repository->findDocuments($article);
 
         return $this->render(
             'article/detail.html.twig',
