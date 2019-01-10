@@ -1,0 +1,4 @@
+{% set type = type|default('secondary') %}
+{% for tag in tags %}
+    <span class="badge badge-{{ type }}">{{ tag }}</span>
+{% endfor %}

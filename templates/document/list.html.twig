@@ -31,11 +31,7 @@
                 <td>
                     <a href="{{ path('app_document_getdetail', {'document': document.slug}) }}">{{ document.title }}</a>
                 </td>
-                <td>
-                    {% for tag in document.tags %}
-                        <span class="badge badge-secondary">{{ tag }}</span>
-                    {% endfor %}
-                </td>
+                <td>{{ include('common/_tags.html.twig', {tags: document.tags}) }}</td>
                 {% if validVersion %}
                     <td>
                         <a href="{{ path('app_document_getversiondetail', {

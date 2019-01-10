@@ -29,9 +29,7 @@
                         <span class="badge badge-dark">{{ workflow_metadata(article, 'title', 'review') }}</span>
                     {% endif %}
                     <a href="{{ path('app_article_getdetail', {'article': article.slug}) }}">{{ article.title }}</a>
-                    {% for tag in article.tags %}
-                        <span class="badge badge-secondary">{{ tag }}</span>
-                    {% endfor %}
+                    {{ include('common/_tags.html.twig', {tags: article.tags}) }}
                     {% if article.subtitle %}
                         <p class="small text-muted">{{ article.subtitle }}</p>
                     {% endif %}
