@@ -32,6 +32,7 @@ framework:
                         button: Submit
                         confirm: Do you really want to submit the article for review?
                         confirm_btn: Submit article for review
+                        success_message: The article has been submitted for review.
                 reject:
                     guard: 'is_granted("ARTICLE_REVIEW", subject)'
                     from: review
@@ -41,6 +42,7 @@ framework:
                         button: Reject
                         confirm: Do you really want to reject the article?
                         confirm_btn: Reject article
+                        success_message: The article has been rejected.
                 publish:
                     guard: 'is_granted("ARTICLE_REVIEW", subject)'
                     from: review
@@ -51,6 +53,7 @@ framework:
                         confirm: Do you really want to publish the article?
                         confirm_btn: Publish article
                         form_type: App\Infrastructure\Article\Form\PublishArticleType
+                        success_message: The article has been published.
                 unpublish:
                     guard: 'is_granted("ARTICLE_REVIEW", subject)'
                     from: published
@@ -60,3 +63,4 @@ framework:
                         button: Unpublish
                         confirm: Do you really want to unpublish the article?
                         confirm_btn: Unpublish article
+                        success_message: The article has been unpublished.

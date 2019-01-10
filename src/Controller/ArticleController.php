@@ -326,20 +326,27 @@ class ArticleController extends AbstractController
     ): Response {
         $workflow           = $workflowRegistry->get($article, 'article_publishing');
         $transitionInstance = $this->findTransition($workflow, $article, $transition);
+        $metaDataStore      = $workflow->getMetadataStore();
+
+        $successMessage = $metaDataStore->getMetadata('success_message', $transitionInstance);
+        if (!$successMessage) {
+            $successMessage = 'The article has been updated.';
+        }
 
         $command = ArticleWorkflowCommand::create($article, $transition);
-        if (($formType = $workflow->getMetadataStore()->getMetadata('form_type', $transitionInstance)) !== null) {
+        if (($formType = $metaDataStore->getMetadata('form_type', $transitionInstance)) !== null) {
             return $this->handleFormTransition(
                 $request,
                 $article,
                 $transitionInstance,
                 $formType,
                 $command,
+                $successMessage,
                 $commandBus
             );
         }
 
-        return $this->handleTransition($request, $article, $transitionInstance, $command, $commandBus);
+        return $this->handleTransition($request, $article, $transitionInstance, $command, $successMessage, $commandBus);
     }
 
     /**
@@ -370,6 +377,7 @@ class ArticleController extends AbstractController
      * @param WorkflowTransition     $transition
      * @param string                 $formType
      * @param ArticleWorkflowCommand $command
+     * @param string                 $successMessage
      * @param MessageBusInterface    $commandBus
      * @return Response
      */
@@ -379,6 +387,7 @@ class ArticleController extends AbstractController
         WorkflowTransition $transition,
         string $formType,
         ArticleWorkflowCommand $command,
+        string $successMessage,
         MessageBusInterface $commandBus
     ): Response {
         $form = $this->createForm($formType, $command);
@@ -386,7 +395,7 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $commandBus->dispatch($command);
-            $this->addFlash('success', 'The article has been updated.');
+            $this->addFlash('success', $successMessage);
 
             return $this->redirectToRoute('app_article_list', ['all' => true]);
         }
@@ -406,6 +415,7 @@ class ArticleController extends AbstractController
      * @param Article                $article
      * @param WorkflowTransition     $transition
      * @param ArticleWorkflowCommand $command
+     * @param string                 $successMessage
      * @param MessageBusInterface    $commandBus
      * @return Response
      */
@@ -414,6 +424,7 @@ class ArticleController extends AbstractController
         Article $article,
         WorkflowTransition $transition,
         ArticleWorkflowCommand $command,
+        string $successMessage,
         MessageBusInterface $commandBus
     ): Response {
         if (!$request->isMethod(Request::METHOD_POST)) {
@@ -427,7 +438,7 @@ class ArticleController extends AbstractController
         }
 
         $commandBus->dispatch($command);
-        $this->addFlash('success', 'The article has been updated . ');
+        $this->addFlash('success', $successMessage);
 
         return $this->redirectToRoute('app_article_list', ['all' => true]);
     }
