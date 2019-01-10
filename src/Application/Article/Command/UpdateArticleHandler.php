@@ -52,12 +52,28 @@ class UpdateArticleHandler extends ArticleCommandHandler
             $this->fileRepository->deleteById(...$removeAttachments);
         }
 
-        $article->setSlug($this->findSuitableSlug(new \DateTimeImmutable(), $command->getTitle(), $article->getId()))
+        if ($article->isPublished()) {
+            $publishedAt = $command->getPublishedAt();
+        } else {
+            $publishedAt = null;
+        }
+
+        $slug = $this->findSuitableSlug(
+            $publishedAt ?? new \DateTimeImmutable('now'),
+            $command->getTitle(),
+            $article->getId()
+        );
+
+        $article->setSlug($slug)
                 ->setTitle($command->getTitle())
                 ->setSubtitle($command->getSubtitle())
                 ->setBody($body)
-                ->setTags($command->getTags())
-                ->setPublishedAt($command->getPublishedAt());
+                ->setTags($command->getTags());
+
+        if ($publishedAt !== null) {
+            $article->setPublishedAt($publishedAt);
+        }
+
         $this->repository->save($article);
     }
 }

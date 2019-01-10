@@ -74,9 +74,11 @@ class ArticleRepository extends ServiceEntityRepository implements TagProvider
         $stateFilter[] = '';
 
         $queryBuilder = $this->createQueryBuilder('a')
+                             ->addSelect('CASE WHEN a.publishedAt IS NULL THEN 0 ELSE 1 END AS HIDDEN notPublished')
                              ->andWhere('a.currentState IN (:states)')
                              ->setParameter('states', $stateFilter)
-                             ->orderBy('a.publishedAt', 'DESC');
+                             ->orderBy('notPublished', 'ASC ')
+                             ->addOrderBy('a.publishedAt', 'DESC');
         return $this->createPager($queryBuilder, $page, $limit);
     }
 

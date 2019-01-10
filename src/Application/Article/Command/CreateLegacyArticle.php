@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: stefan
- * Date: 2018-11-30
- * Time: 11:06
+ * Date: 2019-01-10
+ * Time: 10:57
  */
 
 namespace App\Application\Article\Command;
@@ -11,13 +11,13 @@ namespace App\Application\Article\Command;
 use App\Application\Common\Command\UuidAware;
 
 /**
- * Class CreateArticle
+ * Class CreateLegacyArticle
  *
  * @package App\Application\Article\Command
  */
-class CreateArticle
+class CreateLegacyArticle
 {
-    use UuidAware, ArticleAuthor, ArticleProperties;
+    use UuidAware, ArticleAuthor, ArticlePublishedDate, ArticleProperties;
 
     /**
      * @param string $author
@@ -34,7 +34,8 @@ class CreateArticle
      */
     private function __construct(string $id, string $author)
     {
-        $this->id     = $id;
-        $this->author = $author;
+        $this->id          = $id;
+        $this->author      = $author;
+        $this->publishedAt = new \DateTimeImmutable('now');
     }
 }

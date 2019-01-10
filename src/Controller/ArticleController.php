@@ -219,7 +219,13 @@ class ArticleController extends AbstractController
         }
 
         $updateArticle = UpdateArticle::update($article);
-        $form          = $this->createForm(UpdateArticleType::class, $updateArticle);
+        $form          = $this->createForm(
+            UpdateArticleType::class,
+            $updateArticle,
+            [
+                'add_published_date' => $article->isPublished(),
+            ]
+        );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

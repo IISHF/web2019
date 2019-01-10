@@ -11,6 +11,7 @@ services:
         arguments: ['App\Domain\Model\Article\ArticleVersion']
 
     App\Application\Article\Command\CreateArticleHandler:
+    App\Application\Article\Command\CreateLegacyArticleHandler:
     App\Application\Article\Command\UpdateArticleHandler:
     App\Application\Article\Command\DeleteArticleHandler:
     App\Application\Article\Command\WorkflowCommandHandler:

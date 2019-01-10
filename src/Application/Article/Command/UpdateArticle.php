@@ -18,7 +18,7 @@ use App\Domain\Model\Article\Article;
  */
 class UpdateArticle
 {
-    use UuidAware, ArticleProperties, MutableArticle;
+    use UuidAware, ArticlePublishedDate, ArticleProperties;
 
     /**
      * @param Article $article
@@ -37,12 +37,12 @@ class UpdateArticle
     }
 
     /**
-     * @param string             $id
-     * @param string             $title
-     * @param string|null        $subtitle
-     * @param string             $body
-     * @param array              $tags
-     * @param \DateTimeImmutable $publishedAt
+     * @param string                  $id
+     * @param string                  $title
+     * @param string|null             $subtitle
+     * @param string                  $body
+     * @param array                   $tags
+     * @param \DateTimeImmutable|null $publishedAt
      */
     private function __construct(
         string $id,
@@ -50,7 +50,7 @@ class UpdateArticle
         ?string $subtitle,
         string $body,
         array $tags,
-        \DateTimeImmutable $publishedAt
+        ?\DateTimeImmutable $publishedAt
     ) {
         $this->id          = $id;
         $this->title       = $title;

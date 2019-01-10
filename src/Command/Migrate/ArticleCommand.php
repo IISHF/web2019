@@ -9,7 +9,7 @@
 namespace App\Command\Migrate;
 
 use App\Application\Article\Command\AddAttachments;
-use App\Application\Article\Command\CreateArticle;
+use App\Application\Article\Command\CreateLegacyArticle;
 use App\Utils\Text;
 use App\Utils\Validation;
 use Symfony\Component\Console\Input\InputInterface;
@@ -72,12 +72,12 @@ class ArticleCommand extends BaseCommandWithFilesystem
                     $tags[] = $cat2List[$article['cat2']];
                 }
 
-                $createArticle = CreateArticle::createLegacy($userList[$article['uid']] ?? 'system@iishf.com')
-                                              ->setTitle($article['title'])
-                                              ->setSubtitle($article['subtitle'])
-                                              ->setBody($article['contents'])
-                                              ->setTags($tags)
-                                              ->setPublishedAt(new \DateTimeImmutable($article['edited']));
+                $createArticle = CreateLegacyArticle::create($userList[$article['uid']] ?? 'system@iishf.com')
+                                                    ->setTitle($article['title'])
+                                                    ->setSubtitle($article['subtitle'])
+                                                    ->setBody($article['contents'])
+                                                    ->setTags($tags)
+                                                    ->setPublishedAt(new \DateTimeImmutable($article['edited']));
 
                 $thisArticlePath = $articlePath . '/article' . $article['id'];
 

@@ -55,18 +55,21 @@ trait ArticleProperties
     private $tags = [];
 
     /**
-     * @Assert\Type("\DateTimeImmutable")
-     *
-     * @var \DateTimeImmutable|null
-     */
-    private $publishedAt;
-
-    /**
      * @return string
      */
     public function getTitle(): string
     {
         return $this->title;
+    }
+
+    /**
+     * @param string $title
+     * @return $this
+     */
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+        return $this;
     }
 
     /**
@@ -78,11 +81,31 @@ trait ArticleProperties
     }
 
     /**
+     * @param string|null $subtitle
+     * @return $this
+     */
+    public function setSubtitle(?string $subtitle): self
+    {
+        $this->subtitle = $subtitle;
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getBody(): string
     {
         return $this->body;
+    }
+
+    /**
+     * @param string $body
+     * @return $this
+     */
+    public function setBody(string $body): self
+    {
+        $this->body = $body;
+        return $this;
     }
 
     /**
@@ -94,13 +117,12 @@ trait ArticleProperties
     }
 
     /**
-     * @return \DateTimeImmutable
+     * @param string[] $tags
+     * @return $this
      */
-    public function getPublishedAt(): \DateTimeImmutable
+    public function setTags(array $tags): self
     {
-        if (!$this->publishedAt) {
-            $this->publishedAt = new \DateTimeImmutable('now');
-        }
-        return $this->publishedAt;
+        $this->tags = $tags;
+        return $this;
     }
 }

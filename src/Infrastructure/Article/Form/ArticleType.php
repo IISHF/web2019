@@ -60,17 +60,6 @@ class ArticleType extends AbstractType
                     'empty_data'    => '',
                     'enable_upload' => 'app_article_upload',
                 ]
-            )
-            ->add(
-                'publishedAt',
-                DateTimeType::class,
-                [
-                    'label'             => 'Published at',
-                    'required'          => true,
-                    'input'             => 'datetime_immutable',
-                    'format'            => 'MMMM d, yyyy HH:mm',
-                    'enable_datepicker' => true,
-                ]
             );
     }
 }

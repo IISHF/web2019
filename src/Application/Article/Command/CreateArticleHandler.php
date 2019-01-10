@@ -22,30 +22,15 @@ class CreateArticleHandler extends ArticleCommandHandler
      */
     public function __invoke(CreateArticle $command): void
     {
-        if ($command->isLegacyFormat()) {
-            $article = Article::createLegacy(
-                $command->getId(),
-                $this->findSuitableSlug($command->getPublishedAt(), $command->getTitle(), null),
-                $command->getTitle(),
-                $command->getSubtitle(),
-                $command->getBody(),
-                $command->getTags(),
-                $command->getAuthor(),
-                $command->getPublishedAt()
-            );
-        } else {
-            $article = Article::create(
-                $command->getId(),
-                $this->findSuitableSlug($command->getPublishedAt(), $command->getTitle(), null),
-                $command->getTitle(),
-                $command->getSubtitle(),
-                $command->getBody(),
-                $command->getTags(),
-                $command->getAuthor(),
-                $command->getPublishedAt()
-            );
-        }
-
+        $article = Article::create(
+            $command->getId(),
+            $this->findSuitableSlug(new \DateTimeImmutable('now'), $command->getTitle(), null),
+            $command->getTitle(),
+            $command->getSubtitle(),
+            $command->getBody(),
+            $command->getTags(),
+            $command->getAuthor()
+        );
         $this->repository->save($article);
     }
 }

@@ -72,7 +72,7 @@ class Article
      *
      * @var bool
      */
-    private $legacyFormat;
+    private $legacyFormat = false;
 
     /**
      * @ORM\Column(name="current_state", type="string", length=16)
@@ -129,10 +129,10 @@ class Article
     private $author;
 
     /**
-     * @ORM\Column(name="published_at", type="datetime_immutable")
+     * @ORM\Column(name="published_at", type="datetime_immutable", nullable=true)
      * @Gedmo\Versioned()
      *
-     * @var \DateTimeImmutable
+     * @var \DateTimeImmutable|null
      */
     private $publishedAt;
 
@@ -160,14 +160,13 @@ class Article
     }
 
     /**
-     * @param string             $id
-     * @param string             $slug
-     * @param string             $title
-     * @param string|null        $subtitle
-     * @param string             $body
-     * @param array              $tags
-     * @param string             $author
-     * @param \DateTimeImmutable $publishedAt
+     * @param string      $id
+     * @param string      $slug
+     * @param string      $title
+     * @param string|null $subtitle
+     * @param string      $body
+     * @param array       $tags
+     * @param string      $author
      * @return Article
      */
     public static function create(
@@ -177,10 +176,9 @@ class Article
         ?string $subtitle,
         string $body,
         array $tags,
-        string $author,
-        \DateTimeImmutable $publishedAt
+        string $author
     ): self {
-        return new self($id, false, $slug, $title, $subtitle, $body, $tags, $author, $publishedAt);
+        return new self($id, $slug, $title, $subtitle, $body, $tags, $author);
     }
 
     /**
@@ -204,37 +202,34 @@ class Article
         string $author,
         \DateTimeImmutable $publishedAt
     ): self {
-        $article               = new self($id, true, $slug, $title, $subtitle, $body, $tags, $author, $publishedAt);
+        $article               = new self($id, $slug, $title, $subtitle, $body, $tags, $author);
+        $article->legacyFormat = true;
         $article->currentState = self::$availableStates[self::STATE_PUBLISHED];
+        $article->publishedAt  = $publishedAt;
         return $article;
     }
 
     /**
-     * @param string             $id
-     * @param bool               $legacyFormat
-     * @param string             $slug
-     * @param string             $title
-     * @param string|null        $subtitle
-     * @param string             $body
-     * @param array              $tags
-     * @param string             $author
-     * @param \DateTimeImmutable $publishedAt
+     * @param string      $id
+     * @param string      $slug
+     * @param string      $title
+     * @param string|null $subtitle
+     * @param string      $body
+     * @param array       $tags
+     * @param string      $author
      */
     private function __construct(
         string $id,
-        bool $legacyFormat,
         string $slug,
         string $title,
         ?string $subtitle,
         string $body,
         array $tags,
-        string $author,
-        \DateTimeImmutable $publishedAt
+        string $author
     ) {
         Assert::uuid($id);
 
         $this->id           = $id;
-        $this->legacyFormat = $legacyFormat;
         $this->currentState = self::$availableStates[self::STATE_DRAFT];
         $this->setSlug($slug)
              ->setTitle($title)
@@ -242,7 +237,6 @@ class Article
              ->setBody($body)
              ->setTags($tags)
              ->setAuthor($author)
-             ->setPublishedAt($publishedAt)
              ->initCreateTracking()
              ->initUpdateTracking();
     }
@@ -279,7 +273,18 @@ class Article
     {
         Assert::oneOf($currentState, self::$availableStates);
         $this->currentState = $currentState;
+        if (!$this->isPublished()) {
+            $this->publishedAt = null;
+        }
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPublished(): bool
+    {
+        return $this->currentState === self::$availableStates[self::STATE_PUBLISHED];
     }
 
     /**
@@ -397,10 +402,13 @@ class Article
     }
 
     /**
-     * @return \DateTimeImmutable
+     * @return \DateTimeImmutable|null
      */
-    public function getPublishedAt(): \DateTimeImmutable
+    public function getPublishedAt(): ?\DateTimeImmutable
     {
+        if ($this->publishedAt === null && $this->isPublished()) {
+            return new \DateTimeImmutable('now');
+        }
         return $this->publishedAt;
     }
 

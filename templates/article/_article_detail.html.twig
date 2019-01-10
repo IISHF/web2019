@@ -79,7 +79,7 @@
     <dt class="col-2">Tags</dt>
     <dd class="col-10">{{ include('common/_tags.html.twig', {tags: article.tags}) }}</dd>
     <dt class="col-2">Published</dt>
-    <dd class="col-10">{{ article.publishedAt|relative_time }}</dd>
+    <dd class="col-10">{{ article.published ? article.publishedAt|relative_time : 'not yet published' }}</dd>
     {% if not article.legacyFormat %}
         <dt class="col-2">Last Updated</dt>
         <dd class="col-10">{{ article.updatedAt|relative_time }}</dd>

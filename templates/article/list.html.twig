@@ -34,7 +34,7 @@
                         <p class="small text-muted">{{ article.subtitle }}</p>
                     {% endif %}
                 </td>
-                <td class="text-nowrap">{{ article.publishedAt|relative_time }}</td>
+                <td class="text-nowrap">{{ article.published ? article.publishedAt|relative_time : 'not yet published' }}</td>
                 <td>
                     {% if not article.legacyFormat %}
                         {% embed 'article/_article_workflow_buttons.html.twig' with {article: article, size: 'sm'} %}
