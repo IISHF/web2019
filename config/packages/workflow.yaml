@@ -50,7 +50,7 @@ framework:
                     metadata:
                         color: success
                         button: Publish
-                        confirm: Do you really want to publish the article?
+                        confirm: When do you want to publish the article?
                         confirm_btn: Publish article
                         form_type: App\Infrastructure\Article\Form\PublishArticleType
                         success_message: The article has been published.

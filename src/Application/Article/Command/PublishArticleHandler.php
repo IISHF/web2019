@@ -21,7 +21,11 @@ class PublishArticleHandler extends WorkflowCommandHandler
     public function __invoke(PublishArticle $command): void
     {
         $article = $this->applyTransition($command);
-        $article->setPublishedAt($command->getPublishAt());
+        if ($command->isPublishNow()) {
+            $article->setPublishedAt(new \DateTimeImmutable('now'));
+        } else {
+            $article->setPublishedAt($command->getPublishAt());
+        }
         $this->repository->save($article);
     }
 }
