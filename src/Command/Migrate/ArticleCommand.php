@@ -101,19 +101,15 @@ class ArticleCommand extends BaseCommandWithFilesystem
                     }
                 }
 
-                $this->beginTransaction();
                 try {
                     $this->dispatchCommand($createArticle);
                     if (count($addAttachments) > 0) {
                         $this->dispatchCommand($addAttachments);
                     }
                     $result = '';
-                    $this->commitTransaction();
                 } catch (ValidationFailedException $e) {
-                    $this->rollbackTransaction();
                     $result = implode(PHP_EOL, Validation::getViolations($e));
                 } catch (\Throwable $e) {
-                    $this->rollbackTransaction();
                     $result = $e->getMessage();
                 }
 
