@@ -178,7 +178,7 @@ class ArticleController extends AbstractController
     public function preview(Article $article, int $version, ArticleVersionRepository $versionRepository): Response
     {
         if ($article->isLegacyFormat()) {
-            throw $this->createNotFoundException();
+            throw $this->createAccessDeniedException();
         }
 
         $articleSlug = $article->getSlug();
@@ -214,6 +214,10 @@ class ArticleController extends AbstractController
      */
     public function update(Request $request, Article $article, MessageBusInterface $commandBus): Response
     {
+        if ($article->isLegacyFormat()) {
+            throw $this->createAccessDeniedException();
+        }
+
         $updateArticle = UpdateArticle::update($article);
         $form          = $this->createForm(UpdateArticleType::class, $updateArticle);
         $form->handleRequest($request);
@@ -254,6 +258,10 @@ class ArticleController extends AbstractController
      */
     public function delete(Request $request, Article $article, MessageBusInterface $commandBus): Response
     {
+        if ($article->isLegacyFormat()) {
+            throw $this->createAccessDeniedException();
+        }
+
         $deleteArticle = DeleteArticle::delete($article);
 
         if (!$this->isCsrfTokenValid(
