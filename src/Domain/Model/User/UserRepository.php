@@ -89,7 +89,7 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @param int $page
      * @param int $limit
-     * @return Pagerfanta|User[]
+     * @return iterable|Pagerfanta|User[]
      */
     public function findPaged(int $page = 1, int $limit = 30): iterable
     {
