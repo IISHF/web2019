@@ -47,22 +47,46 @@ class DocumentCommand extends BaseCommandWithFilesystem
         }
         $this->io->comment('Full legacy document path ' . $documentsPath);
 
-        $titles = [
-            'rulesofthegame'    => 'Official Rule Book',
-            'regulations'       => 'Regulations',
-            'constitution'      => 'Constitution',
-            'itc'               => 'International Team Certification',
-            'sanctioning'       => 'Sanctioning Workflow for Non Title Events',
-            'application'       => 'Candidature Form for IISHF Non Title Event (B-Event)',
-            'hosting-te'        => 'Guideline for hosting of Title Events',
-            'sanctioning-te'    => 'Sanctioning Workflow for Title Events',
-            'application-te'    => 'Candidature Form for IISHF Title Event (A-Event)',
-            'checklist-host-te' => 'Title Event Checklist for the Host',
-            'participating-te'  => 'Guidelines for teams participating at Title Events',
-            'deadlines-iishf'   => 'IISHF Deadlines',
-            'disciplinary'      => 'Disciplinary Regulations',
-            'financial'         => 'Financial Regulations',
-            'tournaments'       => 'Tournament Regulations',
+        $metaDataMap = [
+            'rulesofthegame'    => [
+                'title' => 'Official Rule Book',
+                'tags'  => ['Rules of the Game', 'Official Rulebook', 'Rules'],
+            ],
+            'regulations'       => ['title' => 'Regulations', 'tags' => ['Regulation']],
+            'constitution'      => ['title' => 'Constitution', 'tags' => ['Constitution']],
+            'itc'               => ['title' => 'International Team Certification', 'tags' => ['ITC']],
+            'sanctioning'       => [
+                'title' => 'Sanctioning Workflow for Non Title Events',
+                'tags'  => ['Sanctioning', 'Non-Title Event'],
+            ],
+            'application'       => [
+                'title' => 'Candidature Form for IISHF Non Title Event (B-Event)',
+                'tags'  => ['Application', 'Non-Title Event'],
+            ],
+            'hosting-te'        => [
+                'title' => 'Guideline for hosting of Title Events',
+                'tags'  => ['Guideline', 'Hosting', 'Title Event'],
+            ],
+            'sanctioning-te'    => [
+                'title' => 'Sanctioning Workflow for Title Events',
+                'tags'  => ['Sanctioning', 'Title Event'],
+            ],
+            'application-te'    => [
+                'title' => 'Candidature Form for IISHF Title Event (A-Event)',
+                'tags'  => ['Application', 'Title Event'],
+            ],
+            'checklist-host-te' => [
+                'title' => 'Title Event Checklist for the Host',
+                'tags'  => ['Checklist', 'Host', 'Hosting', 'Title Event'],
+            ],
+            'participating-te'  => [
+                'title' => 'Guidelines for teams participating at Title Events',
+                'tags'  => ['Participation', 'Title Event'],
+            ],
+            'deadlines-iishf'   => ['title' => 'IISHF Deadlines', 'tags' => ['Deadlines', 'IISHF']],
+            'disciplinary'      => ['title' => 'Disciplinary Regulations', 'tags' => ['Disciplinary', 'Regulation']],
+            'financial'         => ['title' => 'Financial Regulations', 'tags' => ['Financial', 'Regulation']],
+            'tournaments'       => ['title' => 'Tournament Regulations', 'tags' => ['Tournament', 'Regulation']],
         ];
 
         $it            = new \GlobIterator(
@@ -71,16 +95,21 @@ class DocumentCommand extends BaseCommandWithFilesystem
         );
         $documents     = [];
         $documentCount = 0;
+        $this->io->section('Looking for files in ' . $documentsPath . '...');
         foreach ($it as $file) {
             /** @var \SplFileInfo $file */
             $matches = [];
             if (preg_match('/^([\w-]+)\.(\d{4})\.\w+$/', $file->getFilename(), $matches)
-                && isset($titles[$matches[1]])
+                && isset($metaDataMap[$matches[1]])
             ) {
                 $documents[$matches[1]][$matches[2]] = $file;
                 $documentCount++;
+                $this->io->text('[FOUND]   ' . $file->getFilename());
+            } else {
+                $this->io->text('[SKIPPED] ' . $file->getFilename());
             }
         }
+        $this->io->success('Found ' . $documentCount . ' files.');
 
         array_walk(
             $documents,
@@ -90,36 +119,68 @@ class DocumentCommand extends BaseCommandWithFilesystem
         );
         ksort($documents, SORT_STRING);
 
+        $results = [];
+        $this->io->section('Importing documents...');
         $this->io->progressStart($documentCount);
         $this->beginTransaction();
         try {
+            $i = 1;
             foreach ($documents as $type => $typeDocuments) {
                 /** @var bool|string $createDoc */
-                $createDoc = true;
+                $createDoc         = true;
+                $typeDocumentIndex = count($typeDocuments);
                 foreach ($typeDocuments as $year => $typeDocument) {
+                    /** @var \SplFileInfo $typeDocument */
+                    $typeDocumentIndex--;
+
+                    $version   = 'Season ' . $year;
+                    $validFrom = new \DateTimeImmutable($year . '-01-01');
+                    if ($typeDocumentIndex === 0) {
+                        $validUntil = null;
+                    } else {
+                        $validUntil = new \DateTimeImmutable($year . '-12-31');
+                    }
+                    $validityStr = self::formatValidity($validFrom, $validUntil);
+
                     if ($createDoc === true) {
                         $createDocument = CreateDocument::create();
-                        $createDocument->setTitle($titles[$type])
-                                       ->setTags([$type])
-                                       ->setVersion('Season ' . $year)
-                                       ->setValidFrom(new \DateTimeImmutable($year . '-01-01'))
-                                       ->setValidUntil(new \DateTimeImmutable($year . '-12-31'))
+                        $createDocument->setTitle($metaDataMap[$type]['title'])
+                                       ->setTags($metaDataMap[$type]['tags'])
+                                       ->setVersion($version)
+                                       ->setValidFrom($validFrom)
+                                       ->setValidUntil($validUntil)
                                        ->setFile($typeDocument);
 
                         $this->dispatchCommand($createDocument);
 
                         $createDoc = $createDocument->getId();
+                        $results[] = [
+                            $i,
+                            $typeDocument->getFilename(),
+                            $createDocument->getTitle(),
+                            $version,
+                            $validityStr,
+                        ];
                     } else {
                         $createVersion = CreateDocumentVersion::create($createDoc);
-                        $createVersion->setVersion('Season ' . $year)
-                                      ->setValidFrom(new \DateTimeImmutable($year . '-01-01'))
-                                      ->setValidUntil(new \DateTimeImmutable($year . '-12-31'))
+                        $createVersion->setVersion($version)
+                                      ->setValidFrom($validFrom)
+                                      ->setValidUntil($validUntil)
                                       ->setFile($typeDocument);
 
                         $this->dispatchCommand($createVersion);
+
+                        $results[] = [
+                            $i,
+                            $typeDocument->getFilename(),
+                            '',
+                            $version,
+                            $validityStr,
+                        ];
                     }
 
                     $this->io->progressAdvance();
+                    $i++;
                 }
                 $this->clearEntityManager();
             }
@@ -129,7 +190,37 @@ class DocumentCommand extends BaseCommandWithFilesystem
             throw $e;
         }
         $this->io->progressFinish();
+        $this->io->table(
+            ['#', 'File', 'Title', 'Version', 'Validity'],
+            $results
+        );
+        $this->io->success('Imported ' . $documentCount . ' documents.');
 
         return 0;
+    }
+
+    /**
+     * @param \DateTimeImmutable|null $validFrom
+     * @param \DateTimeImmutable|null $validUntil
+     * @return string
+     */
+    private static function formatValidity(?\DateTimeImmutable $validFrom, ?\DateTimeImmutable $validUntil): string
+    {
+        if ($validFrom === null && $validUntil === null) {
+            return '∞';
+        }
+        $str = '';
+        if ($validFrom !== null) {
+            $str .= $validFrom->format('F j, Y');
+        } else {
+            $str .= '∞';
+        }
+        $str .= ' – ';
+        if ($validUntil !== null) {
+            $str .= $validUntil->format('F j, Y');
+        } else {
+            $str .= '∞';
+        }
+        return $str;
     }
 }
