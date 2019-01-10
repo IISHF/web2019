@@ -18,7 +18,7 @@ use App\Domain\Model\Document\DocumentVersion;
  */
 class UpdateDocumentVersion
 {
-    use UuidAware, DocumentVersionProperties, MutableDocumentVersion;
+    use UuidAware, DocumentVersionProperties;
 
     /**
      * @param DocumentVersion $documentVersion

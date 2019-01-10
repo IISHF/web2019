@@ -48,10 +48,30 @@ trait DocumentProperties
     }
 
     /**
+     * @param string $title
+     * @return $this
+     */
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    /**
      * @return string[]
      */
     public function getTags(): array
     {
         return $this->tags;
+    }
+
+    /**
+     * @param string[] $tags
+     * @return $this
+     */
+    public function setTags(array $tags): self
+    {
+        $this->tags = $tags;
+        return $this;
     }
 }

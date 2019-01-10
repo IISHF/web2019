@@ -69,6 +69,16 @@ trait DocumentVersionProperties
     }
 
     /**
+     * @param string $version
+     * @return $this
+     */
+    public function setVersion(string $version): self
+    {
+        $this->version = $version;
+        return $this;
+    }
+
+    /**
      * @return \DateTimeImmutable|null
      */
     public function getValidFrom(): ?\DateTimeImmutable
@@ -77,10 +87,30 @@ trait DocumentVersionProperties
     }
 
     /**
+     * @param \DateTimeImmutable|null $validFrom
+     * @return $this
+     */
+    public function setValidFrom(?\DateTimeImmutable $validFrom): self
+    {
+        $this->validFrom = $validFrom;
+        return $this;
+    }
+
+    /**
      * @return \DateTimeImmutable|null
      */
     public function getValidUntil(): ?\DateTimeImmutable
     {
         return $this->validUntil;
+    }
+
+    /**
+     * @param \DateTimeImmutable|null $validUntil
+     * @return $this
+     */
+    public function setValidUntil(?\DateTimeImmutable $validUntil): self
+    {
+        $this->validUntil = $validUntil;
+        return $this;
     }
 }

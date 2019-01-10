@@ -17,10 +17,7 @@ use App\Application\Common\Command\UuidAware;
  */
 class CreateDocument
 {
-    use UuidAware,
-        DocumentProperties, MutableDocument,
-        DocumentVersionProperties, MutableDocumentVersion,
-        DocumentVersionFile;
+    use UuidAware, DocumentProperties, DocumentVersionProperties, DocumentVersionFile;
     /**
      * @var string
      */

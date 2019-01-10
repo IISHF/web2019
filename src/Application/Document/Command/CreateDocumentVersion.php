@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class CreateDocumentVersion
 {
-    use UuidAware, DocumentVersionProperties, MutableDocumentVersion, DocumentVersionFile;
+    use UuidAware, DocumentVersionProperties, DocumentVersionFile;
 
     /**
      * @Assert\Type("string")
