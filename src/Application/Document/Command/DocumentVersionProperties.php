@@ -36,7 +36,7 @@ trait DocumentVersionProperties
      * //     message="This value should be less than or equal to valid until."
      * //)
      * @Assert\Expression(
-     *      expression="this.getValidUntil() === null or value <= this.getValidUntil()",
+     *      expression="value === null or this.getValidUntil() === null or value <= this.getValidUntil()",
      *      message="This value should be less than or equal to valid until."
      * )
      *
@@ -52,7 +52,7 @@ trait DocumentVersionProperties
      * //     message="This value should be greater than or equal to valid from."
      * //)
      * @Assert\Expression(
-     *      expression="this.getValidFrom() === null or value >= this.getValidFrom()",
+     *      expression="value === null or this.getValidFrom() === null or value >= this.getValidFrom()",
      *      message="This value should be greater than or equal to valid from."
      * )
      *
