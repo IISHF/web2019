@@ -30,6 +30,10 @@ trait DocumentVersionProperties
 
     /**
      * @Assert\Type("\DateTimeImmutable")
+     * @Assert\LessThanOrEqual(
+     *      propertyPath="validUntil",
+     *      message="This value should be less than or equal to valid until."
+     * )
      *
      * @var \DateTimeImmutable|null
      */
@@ -37,6 +41,10 @@ trait DocumentVersionProperties
 
     /**
      * @Assert\Type("\DateTimeImmutable")
+     * @Assert\GreaterThanOrEqual(
+     *      propertyPath="validFrom",
+     *      message="This value should be greater than or equal to valid from."
+     * )
      *
      * @var \DateTimeImmutable|null
      */
