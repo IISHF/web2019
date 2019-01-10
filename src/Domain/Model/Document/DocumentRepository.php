@@ -117,7 +117,7 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
     /**
      * @param int $page
      * @param int $limit
-     * @return iterable|Pagerfanta|Document[]
+     * @return Pagerfanta|Document[]
      */
     public function findPaged(int $page = 1, int $limit = 30): iterable
     {

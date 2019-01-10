@@ -73,7 +73,7 @@ class FileRepository extends ServiceEntityRepository
      * @param string|null $origin
      * @param int         $page
      * @param int         $limit
-     * @return iterable|Pagerfanta|File[]
+     * @return Pagerfanta|File[]
      */
     public function findPaged(
         ?string $mimeType = null,
