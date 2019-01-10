@@ -60,29 +60,6 @@ class Article
     ];
 
     /**
-     * @param int $states
-     * @return string[]
-     */
-    public static function getStates(int $states): array
-    {
-        $finalStates = [];
-        foreach (self::$availableStates as $state => $name) {
-            if (($state & $states) === $state) {
-                $finalStates[] = $name;
-            }
-        }
-        return $finalStates;
-    }
-
-    /**
-     * @return string[]
-     */
-    public static function getAvailableTransitions(): array
-    {
-        return self::$availableTransitions;
-    }
-
-    /**
      * @ORM\Column(name="id", type="guid")
      * @ORM\Id
      *
@@ -158,6 +135,29 @@ class Article
      * @var \DateTimeImmutable
      */
     private $publishedAt;
+
+    /**
+     * @param int $states
+     * @return string[]
+     */
+    public static function getStates(int $states): array
+    {
+        $finalStates = [];
+        foreach (self::$availableStates as $state => $name) {
+            if (($state & $states) === $state) {
+                $finalStates[] = $name;
+            }
+        }
+        return $finalStates;
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getAvailableTransitions(): array
+    {
+        return self::$availableTransitions;
+    }
 
     /**
      * @param string             $id
