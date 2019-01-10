@@ -40,6 +40,25 @@
                     </li>
                 {% endif %}
             </ul>
+            <ul class="navbar-nav">
+                {% if app.user %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <h6 class="dropdown-header">{{ app.user.username }}</h6>
+                            <a class="dropdown-item" href="{{ path('app_account_changepassword') }}">Change Password</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ logout_path() }}">Logout</a>
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('login') }}">Login</a>
+                    </li>
+                {% endif %}
+            </ul>
         </div>
     </nav>
     <div class="container">
