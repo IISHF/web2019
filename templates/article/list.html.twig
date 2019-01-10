@@ -24,7 +24,7 @@
                 <th scope="row">{{ articles.nbResults -  loop.index0 - articles.currentPageOffsetStart + 1 }}</th>
                 <td>
                     {{ include('article/_article_state.html.twig', {article: article}) }}
-                    <a href="{{ path('app_article_getdetail', {'article': article.slug}) }}">{{ article.title }}</a>
+                    <a href="{{ path('app_article_detail', {'article': article.slug}) }}">{{ article.title }}</a>
                     {{ include('common/_tags.html.twig', {tags: article.tags}) }}
                     {% if article.subtitle %}
                         <p class="small text-muted">{{ article.subtitle }}</p>

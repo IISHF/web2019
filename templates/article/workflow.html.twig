@@ -14,7 +14,7 @@
         <button type="submit" class="btn btn-{{ workflow_metadata(article, 'color', transition) }}">
             {{ workflow_metadata(article, 'confirm_btn', transition) }}
         </button>
-        <a href="{{ path('app_article_getlist') }}" class="btn btn-outline-secondary">Back</a>
+        <a href="{{ path('app_article_list') }}" class="btn btn-outline-secondary">Back</a>
     </div>
     {{ form_end(form) }}
 {% endblock %}

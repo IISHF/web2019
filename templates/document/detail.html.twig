@@ -40,7 +40,7 @@
                     <tr>
                         <th scope="row">{{ loop.index }}</th>
                         <td>
-                            <a href="{{ path('app_document_getversiondetail', {
+                            <a href="{{ path('app_document_version', {
                                 'document': document.slug,
                                 'version': version.slug
                             }) }}">{{ version.version }}</a>
@@ -90,6 +90,6 @@
                 csrfIntention: 'document_delete_' ~ document.id,
             }) }}
         {% endif %}
-        <a href="{{ path('app_document_getlist') }}" class="btn btn-outline-secondary">Back</a>
+        <a href="{{ path('app_document_list') }}" class="btn btn-outline-secondary">Back</a>
     </div>
 {% endblock %}

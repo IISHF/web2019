@@ -46,7 +46,7 @@ class DocumentController extends AbstractController
      * @param DocumentRepository $repository
      * @return Response
      */
-    public function getList(Request $request, DocumentRepository $repository): Response
+    public function list(Request $request, DocumentRepository $repository): Response
     {
         $page  = $request->query->getInt('page', 1);
         $limit = $request->query->getInt('limit', 30);
@@ -77,7 +77,7 @@ class DocumentController extends AbstractController
             $commandBus->dispatch($createDocument);
             $this->addFlash('success', 'The new document has been created.');
 
-            return $this->redirectToRoute('app_document_getlist');
+            return $this->redirectToRoute('app_document_list');
         }
 
         return $this->render(
@@ -104,7 +104,7 @@ class DocumentController extends AbstractController
      * @param Document $document
      * @return Response
      */
-    public function getDetail(Document $document): Response
+    public function detail(Document $document): Response
     {
         return $this->render(
             'document/detail.html.twig',
@@ -142,7 +142,7 @@ class DocumentController extends AbstractController
             $commandBus->dispatch($updateDocument);
             $this->addFlash('success', 'The document has been updated.');
 
-            return $this->redirectToRoute('app_document_getlist');
+            return $this->redirectToRoute('app_document_list');
         }
 
         return $this->render(
@@ -183,7 +183,7 @@ class DocumentController extends AbstractController
         $commandBus->dispatch($deleteDocument);
         $this->addFlash('success', 'The document has been deleted.');
 
-        return $this->redirectToRoute('app_document_getlist');
+        return $this->redirectToRoute('app_document_list');
 
     }
 
@@ -215,7 +215,7 @@ class DocumentController extends AbstractController
             $commandBus->dispatch($createVersion);
             $this->addFlash('success', 'The new document version has been created.');
 
-            return $this->redirectToRoute('app_document_getdetail', ['document' => $document->getSlug()]);
+            return $this->redirectToRoute('app_document_detail', ['document' => $document->getSlug()]);
         }
 
         return $this->render(
@@ -245,7 +245,7 @@ class DocumentController extends AbstractController
      * @param DocumentVersion $version
      * @return Response
      */
-    public function getVersionDetail(DocumentVersion $version): Response
+    public function version(DocumentVersion $version): Response
     {
         return $this->render(
             'document/version_detail.html.twig',
@@ -286,7 +286,7 @@ class DocumentController extends AbstractController
             $commandBus->dispatch($updateVersion);
             $this->addFlash('success', 'The document version has been updated.');
 
-            return $this->redirectToRoute('app_document_getdetail', ['document' => $version->getDocument()->getSlug()]);
+            return $this->redirectToRoute('app_document_detail', ['document' => $version->getDocument()->getSlug()]);
         }
 
         return $this->render(
@@ -334,6 +334,6 @@ class DocumentController extends AbstractController
         $commandBus->dispatch($deleteVersion);
         $this->addFlash('success', 'The document version has been deleted.');
 
-        return $this->redirectToRoute('app_document_getdetail', ['document' => $document->getSlug()]);
+        return $this->redirectToRoute('app_document_detail', ['document' => $document->getSlug()]);
     }
 }

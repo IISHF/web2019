@@ -8,6 +8,6 @@
     {{ include('article/_article_detail.html.twig', {article: article}) }}
 
     <div class="btn-group" role="group">
-        <a href="{{ path('app_article_getdetail', {article: articleSlug}) }}" class="btn btn-outline-secondary">Back</a>
+        <a href="{{ path('app_article_detail', {article: articleSlug}) }}" class="btn btn-outline-secondary">Back</a>
     </div>
 {% endblock %}

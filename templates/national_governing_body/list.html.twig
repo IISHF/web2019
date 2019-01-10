@@ -17,7 +17,7 @@
                     <h6 class="card-subtitle">{{ ngb.acronym }}</h6>
                     <p class="card-text">{{ ngb.name }}</p>
                     <div class="btn-group btn-group" role="group">
-                        <a href="{{ path('app_nationalgoverningbody_getdetail', {'ngb': ngb.slug}) }}"
+                        <a href="{{ path('app_nationalgoverningbody_detail', {'ngb': ngb.slug}) }}"
                            class="btn btn-outline-primary">Details</a>
                         {% if is_granted('NATIONAL_GOVERNING_BODY_EDIT', ngb) %}
                             <a href="{{ path('app_nationalgoverningbody_update', {'ngb': ngb.id}) }}"

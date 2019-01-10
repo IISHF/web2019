@@ -39,7 +39,7 @@ class NationalGoverningBodyController extends AbstractController
      * @param NationalGoverningBodyRepository $repository
      * @return Response
      */
-    public function getList(NationalGoverningBodyRepository $repository): Response
+    public function list(NationalGoverningBodyRepository $repository): Response
     {
         return $this->render(
             'national_governing_body/list.html.twig',
@@ -67,7 +67,7 @@ class NationalGoverningBodyController extends AbstractController
             $commandBus->dispatch($createNgb);
             $this->addFlash('success', 'The new national governing body has been created.');
 
-            return $this->redirectToRoute('app_nationalgoverningbody_getlist');
+            return $this->redirectToRoute('app_nationalgoverningbody_list');
         }
 
         return $this->render(
@@ -93,7 +93,7 @@ class NationalGoverningBodyController extends AbstractController
      * @param NationalGoverningBody $ngb
      * @return Response
      */
-    public function getDetail(NationalGoverningBody $ngb): Response
+    public function detail(NationalGoverningBody $ngb): Response
     {
         return $this->render(
             'national_governing_body/detail.html.twig',
@@ -131,7 +131,7 @@ class NationalGoverningBodyController extends AbstractController
             $commandBus->dispatch($updateNgb);
             $this->addFlash('success', 'The national governing body has been updated.');
 
-            return $this->redirectToRoute('app_nationalgoverningbody_getlist');
+            return $this->redirectToRoute('app_nationalgoverningbody_list');
         }
 
         return $this->render(
@@ -172,6 +172,6 @@ class NationalGoverningBodyController extends AbstractController
         $commandBus->dispatch($deleteNgb);
         $this->addFlash('success', 'The national governing body has been deleted.');
 
-        return $this->redirectToRoute('app_nationalgoverningbody_getlist');
+        return $this->redirectToRoute('app_nationalgoverningbody_list');
     }
 }

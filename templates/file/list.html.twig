@@ -37,7 +37,7 @@
                     <a href="{{ path('app_file_download', {'name': file.name}) }}" target="_blank">{{ file.name }}</a>
                     <div class="small">
                         <a class="badge badge-dark"
-                           href="{{ path('app_file_getlist', currentFilters|merge({origin: file.origin})) }}">{{ file.origin }}</a>
+                           href="{{ path('app_file_list', currentFilters|merge({origin: file.origin})) }}">{{ file.origin }}</a>
                         <span>{{ file.binary.hash|file_hash }}</span>
                     </div>
                     {% if file.originalName %}
@@ -45,7 +45,7 @@
                     {% endif %}
                 </td>
                 <td>
-                    <a href="{{ path('app_file_getlist', currentFilters|merge({type: file.mimeType})) }}">{{ file.mimeType }}</a>
+                    <a href="{{ path('app_file_list', currentFilters|merge({type: file.mimeType})) }}">{{ file.mimeType }}</a>
                 </td>
                 <td>{{ file.size|file_size }}</td>
                 <td class="text-nowrap">{{ file.createdAt|relative_time }}</td>

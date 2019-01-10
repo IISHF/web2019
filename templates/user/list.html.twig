@@ -28,7 +28,7 @@
                     {% if isCurrentUser %}
                         <i class="fas fa-user" title="That's me!" data-toggle="tooltip" data-placement="top"></i>
                     {% endif %}
-                    <a href="{{ path('app_user_getdetail', {'user': user.id}) }}">{{ user.name(true) }}</a>
+                    <a href="{{ path('app_user_detail', {'user': user.id}) }}">{{ user.name(true) }}</a>
                 </td>
                 <td>
                     {% if not user.confirmed %}

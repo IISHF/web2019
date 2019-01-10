@@ -41,7 +41,7 @@ class UserController extends AbstractController
      * @param UserRepository $repository
      * @return Response
      */
-    public function getList(Request $request, UserRepository $repository): Response
+    public function list(Request $request, UserRepository $repository): Response
     {
         $page  = $request->query->getInt('page', 1);
         $limit = $request->query->getInt('limit', 30);
@@ -72,7 +72,7 @@ class UserController extends AbstractController
             $commandBus->dispatch($createUser);
             $this->addFlash('success', 'The new user has been created.');
 
-            return $this->redirectToRoute('app_user_getlist');
+            return $this->redirectToRoute('app_user_list');
         }
 
         return $this->render(
@@ -98,7 +98,7 @@ class UserController extends AbstractController
      * @param User $user
      * @return Response
      */
-    public function getDetail(User $user): Response
+    public function detail(User $user): Response
     {
         return $this->render(
             'user/detail.html.twig',
@@ -136,7 +136,7 @@ class UserController extends AbstractController
             $commandBus->dispatch($updateUser);
             $this->addFlash('success', 'The user has been updated.');
 
-            return $this->redirectToRoute('app_user_getlist');
+            return $this->redirectToRoute('app_user_list');
         }
 
         return $this->render(
@@ -177,6 +177,6 @@ class UserController extends AbstractController
         $commandBus->dispatch($deleteUser);
         $this->addFlash('success', 'The user has been deleted.');
 
-        return $this->redirectToRoute('app_user_getlist');
+        return $this->redirectToRoute('app_user_list');
     }
 }

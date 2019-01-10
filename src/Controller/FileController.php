@@ -39,7 +39,7 @@ class FileController extends AbstractController
      * @param FileRepository $fileRepository
      * @return Response
      */
-    public function getList(Request $request, FileRepository $fileRepository): Response
+    public function list(Request $request, FileRepository $fileRepository): Response
     {
         $page  = $request->query->getInt('page', 1);
         $limit = $request->query->getInt('limit', 30);
@@ -51,7 +51,7 @@ class FileController extends AbstractController
                 $activeFilters[$filter] = [
                     'value'     => $value,
                     'removeUrl' => $this->generateUrl(
-                        'app_file_getlist',
+                        'app_file_list',
                         array_merge(
                             $request->query->all(),
                             [

@@ -29,12 +29,12 @@
             <tr>
                 <th scope="row">{{ loop.index0 + documents.currentPageOffsetStart }}</th>
                 <td>
-                    <a href="{{ path('app_document_getdetail', {'document': document.slug}) }}">{{ document.title }}</a>
+                    <a href="{{ path('app_document_detail', {'document': document.slug}) }}">{{ document.title }}</a>
                 </td>
                 <td>{{ include('common/_tags.html.twig', {tags: document.tags}) }}</td>
                 {% if validVersion %}
                     <td>
-                        <a href="{{ path('app_document_getversiondetail', {
+                        <a href="{{ path('app_document_version', {
                             'document': document.slug,
                             'version': validVersion.slug
                         }) }}">{{ validVersion.version }}</a>

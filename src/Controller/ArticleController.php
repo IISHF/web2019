@@ -48,7 +48,7 @@ class ArticleController extends AbstractController
      * @param ArticleRepository $repository
      * @return Response
      */
-    public function getList(Request $request, ArticleRepository $repository): Response
+    public function list(Request $request, ArticleRepository $repository): Response
     {
         $page  = $request->query->getInt('page', 1);
         $limit = $request->query->getInt('limit', 30);
@@ -107,7 +107,7 @@ class ArticleController extends AbstractController
             $commandBus->dispatch($createArticle);
             $this->addFlash('success', 'The new article has been created.');
 
-            return $this->redirectToRoute('app_article_getlist');
+            return $this->redirectToRoute('app_article_list');
         }
 
         return $this->render(
@@ -136,7 +136,7 @@ class ArticleController extends AbstractController
      * @param ArticleVersionRepository $versionRepository
      * @return Response
      */
-    public function getDetail(
+    public function detail(
         Article $article,
         ArticleRepository $repository,
         ArticleVersionRepository $versionRepository
@@ -235,7 +235,7 @@ class ArticleController extends AbstractController
             $commandBus->dispatch($updateArticle);
             $this->addFlash('success', 'The article has been updated.');
 
-            return $this->redirectToRoute('app_article_getlist');
+            return $this->redirectToRoute('app_article_list');
         }
 
         return $this->render(
@@ -283,7 +283,7 @@ class ArticleController extends AbstractController
         $commandBus->dispatch($deleteArticle);
         $this->addFlash('success', 'The article has been deleted.');
 
-        return $this->redirectToRoute('app_article_getlist');
+        return $this->redirectToRoute('app_article_list');
     }
 
     /**
@@ -377,7 +377,7 @@ class ArticleController extends AbstractController
             $commandBus->dispatch($command);
             $this->addFlash('success', 'The article has been updated.');
 
-            return $this->redirectToRoute('app_article_getlist');
+            return $this->redirectToRoute('app_article_list');
         }
 
         return $this->render(
@@ -418,6 +418,6 @@ class ArticleController extends AbstractController
         $commandBus->dispatch($command);
         $this->addFlash('success', 'The article has been updated . ');
 
-        return $this->redirectToRoute('app_article_getlist');
+        return $this->redirectToRoute('app_article_list');
     }
 }
