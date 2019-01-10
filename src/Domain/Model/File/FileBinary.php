@@ -18,7 +18,7 @@ use Webmozart\Assert\Assert;
  * @package App\Domain\Model\File
  *
  * @ORM\Entity()
- * @ORM\Table(name="file_binary")
+ * @ORM\Table(name="file_binaries")
  */
 class FileBinary
 {

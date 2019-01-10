@@ -163,7 +163,7 @@ class FileRepository extends ServiceEntityRepository
     public function cleanupFileBinaries(): int
     {
         return $this->_em->getConnection()
-                         ->executeUpdate('DELETE FROM file_binary WHERE hash NOT IN (SELECT binary_hash FROM files)');
+                         ->executeUpdate('DELETE FROM file_binaries WHERE hash NOT IN (SELECT binary_hash FROM files)');
     }
 
     /**
@@ -173,7 +173,7 @@ class FileRepository extends ServiceEntityRepository
     public function findFileBinaryReference(string $hash): ?FileBinary
     {
         $hasHash = $this->_em->getConnection()->fetchColumn(
-            'SELECT hash FROM file_binary WHERE hash = :hash',
+            'SELECT hash FROM file_binaries WHERE hash = :hash',
             [
                 'hash' => $hash,
             ],
