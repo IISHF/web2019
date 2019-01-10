@@ -17,7 +17,7 @@ use App\Application\Common\Command\UuidAware;
  */
 class CreateConfirmedUser
 {
-    use UuidAware, PasswordAware, UserProperties, MutableUser;
+    use UuidAware, PasswordAware, UserProperties;
 
     /**
      * @return self

@@ -17,7 +17,7 @@ use App\Application\Common\Command\UuidAware;
  */
 class CreateUser
 {
-    use UuidAware, UserProperties, MutableUser;
+    use UuidAware, UserProperties;
 
     /**
      * @var string
