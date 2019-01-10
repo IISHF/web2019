@@ -10,6 +10,9 @@
             {% for article in row %}
                 {# @var article \App\Domain\Model\Article\Article #}
                 <div class="card">
+                    <div class="card-header">
+                        {{ include('common/_tags.html.twig', {tags: article.tags}) }}
+                    </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ article.title }}</h5>
                         {% if article.subtitle is not null %}
