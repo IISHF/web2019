@@ -123,11 +123,31 @@ trait NationalGoverningBodyProperties
     }
 
     /**
+     * @param string $name
+     * @return $this
+     */
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getAcronym(): string
     {
         return $this->acronym;
+    }
+
+    /**
+     * @param string $acronym
+     * @return $this
+     */
+    public function setAcronym(string $acronym): self
+    {
+        $this->acronym = $acronym;
+        return $this;
     }
 
     /**
@@ -139,11 +159,31 @@ trait NationalGoverningBodyProperties
     }
 
     /**
+     * @param string $iocCode
+     * @return $this
+     */
+    public function setIocCode(string $iocCode): self
+    {
+        $this->iocCode = $iocCode;
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getCountry(): string
     {
         return $this->country;
+    }
+
+    /**
+     * @param string $country
+     * @return $this
+     */
+    public function setCountry(string $country): self
+    {
+        $this->country = $country;
+        return $this;
     }
 
     /**
@@ -163,11 +203,31 @@ trait NationalGoverningBodyProperties
     }
 
     /**
+     * @param string $email
+     * @return $this
+     */
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    /**
      * @return string|null
      */
     public function getWebsite(): ?string
     {
         return $this->website;
+    }
+
+    /**
+     * @param string|null $website
+     * @return $this
+     */
+    public function setWebsite(?string $website): self
+    {
+        $this->website = $website;
+        return $this;
     }
 
     /**
@@ -179,11 +239,31 @@ trait NationalGoverningBodyProperties
     }
 
     /**
+     * @param PhoneNumber|null $phoneNumber
+     * @return $this
+     */
+    public function setPhoneNumber(?PhoneNumber $phoneNumber): self
+    {
+        $this->phoneNumber = $phoneNumber;
+        return $this;
+    }
+
+    /**
      * @return string|null
      */
     public function getFacebookProfile(): ?string
     {
         return $this->facebookProfile;
+    }
+
+    /**
+     * @param string|null $facebookProfile
+     * @return $this
+     */
+    public function setFacebookProfile(?string $facebookProfile): self
+    {
+        $this->facebookProfile = $facebookProfile;
+        return $this;
     }
 
     /**
@@ -195,10 +275,30 @@ trait NationalGoverningBodyProperties
     }
 
     /**
+     * @param string|null $twitterProfile
+     * @return $this
+     */
+    public function setTwitterProfile(?string $twitterProfile): self
+    {
+        $this->twitterProfile = $twitterProfile;
+        return $this;
+    }
+
+    /**
      * @return string|null
      */
     public function getInstagramProfile(): ?string
     {
         return $this->instagramProfile;
+    }
+
+    /**
+     * @param string|null $instagramProfile
+     * @return $this
+     */
+    public function setInstagramProfile(?string $instagramProfile): self
+    {
+        $this->instagramProfile = $instagramProfile;
+        return $this;
     }
 }

@@ -20,7 +20,7 @@ use App\Application\NationalGoverningBody\Validator\UniqueNationalGoverningBody;
  */
 class CreateNationalGoverningBody implements IdentifiesNationalGoverningBody
 {
-    use UuidAware, NationalGoverningBodyProperties, MutableNationalGoverningBody;
+    use UuidAware, NationalGoverningBodyProperties;
 
     /**
      * @return self

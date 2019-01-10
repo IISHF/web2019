@@ -22,7 +22,7 @@ use libphonenumber\PhoneNumber;
  */
 class UpdateNationalGoverningBody implements IdentifiesNationalGoverningBody
 {
-    use UuidAware, NationalGoverningBodyProperties, MutableNationalGoverningBody;
+    use UuidAware, NationalGoverningBodyProperties;
 
     /**
      * @param NationalGoverningBody $nationalGoverningBody
