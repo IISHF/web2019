@@ -1,3 +1,13 @@
+.trix-editor {
+    .trix-content {
+        trix-editor {
+            min-height: 200px !important;
+            max-height: 500px !important;
+            overflow-y: auto;
+        }
+    }
+}
+
 .trix-content {
 
 }

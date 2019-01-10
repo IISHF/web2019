@@ -55,5 +55,5 @@
     {% set allowUpload =  enable_upload != null %}
     {% set trixOptions =   {uploadUrl: enable_upload, allowUpload: allowUpload, allowDelete: allowUpload} %}
     <div data-enable-trix="true" data-name="{{ full_name }}" data-value="{{ value|default('')|e('html_attr') }}"
-         data-trix-options="{{ trixOptions|json_encode }}"></div>
+         data-trix-options="{{ trixOptions|json_encode }}" class="trix-editor"></div>
 {% endblock %}
