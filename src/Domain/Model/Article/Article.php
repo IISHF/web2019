@@ -36,6 +36,9 @@ class Article
 
     public const FILE_ORIGIN = 'com.iishf.article';
 
+    public const STATE_DRAFT     = 'draft';
+    public const STATE_PUBLISHED = 'published';
+
     /**
      * @ORM\Column(name="id", type="guid")
      * @ORM\Id
@@ -157,7 +160,7 @@ class Article
     ): self {
         $article               = new self($id, $slug, $title, $subtitle, $body, $tags, $author);
         $article->legacyFormat = true;
-        $article->currentState = 'published';
+        $article->currentState = self::STATE_PUBLISHED;
         $article->publishedAt  = $publishedAt;
         return $article;
     }
@@ -183,7 +186,7 @@ class Article
         Assert::uuid($id);
 
         $this->id           = $id;
-        $this->currentState = 'draft';
+        $this->currentState = self::STATE_DRAFT;
         $this->setSlug($slug)
              ->setTitle($title)
              ->setSubtitle($subtitle)
@@ -237,7 +240,7 @@ class Article
      */
     public function isPublished(): bool
     {
-        return $this->currentState === 'published';
+        return $this->currentState === self::STATE_PUBLISHED;
     }
 
     /**

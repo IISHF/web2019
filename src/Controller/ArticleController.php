@@ -53,10 +53,21 @@ class ArticleController extends AbstractController
         $page  = $request->query->getInt('page', 1);
         $limit = $request->query->getInt('limit', 30);
 
+        $showAll = $request->query->getBoolean('all');
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $showAll = false;
+        }
+        if ($showAll) {
+            $articles = $repository->findAllPaged($page, $limit);
+        } else {
+            $articles = $repository->findPublishedPaged($page, $limit);
+        }
+
         return $this->render(
             'article/list.html.twig',
             [
-                'articles' => $repository->findAllPaged($page, $limit),
+                'showAll'  => $showAll,
+                'articles' => $articles,
             ]
         );
     }
@@ -107,7 +118,7 @@ class ArticleController extends AbstractController
             $commandBus->dispatch($createArticle);
             $this->addFlash('success', 'The new article has been created.');
 
-            return $this->redirectToRoute('app_article_list');
+            return $this->redirectToRoute('app_article_list', ['all' => true]);
         }
 
         return $this->render(
@@ -235,7 +246,7 @@ class ArticleController extends AbstractController
             $commandBus->dispatch($updateArticle);
             $this->addFlash('success', 'The article has been updated.');
 
-            return $this->redirectToRoute('app_article_list');
+            return $this->redirectToRoute('app_article_list', ['all' => true]);
         }
 
         return $this->render(
@@ -283,7 +294,7 @@ class ArticleController extends AbstractController
         $commandBus->dispatch($deleteArticle);
         $this->addFlash('success', 'The article has been deleted.');
 
-        return $this->redirectToRoute('app_article_list');
+        return $this->redirectToRoute('app_article_list', ['all' => true]);
     }
 
     /**
@@ -377,7 +388,7 @@ class ArticleController extends AbstractController
             $commandBus->dispatch($command);
             $this->addFlash('success', 'The article has been updated.');
 
-            return $this->redirectToRoute('app_article_list');
+            return $this->redirectToRoute('app_article_list', ['all' => true]);
         }
 
         return $this->render(
@@ -418,6 +429,6 @@ class ArticleController extends AbstractController
         $commandBus->dispatch($command);
         $this->addFlash('success', 'The article has been updated . ');
 
-        return $this->redirectToRoute('app_article_list');
+        return $this->redirectToRoute('app_article_list', ['all' => true]);
     }
 }

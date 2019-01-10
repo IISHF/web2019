@@ -14,6 +14,7 @@ use App\Domain\Model\File\FileRepository;
 use App\Utils\Tags;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\DBAL\Types\Type;
 use Pagerfanta\Pagerfanta;
 
 /**
@@ -70,9 +71,29 @@ class ArticleRepository extends ServiceEntityRepository implements TagProvider
     public function findAllPaged(int $page = 1, int $limit = 30): iterable
     {
         $queryBuilder = $this->createQueryBuilder('a')
-                             ->addSelect('CASE WHEN a.publishedAt IS NULL THEN 0 ELSE 1 END AS HIDDEN notPublished')
-                             ->orderBy('notPublished', 'ASC ')
-                             ->addOrderBy('a.publishedAt', 'DESC');
+                             ->addSelect('CASE WHEN a.publishedAt IS NULL THEN 0 ELSE 1 END AS HIDDEN published')
+                             ->orderBy('published', 'ASC ')
+                             ->addOrderBy('a.publishedAt', 'DESC')
+                             ->addOrderBy('a.updatedAt', 'DESC');
+        return $this->createPager($queryBuilder, $page, $limit);
+    }
+
+    /**
+     * @param int                     $page
+     * @param int                     $limit
+     * @param \DateTimeImmutable|null $date
+     * @return Pagerfanta|Article[]
+     */
+    public function findPublishedPaged(int $page = 1, int $limit = 30, ?\DateTimeImmutable $date = null): iterable
+    {
+        $date         = $date ?? new \DateTimeImmutable('now');
+        $queryBuilder = $this->createQueryBuilder('a')
+                             ->where('a.currentState = :state')
+                             ->andWhere('a.publishedAt IS NOT NULL')
+                             ->andWhere('a.publishedAt <= :date')
+                             ->setParameter('state', Article::STATE_PUBLISHED)
+                             ->setParameter('date', $date, Type::DATETIME_IMMUTABLE)
+                             ->orderBy('a.publishedAt', 'DESC');
         return $this->createPager($queryBuilder, $page, $limit);
     }
 

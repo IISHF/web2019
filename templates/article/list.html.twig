@@ -4,8 +4,14 @@
     <h1>Articles</h1>
 
     {% if is_granted('ROLE_ADMIN') %}
-        <div class="btn-group" role="group">
-            <a href="{{ path('app_article_create') }}" class="btn btn-primary">Create</a>
+        <div class="btn-group mb-4" role="group">
+            {% if showAll %}
+                <a href="{{ path('app_article_list') }}" class="btn btn-primary">Show published articles only</a>
+            {% else %}
+                <a href="{{ path('app_article_list', {all: true}) }}" class="btn btn-primary">Show all
+                    articles</a>
+            {% endif %}
+            <a href="{{ path('app_article_create') }}" class="btn btn-success">Create</a>
         </div>
     {% endif %}
 
@@ -20,7 +26,7 @@
         </thead>
         <tbody>
         {% for article in articles %}
-            <tr>
+            <tr {% if not article.published %}class="table-secondary"{% endif %}>
                 <th scope="row">{{ articles.nbResults -  loop.index0 - articles.currentPageOffsetStart + 1 }}</th>
                 <td>
                     {{ include('article/_article_state.html.twig', {article: article}) }}

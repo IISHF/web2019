@@ -4,7 +4,7 @@
     {% block before_workflow %}{% endblock %}
     {% for transition in transitions %}
         {% if  workflow_metadata(article, 'form_type', transition) is not null %}
-            <a class="btn btn-outline-{{ workflow_metadata(article, 'color', transition) }}"
+            <a class="btn btn-{{ workflow_metadata(article, 'color', transition) }}"
                href="{{ path('app_article_workflow', {'article': article.id, 'transition': transition.name}) }}">
                 {{ workflow_metadata(article, 'button', transition) }}
             </a>
@@ -23,7 +23,7 @@
                     }) }}
                 {% endblock %}
             {% endembed %}
-            <button type="button" class="btn btn-outline-{{ workflow_metadata(article, 'color', transition) }}"
+            <button type="button" class="btn btn-{{ workflow_metadata(article, 'color', transition) }}"
                     data-toggle="modal" data-target="#{{ modalId }}">
                 {{ workflow_metadata(article, 'button', transition) }}
             </button>
