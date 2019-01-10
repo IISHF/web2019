@@ -21,7 +21,7 @@
         {% endif %}
         {% if is_granted('DOCUMENT_VERSION_DELETE', version) %}
             {{ include('common/_delete_btn.html.twig', {
-                title: 'Delete document version',
+                title: version.title,
                 body: 'Do you really want to delete the document version?',
                 deleteAction: path('app_document_deleteversion', {'document': version.document.id, 'version': version.id}),
                 csrfIntention: 'document_version_delete_' ~ version.id,

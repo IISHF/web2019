@@ -54,7 +54,7 @@
                         {% endif %}
                         {% if is_granted('DOCUMENT_DELETE', document) %}
                             {{ include('common/_delete_btn.html.twig', {
-                                title: 'Delete document',
+                                title: document.title,
                                 body: 'Do you really want to delete the document?',
                                 deleteAction: path('app_document_delete', {'document': document.id}),
                                 csrfIntention: 'document_delete_' ~ document.id,

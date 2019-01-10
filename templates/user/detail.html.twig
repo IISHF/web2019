@@ -67,7 +67,7 @@
         {% endif %}
         {% if is_granted('USER_DELETE', user) %}
             {{ include('common/_delete_btn.html.twig', {
-                title: 'Delete user',
+                title: user.name,
                 body: 'Do you really want to delete the user?',
                 deleteAction: path('app_user_delete', {'user': user.id}),
                 csrfIntention: 'user_delete_' ~ user.id,

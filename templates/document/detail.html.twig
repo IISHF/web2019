@@ -59,7 +59,7 @@
                                 {% endif %}
                                 {% if is_granted('DOCUMENT_VERSION_DELETE', version) %}
                                     {{ include('common/_delete_btn.html.twig', {
-                                        title: 'Delete document version',
+                                        title: version.title,
                                         body: 'Do you really want to delete the document version?',
                                         deleteAction: path('app_document_deleteversion', {'document': document.id, 'version': version.id}),
                                         csrfIntention: 'document_version_delete_' ~ version.id,
@@ -84,7 +84,7 @@
         {% endif %}
         {% if is_granted('DOCUMENT_DELETE', document) %}
             {{ include('common/_delete_btn.html.twig', {
-                title: 'Delete document',
+                title: document.title,
                 body: 'Do you really want to delete the document?',
                 deleteAction: path('app_document_delete', {'document': document.id}),
                 csrfIntention: 'document_delete_' ~ document.id,

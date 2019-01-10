@@ -25,7 +25,7 @@
                         {% endif %}
                         {% if is_granted('NATIONAL_GOVERNING_BODY_DELETE', ngb) %}
                             {{ include('common/_delete_btn.html.twig', {
-                                title: 'Delete national governing body',
+                                title: ngb.name,
                                 body: 'Do you really want to delete the national governing body?',
                                 deleteAction: path('app_nationalgoverningbody_delete', {'ngb': ngb.id}),
                                 csrfIntention: 'ngb_delete_' ~ ngb.id,
