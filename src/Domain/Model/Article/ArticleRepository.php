@@ -82,19 +82,41 @@ class ArticleRepository extends ServiceEntityRepository implements TagProvider
      * @param int                     $page
      * @param int                     $limit
      * @param \DateTimeImmutable|null $date
-     * @return Pagerfanta|Article[]
+     * @return iterable|Pagerfanta|Article[]
      */
     public function findPublishedPaged(int $page = 1, int $limit = 30, ?\DateTimeImmutable $date = null): iterable
     {
-        $date         = $date ?? new \DateTimeImmutable('now');
-        $queryBuilder = $this->createQueryBuilder('a')
-                             ->where('a.currentState = :state')
-                             ->andWhere('a.publishedAt IS NOT NULL')
-                             ->andWhere('a.publishedAt <= :date')
-                             ->setParameter('state', Article::STATE_PUBLISHED)
-                             ->setParameter('date', $date, Type::DATETIME_IMMUTABLE)
-                             ->orderBy('a.publishedAt', 'DESC');
+        $queryBuilder = $this->createPublishedQueryBuilder($date);
         return $this->createPager($queryBuilder, $page, $limit);
+    }
+
+    /**
+     * @param int                     $limit
+     * @param \DateTimeImmutable|null $date
+     * @return Article[]
+     */
+    public function findMostRecent(int $limit = 10, ?\DateTimeImmutable $date = null): iterable
+    {
+        return $this->createPublishedQueryBuilder($date)
+                    ->setMaxResults($limit)
+                    ->getQuery()
+                    ->getResult();
+    }
+
+    /**
+     * @param \DateTimeImmutable|null $date
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    private function createPublishedQueryBuilder(?\DateTimeImmutable $date = null): \Doctrine\ORM\QueryBuilder
+    {
+        $date = $date ?? new \DateTimeImmutable('now');
+        return $this->createQueryBuilder('a')
+                    ->where('a.currentState = :state')
+                    ->andWhere('a.publishedAt IS NOT NULL')
+                    ->andWhere('a.publishedAt <= :date')
+                    ->setParameter('state', Article::STATE_PUBLISHED)
+                    ->setParameter('date', $date, Type::DATETIME_IMMUTABLE)
+                    ->addOrderBy('a.publishedAt', 'DESC');
     }
 
     /**

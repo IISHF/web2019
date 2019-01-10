@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Domain\Model\Article\ArticleRepository;
 use App\Infrastructure\Security\Exception\CaptchaTestFailedException;
 use App\Infrastructure\Security\MagicLink\TokenManager;
 use App\Infrastructure\Security\ReCaptchaClient;
@@ -23,13 +24,20 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class HomeController extends AbstractController
 {
     /**
+     * @param ArticleRepository $articleRepository
      * @return Response
      */
-    public function index(): Response
+    public function index(ArticleRepository $articleRepository): Response
     {
         $number = random_int(0, 100);
 
-        return $this->render('home/index.html.twig', ['number' => $number]);
+        return $this->render(
+            'home/index.html.twig',
+            [
+                'number'   => $number,
+                'articles' => $articleRepository->findMostRecent(),
+            ]
+        );
     }
 
     /**

@@ -12,3 +12,8 @@ $primary: darken(#428bca, 20%);
 h1 {
     color: red;
 }
+
+.news-text {
+    max-height: 150px;
+    overflow: hidden;
+}

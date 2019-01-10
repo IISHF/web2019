@@ -5,4 +5,30 @@
         <h1 class="display-1">{{ number }}</h1>
     </div>
 
+    {% for row in articles|batch(2) %}
+        <div class="card-deck mb-4">
+            {% for article in row %}
+                {# @var article \App\Domain\Model\Article\Article #}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ article.title }}</h5>
+                        {% if article.subtitle is not null %}
+                            <h6 class="card-subtitle mb-2 text-muted text-truncate">{{ article.subtitle }}</h6>
+                        {% endif %}
+                        <div class="card-text news-text">
+                            {% if article.legacyFormat %}
+                                <div>{{ article.body|article_legacy_body }}</div>
+                            {% else %}
+                                <div class="trix-content">{{ article.body|purify('article') }}</div>
+                            {% endif %}
+                        </div>
+                        <a href="{{ path('app_article_detail', {article: article.slug}) }}" class="card-link">Read</a>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Published {{ article.publishedAt|relative_time }}</small>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
 {% endblock %}
