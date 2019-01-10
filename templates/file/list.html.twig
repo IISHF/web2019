@@ -6,6 +6,7 @@
     {% if activeFilters is not empty %}
         <div class="card mb-4">
             <div class="card-body">
+                <strong>Active Filters</strong>
                 {% for activeFilter in activeFilters %}
                     <a class="badge badge-pill badge-primary"
                        href="{{ activeFilter.removeUrl }}">{{ activeFilter.value }}</a>
