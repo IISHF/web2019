@@ -36,6 +36,7 @@ class PublishArticleType extends AbstractType
                     'input'             => 'datetime_immutable',
                     'format'            => 'MMMM d, yyyy HH:mm',
                     'enable_datepicker' => true,
+                    'help'              => 'Please be aware that the publish time is UTC.',
                 ]
             );
     }
