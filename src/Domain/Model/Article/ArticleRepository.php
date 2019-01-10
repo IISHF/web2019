@@ -65,7 +65,7 @@ class ArticleRepository extends ServiceEntityRepository implements TagProvider
     /**
      * @param int $page
      * @param int $limit
-     * @return Pagerfanta|Article[]
+     * @return iterable|Pagerfanta|Article[]
      */
     public function findAllPaged(int $page = 1, int $limit = 30): iterable
     {
