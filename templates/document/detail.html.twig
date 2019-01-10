@@ -20,7 +20,7 @@
             <h5 class="card-title">Versions</h5>
             {% if is_granted('DOCUMENT_EDIT', document) %}
                 <div class="btn-group" role="group">
-                    <a href="{{ path('app_document_createversion', {document: document.id}) }}" class="btn btn-primary">Create</a>
+                    <a href="{{ path('app_document_createversion', {document: document.id}) }}" class="btn btn-success">Create</a>
                 </div>
             {% endif %}
             <table class="table table-sm">
