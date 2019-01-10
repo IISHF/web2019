@@ -31,7 +31,7 @@
                 <td>
                     <a href="{{ path('app_document_getdetail', {'document': document.slug}) }}">{{ document.title }}</a>
                 </td>
-                <td class="text-nowrap">
+                <td>
                     {% for tag in document.tags %}
                         <span class="badge badge-secondary">{{ tag }}</span>
                     {% endfor %}
