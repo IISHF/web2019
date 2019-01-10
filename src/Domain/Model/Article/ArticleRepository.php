@@ -63,20 +63,14 @@ class ArticleRepository extends ServiceEntityRepository implements TagProvider
     }
 
     /**
-     * @param int $states
      * @param int $page
      * @param int $limit
-     * @return iterable|Pagerfanta|Article[]
+     * @return Pagerfanta|Article[]
      */
-    public function findPaged(int $states = Article::STATE_PUBLISHED, int $page = 1, int $limit = 30): iterable
+    public function findAllPaged(int $page = 1, int $limit = 30): iterable
     {
-        $stateFilter   = Article::getStates($states);
-        $stateFilter[] = '';
-
         $queryBuilder = $this->createQueryBuilder('a')
                              ->addSelect('CASE WHEN a.publishedAt IS NULL THEN 0 ELSE 1 END AS HIDDEN notPublished')
-                             ->andWhere('a.currentState IN (:states)')
-                             ->setParameter('states', $stateFilter)
                              ->orderBy('notPublished', 'ASC ')
                              ->addOrderBy('a.publishedAt', 'DESC');
         return $this->createPager($queryBuilder, $page, $limit);

@@ -8,7 +8,8 @@
 {{ form_rest(form) }}
 
 <div class="btn-group" role="group">
-    <button type="submit" class="btn btn-primary">{{ submitBtnText|default('Update') }}</button>
+    <button type="submit"
+            class="btn btn-{{ submitBtnType|default('primary') }}">{{ submitBtnText|default('Update') }}</button>
     <a href="{{ path('app_article_getlist') }}" class="btn btn-outline-secondary">Back</a>
 </div>
 

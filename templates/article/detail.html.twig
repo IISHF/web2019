@@ -2,11 +2,7 @@
 
 {% block content %}
     <h1>
-        {% if workflow_has_marked_place(article, 'draft') %}
-            <span class="badge badge-light">{{ workflow_metadata(article, 'title', 'draft') }}</span>
-        {% elseif workflow_has_marked_place(article, 'review') %}
-            <span class="badge badge-dark">{{ workflow_metadata(article, 'title', 'review') }}</span>
-        {% endif %}
+        {{ include('article/_article_state.html.twig', {article: article}) }}
         {{ article.title }}
     </h1>
 
@@ -59,7 +55,7 @@
         {% block after_workflow %}
             {% if is_granted('ARTICLE_DELETE', article) %}
                 {{ include('common/_delete_btn.html.twig', {
-                    title: 'Delete article',
+                    title: article.title,
                     body: 'Do you really want to delete the article?',
                     deleteAction: path('app_article_delete', {'article': article.id}),
                     csrfIntention: 'article_delete_' ~ article.id,

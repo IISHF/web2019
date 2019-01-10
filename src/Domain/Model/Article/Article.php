@@ -36,29 +36,6 @@ class Article
 
     public const FILE_ORIGIN = 'com.iishf.article';
 
-    public const STATE_DRAFT     = 0b001;
-    public const STATE_REVIEW    = 0b010;
-    public const STATE_PUBLISHED = 0b100;
-    public const STATE_ALL       = 0b111;
-
-    /**
-     * @var array
-     */
-    private static $availableStates = [
-        self::STATE_DRAFT     => 'draft',
-        self::STATE_REVIEW    => 'review',
-        self::STATE_PUBLISHED => 'published',
-    ];
-
-    /**
-     * @var array
-     */
-    private static $availableTransitions = [
-        'submit',
-        'publish',
-        'reject',
-    ];
-
     /**
      * @ORM\Column(name="id", type="guid")
      * @ORM\Id
@@ -130,34 +107,10 @@ class Article
 
     /**
      * @ORM\Column(name="published_at", type="datetime_immutable", nullable=true)
-     * @Gedmo\Versioned()
      *
      * @var \DateTimeImmutable|null
      */
     private $publishedAt;
-
-    /**
-     * @param int $states
-     * @return string[]
-     */
-    public static function getStates(int $states): array
-    {
-        $finalStates = [];
-        foreach (self::$availableStates as $state => $name) {
-            if (($state & $states) === $state) {
-                $finalStates[] = $name;
-            }
-        }
-        return $finalStates;
-    }
-
-    /**
-     * @return string[]
-     */
-    public static function getAvailableTransitions(): array
-    {
-        return self::$availableTransitions;
-    }
 
     /**
      * @param string      $id
@@ -204,7 +157,7 @@ class Article
     ): self {
         $article               = new self($id, $slug, $title, $subtitle, $body, $tags, $author);
         $article->legacyFormat = true;
-        $article->currentState = self::$availableStates[self::STATE_PUBLISHED];
+        $article->currentState = 'published';
         $article->publishedAt  = $publishedAt;
         return $article;
     }
@@ -230,7 +183,7 @@ class Article
         Assert::uuid($id);
 
         $this->id           = $id;
-        $this->currentState = self::$availableStates[self::STATE_DRAFT];
+        $this->currentState = 'draft';
         $this->setSlug($slug)
              ->setTitle($title)
              ->setSubtitle($subtitle)
@@ -271,7 +224,7 @@ class Article
      */
     public function setCurrentState(string $currentState): self
     {
-        Assert::oneOf($currentState, self::$availableStates);
+        Assert::lengthBetween($currentState, 1, 16);
         $this->currentState = $currentState;
         if (!$this->isPublished()) {
             $this->publishedAt = null;
@@ -284,7 +237,7 @@ class Article
      */
     public function isPublished(): bool
     {
-        return $this->currentState === self::$availableStates[self::STATE_PUBLISHED];
+        return $this->currentState === 'published';
     }
 
     /**

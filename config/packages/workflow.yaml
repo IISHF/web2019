@@ -15,29 +15,48 @@ framework:
             places:
                 draft:
                     metadata:
-                        title: Draft
+                        name: Draft
                 review:
                     metadata:
-                        title: Review
+                        name: Review
                 published:
                     metadata:
-                        title: Published
+                        name: Published
             transitions:
                 submit:
                     guard: 'is_granted("ARTICLE_SUBMIT", subject)'
                     from: draft
                     to: review
                     metadata:
-                        title: Submit
-                publish:
-                    guard: 'is_granted("ARTICLE_REVIEW", subject)'
-                    from: review
-                    to: published
-                    metadata:
-                        title: Publish
+                        color: primary
+                        button: Submit
+                        confirm: Do you really want to submit the article for review?
+                        confirm_btn: Submit article for review
                 reject:
                     guard: 'is_granted("ARTICLE_REVIEW", subject)'
                     from: review
                     to: draft
                     metadata:
-                        title: Reject
+                        color: warning
+                        button: Reject
+                        confirm: Do you really want to reject the article?
+                        confirm_btn: Reject article
+                publish:
+                    guard: 'is_granted("ARTICLE_REVIEW", subject)'
+                    from: review
+                    to: published
+                    metadata:
+                        color: success
+                        button: Publish
+                        confirm: Do you really want to publish the article?
+                        confirm_btn: Publish article
+                        form_type: App\Infrastructure\Article\Form\PublishArticleType
+                unpublish:
+                    guard: 'is_granted("ARTICLE_REVIEW", subject)'
+                    from: published
+                    to: draft
+                    metadata:
+                        color: warning
+                        button: Unpublish
+                        confirm: Do you really want to unpublish the article?
+                        confirm_btn: Unpublish article

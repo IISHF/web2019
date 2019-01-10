@@ -3,26 +3,31 @@
 <div class="{{ btnGroupClass }}" role="group">
     {% block before_workflow %}{% endblock %}
     {% for transition in transitions %}
-        {% set modalId = 'confirm_' ~ random() %}
-        {% embed 'common/_modal.html.twig' with {modalId: modalId, title: article.title} %}
-            {% block modal_body %}
-                <p>{{ workflow_metadata(article, 'title', transition) }}</p>
-            {% endblock %}
-            {% block modal_footer %}
-                {% embed 'common/_form.html.twig' with {
-                    action: path('app_article_workflow', {'article': article.id}),
-                    csrfIntention: 'article_'~transition.name~'_'~article.id,
-                    submitBtn: workflow_metadata(article, 'title', transition)
-                } %}
-                    {% block form_fields %}
-                        <input type="hidden" name="transition" value="{{ transition.name }}"/>
-                    {% endblock %}
-                {% endembed %}
-            {% endblock %}
-        {% endembed %}
-        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#{{ modalId }}">
-            {{ workflow_metadata(article, 'title', transition) }}
-        </button>
+        {% if  workflow_metadata(article, 'form_type', transition) is not null %}
+            <a class="btn btn-outline-{{ workflow_metadata(article, 'color', transition) }}"
+               href="{{ path('app_article_workflow', {'article': article.id, 'transition': transition.name}) }}">
+                {{ workflow_metadata(article, 'button', transition) }}
+            </a>
+        {% else %}
+            {% set modalId = 'confirm_' ~ random() %}
+            {% embed 'common/_modal.html.twig' with {modalId: modalId, title: article.title} %}
+                {% block modal_body %}
+                    <p>{{ workflow_metadata(article, 'confirm', transition) }}</p>
+                {% endblock %}
+                {% block modal_footer %}
+                    {{ include('common/_form.html.twig', {
+                        action: path('app_article_workflow', {'article': article.id, 'transition': transition.name}),
+                        csrfIntention: 'article_'~transition.name~'_'~article.id,
+                        submitBtn: workflow_metadata(article, 'confirm_btn', transition),
+                        submitBtnType: workflow_metadata(article, 'color', transition)
+                    }) }}
+                {% endblock %}
+            {% endembed %}
+            <button type="button" class="btn btn-outline-{{ workflow_metadata(article, 'color', transition) }}"
+                    data-toggle="modal" data-target="#{{ modalId }}">
+                {{ workflow_metadata(article, 'button', transition) }}
+            </button>
+        {% endif %}
     {% endfor %}
     {% block after_workflow %}{% endblock %}
 </div>

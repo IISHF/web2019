@@ -1,0 +1,5 @@
+{% if workflow_has_marked_place(article, 'draft') %}
+    <span class="badge badge-light">{{ workflow_metadata(article, 'name', 'draft') }}</span>
+{% elseif workflow_has_marked_place(article, 'review') %}
+    <span class="badge badge-dark">{{ workflow_metadata(article, 'name', 'review') }}</span>
+{% endif %}

@@ -2,12 +2,13 @@
 /**
  * Created by PhpStorm.
  * User: stefan
- * Date: 2018-12-04
- * Time: 16:24
+ * Date: 2019-01-10
+ * Time: 12:21
  */
 
 namespace App\Application\Article\Command;
 
+use App\Domain\Model\Article\Article;
 use App\Domain\Model\Article\ArticleRepository;
 use Symfony\Component\Workflow\Registry;
 
@@ -16,7 +17,7 @@ use Symfony\Component\Workflow\Registry;
  *
  * @package App\Application\Article\Command
  */
-class WorkflowCommandHandler extends ArticleCommandHandler
+abstract class WorkflowCommandHandler extends ArticleCommandHandler
 {
     /**
      * @var Registry
@@ -34,13 +35,14 @@ class WorkflowCommandHandler extends ArticleCommandHandler
     }
 
     /**
-     * @param WorkflowCommand $command
+     * @param ArticleWorkflowCommand $command
+     * @return Article
      */
-    public function __invoke(WorkflowCommand $command): void
+    protected function applyTransition(ArticleWorkflowCommand $command): Article
     {
         $article  = $this->getArticle($command->getId());
         $workflow = $this->workflowRegistry->get($article, 'article_publishing');
         $workflow->apply($article, $command->getTransition());
-        $this->repository->save($article);
+        return $article;
     }
 }
