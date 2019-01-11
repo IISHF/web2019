@@ -111,8 +111,7 @@ class DocumentVersion
         $this->setDocument($document)
              ->setVersion($version)
              ->setSlug($slug)
-             ->setValidFrom($validFrom)
-             ->setValidUntil($validUntil)
+             ->setValidity($validFrom, $validUntil)
              ->initCreateTracking()
              ->initUpdateTracking();
     }
@@ -282,11 +281,19 @@ class DocumentVersion
     }
 
     /**
+     * @param \DateTimeImmutable|null $validFrom
      * @param \DateTimeImmutable|null $validUntil
      * @return $this
      */
-    public function setValidUntil(?\DateTimeImmutable $validUntil): self
+    public function setValidity(?\DateTimeImmutable $validFrom, ?\DateTimeImmutable $validUntil): self
     {
+        if ($validUntil !== null) {
+            Assert::nullOrLessThanEq($validFrom, $validUntil);
+        }
+        if ($validFrom !== null) {
+            Assert::nullOrGreaterThanEq($validUntil, $validFrom);
+        }
+        $this->validFrom  = $validFrom;
         $this->validUntil = $validUntil;
         return $this;
     }
