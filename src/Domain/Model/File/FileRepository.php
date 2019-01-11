@@ -120,15 +120,29 @@ class FileRepository extends ServiceEntityRepository
         if ($flush) {
             $this->_em->beginTransaction();
             try {
-                $this->_em->remove($file);
+                $this->delete($file, false);
                 $this->_em->flush();
-                $this->cleanupFileBinaries();
                 $this->_em->commit();
             } catch (\Exception $e) {
                 $this->_em->rollback();
                 throw $e;
             }
         } else {
+            $binary     = $file->getBinary();
+            $usageCount = $this->_em->getConnection()
+                                    ->fetchColumn(
+                                        'SELECT COUNT(f.id) AS c FROM files f WHERE f.binary_hash = :hash',
+                                        [
+                                            'hash' => $binary->getHash(),
+                                        ],
+                                        0,
+                                        [
+                                            'hash' => Type::STRING,
+                                        ]
+                                    );
+            if ($usageCount < 2) {
+                $this->_em->remove($binary);
+            }
             $this->_em->remove($file);
         }
     }
@@ -141,6 +155,26 @@ class FileRepository extends ServiceEntityRepository
         $db = $this->_em->getConnection();
         $db->beginTransaction();
         try {
+            $fileHashes = array_column(
+                $db->fetchAll(
+                    <<<'SQL'
+SELECT fb.hash, COUNT(f.id) AS c 
+FROM file_binaries fb
+LEFT JOIN files f ON fb.hash = f.binary_hash
+WHERE fb.hash IN (SELECT binary_hash FROM files WHERE id IN (:ids))
+GROUP BY fb.hash
+HAVING c < 2
+SQL
+                    ,
+                    [
+                        'ids' => $ids,
+                    ],
+                    [
+                        'ids' => Connection::PARAM_STR_ARRAY,
+                    ]
+                ),
+                'hash'
+            );
             $db->executeUpdate(
                 'DELETE FROM files WHERE id IN (:ids)',
                 [
@@ -150,7 +184,15 @@ class FileRepository extends ServiceEntityRepository
                     'ids' => Connection::PARAM_STR_ARRAY,
                 ]
             );
-            $this->cleanupFileBinaries();
+            $db->executeUpdate(
+                'DELETE FROM file_binaries WHERE hash IN (:hashes)',
+                [
+                    'hashes' => $fileHashes,
+                ],
+                [
+                    'hashes' => Connection::PARAM_STR_ARRAY,
+                ]
+            );
             $db->commit();
         } catch (\Exception $e) {
             $db->rollBack();

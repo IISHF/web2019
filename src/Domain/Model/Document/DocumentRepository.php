@@ -161,7 +161,6 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
                 $this->fileRepository->delete($version->getFile(), false);
             }
             $this->_em->flush();
-            $this->fileRepository->cleanupFileBinaries();
             $this->_em->commit();
         } catch (\Exception $e) {
             $this->_em->rollback();
@@ -275,7 +274,6 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
             $this->_em->remove($documentVersion);
             $this->fileRepository->delete($documentVersion->getFile(), false);
             $this->_em->flush();
-            $this->fileRepository->cleanupFileBinaries();
             $this->_em->commit();
         } catch (\Exception $e) {
             $this->_em->rollback();
