@@ -75,7 +75,7 @@ class File implements FileInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="FileBinary")
-     * @ORM\JoinColumn(name="binary_hash", referencedColumnName="hash", nullable=false, onDelete="CASCADE")
+     * @ORM\JoinColumn(name="binary_hash", referencedColumnName="hash", nullable=false)
      *
      * @var FileBinary
      */
