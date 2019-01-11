@@ -43,8 +43,8 @@ class BinariesCommand extends Command
     {
         $this
             ->setName('app:file:binaries')
-            ->setDescription('List all file binaries and optionally remove unused binaries.')
-            ->setHelp('This command allows you to list all file binaries.')
+            ->setDescription('List all file binaries.')
+            ->setHelp('This command allows you to list all file binaries and optionally remove unused binaries.')
             ->addOption('only-unused', null, InputOption::VALUE_NONE, 'Only show unused binaries')
             ->addOption('remove-unused', null, InputOption::VALUE_NONE, 'Remove unused binaries')
             ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force removal of unused binaries');
