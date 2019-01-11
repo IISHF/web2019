@@ -44,6 +44,21 @@ class FileRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param string $id
+     * @return File|null
+     */
+    public function findByIdWithBinary(string $id): ?File
+    {
+        /** @var File|null $file */
+        $file = $this->createQueryBuilderWithBinary()
+                     ->where('f.id = :id')
+                     ->setParameter('id', $id)
+                     ->getQuery()
+                     ->getOneOrNullResult();
+        return $file;
+    }
+
+    /**
      * @param string $name
      * @return File|null
      */
