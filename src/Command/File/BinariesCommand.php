@@ -16,11 +16,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class BinaryCommand
+ * Class BinariesCommand
  *
  * @package App\Command\File
  */
-class BinaryCommand extends Command
+class BinariesCommand extends Command
 {
     /**
      * @var FileRepository
@@ -42,8 +42,8 @@ class BinaryCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('app:file:binary')
-            ->setDescription('List all file binaries.')
+            ->setName('app:file:binaries')
+            ->setDescription('List all file binaries and optionally remove unused binaries.')
             ->setHelp('This command allows you to list all file binaries.')
             ->addOption('only-unused', null, InputOption::VALUE_NONE, 'Only show unused binaries')
             ->addOption('remove-unused', null, InputOption::VALUE_NONE, 'Remove unused binaries')
