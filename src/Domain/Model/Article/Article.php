@@ -315,7 +315,7 @@ class Article
      */
     public function setBody(string $body): self
     {
-        Assert::lengthBetween($body, 1, 65535);
+        Assert::lengthBetween($body, 1, 16777215);
         $this->body = $body;
         return $this;
     }
