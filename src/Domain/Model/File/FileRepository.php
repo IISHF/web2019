@@ -194,15 +194,7 @@ SQL
                     'ids' => Connection::PARAM_STR_ARRAY,
                 ]
             );
-            $db->executeUpdate(
-                'DELETE FROM file_binaries WHERE hash IN (:hashes)',
-                [
-                    'hashes' => $fileHashes,
-                ],
-                [
-                    'hashes' => Connection::PARAM_STR_ARRAY,
-                ]
-            );
+            $this->deleteBinariesByHash(...$fileHashes);
             $db->commit();
         } catch (\Exception $e) {
             $db->rollBack();
@@ -211,11 +203,21 @@ SQL
     }
 
     /**
+     * @param string[] $hashes
+     * @return int
      */
-    public function cleanupFileBinaries(): int
+    public function deleteBinariesByHash(string ...$hashes): int
     {
         return $this->_em->getConnection()
-                         ->executeUpdate('DELETE FROM file_binaries WHERE hash NOT IN (SELECT binary_hash FROM files)');
+                         ->executeUpdate(
+                             'DELETE FROM file_binaries WHERE hash IN (:hashes)',
+                             [
+                                 'hashes' => $hashes,
+                             ],
+                             [
+                                 'hashes' => Connection::PARAM_STR_ARRAY,
+                             ]
+                         );
     }
 
     /**
@@ -239,5 +241,25 @@ SQL
             return $this->_em->getReference(FileBinary::class, $hash);
         }
         return null;
+    }
+
+    /**
+     * @param bool $onlyUnused
+     * @return iterable
+     */
+    public function findAllBinaries(bool $onlyUnused = false): iterable
+    {
+        $queryBuilder = $this->_em->createQueryBuilder()
+                                  ->select('fb', 'COUNT(f) AS count')
+                                  ->from(FileBinary::class, 'fb')
+                                  ->leftJoin(File::class, 'f', 'WITH', 'f.binary = fb.hash')
+                                  ->groupBy('fb');
+        if ($onlyUnused) {
+            $queryBuilder->having('COUNT(f) < 1');
+        }
+
+        foreach ($queryBuilder->getQuery()->iterate() as $i => $row) {
+            yield $i => [$row[0][0], (int)$row[$i]['count']];
+        }
     }
 }
