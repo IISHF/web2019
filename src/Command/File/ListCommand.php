@@ -50,7 +50,6 @@ class ListCommand extends Command
             ->addOption('origin', 'o', InputOption::VALUE_REQUIRED, 'File Origin (com.iishf.*)');
     }
 
-
     /**
      * {@inheritdoc}
      */
