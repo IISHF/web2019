@@ -9,13 +9,12 @@
 namespace App\Command\User;
 
 use App\Application\User\Command\SetPassword;
+use App\Command\Command;
 use App\Domain\Model\User\UserRepository;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
@@ -64,19 +63,17 @@ class PasswordCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
-        $io = new SymfonyStyle($input, $output);
-
-        $io->title('Set user password');
+        $this->io->title('Set user password');
 
         $email = $input->getArgument('email');
         $user  = $this->userRepository->findByEmail($email);
         if (!$user) {
-            $io->error('User ' . $email . ' not found.');
+            $this->io->error('User ' . $email . ' not found.');
             return 1;
         }
 
-        $io->section('User Details');
-        $io->table(
+        $this->io->section('User Details');
+        $this->io->table(
             [],
             [
                 ['First Name', $user->getFirstName()],
@@ -88,15 +85,15 @@ class PasswordCommand extends Command
 
         $password = $input->getOption('password');
         if ($password === null) {
-            $password = $io->askHidden('Password');
+            $password = $this->io->askHidden('Password');
             if ($password === null) {
-                $io->error('A password is required to confirm a user.');
+                $this->io->error('A password is required to confirm a user.');
                 return 1;
             }
         }
 
-        if (!$io->confirm('Set password for user ' . $user->getEmail() . '?')) {
-            $io->note('Aborted.');
+        if (!$this->io->confirm('Set password for user ' . $user->getEmail() . '?')) {
+            $this->io->note('Aborted.');
             return 130;
         }
 
@@ -106,11 +103,11 @@ class PasswordCommand extends Command
         try {
             $this->commandBus->dispatch($setPassword);
         } catch (\Throwable $e) {
-            $io->error($e->getMessage());
+            $this->io->error($e->getMessage());
             return 1;
         }
 
-        $io->success('Password changed for user ' . $user->getEmail() . '.');
+        $this->io->success('Password changed for user ' . $user->getEmail() . '.');
 
         return 0;
     }

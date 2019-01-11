@@ -19,7 +19,7 @@ use Symfony\Component\Messenger\Exception\ValidationFailedException;
  *
  * @package App\Command\Migrate
  */
-class UserCommand extends BaseCommand
+class UserCommand extends Command
 {
     /**
      * {@inheritdoc}

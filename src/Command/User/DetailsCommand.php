@@ -8,12 +8,11 @@
 
 namespace App\Command\User;
 
+use App\Command\Command;
 use App\Domain\Model\User\UserRepository;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Class DetailsCommand
@@ -53,19 +52,17 @@ class DetailsCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
-        $io = new SymfonyStyle($input, $output);
-
-        $io->title('Show user details');
+        $this->io->title('Show user details');
 
         $email = $input->getArgument('email');
         $user  = $this->userRepository->findByEmail($email);
         if (!$user) {
-            $io->error('User ' . $email . ' not found.');
+            $this->io->error('User ' . $email . ' not found.');
             return 1;
         }
 
-        $io->section('User Details');
-        $io->table(
+        $this->io->section('User Details');
+        $this->io->table(
             [],
             [
                 ['First Name', $user->getFirstName()],

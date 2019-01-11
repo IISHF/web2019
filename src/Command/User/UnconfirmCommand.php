@@ -9,12 +9,11 @@
 namespace App\Command\User;
 
 use App\Application\User\Command\UnconfirmUser;
+use App\Command\Command;
 use App\Domain\Model\User\UserRepository;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
@@ -62,23 +61,21 @@ class UnconfirmCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
-        $io = new SymfonyStyle($input, $output);
-
-        $io->title('Mark a user as unconfirmed');
+        $this->io->title('Mark a user as unconfirmed');
 
         $email = $input->getArgument('email');
         $user  = $this->userRepository->findByEmail($email);
         if (!$user) {
-            $io->error('User ' . $email . ' not found.');
+            $this->io->error('User ' . $email . ' not found.');
             return 1;
         }
         if (!$user->isConfirmed()) {
-            $io->error('User ' . $user->getEmail() . ' is not confirmed.');
+            $this->io->error('User ' . $user->getEmail() . ' is not confirmed.');
             return 1;
         }
 
-        $io->section('User Details');
-        $io->table(
+        $this->io->section('User Details');
+        $this->io->table(
             [],
             [
                 ['First Name', $user->getFirstName()],
@@ -88,8 +85,8 @@ class UnconfirmCommand extends Command
             ]
         );
 
-        if (!$io->confirm('Mark user ' . $user->getEmail() . ' as unconfirmed?')) {
-            $io->note('Aborted.');
+        if (!$this->io->confirm('Mark user ' . $user->getEmail() . ' as unconfirmed?')) {
+            $this->io->note('Aborted.');
             return 130;
         }
 
@@ -98,11 +95,11 @@ class UnconfirmCommand extends Command
         try {
             $this->commandBus->dispatch($confirmUser);
         } catch (\Throwable $e) {
-            $io->error($e->getMessage());
+            $this->io->error($e->getMessage());
             return 1;
         }
 
-        $io->success(
+        $this->io->success(
             [
                 'User ' . $user->getEmail() . ' marked as unconfirmed.',
                 'Use token ' . $confirmUser->getConfirmToken() . ' to confirm user.',

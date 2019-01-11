@@ -23,7 +23,7 @@ use Symfony\Component\Messenger\Exception\ValidationFailedException;
  *
  * @package App\Command\Migrate
  */
-class NationalGoverningBodyCommand extends BaseCommand
+class NationalGoverningBodyCommand extends Command
 {
     private const COUNTRY_MAP = [
         'GER' => ['DE', 'GER'],

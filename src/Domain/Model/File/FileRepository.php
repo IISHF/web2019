@@ -71,6 +71,27 @@ class FileRepository extends ServiceEntityRepository
     /**
      * @param string|null $mimeType
      * @param string|null $origin
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    private function createQueryBuilderWithFilter(
+        ?string $mimeType = null,
+        ?string $origin = null
+    ): \Doctrine\ORM\QueryBuilder {
+        $queryBuilder = $this->createQueryBuilder('f');
+        if ($mimeType) {
+            $queryBuilder->andWhere('f.mimeType = :mimeType')
+                         ->setParameter('mimeType', $mimeType);
+        }
+        if ($origin) {
+            $queryBuilder->andWhere('f.origin = :origin')
+                         ->setParameter('origin', $origin);
+        }
+        return $queryBuilder;
+    }
+
+    /**
+     * @param string|null $mimeType
+     * @param string|null $origin
      * @param int         $page
      * @param int         $limit
      * @return iterable|Pagerfanta|File[]
@@ -81,19 +102,25 @@ class FileRepository extends ServiceEntityRepository
         int $page = 1,
         int $limit = 30
     ): iterable {
-        $queryBuilder = $this->createQueryBuilder('f')
+        $queryBuilder = $this->createQueryBuilderWithFilter($mimeType, $origin)
                              ->orderBy('f.createdAt', 'DESC');
 
-        if ($mimeType) {
-            $queryBuilder->andWhere('f.mimeType = :mimeType')
-                         ->setParameter('mimeType', $mimeType);
-        }
-        if ($origin) {
-            $queryBuilder->andWhere('f.origin = :origin')
-                         ->setParameter('origin', $origin);
-        }
-
         return $this->createPager($queryBuilder, $page, $limit);
+    }
+
+    /**
+     * @param string|null $mimeType
+     * @param string|null $origin
+     * @return iterable|File[]
+     */
+    public function findAll(?string $mimeType = null, ?string $origin = null): iterable
+    {
+        $queryBuilder = $this->createQueryBuilderWithFilter($mimeType, $origin)
+                             ->orderBy('f.createdAt', 'ASC');
+
+        foreach ($queryBuilder->getQuery()->iterate() as $row) {
+            yield $row[0];
+        }
     }
 
     /**

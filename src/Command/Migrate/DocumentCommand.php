@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @package App\Command\Migrate
  */
-class DocumentCommand extends BaseCommandWithFilesystem
+class DocumentCommand extends CommandWithFilesystem
 {
     /**
      * {@inheritdoc}

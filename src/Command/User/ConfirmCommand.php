@@ -9,13 +9,12 @@
 namespace App\Command\User;
 
 use App\Application\User\Command\ConfirmUser;
+use App\Command\Command;
 use App\Domain\Model\User\UserRepository;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
@@ -64,23 +63,21 @@ class ConfirmCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
-        $io = new SymfonyStyle($input, $output);
-
-        $io->title('Confirm a user');
+        $this->io->title('Confirm a user');
 
         $confirmationToken = $input->getArgument('token');
         $user              = $this->userRepository->findByConfirmToken($confirmationToken);
         if (!$user) {
-            $io->error('User not found for confirmation token ' . $confirmationToken . '.');
+            $this->io->error('User not found for confirmation token ' . $confirmationToken . '.');
             return 1;
         }
         if ($user->isConfirmed()) {
-            $io->error('User ' . $user->getEmail() . ' is already confirmed.');
+            $this->io->error('User ' . $user->getEmail() . ' is already confirmed.');
             return 1;
         }
 
-        $io->section('User Details');
-        $io->table(
+        $this->io->section('User Details');
+        $this->io->table(
             [],
             [
                 ['First Name', $user->getFirstName()],
@@ -92,15 +89,15 @@ class ConfirmCommand extends Command
 
         $password = $input->getOption('password');
         if ($password === null) {
-            $password = $io->askHidden('Password');
+            $password = $this->io->askHidden('Password');
             if ($password === null) {
-                $io->error('A password is required to confirm a user.');
+                $this->io->error('A password is required to confirm a user.');
                 return 1;
             }
         }
 
-        if (!$io->confirm('Confirm user ' . $user->getEmail() . '?')) {
-            $io->note('Aborted.');
+        if (!$this->io->confirm('Confirm user ' . $user->getEmail() . '?')) {
+            $this->io->note('Aborted.');
             return 130;
         }
 
@@ -110,11 +107,11 @@ class ConfirmCommand extends Command
         try {
             $this->commandBus->dispatch($confirmUser);
         } catch (\Throwable $e) {
-            $io->error($e->getMessage());
+            $this->io->error($e->getMessage());
             return 1;
         }
 
-        $io->success('User ' . $user->getEmail() . ' confirmed.');
+        $this->io->success('User ' . $user->getEmail() . ' confirmed.');
 
         return 0;
     }

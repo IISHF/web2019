@@ -21,7 +21,7 @@ use Symfony\Component\Messenger\Exception\ValidationFailedException;
  *
  * @package App\Command\Migrate
  */
-class ArticleCommand extends BaseCommandWithFilesystem
+class ArticleCommand extends CommandWithFilesystem
 {
     /**
      * {@inheritdoc}

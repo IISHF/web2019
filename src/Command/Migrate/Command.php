@@ -8,20 +8,19 @@
 
 namespace App\Command\Migrate;
 
+use App\Command\Command as BaseCommand;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
- * Class BaseCommand
+ * Class Command
  *
  * @package App\Command\Migrate
  */
-abstract class BaseCommand extends Command
+abstract class Command extends BaseCommand
 {
     /**
      * @var MessageBusInterface
@@ -32,11 +31,6 @@ abstract class BaseCommand extends Command
      * @var EntityManagerInterface
      */
     private $em;
-
-    /**
-     * @var SymfonyStyle
-     */
-    protected $io;
 
     /**
      * @var \Doctrine\DBAL\Connection
@@ -118,7 +112,7 @@ abstract class BaseCommand extends Command
      */
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        $this->io = new SymfonyStyle($input, $output);
+        parent::initialize($input, $output);
 
         $dbUri    = $input->getOption('db');
         $this->db = \Doctrine\DBAL\DriverManager::getConnection(['url' => $dbUri]);

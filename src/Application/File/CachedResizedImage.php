@@ -23,8 +23,6 @@ class CachedResizedImage implements ResizedImage
     private $cacheItem;
 
     /**
-     * CachedResizedImage constructor.
-     *
      * @param CacheItemInterface $cacheItem
      */
     public function __construct(CacheItemInterface $cacheItem)

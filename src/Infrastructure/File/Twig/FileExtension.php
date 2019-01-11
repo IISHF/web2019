@@ -8,6 +8,7 @@
 
 namespace App\Infrastructure\File\Twig;
 
+use App\Utils\Number;
 use App\Utils\Text;
 
 /**
@@ -36,15 +37,8 @@ class FileExtension extends \Twig_Extension
      */
     public function formatFileSize(\Twig_Environment $env, int $bytes, bool $si = true): string
     {
-        $unit = $si ? 1000 : 1024;
-        if ($bytes <= $unit) {
-            return $bytes . ' B';
-        }
-        $exp = (int)(log($bytes) / log($unit));
-        $pre = ($si ? 'kMGTPE' : 'KMGTPE');
-        $pre = $pre[$exp - 1] . ($si ? '' : 'i');
-
-        return \twig_number_format_filter($env, $bytes / ($unit ** $exp), 1) . sprintf(' %sB', $pre);
+        [$size, $unit] = Number::fileSize($bytes, $si);
+        return \twig_number_format_filter($env, $size, 1) . ' ' . $unit;
     }
 
     /**

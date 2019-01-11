@@ -14,11 +14,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Class BaseCommandWithFilesystem
+ * Class CommandWithFilesystem
  *
  * @package App\Command\Migrate
  */
-abstract class BaseCommandWithFilesystem extends BaseCommand
+abstract class CommandWithFilesystem extends Command
 {
     /**
      * @var Filesystem

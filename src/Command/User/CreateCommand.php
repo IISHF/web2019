@@ -10,13 +10,12 @@ namespace App\Command\User;
 
 use App\Application\User\Command\CreateConfirmedUser;
 use App\Application\User\Command\CreateUser;
+use App\Command\Command;
 use App\Utils\Validation;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Messenger\Exception\ValidationFailedException;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -62,28 +61,26 @@ class CreateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
-        $io = new SymfonyStyle($input, $output);
-
-        $io->title('Create a new user');
+        $this->io->title('Create a new user');
 
         $firstName = $input->getOption('first-name');
         if (!$firstName) {
-            $firstName = $io->ask('First Name', 'First');
+            $firstName = $this->io->ask('First Name', 'First');
         }
         $lastName = $input->getOption('last-name');
         if (!$lastName) {
-            $lastName = $io->ask('Last Name', 'Last');
+            $lastName = $this->io->ask('Last Name', 'Last');
         }
         $email = $input->getOption('email');
         if (!$email) {
-            $email = $io->ask('E-mail', 'first.last@test.com');
+            $email = $this->io->ask('E-mail', 'first.last@test.com');
         }
         $roles = $input->getOption('role');
         if (empty($roles)) {
             $rolesQuestion = new ChoiceQuestion('Role(s)', ['none', 'ROLE_ADMIN'], null);
             $rolesQuestion->setMultiselect(true);
             $roles = array_filter(
-                $io->askQuestion($rolesQuestion),
+                $this->io->askQuestion($rolesQuestion),
                 function (string $r) {
                     return $r !== 'none';
                 }
@@ -93,14 +90,14 @@ class CreateCommand extends Command
         $password     = $input->getOption('password');
         $withPassword = ($password !== false);
         if ($withPassword && $password === null) {
-            $password = $io->askHidden('Password');
+            $password = $this->io->askHidden('Password');
             if ($password === null) {
                 $withPassword = false;
             }
         }
 
-        $io->section('User Details');
-        $io->table(
+        $this->io->section('User Details');
+        $this->io->table(
             [],
             [
                 ['First Name', $firstName],
@@ -111,8 +108,8 @@ class CreateCommand extends Command
             ]
         );
 
-        if (!$io->confirm('Create new user?')) {
-            $io->note('Aborted.');
+        if (!$this->io->confirm('Create new user?')) {
+            $this->io->note('Aborted.');
             return 130;
         }
 
@@ -131,17 +128,17 @@ class CreateCommand extends Command
         try {
             $this->commandBus->dispatch($createUser);
         } catch (ValidationFailedException $e) {
-            $io->error(array_merge(['Validation failed.'], Validation::getViolations($e)));
+            $this->io->error(array_merge(['Validation failed.'], Validation::getViolations($e)));
             return 1;
         } catch (\Throwable $e) {
-            $io->error($e->getMessage());
+            $this->io->error($e->getMessage());
             return 1;
         }
 
         if ($withPassword) {
-            $io->success('User ' . $email . ' created.');
+            $this->io->success('User ' . $email . ' created.');
         } else {
-            $io->success(
+            $this->io->success(
                 [
                     'User ' . $email . ' created.',
                     'Use token ' . $createUser->getConfirmToken() . ' to confirm user.',
