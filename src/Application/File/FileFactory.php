@@ -16,11 +16,11 @@ use Symfony\Component\HttpFoundation\File\MimeType\ExtensionGuesser;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 
 /**
- * Class FileManager
+ * Class FileFactory
  *
  * @package App\Application\File
  */
-class FileManager
+class FileFactory
 {
     /**
      * @var FileRepository
@@ -28,39 +28,11 @@ class FileManager
     private $repository;
 
     /**
-     * FileManager constructor.
-     *
      * @param FileRepository $repository
      */
     public function __construct(FileRepository $repository)
     {
         $this->repository = $repository;
-    }
-
-    /**
-     * @param string $id
-     * @return File|null
-     */
-    public function findById(string $id): ?File
-    {
-        return $this->repository->findById($id);
-    }
-
-    /**
-     * @param File $file
-     * @return File
-     */
-    public function save(File $file): File
-    {
-        return $this->repository->save($file, true);
-    }
-
-    /**
-     * @param File $file
-     */
-    public function delete(File $file): void
-    {
-        $this->repository->delete($file, true);
     }
 
     /**

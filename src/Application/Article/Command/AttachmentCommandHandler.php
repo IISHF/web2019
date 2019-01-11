@@ -8,7 +8,7 @@
 
 namespace App\Application\Article\Command;
 
-use App\Application\File\FileManager;
+use App\Application\File\FileFactory;
 use App\Domain\Model\Article\ArticleRepository;
 use App\Domain\Model\File\File;
 
@@ -20,18 +20,18 @@ use App\Domain\Model\File\File;
 abstract class AttachmentCommandHandler extends ArticleCommandHandler
 {
     /**
-     * @var FileManager
+     * @var FileFactory
      */
-    private $fileManager;
+    private $fileFactory;
 
     /**
      * @param ArticleRepository $repository
-     * @param FileManager       $fileManager
+     * @param FileFactory       $fileFactory
      */
-    public function __construct(ArticleRepository $repository, FileManager $fileManager)
+    public function __construct(ArticleRepository $repository, FileFactory $fileFactory)
     {
         parent::__construct($repository);
-        $this->fileManager = $fileManager;
+        $this->fileFactory = $fileFactory;
     }
 
     /**
@@ -41,6 +41,6 @@ abstract class AttachmentCommandHandler extends ArticleCommandHandler
      */
     protected function createFile(string $origin, \SplFileInfo $file): File
     {
-        return $this->fileManager->createFile($file, $origin);
+        return $this->fileFactory->createFile($file, $origin);
     }
 }

@@ -98,53 +98,36 @@ class FileRepository extends ServiceEntityRepository
 
     /**
      * @param File $file
-     * @param bool $flush
      * @return File
      */
-    public function save(File $file, bool $flush): File
+    public function save(File $file): File
     {
         $this->_em->persist($file);
         $this->_em->persist($file->getBinary());
-        if ($flush) {
-            $this->_em->flush();
-        }
         return $file;
     }
 
     /**
      * @param File $file
-     * @param bool $flush
      */
-    public function delete(File $file, bool $flush): void
+    public function delete(File $file): void
     {
-        if ($flush) {
-            $this->_em->beginTransaction();
-            try {
-                $this->delete($file, false);
-                $this->_em->flush();
-                $this->_em->commit();
-            } catch (\Exception $e) {
-                $this->_em->rollback();
-                throw $e;
-            }
-        } else {
-            $binary     = $file->getBinary();
-            $usageCount = $this->_em->getConnection()
-                                    ->fetchColumn(
-                                        'SELECT COUNT(f.id) AS c FROM files f WHERE f.binary_hash = :hash',
-                                        [
-                                            'hash' => $binary->getHash(),
-                                        ],
-                                        0,
-                                        [
-                                            'hash' => Type::STRING,
-                                        ]
-                                    );
-            if ($usageCount < 2) {
-                $this->_em->remove($binary);
-            }
-            $this->_em->remove($file);
+        $binary     = $file->getBinary();
+        $usageCount = $this->_em->getConnection()
+                                ->fetchColumn(
+                                    'SELECT COUNT(f.id) AS c FROM files f WHERE f.binary_hash = :hash',
+                                    [
+                                        'hash' => $binary->getHash(),
+                                    ],
+                                    0,
+                                    [
+                                        'hash' => Type::STRING,
+                                    ]
+                                );
+        if ($usageCount < 2) {
+            $this->_em->remove($binary);
         }
+        $this->_em->remove($file);
     }
 
     /**

@@ -8,7 +8,7 @@
 
 namespace App\Application\Document\Command;
 
-use App\Application\File\FileManager;
+use App\Application\File\FileFactory;
 use App\Domain\Common\Urlizer;
 use App\Domain\Model\Document\Document;
 use App\Domain\Model\Document\DocumentRepository;
@@ -29,18 +29,18 @@ abstract class DocumentCommandHandler implements MessageHandlerInterface
     protected $repository;
 
     /**
-     * @var FileManager
+     * @var FileFactory
      */
-    private $fileManager;
+    private $fileFactory;
 
     /**
      * @param DocumentRepository $repository
-     * @param FileManager        $fileManager
+     * @param FileFactory        $fileFactory
      */
-    public function __construct(DocumentRepository $repository, FileManager $fileManager)
+    public function __construct(DocumentRepository $repository, FileFactory $fileFactory)
     {
         $this->repository  = $repository;
-        $this->fileManager = $fileManager;
+        $this->fileFactory = $fileFactory;
     }
 
     /**
@@ -108,6 +108,6 @@ abstract class DocumentCommandHandler implements MessageHandlerInterface
      */
     protected function createFile(\SplFileInfo $file, string $originalName): File
     {
-        return $this->fileManager->createFile($file, DocumentVersion::FILE_ORIGIN, $originalName);
+        return $this->fileFactory->createFile($file, DocumentVersion::FILE_ORIGIN, $originalName);
     }
 }

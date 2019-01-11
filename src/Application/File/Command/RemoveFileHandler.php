@@ -21,6 +21,6 @@ class RemoveFileHandler extends FileCommandHandler
     public function __invoke(RemoveFile $command): void
     {
         $file = $this->getFile($command->getId());
-        $this->fileManager->delete($file);
+        $this->fileRepository->delete($file);
     }
 }

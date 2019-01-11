@@ -209,7 +209,7 @@ class ArticleRepository extends ServiceEntityRepository implements TagProvider
         $this->_em->beginTransaction();
         try {
             $this->_em->persist($attachment);
-            $this->fileRepository->save($attachment->getFile(), false);
+            $this->fileRepository->save($attachment->getFile());
             $this->_em->flush();
             $this->_em->commit();
         } catch (\Exception $e) {
@@ -227,7 +227,7 @@ class ArticleRepository extends ServiceEntityRepository implements TagProvider
         $this->_em->beginTransaction();
         try {
             $this->_em->remove($attachment);
-            $this->fileRepository->delete($attachment->getFile(), false);
+            $this->fileRepository->delete($attachment->getFile());
             $this->_em->flush();
             $this->_em->commit();
         } catch (\Exception $e) {

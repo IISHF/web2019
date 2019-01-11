@@ -20,12 +20,12 @@ class AddFileHandler extends FileCommandHandler
      */
     public function __invoke(AddFile $command): void
     {
-        $file = $this->fileManager->createFileWithId(
+        $file = $this->createFile(
             $command->getId(),
             $command->getFile(),
             $command->getOrigin(),
             $command->getOriginalName()
         );
-        $this->fileManager->save($file);
+        $this->fileRepository->save($file);
     }
 }

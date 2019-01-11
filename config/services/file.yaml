@@ -6,7 +6,7 @@ services:
 
     App\Domain\Model\File\FileRepository:
 
-    App\Application\File\FileManager:
+    App\Application\File\FileFactory:
 
     App\Application\File\Command\AddFileHandler:
     App\Application\File\Command\RemoveFileHandler:

@@ -137,7 +137,7 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
             $this->_em->persist($document);
             foreach ($document->getVersions() as $version) {
                 $this->_em->persist($version);
-                $this->fileRepository->save($version->getFile(), false);
+                $this->fileRepository->save($version->getFile());
             }
             $this->_em->flush();
             $this->_em->commit();
@@ -158,7 +158,7 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
             $this->_em->remove($document);
             foreach ($document->getVersions() as $version) {
                 $this->_em->remove($version);
-                $this->fileRepository->delete($version->getFile(), false);
+                $this->fileRepository->delete($version->getFile());
             }
             $this->_em->flush();
             $this->_em->commit();
@@ -253,7 +253,7 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
         $this->_em->beginTransaction();
         try {
             $this->_em->persist($documentVersion);
-            $this->fileRepository->save($documentVersion->getFile(), false);
+            $this->fileRepository->save($documentVersion->getFile());
             $this->_em->flush();
             $this->_em->commit();
         } catch (\Exception $e) {
@@ -272,7 +272,7 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
         try {
             $documentVersion->removeFromDocument();
             $this->_em->remove($documentVersion);
-            $this->fileRepository->delete($documentVersion->getFile(), false);
+            $this->fileRepository->delete($documentVersion->getFile());
             $this->_em->flush();
             $this->_em->commit();
         } catch (\Exception $e) {
