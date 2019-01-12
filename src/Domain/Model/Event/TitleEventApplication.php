@@ -34,10 +34,10 @@ class TitleEventApplication
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="TitleEvent", inversedBy="applications")
+     * @ORM\ManyToOne(targetEntity="TitleEvent")
      * @ORM\JoinColumn(name="event_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      *
-     * @var TitleEvent|null
+     * @var TitleEvent
      */
     private $titleEvent;
 
@@ -78,10 +78,10 @@ class TitleEventApplication
     ) {
         Assert::uuid($id);
 
-        $this->id = $id;
+        $this->id         = $id;
+        $this->titleEvent = $titleEvent;
 
-        $this->setTitleEvent($titleEvent)
-             ->setContact($contact)
+        $this->setContact($contact)
              ->setProposedDate($proposedStartDate, $proposedEndDate)
              ->initCreateTracking()
              ->initUpdateTracking();
@@ -100,42 +100,7 @@ class TitleEventApplication
      */
     public function getTitleEvent(): TitleEvent
     {
-        if (!$this->titleEvent) {
-            throw new \BadMethodCallException('Title event applicant is not attached to a title event.');
-        }
         return $this->titleEvent;
-    }
-
-    /**
-     * @internal
-     *
-     * @param TitleEvent|null $titleEvent
-     * @return $this
-     */
-    public function setTitleEvent(?TitleEvent $titleEvent): self
-    {
-        if ($titleEvent === $this->titleEvent) {
-            return $this;
-        }
-
-        if ($this->titleEvent) {
-            $previousTitleEvent = $this->titleEvent;
-            $this->titleEvent   = null;
-            $previousTitleEvent->removeApplication($this);
-        }
-        if ($titleEvent) {
-            $this->titleEvent = $titleEvent;
-            $titleEvent->addApplication($this);
-        }
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function removeFromTitleEvent(): self
-    {
-        return $this->setTitleEvent(null);
     }
 
     /**

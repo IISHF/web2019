@@ -34,10 +34,10 @@ class ParticipatingTeam
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Event", inversedBy="participants")
+     * @ORM\ManyToOne(targetEntity="Event")
      * @ORM\JoinColumn(name="event_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      *
-     * @var Event|null
+     * @var Event
      */
     private $event;
 
@@ -57,10 +57,10 @@ class ParticipatingTeam
     {
         Assert::uuid($id);
 
-        $this->id = $id;
+        $this->id    = $id;
+        $this->event = $event;
 
-        $this->setEvent($event)
-             ->setName($name)
+        $this->setName($name)
              ->initCreateTracking()
              ->initUpdateTracking();
     }
@@ -78,42 +78,7 @@ class ParticipatingTeam
      */
     public function getEvent(): Event
     {
-        if (!$this->event) {
-            throw new \BadMethodCallException('Participating team is not attached to an event.');
-        }
         return $this->event;
-    }
-
-    /**
-     * @internal
-     *
-     * @param Event|null $event
-     * @return $this
-     */
-    public function setEvent(?Event $event): self
-    {
-        if ($event === $this->event) {
-            return $this;
-        }
-
-        if ($this->event) {
-            $previousEvent = $this->event;
-            $this->event   = null;
-            $previousEvent->removeParticipant($this);
-        }
-        if ($event) {
-            $this->event = $event;
-            $event->addParticipant($this);
-        }
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function removeFromEvent(): self
-    {
-        return $this->setEvent(null);
     }
 
     /**

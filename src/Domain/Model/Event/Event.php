@@ -10,7 +10,6 @@ namespace App\Domain\Model\Event;
 
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\UpdateTracking;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -128,13 +127,6 @@ abstract class Event
      * @var EventVenue|null
      */
     private $venue;
-
-    /**
-     * @ORM\OneToMany(targetEntity="ParticipatingTeam", mappedBy="event")
-     *
-     * @var ParticipatingTeam[]|ArrayCollection
-     */
-    private $participants;
 
     /**
      * @ORM\Column(name="tags", type="json")
@@ -368,43 +360,7 @@ abstract class Event
      */
     public function createParticipant(string $id, string $name): ParticipatingTeam
     {
-        $participant = new ParticipatingTeam($id, $this, $name);
-        $this->addParticipant($participant);
-        return $participant;
-    }
-
-    /**
-     * @internal
-     *
-     * @param ParticipatingTeam $participant
-     * @return $this
-     */
-    public function addParticipant(ParticipatingTeam $participant): self
-    {
-        if ($this->participants->contains($participant)) {
-            return $this;
-        }
-        $this->participants->add($participant);
-        $participant->setEvent($this);
-        $this->initUpdateTracking();
-        return $this;
-    }
-
-    /**
-     * @internal
-     *
-     * @param ParticipatingTeam $participant
-     * @return $this
-     */
-    public function removeParticipant(ParticipatingTeam $participant): self
-    {
-        if (!$this->participants->contains($participant)) {
-            return $this;
-        }
-        $this->participants->removeElement($participant);
-        $participant->setEvent(null);
-        $this->initUpdateTracking();
-        return $this;
+        return new ParticipatingTeam($id, $this, $name);
     }
 
     /**
