@@ -8,6 +8,8 @@
 
 namespace App\Domain\Model\Event;
 
+use App\Domain\Model\Common\CreateTracking;
+use App\Domain\Model\Common\UpdateTracking;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -21,6 +23,8 @@ use Webmozart\Assert\Assert;
  */
 class TitleEventApplication
 {
+    use CreateTracking, UpdateTracking;
+
     /**
      * @ORM\Column(name="id", type="guid")
      * @ORM\Id
@@ -30,7 +34,7 @@ class TitleEventApplication
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="TitleEvent", inversedBy="applicants")
+     * @ORM\ManyToOne(targetEntity="TitleEvent", inversedBy="applications")
      * @ORM\JoinColumn(name="event_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      *
      * @var TitleEvent|null
@@ -78,7 +82,9 @@ class TitleEventApplication
 
         $this->setTitleEvent($titleEvent)
              ->setContact($contact)
-             ->setProposedDate($proposedStartDate, $proposedEndDate);
+             ->setProposedDate($proposedStartDate, $proposedEndDate)
+             ->initCreateTracking()
+             ->initUpdateTracking();
     }
 
     /**

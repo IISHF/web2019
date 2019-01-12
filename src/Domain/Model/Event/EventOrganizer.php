@@ -48,6 +48,9 @@ class EventOrganizer extends EventContact
         Assert::uuid($id);
 
         $this->id = $id;
+
+        $this->initCreateTracking()
+             ->initUpdateTracking();
     }
 
     /**
