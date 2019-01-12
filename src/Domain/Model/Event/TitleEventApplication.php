@@ -19,7 +19,7 @@ use Webmozart\Assert\Assert;
  * @package App\Domain\Model\Event
  *
  * @ORM\Entity()
- * @ORM\Table(name="event_applicant")
+ * @ORM\Table(name="event_applications")
  */
 class TitleEventApplication
 {
