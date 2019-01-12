@@ -92,6 +92,14 @@ abstract class Event
     private $ageGroup;
 
     /**
+     * @ORM\OneToOne(targetEntity="EventOrganizer")
+     * @ORM\JoinColumn(name="organizer_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+     *
+     * @var EventOrganizer|null
+     */
+    private $organizer;
+
+    /**
      * @ORM\Column(name="sanction_number", type="string", length=16, nullable=true)
      *
      * @var string|null
@@ -237,6 +245,24 @@ abstract class Event
     {
         Assert::oneOf($ageGroup, self::$availableAgeGroups);
         $this->ageGroup = $ageGroup;
+        return $this;
+    }
+
+    /**
+     * @return EventOrganizer|null
+     */
+    public function getOrganizer(): ?EventOrganizer
+    {
+        return $this->organizer;
+    }
+
+    /**
+     * @param EventOrganizer|null $organizer
+     * @return $this
+     */
+    public function setOrganizer(?EventOrganizer $organizer): self
+    {
+        $this->organizer = $organizer;
         return $this;
     }
 

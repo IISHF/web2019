@@ -8,6 +8,7 @@
 
 namespace App\Domain\Model\Event;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -44,6 +45,13 @@ abstract class TitleEvent extends Event
     private $description;
 
     /**
+     * @ORM\OneToMany(targetEntity="TitleEventApplication", mappedBy="titleEvent")
+     *
+     * @var TitleEventApplication[]|ArrayCollection
+     */
+    private $applications;
+
+    /**
      * @param string      $id
      * @param string      $name
      * @param string      $slug
@@ -66,6 +74,7 @@ abstract class TitleEvent extends Event
         parent::__construct($id, $name, $slug, $season, $ageGroup, $tags);
 
         $this->currentState = self::STATE_PLANNED;
+        $this->applications = new ArrayCollection();
         $this->setPlannedLength($plannedLength)
              ->setDescription($description);
     }
@@ -132,6 +141,86 @@ abstract class TitleEvent extends Event
     {
         Assert::nullOrLengthBetween($description, 1, 65535);
         $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * @param string             $id
+     * @param EventContact       $contact
+     * @param \DateTimeImmutable $proposedStartDate
+     * @param \DateTimeImmutable $proposedEndDate
+     * @return TitleEventApplication
+     */
+    public function applyForEvent(
+        string $id,
+        EventContact $contact,
+        \DateTimeImmutable $proposedStartDate,
+        \DateTimeImmutable $proposedEndDate
+    ): TitleEventApplication {
+        $application = new TitleEventApplication(
+            $id,
+            $this,
+            $contact,
+            $proposedStartDate,
+            $proposedEndDate
+        );
+        $this->addApplication($application);
+        return $application;
+    }
+
+    /**
+     * @internal
+     *
+     * @param TitleEventApplication $application
+     * @return $this
+     */
+    public function addApplication(TitleEventApplication $application): self
+    {
+        if ($this->applications->contains($application)) {
+            return $this;
+        }
+        $this->applications->add($application);
+        $application->setTitleEvent($this);
+        return $this;
+    }
+
+    /**
+     * @internal
+     *
+     * @param TitleEventApplication $application
+     * @return $this
+     */
+    public function removeApplication(TitleEventApplication $application): self
+    {
+        if (!$this->applications->contains($application)) {
+            return $this;
+        }
+        $this->applications->removeElement($application);
+        $application->setTitleEvent(null);
+        return $this;
+    }
+
+    /**
+     * @param string                $id
+     * @param TitleEventApplication $application
+     * @return $this
+     */
+    public function awardEventApplication(string $id, TitleEventApplication $application): self
+    {
+        if ($application->getTitleEvent() !== $this) {
+            throw new \InvalidArgumentException('The title event application is not registered with this event.');
+        }
+        $contact = $application->getContact();
+        $this->setOrganizer(
+            new EventOrganizer(
+                $id,
+                $contact->getClub(),
+                $contact->getName(),
+                $contact->getEmail(),
+                $contact->getPhoneNumber()
+            )
+        );
+        $this->setDate($application->getProposedStartDate(), $application->getProposedEndDate());
         return $this;
     }
 }

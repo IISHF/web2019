@@ -25,6 +25,7 @@ class Tournament extends Event
      * @param string             $slug
      * @param int                $season
      * @param string             $ageGroup
+     * @param EventOrganizer     $organizer
      * @param \DateTimeImmutable $startDate
      * @param \DateTimeImmutable $endDate
      * @param EventVenue         $venue
@@ -36,6 +37,7 @@ class Tournament extends Event
         string $slug,
         int $season,
         string $ageGroup,
+        EventOrganizer $organizer,
         \DateTimeImmutable $startDate,
         \DateTimeImmutable $endDate,
         EventVenue $venue,
@@ -43,7 +45,8 @@ class Tournament extends Event
     ) {
         parent::__construct($id, $name, $slug, $season, $ageGroup, $tags);
 
-        $this->setDate($startDate, $endDate)
+        $this->setOrganizer($organizer)
+             ->setDate($startDate, $endDate)
              ->setVenue($venue);
     }
 
