@@ -21,6 +21,9 @@ use Webmozart\Assert\Assert;
  * @ORM\Entity(repositoryClass="FileRepository")
  * @ORM\Table(
  *      name="files",
+ *      uniqueConstraints={
+ *          @ORM\UniqueConstraint(name="uniq_file_name", columns={"name"})
+ *      },
  *      indexes={
  *          @ORM\Index(name="idx_file_origin", columns={"origin"})
  *      }
@@ -39,7 +42,7 @@ class File implements FileInterface
     private $id;
 
     /**
-     * @ORM\Column(name="name", type="string", length=64, unique=true)
+     * @ORM\Column(name="name", type="string", length=64)
      *
      * @var string
      */

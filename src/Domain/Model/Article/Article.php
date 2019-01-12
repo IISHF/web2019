@@ -23,6 +23,9 @@ use Webmozart\Assert\Assert;
  * @ORM\Entity(repositoryClass="ArticleRepository")
  * @ORM\Table(
  *      name="articles",
+ *      uniqueConstraints={
+ *          @ORM\UniqueConstraint(name="uniq_article_slug", columns={"slug"})
+ *      },
  *      indexes={
  *          @ORM\Index(name="idx_article_state_date", columns={"current_state", "published_at"})
  *      }
@@ -62,7 +65,7 @@ class Article
     private $currentState;
 
     /**
-     * @ORM\Column(name="slug", type="string", length=128, unique=true)
+     * @ORM\Column(name="slug", type="string", length=128)
      * @Gedmo\Versioned()
      *
      * @var string

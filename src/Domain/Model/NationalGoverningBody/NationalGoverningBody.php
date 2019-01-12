@@ -10,6 +10,8 @@ namespace App\Domain\Model\NationalGoverningBody;
 
 use App\Domain\Common\Country;
 use App\Domain\Model\Common\CreateTracking;
+use App\Domain\Model\Common\HasEmail;
+use App\Domain\Model\Common\MayHavePhoneNumber;
 use App\Domain\Model\Common\UpdateTracking;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
@@ -21,11 +23,20 @@ use Webmozart\Assert\Assert;
  * @package App\Domain\Model\NationalGoverningBody
  *
  * @ORM\Entity(repositoryClass="NationalGoverningBodyRepository")
- * @ORM\Table(name="national_governing_bodies")
+ * @ORM\Table(
+ *      name="national_governing_bodies",
+ *      uniqueConstraints={
+ *          @ORM\UniqueConstraint(name="uniq_ngb_name", columns={"name"}),
+ *          @ORM\UniqueConstraint(name="uniq_ngb_email", columns={"email"}),
+ *          @ORM\UniqueConstraint(name="uniq_ngb_acronym", columns={"acronym"}),
+ *          @ORM\UniqueConstraint(name="uniq_ngb_slug", columns={"slug"}),
+ *          @ORM\UniqueConstraint(name="uniq_ngb_ioc_code", columns={"ioc_code"}),
+ *      }
+ * )
  */
 class NationalGoverningBody
 {
-    use CreateTracking, UpdateTracking;
+    use CreateTracking, UpdateTracking, HasEmail, MayHavePhoneNumber;
 
     /**
      * @ORM\Column(name="id", type="guid")
@@ -36,28 +47,28 @@ class NationalGoverningBody
     private $id;
 
     /**
-     * @ORM\Column(name="name", type="string", length=64, unique=true)
+     * @ORM\Column(name="name", type="string", length=64)
      *
      * @var string
      */
     private $name;
 
     /**
-     * @ORM\Column(name="acronym", type="string", length=16, unique=true)
+     * @ORM\Column(name="acronym", type="string", length=16)
      *
      * @var string
      */
     private $acronym;
 
     /**
-     * @ORM\Column(name="slug", type="string", length=128, unique=true)
+     * @ORM\Column(name="slug", type="string", length=128)
      *
      * @var string
      */
     private $slug;
 
     /**
-     * @ORM\Column(name="ioc_code", type="string", length=3, unique=true)
+     * @ORM\Column(name="ioc_code", type="string", length=3)
      *
      * @var string
      */
@@ -71,25 +82,11 @@ class NationalGoverningBody
     private $country;
 
     /**
-     * @ORM\Column(name="email", type="string", length=128, unique=true)
-     *
-     * @var string
-     */
-    private $email;
-
-    /**
      * @ORM\Column(name="website", type="string", length=128, nullable=true)
      *
      * @var string|null
      */
     private $website;
-
-    /**
-     * @ORM\Column(name="phone_number", type="phone_number", nullable=true)
-     *
-     * @var PhoneNumber|null
-     */
-    private $phoneNumber;
 
     /**
      * @ORM\Column(name="facebook_profile", type="string", length=128, nullable=true)
@@ -271,27 +268,6 @@ class NationalGoverningBody
     }
 
     /**
-     * @return string
-     */
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    /**
-     * @param string $email
-     * @return $this
-     */
-    public function setEmail(string $email): self
-    {
-        // @see \Symfony\Component\Validator\Constraints\EmailValidator::PATTERN_LOOSE
-        Assert::regex($email, '/^.+\@\S+\.\S+$/');
-        Assert::lengthBetween($email, 1, 128);
-        $this->email = $email;
-        return $this;
-    }
-
-    /**
      * @return string|null
      */
     public function getWebsite(): ?string
@@ -312,24 +288,6 @@ class NationalGoverningBody
         );
         Assert::nullOrLengthBetween($website, 1, 128);
         $this->website = $website;
-        return $this;
-    }
-
-    /**
-     * @return PhoneNumber|null
-     */
-    public function getPhoneNumber(): ?PhoneNumber
-    {
-        return $this->phoneNumber;
-    }
-
-    /**
-     * @param PhoneNumber|null $phoneNumber
-     * @return $this
-     */
-    public function setPhoneNumber(?PhoneNumber $phoneNumber): self
-    {
-        $this->phoneNumber = $phoneNumber;
         return $this;
     }
 

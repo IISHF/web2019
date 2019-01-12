@@ -113,6 +113,14 @@ abstract class Event
     private $endDate;
 
     /**
+     * @ORM\ManyToOne(targetEntity="EventVenue")
+     * @ORM\JoinColumn(name="venue_id", referencedColumnName="id", nullable=true)
+     *
+     * @var EventVenue|null
+     */
+    private $venue;
+
+    /**
      * @ORM\Column(name="tags", type="json")
      *
      * @var string[]
@@ -297,6 +305,22 @@ abstract class Event
         $this->startDate = null;
         $this->endDate   = null;
         return $this;
+    }
+
+    /**
+     * @return EventVenue|null
+     */
+    public function getVenue(): ?EventVenue
+    {
+        return $this->venue;
+    }
+
+    /**
+     * @param EventVenue|null $venue
+     */
+    public function setVenue(?EventVenue $venue): void
+    {
+        $this->venue = $venue;
     }
 
     /**

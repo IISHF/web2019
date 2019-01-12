@@ -21,6 +21,12 @@ use Webmozart\Assert\Assert;
  *
  * @ORM\Entity(repositoryClass="UserRepository")
  * @ORM\Table(name="users")
+ * @ORM\Table(
+ *      name="users",
+ *      uniqueConstraints={
+ *          @ORM\UniqueConstraint(name="uniq_user_email", columns={"email"})
+ *      }
+ * )
  */
 class User implements UserInterface
 {
@@ -51,7 +57,7 @@ class User implements UserInterface
     private $lastName;
 
     /**
-     * @ORM\Column(name="email", type="string", length=128, unique=true)
+     * @ORM\Column(name="email", type="string", length=128)
      *
      * @var string
      */

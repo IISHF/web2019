@@ -8,7 +8,7 @@
 
 namespace App\Domain\Model\Event;
 
-use App\Domain\Common\Address;
+use App\Domain\Model\Common\Address;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\UpdateTracking;
 use Doctrine\ORM\Mapping as ORM;
@@ -42,7 +42,7 @@ class EventVenue
     private $name;
 
     /**
-     * @ORM\Embedded(class="App\Domain\Common\Address", columnPrefix="address_")
+     * @ORM\Embedded(class="App\Domain\Model\Common\Address", columnPrefix="address_")
      *
      * @var Address
      */
@@ -139,6 +139,4 @@ class EventVenue
         $this->rinkInfo = $rinkInfo;
         return $this;
     }
-
-
 }

@@ -27,6 +27,7 @@ class Tournament extends Event
      * @param string             $ageGroup
      * @param \DateTimeImmutable $startDate
      * @param \DateTimeImmutable $endDate
+     * @param EventVenue         $venue
      * @param array              $tags
      */
     protected function __construct(
@@ -37,11 +38,13 @@ class Tournament extends Event
         string $ageGroup,
         \DateTimeImmutable $startDate,
         \DateTimeImmutable $endDate,
+        EventVenue $venue,
         array $tags
     ) {
         parent::__construct($id, $name, $slug, $season, $ageGroup, $tags);
 
-        $this->setDate($startDate, $endDate);
+        $this->setDate($startDate, $endDate)
+             ->setVenue($venue);
     }
 
     /**

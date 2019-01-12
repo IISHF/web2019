@@ -22,6 +22,12 @@ use Webmozart\Assert\Assert;
  *
  * @ORM\Entity(repositoryClass="DocumentRepository")
  * @ORM\Table(name="documents")
+ * @ORM\Table(
+ *      name="documents",
+ *      uniqueConstraints={
+ *          @ORM\UniqueConstraint(name="uniq_document_title", columns={"title"})
+ *      }
+ * )
  */
 class Document
 {
@@ -36,7 +42,7 @@ class Document
     private $id;
 
     /**
-     * @ORM\Column(name="title", type="string", length=128, unique=true)
+     * @ORM\Column(name="title", type="string", length=128)
      *
      * @var string
      */
