@@ -37,7 +37,7 @@ trait UpdateTracking
     /**
      * @return $this
      */
-    private function initUpdateTracking(): self
+    protected function initUpdateTracking(): self
     {
         $this->updatedAt = new \DateTimeImmutable('now');
         return $this;

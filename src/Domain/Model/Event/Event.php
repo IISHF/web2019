@@ -263,6 +263,7 @@ abstract class Event
     public function setOrganizer(?EventOrganizer $organizer): self
     {
         $this->organizer = $organizer;
+        $this->initUpdateTracking();
         return $this;
     }
 
@@ -343,10 +344,13 @@ abstract class Event
 
     /**
      * @param EventVenue|null $venue
+     * @return $this
      */
-    public function setVenue(?EventVenue $venue): void
+    public function setVenue(?EventVenue $venue): self
     {
         $this->venue = $venue;
+        $this->initUpdateTracking();
+        return $this;
     }
 
     /**

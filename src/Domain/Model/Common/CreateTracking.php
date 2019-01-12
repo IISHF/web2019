@@ -37,7 +37,7 @@ trait CreateTracking
     /**
      * @return $this
      */
-    private function initCreateTracking(): self
+    protected function initCreateTracking(): self
     {
         $this->createdAt = new \DateTimeImmutable('now');
         return $this;

@@ -181,6 +181,7 @@ abstract class TitleEvent extends Event
         }
         $this->applications->add($application);
         $application->setTitleEvent($this);
+        $this->initUpdateTracking();
         return $this;
     }
 
@@ -197,6 +198,7 @@ abstract class TitleEvent extends Event
         }
         $this->applications->removeElement($application);
         $application->setTitleEvent(null);
+        $this->initUpdateTracking();
         return $this;
     }
 
