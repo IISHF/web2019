@@ -63,18 +63,28 @@ class TitleEventApplication
     private $proposedEndDate;
 
     /**
+     * @ORM\ManyToOne(targetEntity="EventVenue")
+     * @ORM\JoinColumn(name="venue_id", referencedColumnName="id")
+     *
+     * @var EventVenue
+     */
+    private $venue;
+
+    /**
      * @param string             $id
      * @param TitleEvent         $titleEvent
      * @param EventContact       $contact
      * @param \DateTimeImmutable $proposedStartDate
      * @param \DateTimeImmutable $proposedEndDate
+     * @param EventVenue         $venue
      */
     public function __construct(
         string $id,
         TitleEvent $titleEvent,
         EventContact $contact,
         \DateTimeImmutable $proposedStartDate,
-        \DateTimeImmutable $proposedEndDate
+        \DateTimeImmutable $proposedEndDate,
+        EventVenue $venue
     ) {
         Assert::uuid($id);
 
@@ -83,6 +93,7 @@ class TitleEventApplication
 
         $this->setContact($contact)
              ->setProposedDate($proposedStartDate, $proposedEndDate)
+             ->setVenue($venue)
              ->initCreateTracking()
              ->initUpdateTracking();
     }
@@ -148,6 +159,24 @@ class TitleEventApplication
         Assert::greaterThanEq($proposedEndDate, $proposedStartDate);
         $this->proposedStartDate = $proposedStartDate;
         $this->proposedEndDate   = $proposedEndDate;
+        return $this;
+    }
+
+    /**
+     * @return EventVenue
+     */
+    public function getVenue(): EventVenue
+    {
+        return $this->venue;
+    }
+
+    /**
+     * @param EventVenue $venue
+     * @return $this
+     */
+    public function setVenue(EventVenue $venue): self
+    {
+        $this->venue = $venue;
         return $this;
     }
 }

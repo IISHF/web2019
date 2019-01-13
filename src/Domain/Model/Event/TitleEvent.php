@@ -140,20 +140,23 @@ abstract class TitleEvent extends Event
      * @param EventContact       $contact
      * @param \DateTimeImmutable $proposedStartDate
      * @param \DateTimeImmutable $proposedEndDate
+     * @param EventVenue         $venue
      * @return TitleEventApplication
      */
     public function applyForEvent(
         string $id,
         EventContact $contact,
         \DateTimeImmutable $proposedStartDate,
-        \DateTimeImmutable $proposedEndDate
+        \DateTimeImmutable $proposedEndDate,
+        EventVenue $venue
     ): TitleEventApplication {
         return new TitleEventApplication(
             $id,
             $this,
             $contact,
             $proposedStartDate,
-            $proposedEndDate
+            $proposedEndDate,
+            $venue
         );
     }
 
@@ -176,8 +179,10 @@ abstract class TitleEvent extends Event
                 $contact->getEmail(),
                 $contact->getPhoneNumber()
             )
-        );
-        $this->setDate($application->getProposedStartDate(), $application->getProposedEndDate());
+        )
+             ->setDate($application->getProposedStartDate(), $application->getProposedEndDate())
+             ->setVenue($application->getVenue());
+
         return $this;
     }
 }

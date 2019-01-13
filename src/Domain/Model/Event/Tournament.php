@@ -9,6 +9,7 @@
 namespace App\Domain\Model\Event;
 
 use Doctrine\ORM\Mapping as ORM;
+use Webmozart\Assert\Assert;
 
 /**
  * Class Tournament
@@ -51,6 +52,23 @@ class Tournament extends Event
     }
 
     /**
+     * @return EventOrganizer
+     */
+    public function getOrganizer(): EventOrganizer
+    {
+        return parent::getOrganizer();
+    }
+
+    /**
+     * {@inheritdoc)
+     */
+    public function setOrganizer(?EventOrganizer $organizer): Event
+    {
+        Assert::notNull($organizer);
+        return parent::setOrganizer($organizer);
+    }
+
+    /**
      * @return \DateTimeImmutable
      */
     public function getStartDate(): \DateTimeImmutable
@@ -64,5 +82,22 @@ class Tournament extends Event
     public function getEndDate(): \DateTimeImmutable
     {
         return parent::getEndDate();
+    }
+
+    /**
+     * @return EventVenue
+     */
+    public function getVenue(): EventVenue
+    {
+        return parent::getVenue();
+    }
+
+    /**
+     * {@inheritdoc)
+     */
+    public function setVenue(?EventVenue $venue): Event
+    {
+        Assert::notNull($venue);
+        return parent::setVenue($venue);
     }
 }
