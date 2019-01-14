@@ -62,8 +62,8 @@ class EventRepository extends ServiceEntityRepository
     private function createQueryBuilderWithAssociations(): \Doctrine\ORM\QueryBuilder
     {
         return $this->createQueryBuilder('e')
-                    ->addSelect('o', 'v')
-                    ->leftJoin('e.organizer', 'o')
+                    ->addSelect('h', 'v')
+                    ->leftJoin('e.host', 'h')
                     ->leftJoin('e.venue', 'v');
     }
 

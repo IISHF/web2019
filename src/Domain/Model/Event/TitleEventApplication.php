@@ -42,6 +42,13 @@ class TitleEventApplication
     private $titleEvent;
 
     /**
+     * @ORM\Column(name="applicant_club", type="string", length=128)
+     *
+     * @var string
+     */
+    private $applicantClub;
+
+    /**
      * @ORM\Embedded(class="EventContact", columnPrefix="contact_")
      *
      * @var EventContact
@@ -73,6 +80,7 @@ class TitleEventApplication
     /**
      * @param string             $id
      * @param TitleEvent         $titleEvent
+     * @param string             $applicantClub
      * @param EventContact       $contact
      * @param \DateTimeImmutable $proposedStartDate
      * @param \DateTimeImmutable $proposedEndDate
@@ -81,6 +89,7 @@ class TitleEventApplication
     public function __construct(
         string $id,
         TitleEvent $titleEvent,
+        string $applicantClub,
         EventContact $contact,
         \DateTimeImmutable $proposedStartDate,
         \DateTimeImmutable $proposedEndDate,
@@ -91,7 +100,8 @@ class TitleEventApplication
         $this->id         = $id;
         $this->titleEvent = $titleEvent;
 
-        $this->setContact($contact)
+        $this->setApplicantClub($applicantClub)
+             ->setContact($contact)
              ->setProposedDate($proposedStartDate, $proposedEndDate)
              ->setVenue($venue)
              ->initCreateTracking()
@@ -112,6 +122,25 @@ class TitleEventApplication
     public function getTitleEvent(): TitleEvent
     {
         return $this->titleEvent;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApplicantClub(): string
+    {
+        return $this->applicantClub;
+    }
+
+    /**
+     * @param string $applicantClub
+     * @return $this
+     */
+    public function setApplicantClub(string $applicantClub): self
+    {
+        Assert::lengthBetween($applicantClub, 1, 128);
+        $this->applicantClub = $applicantClub;
+        return $this;
     }
 
     /**

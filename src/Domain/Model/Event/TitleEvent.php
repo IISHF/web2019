@@ -137,6 +137,7 @@ abstract class TitleEvent extends Event
 
     /**
      * @param string             $id
+     * @param string             $applicantClub
      * @param EventContact       $contact
      * @param \DateTimeImmutable $proposedStartDate
      * @param \DateTimeImmutable $proposedEndDate
@@ -145,6 +146,7 @@ abstract class TitleEvent extends Event
      */
     public function applyForEvent(
         string $id,
+        string $applicantClub,
         EventContact $contact,
         \DateTimeImmutable $proposedStartDate,
         \DateTimeImmutable $proposedEndDate,
@@ -153,6 +155,7 @@ abstract class TitleEvent extends Event
         return new TitleEventApplication(
             $id,
             $this,
+            $applicantClub,
             $contact,
             $proposedStartDate,
             $proposedEndDate,
@@ -171,10 +174,10 @@ abstract class TitleEvent extends Event
             throw new \InvalidArgumentException('The title event application is not registered with this event.');
         }
         $contact = $application->getContact();
-        $this->setOrganizer(
-            new EventOrganizer(
+        $this->setHost(
+            new EventHost(
                 $id,
-                $contact->getClub(),
+                $application->getApplicantClub(),
                 $contact->getName(),
                 $contact->getEmail(),
                 $contact->getPhoneNumber()

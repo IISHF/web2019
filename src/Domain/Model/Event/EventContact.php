@@ -27,13 +27,6 @@ class EventContact
     use HasEmail, MayHavePhoneNumber;
 
     /**
-     * @ORM\Column(name="club", type="string", length=128)
-     *
-     * @var string
-     */
-    private $club;
-
-    /**
      * @ORM\Column(name="name", type="string", length=128)
      *
      * @var string
@@ -41,36 +34,15 @@ class EventContact
     private $name;
 
     /**
-     * @param string           $club
      * @param string           $name
      * @param string           $email
      * @param PhoneNumber|null $phoneNumber
      */
-    public function __construct(string $club, string $name, string $email, ?PhoneNumber $phoneNumber)
+    public function __construct(string $name, string $email, ?PhoneNumber $phoneNumber)
     {
-        $this->setClub($club)
-             ->setName($name)
+        $this->setName($name)
              ->setEmail($email)
              ->setPhoneNumber($phoneNumber);
-    }
-
-    /**
-     * @return string
-     */
-    public function getClub(): string
-    {
-        return $this->club;
-    }
-
-    /**
-     * @param string $club
-     * @return $this
-     */
-    public function setClub(string $club): self
-    {
-        Assert::lengthBetween($club, 1, 128);
-        $this->club = $club;
-        return $this;
     }
 
     /**

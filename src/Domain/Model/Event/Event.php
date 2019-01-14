@@ -92,12 +92,12 @@ abstract class Event
     private $ageGroup;
 
     /**
-     * @ORM\OneToOne(targetEntity="EventOrganizer")
-     * @ORM\JoinColumn(name="organizer_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+     * @ORM\OneToOne(targetEntity="EventHost")
+     * @ORM\JoinColumn(name="host_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      *
-     * @var EventOrganizer|null
+     * @var EventHost|null
      */
-    private $organizer;
+    private $host;
 
     /**
      * @ORM\Column(name="sanction_number", type="string", length=16, nullable=true)
@@ -249,22 +249,33 @@ abstract class Event
     }
 
     /**
-     * @return EventOrganizer|null
+     * @return EventHost|null
      */
-    public function getOrganizer(): ?EventOrganizer
+    public function getHost(): ?EventHost
     {
-        return $this->organizer;
+        return $this->host;
     }
 
     /**
-     * @param EventOrganizer|null $organizer
+     * @param EventHost|null $host
      * @return $this
      */
-    public function setOrganizer(?EventOrganizer $organizer): self
+    public function setHost(?EventHost $host): self
     {
-        $this->organizer = $organizer;
+        $this->host = $host;
         $this->initUpdateTracking();
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getHostingClub(): ?string
+    {
+        if ($this->host) {
+            return $this->host->getClub();
+        }
+        return null;
     }
 
     /**

@@ -15,14 +15,14 @@ use libphonenumber\PhoneNumber;
 use Webmozart\Assert\Assert;
 
 /**
- * Class EventOrganizer
+ * Class EventHost
  *
  * @package App\Domain\Model\Event
  *
  * @ORM\Entity()
- * @ORM\Table(name="event_organizers")
+ * @ORM\Table(name="event_hosts")
  */
-class EventOrganizer extends EventContact
+class EventHost extends EventContact
 {
     use CreateTracking, UpdateTracking;
 
@@ -35,6 +35,13 @@ class EventOrganizer extends EventContact
     private $id;
 
     /**
+     * @ORM\Column(name="club", type="string", length=128)
+     *
+     * @var string
+     */
+    private $club;
+
+    /**
      * @param string           $id
      * @param string           $club
      * @param string           $name
@@ -43,13 +50,14 @@ class EventOrganizer extends EventContact
      */
     public function __construct(string $id, string $club, string $name, string $email, ?PhoneNumber $phoneNumber)
     {
-        parent::__construct($club, $name, $email, $phoneNumber);
+        parent::__construct($name, $email, $phoneNumber);
 
         Assert::uuid($id);
 
         $this->id = $id;
 
-        $this->initCreateTracking()
+        $this->setClub($club)
+             ->initCreateTracking()
              ->initUpdateTracking();
     }
 
@@ -60,4 +68,24 @@ class EventOrganizer extends EventContact
     {
         return $this->id;
     }
+
+    /**
+     * @return string
+     */
+    public function getClub(): string
+    {
+        return $this->club;
+    }
+
+    /**
+     * @param string $club
+     * @return $this
+     */
+    public function setClub(string $club): self
+    {
+        Assert::lengthBetween($club, 1, 128);
+        $this->club = $club;
+        return $this;
+    }
+
 }

@@ -26,7 +26,7 @@ class Tournament extends Event
      * @param string             $slug
      * @param int                $season
      * @param string             $ageGroup
-     * @param EventOrganizer     $organizer
+     * @param EventHost          $host
      * @param \DateTimeImmutable $startDate
      * @param \DateTimeImmutable $endDate
      * @param EventVenue         $venue
@@ -38,7 +38,7 @@ class Tournament extends Event
         string $slug,
         int $season,
         string $ageGroup,
-        EventOrganizer $organizer,
+        EventHost $host,
         \DateTimeImmutable $startDate,
         \DateTimeImmutable $endDate,
         EventVenue $venue,
@@ -46,26 +46,26 @@ class Tournament extends Event
     ) {
         parent::__construct($id, $name, $slug, $season, $ageGroup, $tags);
 
-        $this->setOrganizer($organizer)
+        $this->setHost($host)
              ->setDate($startDate, $endDate)
              ->setVenue($venue);
     }
 
     /**
-     * @return EventOrganizer
+     * @return EventHost
      */
-    public function getOrganizer(): EventOrganizer
+    public function getHost(): EventHost
     {
-        return parent::getOrganizer();
+        return parent::getHost();
     }
 
     /**
      * {@inheritdoc)
      */
-    public function setOrganizer(?EventOrganizer $organizer): Event
+    public function setHost(?EventHost $host): Event
     {
-        Assert::notNull($organizer);
-        return parent::setOrganizer($organizer);
+        Assert::notNull($host);
+        return parent::setHost($host);
     }
 
     /**
