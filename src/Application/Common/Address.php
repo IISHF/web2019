@@ -72,7 +72,7 @@ class Address
      * @param DomainAddress $address
      * @return self
      */
-    public static function update(DomainAddress $address): self
+    public static function fromAddressEntity(DomainAddress $address): self
     {
         return (new self())->setAddress1($address->getAddress1())
                            ->setAddress2($address->getAddress2())

@@ -30,7 +30,7 @@ class UpdateEventVenue
         return new self(
             $venue->getId(),
             $venue->getName(),
-            Address::update($venue->getAddress()),
+            Address::fromAddressEntity($venue->getAddress()),
             $venue->getRinkInfo()
         );
     }

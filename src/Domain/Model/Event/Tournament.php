@@ -32,7 +32,7 @@ class Tournament extends Event
      * @param EventVenue         $venue
      * @param array              $tags
      */
-    protected function __construct(
+    public function __construct(
         string $id,
         string $name,
         string $slug,

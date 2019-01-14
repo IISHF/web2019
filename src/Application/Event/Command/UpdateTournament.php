@@ -33,7 +33,7 @@ class UpdateTournament
             $tournament->getName(),
             $tournament->getSeason(),
             $tournament->getAgeGroup(),
-            EventHost::updateHost($tournament->getHost()),
+            EventHost::fromEventHostEntity($tournament->getHost()),
             $tournament->getStartDate(),
             $tournament->getEndDate(),
             $tournament->getVenue(),

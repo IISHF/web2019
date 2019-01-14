@@ -27,6 +27,17 @@ class ParticipatingTeamRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param string $id
+     * @return ParticipatingTeam|null
+     */
+    public function findById(string $id): ?ParticipatingTeam
+    {
+        /** @var ParticipatingTeam|null $team */
+        $team = $this->find($id);
+        return $team;
+    }
+
+    /**
      * @param Event $event
      * @return iterable|ParticipatingTeam[]
      */

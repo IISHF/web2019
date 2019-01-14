@@ -32,7 +32,7 @@ class EventHost extends ContactPerson
      * @param DomainEventHost $host
      * @return self
      */
-    public static function updateHost(DomainEventHost $host): self
+    public static function fromEventHostEntity(DomainEventHost $host): self
     {
         return (new self())->setClub($host->getClub())
                            ->setName($host->getName())

@@ -27,30 +27,39 @@ class EventRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $id
+     * @param string      $id
+     * @param string|null $type #Entity
      * @return Event|null
      */
-    public function findById(string $id): ?Event
+    public function findById(string $id, ?string $type = null): ?Event
     {
+        $queryBuilder = $this->createQueryBuilderWithAssociations()
+                             ->where('e.id = :id')
+                             ->setParameter('id', $id);
+        if ($type !== null) {
+            $queryBuilder->andWhere('e INSTANCE OF :type')
+                         ->setParameter('type', $this->_em->getClassMetadata($type));
+        }
+
         /** @var Event|null $event */
-        $event = $this->createQueryBuilderWithAssociations()
-                      ->where('e.id = :id')
-                      ->setParameter('id', $id)
-                      ->getQuery()
-                      ->getOneOrNullResult();
+        $event = $queryBuilder->getQuery()
+                              ->getOneOrNullResult();
         return $event;
     }
 
     /**
+     * @param int    $season
      * @param string $slug
      * @return Event|null
      */
-    public function findBySlug(string $slug): ?Event
+    public function findBySlug(int $season, string $slug): ?Event
     {
         /** @var Event|null $event */
         $event = $this->createQueryBuilderWithAssociations()
                       ->where('e.slug = :slug')
+                      ->andWhere('e.season = :season')
                       ->setParameter('slug', $slug)
+                      ->setParameter('season', $season)
                       ->getQuery()
                       ->getOneOrNullResult();
         return $event;

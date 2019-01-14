@@ -38,7 +38,7 @@ class EuropeanCup extends TitleEvent
      * @param string|null $description
      * @param array       $tags
      */
-    protected function __construct(
+    public function __construct(
         string $id,
         string $name,
         string $slug,

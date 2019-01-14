@@ -61,18 +61,18 @@ class EventVenue
      * @param string|null $address1
      * @param string|null $address2
      * @param string|null $state
-     * @param string|null $zip
+     * @param string|null $postalCode
      * @param string      $city
      * @param string      $country
      * @param string|null $rinkInfo
      */
-    private function __construct(
+    public function __construct(
         string $id,
         string $name,
         ?string $address1,
         ?string $address2,
         ?string $state,
-        ?string $zip,
+        ?string $postalCode,
         string $city,
         string $country,
         ?string $rinkInfo
@@ -80,7 +80,7 @@ class EventVenue
         Assert::uuid($id);
 
         $this->id      = $id;
-        $this->address = new Address($address1, $address2, $state, $zip, $city, $country);
+        $this->address = new Address($address1, $address2, $state, $postalCode, $city, $country);
         $this->setName($name)
              ->setRinkInfo($rinkInfo)
              ->initCreateTracking()

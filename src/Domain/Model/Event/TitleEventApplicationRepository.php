@@ -27,6 +27,17 @@ class TitleEventApplicationRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param string $id
+     * @return TitleEventApplication|null
+     */
+    public function findById(string $id): ?TitleEventApplication
+    {
+        /** @var TitleEventApplication|null $application */
+        $application = $this->find($id);
+        return $application;
+    }
+
+    /**
      * @param TitleEvent $titleEvent
      * @return iterable|TitleEventApplication[]
      */
