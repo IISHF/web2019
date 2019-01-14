@@ -120,7 +120,7 @@ class ParticipatingTeam
      * @param ParticipatingTeamContact|null $contact
      * @return $this
      */
-    public function setHost(?ParticipatingTeamContact $contact): self
+    public function setContact(?ParticipatingTeamContact $contact): self
     {
         $this->contact = $contact;
         return $this;
