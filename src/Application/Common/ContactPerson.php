@@ -51,7 +51,7 @@ class ContactPerson
      * @param DomainContactPerson $contact
      * @return self
      */
-    public static function update(DomainContactPerson $contact): self
+    public static function updateContact(DomainContactPerson $contact): self
     {
         return (new self())->setName($contact->getName())
                            ->setEmail($contact->getEmail())

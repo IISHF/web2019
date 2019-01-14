@@ -21,15 +21,6 @@ use Webmozart\Assert\Assert;
  */
 abstract class TitleEvent extends Event
 {
-    public const STATE_PLANNED = 'planned';
-
-    /**
-     * @ORM\Column(name="current_state", type="string", length=16)
-     *
-     * @var string
-     */
-    private $currentState;
-
     /**
      * @ORM\Column(name="planned_length", type="smallint", options={"unsigned": true})
      *
@@ -66,36 +57,8 @@ abstract class TitleEvent extends Event
     ) {
         parent::__construct($id, $name, $slug, $season, $ageGroup, $tags);
 
-        $this->currentState = self::STATE_PLANNED;
         $this->setPlannedLength($plannedLength)
              ->setDescription($description);
-    }
-
-    /**
-     * @return string
-     */
-    public function getCurrentState(): string
-    {
-        return $this->currentState;
-    }
-
-    /**
-     * @param string $currentState
-     * @return $this
-     */
-    public function setCurrentState(string $currentState): self
-    {
-        Assert::lengthBetween($currentState, 1, 16);
-        $this->currentState = $currentState;
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isPlanned(): bool
-    {
-        return $this->currentState === self::STATE_PLANNED;
     }
 
     /**

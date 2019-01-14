@@ -38,6 +38,9 @@ abstract class Event
 {
     use CreateTracking, UpdateTracking;
 
+    public const STATE_PLANNED    = 'planned';
+    public const STATE_SANCTIONED = 'sanctioned';
+
     public const AGE_GROUP_VETERANS = 'veterans';
     public const AGE_GROUP_MEN      = 'men';
     public const AGE_GROUP_WOMEN    = 'women';
@@ -90,6 +93,13 @@ abstract class Event
      * @var string
      */
     private $ageGroup;
+
+    /**
+     * @ORM\Column(name="current_state", type="string", length=16)
+     *
+     * @var string
+     */
+    private $currentState;
 
     /**
      * @ORM\OneToOne(targetEntity="EventHost")
@@ -153,7 +163,8 @@ abstract class Event
     ) {
         Assert::uuid($id);
 
-        $this->id = $id;
+        $this->id           = $id;
+        $this->currentState = self::STATE_PLANNED;
         $this->setName($name)
              ->setSlug($slug)
              ->setSeason($season)
@@ -246,6 +257,44 @@ abstract class Event
         Assert::oneOf($ageGroup, self::$availableAgeGroups);
         $this->ageGroup = $ageGroup;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrentState(): string
+    {
+        return $this->currentState;
+    }
+
+    /**
+     * @param string $currentState
+     * @return $this
+     */
+    public function setCurrentState(string $currentState): self
+    {
+        Assert::lengthBetween($currentState, 1, 16);
+        $this->currentState = $currentState;
+        if (!$this->isSanctioned()) {
+            $this->sanctionNumber = null;
+        }
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPlanned(): bool
+    {
+        return $this->currentState === self::STATE_PLANNED;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSanctioned(): bool
+    {
+        return $this->currentState === self::STATE_SANCTIONED;
     }
 
     /**
