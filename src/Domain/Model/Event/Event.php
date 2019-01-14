@@ -93,7 +93,7 @@ abstract class Event
 
     /**
      * @ORM\OneToOne(targetEntity="EventHost")
-     * @ORM\JoinColumn(name="host_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+     * @ORM\JoinColumn(name="host_id", referencedColumnName="id", nullable=true)
      *
      * @var EventHost|null
      */

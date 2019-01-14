@@ -50,7 +50,7 @@ class ParticipatingTeam
 
     /**
      * @ORM\OneToOne(targetEntity="ParticipatingTeamContact")
-     * @ORM\JoinColumn(name="contact_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+     * @ORM\JoinColumn(name="contact_id", referencedColumnName="id", nullable=true)
      *
      * @var ParticipatingTeamContact|null
      */
