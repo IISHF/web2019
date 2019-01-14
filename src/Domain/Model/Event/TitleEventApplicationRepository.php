@@ -43,9 +43,18 @@ class TitleEventApplicationRepository extends ServiceEntityRepository
      */
     public function findForEvent(TitleEvent $titleEvent): iterable
     {
+        return $this->findForEventId($titleEvent->getId());
+    }
+
+    /**
+     * @param string $titleEventId
+     * @return iterable|TitleEventApplication[]
+     */
+    public function findForEventId(string $titleEventId): iterable
+    {
         return $this->createQueryBuilder('a')
                     ->where('a.titleEvent = :event')
-                    ->setParameter('event', $titleEvent)
+                    ->setParameter('event', $titleEventId)
                     ->orderBy('a.createdAt', 'ASC')
                     ->getQuery()
                     ->getResult();

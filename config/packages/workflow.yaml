@@ -138,6 +138,7 @@ framework:
                         button: Award
                         confirm: Do you really want to award the title event?
                         confirm_btn: Award title event
+                        form_type: App\Infrastructure\Event\Form\AwardTitleEventType
                         success_message: The title event has been awarded.
                 sanction:
                     guard: 'is_granted("TITLE_EVENT_SANCTION", subject)'
