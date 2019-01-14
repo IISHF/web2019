@@ -25,14 +25,14 @@ class NationalGoverningBodyParamConverter extends LoaderParamConverter
     /**
      * @var NationalGoverningBodyRepository
      */
-    private $repository;
+    private $ngbRepository;
 
     /**
-     * @param NationalGoverningBodyRepository $repository
+     * @param NationalGoverningBodyRepository $ngbRepository
      */
-    public function __construct(NationalGoverningBodyRepository $repository)
+    public function __construct(NationalGoverningBodyRepository $ngbRepository)
     {
-        $this->repository = $repository;
+        $this->ngbRepository = $ngbRepository;
     }
 
     /**
@@ -49,8 +49,8 @@ class NationalGoverningBodyParamConverter extends LoaderParamConverter
     protected function loadObject($value, Request $request, ParamConverter $configuration): ?object
     {
         if (Uuid::isValid($value)) {
-            return $this->repository->findById($value);
+            return $this->ngbRepository->findById($value);
         }
-        return $this->repository->findBySlug($value);
+        return $this->ngbRepository->findBySlug($value);
     }
 }

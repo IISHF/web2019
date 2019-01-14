@@ -24,14 +24,14 @@ class UserProvider implements UserProviderInterface
     /**
      * @var UserRepository
      */
-    private $repository;
+    private $userRepository;
 
     /**
-     * @param UserRepository $repository
+     * @param UserRepository $userRepository
      */
-    public function __construct(UserRepository $repository)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->repository = $repository;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -39,7 +39,7 @@ class UserProvider implements UserProviderInterface
      */
     public function loadUserByUsername($username): UserInterface
     {
-        $user = $this->repository->findByEmail($username);
+        $user = $this->userRepository->findByEmail($username);
         if (!$user) {
             $ex = new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $username));
             $ex->setUsername($username);

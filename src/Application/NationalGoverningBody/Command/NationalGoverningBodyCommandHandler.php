@@ -23,14 +23,14 @@ abstract class NationalGoverningBodyCommandHandler implements MessageHandlerInte
     /**
      * @var NationalGoverningBodyRepository
      */
-    protected $repository;
+    protected $ngbRepository;
 
     /**
-     * @param NationalGoverningBodyRepository $repository
+     * @param NationalGoverningBodyRepository $ngbRepository
      */
-    public function __construct(NationalGoverningBodyRepository $repository)
+    public function __construct(NationalGoverningBodyRepository $ngbRepository)
     {
-        $this->repository = $repository;
+        $this->ngbRepository = $ngbRepository;
     }
 
     /**
@@ -39,7 +39,7 @@ abstract class NationalGoverningBodyCommandHandler implements MessageHandlerInte
      */
     protected function getNationalGoverningBody(string $id): NationalGoverningBody
     {
-        $ngb = $this->repository->findById($id);
+        $ngb = $this->ngbRepository->findById($id);
         if (!$ngb) {
             throw new \OutOfBoundsException('No national governing body found for id ' . $id);
         }
@@ -56,7 +56,7 @@ abstract class NationalGoverningBodyCommandHandler implements MessageHandlerInte
         return Urlizer::urlizeUnique(
             $name,
             function (string $slug) use ($id) {
-                return ($tryNgb = $this->repository->findBySlug($slug)) !== null && $tryNgb->getId() !== $id;
+                return ($tryNgb = $this->ngbRepository->findBySlug($slug)) !== null && $tryNgb->getId() !== $id;
             }
         );
     }

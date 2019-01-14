@@ -25,14 +25,14 @@ class ArticleParamConverter extends LoaderParamConverter
     /**
      * @var ArticleRepository
      */
-    private $repository;
+    private $articleRepository;
 
     /**
-     * @param ArticleRepository $repository
+     * @param ArticleRepository $articleRepository
      */
-    public function __construct(ArticleRepository $repository)
+    public function __construct(ArticleRepository $articleRepository)
     {
-        $this->repository = $repository;
+        $this->articleRepository = $articleRepository;
     }
 
     /**
@@ -49,8 +49,8 @@ class ArticleParamConverter extends LoaderParamConverter
     protected function loadObject($value, Request $request, ParamConverter $configuration): ?object
     {
         if (Uuid::isValid($value)) {
-            return $this->repository->findById($value);
+            return $this->articleRepository->findById($value);
         }
-        return $this->repository->findBySlug($value);
+        return $this->articleRepository->findBySlug($value);
     }
 }

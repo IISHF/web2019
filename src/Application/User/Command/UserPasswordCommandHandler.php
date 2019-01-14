@@ -24,12 +24,12 @@ abstract class UserPasswordCommandHandler extends UserCommandHandler
     private $passwordService;
 
     /**
-     * @param UserRepository  $repository
+     * @param UserRepository  $userRepository
      * @param PasswordService $passwordService
      */
-    public function __construct(UserRepository $repository, PasswordService $passwordService)
+    public function __construct(UserRepository $userRepository, PasswordService $passwordService)
     {
-        parent::__construct($repository);
+        parent::__construct($userRepository);
         $this->passwordService = $passwordService;
     }
 

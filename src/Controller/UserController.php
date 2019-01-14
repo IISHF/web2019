@@ -38,10 +38,10 @@ class UserController extends AbstractController
      * @Route("", methods={"GET"})
      *
      * @param Request        $request
-     * @param UserRepository $repository
+     * @param UserRepository $userRepository
      * @return Response
      */
-    public function list(Request $request, UserRepository $repository): Response
+    public function list(Request $request, UserRepository $userRepository): Response
     {
         $page  = $request->query->getInt('page', 1);
         $limit = $request->query->getInt('limit', 30);
@@ -49,7 +49,7 @@ class UserController extends AbstractController
         return $this->render(
             'user/list.html.twig',
             [
-                'users' => $repository->findPaged($page, $limit),
+                'users' => $userRepository->findPaged($page, $limit),
             ]
         );
     }

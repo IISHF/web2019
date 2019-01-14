@@ -22,14 +22,14 @@ abstract class UserCommandHandler implements MessageHandlerInterface
     /**
      * @var UserRepository
      */
-    protected $repository;
+    protected $userRepository;
 
     /**
-     * @param UserRepository $repository
+     * @param UserRepository $userRepository
      */
-    public function __construct(UserRepository $repository)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->repository = $repository;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -38,7 +38,7 @@ abstract class UserCommandHandler implements MessageHandlerInterface
      */
     protected function getUser(string $id): User
     {
-        $user = $this->repository->findById($id);
+        $user = $this->userRepository->findById($id);
         if (!$user) {
             throw new \OutOfBoundsException('No user found for id ' . $id);
         }
@@ -51,7 +51,7 @@ abstract class UserCommandHandler implements MessageHandlerInterface
      */
     protected function getUserByEmail(string $email): User
     {
-        $user = $this->repository->findByEmail($email);
+        $user = $this->userRepository->findByEmail($email);
         if (!$user) {
             throw new \OutOfBoundsException('No user found for email ' . $email);
         }

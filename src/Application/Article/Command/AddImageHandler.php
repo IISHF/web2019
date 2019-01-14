@@ -30,6 +30,6 @@ class AddImageHandler extends AttachmentCommandHandler
             $this->createFile(ArticleImage::FILE_ORIGIN, $command->getFile()),
             $command->getCaption()
         );
-        $this->repository->saveAttachment($image);
+        $this->articleRepository->saveAttachment($image);
     }
 }

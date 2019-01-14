@@ -25,12 +25,12 @@ abstract class AttachmentCommandHandler extends ArticleCommandHandler
     private $fileFactory;
 
     /**
-     * @param ArticleRepository $repository
+     * @param ArticleRepository $articleRepository
      * @param FileFactory       $fileFactory
      */
-    public function __construct(ArticleRepository $repository, FileFactory $fileFactory)
+    public function __construct(ArticleRepository $articleRepository, FileFactory $fileFactory)
     {
-        parent::__construct($repository);
+        parent::__construct($articleRepository);
         $this->fileFactory = $fileFactory;
     }
 

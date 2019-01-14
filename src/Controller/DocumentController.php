@@ -43,10 +43,10 @@ class DocumentController extends AbstractController
      * @Route("", methods={"GET"})
      *
      * @param Request            $request
-     * @param DocumentRepository $repository
+     * @param DocumentRepository $documentRepository
      * @return Response
      */
-    public function list(Request $request, DocumentRepository $repository): Response
+    public function list(Request $request, DocumentRepository $documentRepository): Response
     {
         $page  = $request->query->getInt('page', 1);
         $limit = $request->query->getInt('limit', 30);
@@ -54,7 +54,7 @@ class DocumentController extends AbstractController
         return $this->render(
             'document/list.html.twig',
             [
-                'documents' => $repository->findPaged($page, $limit),
+                'documents' => $documentRepository->findPaged($page, $limit),
             ]
         );
     }

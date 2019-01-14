@@ -25,14 +25,14 @@ class FileFactory
     /**
      * @var FileRepository
      */
-    private $repository;
+    private $fileRepository;
 
     /**
-     * @param FileRepository $repository
+     * @param FileRepository $fileRepository
      */
-    public function __construct(FileRepository $repository)
+    public function __construct(FileRepository $fileRepository)
     {
-        $this->repository = $repository;
+        $this->fileRepository = $fileRepository;
     }
 
     /**
@@ -85,7 +85,7 @@ class FileFactory
     private function ensureBinary(\SplFileInfo $file): FileBinary
     {
         $hash   = sha1_file($file->getPathname());
-        $binary = $this->repository->findFileBinaryReference($hash);
+        $binary = $this->fileRepository->findFileBinaryReference($hash);
         if (!$binary) {
             $binary = FileBinary::fromString($hash, file_get_contents($file->getPathname()));
         }

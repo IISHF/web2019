@@ -31,6 +31,6 @@ class CreateArticleHandler extends ArticleCommandHandler
             $command->getTags(),
             $command->getAuthor()
         );
-        $this->repository->save($article);
+        $this->articleRepository->save($article);
     }
 }

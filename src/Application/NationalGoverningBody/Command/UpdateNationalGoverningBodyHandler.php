@@ -32,6 +32,6 @@ class UpdateNationalGoverningBodyHandler extends NationalGoverningBodyCommandHan
             ->setFacebookProfile($command->getFacebookProfile())
             ->setTwitterProfile($command->getTwitterProfile())
             ->setInstagramProfile($command->getInstagramProfile());
-        $this->repository->save($ngb);
+        $this->ngbRepository->save($ngb);
     }
 }

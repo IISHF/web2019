@@ -30,6 +30,6 @@ class UpdateDocumentVersionHandler extends DocumentCommandHandler
                     )
                 )
                 ->setValidity($command->getValidFrom(), $command->getValidUntil());
-        $this->repository->saveVersion($version);
+        $this->documentRepository->saveVersion($version);
     }
 }

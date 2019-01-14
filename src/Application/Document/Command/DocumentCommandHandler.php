@@ -26,7 +26,7 @@ abstract class DocumentCommandHandler implements MessageHandlerInterface
     /**
      * @var DocumentRepository
      */
-    protected $repository;
+    protected $documentRepository;
 
     /**
      * @var FileFactory
@@ -34,13 +34,13 @@ abstract class DocumentCommandHandler implements MessageHandlerInterface
     private $fileFactory;
 
     /**
-     * @param DocumentRepository $repository
+     * @param DocumentRepository $documentRepository
      * @param FileFactory        $fileFactory
      */
-    public function __construct(DocumentRepository $repository, FileFactory $fileFactory)
+    public function __construct(DocumentRepository $documentRepository, FileFactory $fileFactory)
     {
-        $this->repository  = $repository;
-        $this->fileFactory = $fileFactory;
+        $this->documentRepository = $documentRepository;
+        $this->fileFactory        = $fileFactory;
     }
 
     /**
@@ -49,7 +49,7 @@ abstract class DocumentCommandHandler implements MessageHandlerInterface
      */
     protected function getDocument(string $id): Document
     {
-        $document = $this->repository->findById($id);
+        $document = $this->documentRepository->findById($id);
         if (!$document) {
             throw new \OutOfBoundsException('No document found for id ' . $id);
         }
@@ -62,7 +62,7 @@ abstract class DocumentCommandHandler implements MessageHandlerInterface
      */
     protected function getDocumentVersion(string $id): DocumentVersion
     {
-        $version = $this->repository->findVersionById($id);
+        $version = $this->documentRepository->findVersionById($id);
         if (!$version) {
             throw new \OutOfBoundsException('No document version found for id ' . $id);
         }
@@ -79,7 +79,8 @@ abstract class DocumentCommandHandler implements MessageHandlerInterface
         return Urlizer::urlizeUnique(
             $title,
             function (string $slug) use ($id) {
-                return ($tryDocument = $this->repository->findBySlug($slug)) !== null && $tryDocument->getId() !== $id;
+                return ($tryDocument = $this->documentRepository->findBySlug($slug)) !== null
+                    && $tryDocument->getId() !== $id;
             }
         );
     }
@@ -95,7 +96,7 @@ abstract class DocumentCommandHandler implements MessageHandlerInterface
         return Urlizer::urlizeUnique(
             $version,
             function (string $slug) use ($id, $documentSlug) {
-                return ($tryVersion = $this->repository->findVersionBySlug($documentSlug, $slug)) !== null
+                return ($tryVersion = $this->documentRepository->findVersionBySlug($documentSlug, $slug)) !== null
                     && $tryVersion->getId() !== $id;
             }
         );

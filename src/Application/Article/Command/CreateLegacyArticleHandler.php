@@ -32,6 +32,6 @@ class CreateLegacyArticleHandler extends ArticleCommandHandler
             $command->getAuthor(),
             $command->getPublishedAt()
         );
-        $this->repository->save($article);
+        $this->articleRepository->save($article);
     }
 }

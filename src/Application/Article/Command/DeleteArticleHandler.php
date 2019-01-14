@@ -21,6 +21,6 @@ class DeleteArticleHandler extends ArticleCommandHandler
     public function __invoke(DeleteArticle $command): void
     {
         $article = $this->getArticle($command->getId());
-        $this->repository->delete($article);
+        $this->articleRepository->delete($article);
     }
 }

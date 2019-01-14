@@ -30,6 +30,6 @@ class CreateConfirmedUserHandler extends UserPasswordCommandHandler
             $command->getRoles(),
             $this->encodePassword($command->getPassword())
         );
-        $this->repository->save($user);
+        $this->userRepository->save($user);
     }
 }

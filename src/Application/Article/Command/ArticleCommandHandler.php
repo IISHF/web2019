@@ -24,14 +24,14 @@ abstract class ArticleCommandHandler implements MessageHandlerInterface
     /**
      * @var ArticleRepository
      */
-    protected $repository;
+    protected $articleRepository;
 
     /**
-     * @param ArticleRepository $repository
+     * @param ArticleRepository $articleRepository
      */
-    public function __construct(ArticleRepository $repository)
+    public function __construct(ArticleRepository $articleRepository)
     {
-        $this->repository = $repository;
+        $this->articleRepository = $articleRepository;
     }
 
     /**
@@ -40,7 +40,7 @@ abstract class ArticleCommandHandler implements MessageHandlerInterface
      */
     protected function getArticle(string $id): Article
     {
-        $article = $this->repository->findById($id);
+        $article = $this->articleRepository->findById($id);
         if (!$article) {
             throw new \OutOfBoundsException('No article found for id ' . $id);
         }
@@ -58,7 +58,8 @@ abstract class ArticleCommandHandler implements MessageHandlerInterface
         return Urlizer::urlizeUnique(
             $publishedDate->format('Y-m-d') . '-' . Text::shorten($title, 100),
             function (string $slug) use ($id) {
-                return ($tryArticle = $this->repository->findBySlug($slug)) !== null && $tryArticle->getId() !== $id;
+                return ($tryArticle = $this->articleRepository->findBySlug($slug)) !== null
+                    && $tryArticle->getId() !== $id;
             }
         );
     }

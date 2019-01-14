@@ -37,6 +37,6 @@ class CreateDocumentHandler extends DocumentCommandHandler
             $command->getValidFrom(),
             $command->getValidUntil()
         );
-        $this->repository->save($document);
+        $this->documentRepository->save($document);
     }
 }

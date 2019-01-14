@@ -26,7 +26,7 @@ class LoginSubscriber implements EventSubscriberInterface
     /**
      * @var UserRepository
      */
-    private $repository;
+    private $userRepository;
 
     /**
      * @var RequestStack
@@ -34,13 +34,13 @@ class LoginSubscriber implements EventSubscriberInterface
     private $requestStack;
 
     /**
-     * @param UserRepository $repository
+     * @param UserRepository $userRepository
      * @param RequestStack   $requestStack
      */
-    public function __construct(UserRepository $repository, RequestStack $requestStack)
+    public function __construct(UserRepository $userRepository, RequestStack $requestStack)
     {
-        $this->repository   = $repository;
-        $this->requestStack = $requestStack;
+        $this->userRepository = $userRepository;
+        $this->requestStack   = $requestStack;
     }
 
     /**
@@ -49,7 +49,7 @@ class LoginSubscriber implements EventSubscriberInterface
     public function onInteractiveLogin(InteractiveLoginEvent $event): void
     {
         $token = $event->getAuthenticationToken();
-        $user  = $this->repository->findByEmail($token->getUsername());
+        $user  = $this->userRepository->findByEmail($token->getUsername());
 
         if (!$user) {
             return;
@@ -58,7 +58,7 @@ class LoginSubscriber implements EventSubscriberInterface
         $userIp    = $request->getClientIp();
         $userAgent = $request->headers->get('User-Agent');
         $user->registerLogin($userIp, $userAgent);
-        $this->repository->save($user);
+        $this->userRepository->save($user);
     }
 
     /**
@@ -72,14 +72,14 @@ class LoginSubscriber implements EventSubscriberInterface
         }
 
         $token = $event->getAuthenticationToken();
-        $user  = $this->repository->findByEmail($token->getUsername());
+        $user  = $this->userRepository->findByEmail($token->getUsername());
         if (!$user) {
             return;
         }
         $userIp    = $request->getClientIp();
         $userAgent = $request->headers->get('User-Agent');
         $user->registerLoginFailure($userIp, $userAgent);
-        $this->repository->save($user);
+        $this->userRepository->save($user);
     }
 
     /**

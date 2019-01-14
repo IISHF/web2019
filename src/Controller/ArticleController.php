@@ -45,10 +45,10 @@ class ArticleController extends AbstractController
      * @Route("", methods={"GET"})
      *
      * @param Request           $request
-     * @param ArticleRepository $repository
+     * @param ArticleRepository $articleRepository
      * @return Response
      */
-    public function list(Request $request, ArticleRepository $repository): Response
+    public function list(Request $request, ArticleRepository $articleRepository): Response
     {
         $page  = $request->query->getInt('page', 1);
         $limit = $request->query->getInt('limit', 30);
@@ -58,9 +58,9 @@ class ArticleController extends AbstractController
             $showAll = false;
         }
         if ($showAll) {
-            $articles = $repository->findAllPaged($page, $limit);
+            $articles = $articleRepository->findAllPaged($page, $limit);
         } else {
-            $articles = $repository->findPublishedPaged($page, $limit);
+            $articles = $articleRepository->findPublishedPaged($page, $limit);
         }
 
         return $this->render(
@@ -143,13 +143,13 @@ class ArticleController extends AbstractController
      * )
      *
      * @param Article                  $article
-     * @param ArticleRepository        $repository
+     * @param ArticleRepository        $articleRepository
      * @param ArticleVersionRepository $versionRepository
      * @return Response
      */
     public function detail(
         Article $article,
-        ArticleRepository $repository,
+        ArticleRepository $articleRepository,
         ArticleVersionRepository $versionRepository
     ): Response {
         $versions = [];
@@ -159,8 +159,8 @@ class ArticleController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        $images    = $repository->findImages($article);
-        $documents = $repository->findDocuments($article);
+        $images    = $articleRepository->findImages($article);
+        $documents = $articleRepository->findDocuments($article);
 
         return $this->render(
             'article/detail.html.twig',

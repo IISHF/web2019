@@ -24,6 +24,6 @@ class UpdateDocumentHandler extends DocumentCommandHandler
         $document->setTitle($command->getTitle())
                  ->setSlug($this->findSuitableDocumentSlug($command->getTitle(), $document->getId()))
                  ->setTags($command->getTags());
-        $this->repository->save($document);
+        $this->documentRepository->save($document);
     }
 }

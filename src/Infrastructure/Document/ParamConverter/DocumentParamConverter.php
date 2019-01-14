@@ -25,14 +25,14 @@ class DocumentParamConverter extends LoaderParamConverter
     /**
      * @var DocumentRepository
      */
-    private $repository;
+    private $documentRepository;
 
     /**
-     * @param DocumentRepository $repository
+     * @param DocumentRepository $documentRepository
      */
-    public function __construct(DocumentRepository $repository)
+    public function __construct(DocumentRepository $documentRepository)
     {
-        $this->repository = $repository;
+        $this->documentRepository = $documentRepository;
     }
 
     /**
@@ -50,14 +50,14 @@ class DocumentParamConverter extends LoaderParamConverter
     {
         if ($configuration->getOptions()['with_versions'] ?? false) {
             if (Uuid::isValid($value)) {
-                return $this->repository->findByIdWithVersions($value);
+                return $this->documentRepository->findByIdWithVersions($value);
             }
-            return $this->repository->findBySlugWithVersions($value);
+            return $this->documentRepository->findBySlugWithVersions($value);
         }
 
         if (Uuid::isValid($value)) {
-            return $this->repository->findById($value);
+            return $this->documentRepository->findById($value);
         }
-        return $this->repository->findBySlug($value);
+        return $this->documentRepository->findBySlug($value);
     }
 }

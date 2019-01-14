@@ -24,14 +24,14 @@ class UserParamConverter extends LoaderParamConverter
     /**
      * @var UserRepository
      */
-    private $repository;
+    private $userRepository;
 
     /**
-     * @param UserRepository $repository
+     * @param UserRepository $userRepository
      */
-    public function __construct(UserRepository $repository)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->repository = $repository;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -47,6 +47,6 @@ class UserParamConverter extends LoaderParamConverter
      */
     protected function loadObject($value, Request $request, ParamConverter $configuration): ?object
     {
-        return $this->repository->findById($value);
+        return $this->userRepository->findById($value);
     }
 }

@@ -27,14 +27,14 @@ class UniqueNationalGoverningBodyValidator extends ConstraintValidator
     /**
      * @var NationalGoverningBodyRepository
      */
-    private $repository;
+    private $ngbRepository;
 
     /**
-     * @param NationalGoverningBodyRepository $repository
+     * @param NationalGoverningBodyRepository $ngbRepository
      */
-    public function __construct(NationalGoverningBodyRepository $repository)
+    public function __construct(NationalGoverningBodyRepository $ngbRepository)
     {
-        $this->repository = $repository;
+        $this->ngbRepository = $ngbRepository;
     }
 
     /**
@@ -54,28 +54,28 @@ class UniqueNationalGoverningBodyValidator extends ConstraintValidator
 
         $this->addViolationIf(
             $value,
-            $this->repository->findByName($value->getName()),
+            $this->ngbRepository->findByName($value->getName()),
             'The name {{ value }} is already used.',
             $value->getName(),
             'name'
         );
         $this->addViolationIf(
             $value,
-            $this->repository->findByAcronym($value->getAcronym()),
+            $this->ngbRepository->findByAcronym($value->getAcronym()),
             'The acronym {{ value }} is already used.',
             $value->getAcronym(),
             'acronym'
         );
         $this->addViolationIf(
             $value,
-            $this->repository->findByIocCode($value->getIocCode()),
+            $this->ngbRepository->findByIocCode($value->getIocCode()),
             'The IOC code {{ value }} is already used.',
             $value->getIocCode(),
             'iocCode'
         );
         $this->addViolationIf(
             $value,
-            $this->repository->findByEmail($value->getEmail()),
+            $this->ngbRepository->findByEmail($value->getEmail()),
             'The email {{ value }} is already used.',
             $value->getEmail(),
             'email'

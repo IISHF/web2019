@@ -28,14 +28,14 @@ class UniqueDocumentVersionValidator extends ConstraintValidator
     /**
      * @var DocumentRepository
      */
-    private $repository;
+    private $documentRepository;
 
     /**
-     * @param DocumentRepository $repository
+     * @param DocumentRepository $documentRepository
      */
-    public function __construct(DocumentRepository $repository)
+    public function __construct(DocumentRepository $documentRepository)
     {
-        $this->repository = $repository;
+        $this->documentRepository = $documentRepository;
     }
 
     /**
@@ -55,7 +55,7 @@ class UniqueDocumentVersionValidator extends ConstraintValidator
 
         $object = $this->context->getObject();
         if ($object instanceof CreateDocument) {
-            if ($tryVersion = $this->repository->findVersion($object->getId(), $value)) {
+            if ($tryVersion = $this->documentRepository->findVersion($object->getId(), $value)) {
                 $this->context->buildViolation($constraint->message)
                               ->setParameter('{{ value }}', $value)
                               ->setParameter('{{ document }}', $tryVersion->getDocument()->getTitle())
@@ -64,7 +64,7 @@ class UniqueDocumentVersionValidator extends ConstraintValidator
             return;
         }
         if ($object instanceof CreateDocumentVersion) {
-            if ($tryVersion = $this->repository->findVersion($object->getDocumentId(), $value)) {
+            if ($tryVersion = $this->documentRepository->findVersion($object->getDocumentId(), $value)) {
                 $this->context->buildViolation($constraint->message)
                               ->setParameter('{{ value }}', $value)
                               ->setParameter('{{ document }}', $tryVersion->getDocument()->getTitle())
@@ -73,11 +73,11 @@ class UniqueDocumentVersionValidator extends ConstraintValidator
             return;
         }
         if ($object instanceof UpdateDocumentVersion) {
-            $version = $this->repository->findVersionById($object->getId());
+            $version = $this->documentRepository->findVersionById($object->getId());
             if (!$version) {
                 return;
             }
-            $tryVersion = $this->repository->findVersion($version->getDocument()->getId(), $value);
+            $tryVersion = $this->documentRepository->findVersion($version->getDocument()->getId(), $value);
             if ($tryVersion && $version->getId() !== $tryVersion->getId()) {
                 $this->context->buildViolation($constraint->message)
                               ->setParameter('{{ value }}', $value)

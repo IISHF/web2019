@@ -25,12 +25,12 @@ abstract class WorkflowCommandHandler extends ArticleCommandHandler
     private $workflowRegistry;
 
     /**
-     * @param ArticleRepository $repository
+     * @param ArticleRepository $articleRepository
      * @param Registry          $workflowRegistry
      */
-    public function __construct(ArticleRepository $repository, Registry $workflowRegistry)
+    public function __construct(ArticleRepository $articleRepository, Registry $workflowRegistry)
     {
-        parent::__construct($repository);
+        parent::__construct($articleRepository);
         $this->workflowRegistry = $workflowRegistry;
     }
 

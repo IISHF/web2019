@@ -22,6 +22,6 @@ class SetPasswordHandler extends UserPasswordCommandHandler
     {
         $user = $this->getUserByEmail($command->getEmail());
         $user->changePassword($this->encodePassword($command->getPassword()));
-        $this->repository->save($user);
+        $this->userRepository->save($user);
     }
 }

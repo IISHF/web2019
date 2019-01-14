@@ -25,14 +25,14 @@ class UniqueDocumentTitleValidator extends ConstraintValidator
     /**
      * @var DocumentRepository
      */
-    private $repository;
+    private $documentRepository;
 
     /**
-     * @param DocumentRepository $repository
+     * @param DocumentRepository $documentRepository
      */
-    public function __construct(DocumentRepository $repository)
+    public function __construct(DocumentRepository $documentRepository)
     {
-        $this->repository = $repository;
+        $this->documentRepository = $documentRepository;
     }
 
     /**
@@ -50,7 +50,7 @@ class UniqueDocumentTitleValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, 'string');
         }
 
-        $tryDocument = $this->repository->findByTitle($value);
+        $tryDocument = $this->documentRepository->findByTitle($value);
         if (!$tryDocument) {
             return;
         }

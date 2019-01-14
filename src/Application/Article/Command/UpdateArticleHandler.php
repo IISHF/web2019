@@ -25,12 +25,12 @@ class UpdateArticleHandler extends ArticleCommandHandler
     private $fileRepository;
 
     /**
-     * @param ArticleRepository $repository
+     * @param ArticleRepository $articleRepository
      * @param FileRepository    $fileRepository
      */
-    public function __construct(ArticleRepository $repository, FileRepository $fileRepository)
+    public function __construct(ArticleRepository $articleRepository, FileRepository $fileRepository)
     {
-        parent::__construct($repository);
+        parent::__construct($articleRepository);
         $this->fileRepository = $fileRepository;
     }
 
@@ -74,6 +74,6 @@ class UpdateArticleHandler extends ArticleCommandHandler
             $article->setPublishedAt($publishedAt);
         }
 
-        $this->repository->save($article);
+        $this->articleRepository->save($article);
     }
 }

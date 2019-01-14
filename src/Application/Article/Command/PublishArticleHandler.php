@@ -26,6 +26,6 @@ class PublishArticleHandler extends WorkflowCommandHandler
         } else {
             $article->setPublishedAt($command->getPublishAt());
         }
-        $this->repository->save($article);
+        $this->articleRepository->save($article);
     }
 }

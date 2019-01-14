@@ -20,13 +20,13 @@ class ResetPasswordHandler extends UserPasswordCommandHandler
      */
     public function __invoke(ResetPassword $command): void
     {
-        $user = $this->repository->findByResetPasswordToken($command->getResetPasswordToken());
+        $user = $this->userRepository->findByResetPasswordToken($command->getResetPasswordToken());
         if (!$user) {
             throw new \OutOfBoundsException(
                 'No user found for reset password token ' . $command->getResetPasswordToken()
             );
         }
         $user->changePassword($this->encodePassword($command->getPassword()));
-        $this->repository->save($user);
+        $this->userRepository->save($user);
     }
 }

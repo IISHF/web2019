@@ -21,6 +21,6 @@ class TransitionArticleHandler extends WorkflowCommandHandler
     public function __invoke(TransitionArticle $command): void
     {
         $article = $this->applyTransition($command);
-        $this->repository->save($article);
+        $this->articleRepository->save($article);
     }
 }

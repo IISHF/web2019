@@ -25,14 +25,14 @@ class UniqueEmailValidator extends ConstraintValidator
     /**
      * @var UserRepository
      */
-    private $repository;
+    private $userRepository;
 
     /**
-     * @param UserRepository $repository
+     * @param UserRepository $userRepository
      */
-    public function __construct(UserRepository $repository)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->repository = $repository;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -50,7 +50,7 @@ class UniqueEmailValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, 'string');
         }
 
-        $tryUser = $this->repository->findByEmail($value);
+        $tryUser = $this->userRepository->findByEmail($value);
         if (!$tryUser) {
             return;
         }

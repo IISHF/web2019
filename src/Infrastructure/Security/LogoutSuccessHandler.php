@@ -24,7 +24,7 @@ class LogoutSuccessHandler implements LogoutSuccessHandlerInterface
     /**
      * @var UserRepository
      */
-    private $repository;
+    private $userRepository;
 
     /**
      * @var TokenStorageInterface
@@ -37,18 +37,18 @@ class LogoutSuccessHandler implements LogoutSuccessHandlerInterface
     private $inner;
 
     /**
-     * @param UserRepository                $repository
+     * @param UserRepository                $userRepository
      * @param TokenStorageInterface         $tokenStorage
      * @param LogoutSuccessHandlerInterface $inner
      */
     public function __construct(
-        UserRepository $repository,
+        UserRepository $userRepository,
         TokenStorageInterface $tokenStorage,
         LogoutSuccessHandlerInterface $inner
     ) {
-        $this->repository   = $repository;
-        $this->tokenStorage = $tokenStorage;
-        $this->inner        = $inner;
+        $this->userRepository = $userRepository;
+        $this->tokenStorage   = $tokenStorage;
+        $this->inner          = $inner;
     }
 
     /**
@@ -57,9 +57,9 @@ class LogoutSuccessHandler implements LogoutSuccessHandlerInterface
     public function onLogoutSuccess(Request $request): Response
     {
         $token = $this->tokenStorage->getToken();
-        if ($token && ($user = $this->repository->findByEmail($token->getUsername())) !== null) {
+        if ($token && ($user = $this->userRepository->findByEmail($token->getUsername())) !== null) {
             $user->registerLogout();
-            $this->repository->save($user);
+            $this->userRepository->save($user);
         }
         return $this->inner->onLogoutSuccess($request);
     }

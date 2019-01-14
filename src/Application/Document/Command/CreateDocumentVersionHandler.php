@@ -29,6 +29,6 @@ class CreateDocumentVersionHandler extends DocumentCommandHandler
             $command->getValidFrom(),
             $command->getValidUntil()
         );
-        $this->repository->saveVersion($version);
+        $this->documentRepository->saveVersion($version);
     }
 }

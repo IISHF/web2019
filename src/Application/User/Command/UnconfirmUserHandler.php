@@ -22,12 +22,12 @@ class UnconfirmUserHandler extends UserCommandHandler
     use EventEmitter;
 
     /**
-     * @param UserRepository $repository
+     * @param UserRepository $userRepository
      * @param RecordsEvents  $eventRecorder
      */
-    public function __construct(UserRepository $repository, RecordsEvents $eventRecorder)
+    public function __construct(UserRepository $userRepository, RecordsEvents $eventRecorder)
     {
-        parent::__construct($repository);
+        parent::__construct($userRepository);
         $this->eventRecorder = $eventRecorder;
     }
 
@@ -38,7 +38,7 @@ class UnconfirmUserHandler extends UserCommandHandler
     {
         $user = $this->getUserByEmail($command->getEmail());
         $user->markUserAsUnconfirmed($command->getConfirmToken());
-        $this->repository->save($user);
+        $this->userRepository->save($user);
         $this->emitEvent(UserUnconfirmed::unconfirmed($user, $command->getConfirmToken()));
     }
 }

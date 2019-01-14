@@ -37,6 +37,6 @@ class CreateNationalGoverningBodyHandler extends NationalGoverningBodyCommandHan
             $command->getInstagramProfile()
         );
 
-        $this->repository->save($ngb);
+        $this->ngbRepository->save($ngb);
     }
 }

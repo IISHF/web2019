@@ -21,6 +21,6 @@ class DeleteDocumentVersionHandler extends DocumentCommandHandler
     public function __invoke(DeleteDocumentVersion $command): void
     {
         $version = $this->getDocumentVersion($command->getId());
-        $this->repository->deleteVersion($version);
+        $this->documentRepository->deleteVersion($version);
     }
 }

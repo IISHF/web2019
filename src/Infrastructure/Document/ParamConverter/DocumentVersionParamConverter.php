@@ -27,14 +27,14 @@ class DocumentVersionParamConverter extends LoaderParamConverter
     /**
      * @var DocumentRepository
      */
-    private $repository;
+    private $documentRepository;
 
     /**
-     * @param DocumentRepository $repository
+     * @param DocumentRepository $documentRepository
      */
-    public function __construct(DocumentRepository $repository)
+    public function __construct(DocumentRepository $documentRepository)
     {
-        $this->repository = $repository;
+        $this->documentRepository = $documentRepository;
     }
 
     /**
@@ -51,7 +51,7 @@ class DocumentVersionParamConverter extends LoaderParamConverter
     protected function loadObject($value, Request $request, ParamConverter $configuration): ?object
     {
         if (Uuid::isValid($value)) {
-            return $this->repository->findVersionById($value);
+            return $this->documentRepository->findVersionById($value);
         }
 
         $documentParam = $configuration->getOptions()['document'] ?? 'document';
@@ -81,7 +81,7 @@ class DocumentVersionParamConverter extends LoaderParamConverter
             );
         }
 
-        $version = $this->repository->findVersionBySlug($documentValue, $value);
+        $version = $this->documentRepository->findVersionBySlug($documentValue, $value);
         if (!$version && !$configuration->isOptional()) {
             throw new NotFoundHttpException(
                 sprintf(

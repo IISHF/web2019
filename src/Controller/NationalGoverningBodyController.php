@@ -36,15 +36,15 @@ class NationalGoverningBodyController extends AbstractController
     /**
      * @Route("", methods={"GET"})
      *
-     * @param NationalGoverningBodyRepository $repository
+     * @param NationalGoverningBodyRepository $ngbRepository
      * @return Response
      */
-    public function list(NationalGoverningBodyRepository $repository): Response
+    public function list(NationalGoverningBodyRepository $ngbRepository): Response
     {
         return $this->render(
             'national_governing_body/list.html.twig',
             [
-                'ngbs' => $repository->findAll(),
+                'ngbs' => $ngbRepository->findAll(),
             ]
         );
     }
