@@ -136,6 +136,7 @@ class EventVenue
      */
     public function setRinkInfo(?string $rinkInfo): self
     {
+        Assert::nullOrLengthBetween($rinkInfo, 1, 65535);
         $this->rinkInfo = $rinkInfo;
         return $this;
     }
