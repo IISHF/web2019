@@ -70,7 +70,7 @@ class Address
 
     /**
      * @param DomainAddress $address
-     * @return Address
+     * @return self
      */
     public static function update(DomainAddress $address): self
     {
