@@ -112,10 +112,10 @@ trait TournamentProperties
     }
 
     /**
-     * @param EventVenue $venue
+     * @param EventVenue|null $venue
      * @return $this
      */
-    public function setVenue(EventVenue $venue): self
+    public function setVenue(?EventVenue $venue): self
     {
         $this->venue = $venue;
         return $this;
