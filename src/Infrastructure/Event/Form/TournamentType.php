@@ -3,23 +3,21 @@
  * Created by PhpStorm.
  * User: stefan
  * Date: 2019-01-14
- * Time: 17:31
+ * Time: 19:42
  */
 
 namespace App\Infrastructure\Event\Form;
 
-use App\Infrastructure\Common\Form\ContactPersonType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Class TitleEventApplicationType
+ * Class TournamentType
  *
  * @package App\Infrastructure\Event\Form
  */
-class TitleEventApplicationType extends AbstractType
+class TournamentType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -28,26 +26,18 @@ class TitleEventApplicationType extends AbstractType
     {
         $builder
             ->add(
-                'applicantClub',
-                TextType::class,
+                'host',
+                EventHostType::class,
                 [
-                    'label'    => 'Applying Club',
-                    'required' => true,
-                ]
-            )
-            ->add(
-                'contact',
-                ContactPersonType::class,
-                [
-                    'label'        => 'Contact',
+                    'label'        => 'Host',
                     'by_reference' => true,
                 ]
             )
             ->add(
-                'proposedStartDate',
+                'startDate',
                 DateType::class,
                 [
-                    'label'             => 'Proposed Start Date',
+                    'label'             => 'Start Date',
                     'required'          => true,
                     'input'             => 'datetime_immutable',
                     'format'            => 'MMMM d, yyyy',
@@ -55,10 +45,10 @@ class TitleEventApplicationType extends AbstractType
                 ]
             )
             ->add(
-                'proposedEndDate',
+                'endDate',
                 DateType::class,
                 [
-                    'label'             => 'Proposed End Date',
+                    'label'             => 'End Date',
                     'required'          => true,
                     'input'             => 'datetime_immutable',
                     'format'            => 'MMMM d, yyyy',
@@ -73,5 +63,13 @@ class TitleEventApplicationType extends AbstractType
                     'required' => true,
                 ]
             );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent(): ?string
+    {
+        return EventType::class;
     }
 }

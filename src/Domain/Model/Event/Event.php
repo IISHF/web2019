@@ -50,7 +50,6 @@ abstract class Event
 
     private static $availableAgeGroups = [
         self::AGE_GROUP_VETERANS,
-        self::AGE_GROUP_VETERANS,
         self::AGE_GROUP_MEN,
         self::AGE_GROUP_WOMEN,
         self::AGE_GROUP_U19,
