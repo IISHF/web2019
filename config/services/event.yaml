@@ -1,0 +1,35 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+
+    App\Domain\Model\Event\EventRepository:
+    App\Domain\Model\Event\EventVenueRepository:
+    App\Domain\Model\Event\ParticipatingTeamRepository:
+    App\Domain\Model\Event\TitleEventApplicationRepository:
+
+    App\Application\Event\Command\CreateEuropeanChampionshipHandler:
+    App\Application\Event\Command\UpdateEuropeanChampionshipHandler:
+    App\Application\Event\Command\CreateEuropeanCupHandler:
+    App\Application\Event\Command\UpdateEuropeanCupHandler:
+    App\Application\Event\Command\CreateTournamentHandler:
+    App\Application\Event\Command\UpdateTournamentHandler:
+    App\Application\Event\Command\DeleteEventHandler:
+
+    App\Application\Event\Command\TransitionEventHandler:
+    App\Application\Event\Command\AwardTitleEventHandler:
+    App\Application\Event\Command\SanctionEventHandler:
+
+    App\Application\Event\Command\CreateEventVenueHandler:
+    App\Application\Event\Command\UpdateEventVenueHandler:
+    App\Application\Event\Command\DeleteEventVenueHandler:
+
+    App\Application\Event\Command\AddParticipatingTeamHandler:
+    App\Application\Event\Command\UpdateParticipatingTeamHandler:
+    App\Application\Event\Command\RemoveParticipatingTeamHandler:
+
+    App\Application\Event\Command\ApplyForTitleEventHandler:
+    App\Application\Event\Command\UpdateTitleEventApplicationHandler:
+    App\Application\Event\Command\WithdrawTitleEventApplicationHandler:
