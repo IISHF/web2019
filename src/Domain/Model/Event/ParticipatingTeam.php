@@ -18,7 +18,7 @@ use Webmozart\Assert\Assert;
  *
  * @package App\Domain\Model\Event
  *
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="ParticipatingTeamRepository")
  * @ORM\Table(name="event_teams")
  */
 class ParticipatingTeam

@@ -39,4 +39,24 @@ class TitleEventApplicationRepository extends ServiceEntityRepository
                     ->getQuery()
                     ->getResult();
     }
+
+    /**
+     * @param TitleEventApplication $application
+     * @return TitleEventApplication
+     */
+    public function save(TitleEventApplication $application): TitleEventApplication
+    {
+        $this->_em->persist($application);
+        $this->_em->flush();
+        return $application;
+    }
+
+    /**
+     * @param TitleEventApplication $application
+     */
+    public function delete(TitleEventApplication $application): void
+    {
+        $this->_em->remove($application);
+        $this->_em->flush();
+    }
 }
