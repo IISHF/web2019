@@ -67,7 +67,7 @@ class TitleEventApplicationType extends AbstractType
             )
             ->add(
                 'venue',
-                VenueType::class,
+                VenueChoiceType::class,
                 [
                     'label'    => 'Venue',
                     'required' => true,

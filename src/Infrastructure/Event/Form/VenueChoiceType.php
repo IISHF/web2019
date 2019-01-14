@@ -16,11 +16,11 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class VenueType
+ * Class VenueChoiceType
  *
  * @package App\Infrastructure\Event\Form
  */
-class VenueType extends AbstractType
+class VenueChoiceType extends AbstractType
 {
     /**
      * @var EventVenueRepository

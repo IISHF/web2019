@@ -35,4 +35,4 @@ services:
     App\Application\Event\Command\WithdrawTitleEventApplicationHandler:
 
     App\Infrastructure\Event\Form\EventTagType:
-    App\Infrastructure\Event\Form\VenueType:
+    App\Infrastructure\Event\Form\VenueChoiceType:
