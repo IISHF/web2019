@@ -8,6 +8,7 @@
 
 namespace App\Application\Common;
 
+use App\Domain\Model\Common\Address as DomainAddress;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -66,6 +67,20 @@ class Address
      * @var string
      */
     private $country = '';
+
+    /**
+     * @param DomainAddress $address
+     * @return Address
+     */
+    public static function update(DomainAddress $address): self
+    {
+        return (new self())->setAddress1($address->getAddress1())
+                           ->setAddress2($address->getAddress2())
+                           ->setState($address->getState())
+                           ->setPostalCode($address->getPostalCode())
+                           ->setCity($address->getCity())
+                           ->setCountry($address->getCountry());
+    }
 
     /**
      * @return string|null
