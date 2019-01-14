@@ -49,6 +49,14 @@ class ParticipatingTeam
     private $name;
 
     /**
+     * @ORM\OneToOne(targetEntity="ParticipatingTeamContact")
+     * @ORM\JoinColumn(name="contact_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+     *
+     * @var ParticipatingTeamContact|null
+     */
+    private $contact;
+
+    /**
      * @param string $id
      * @param Event  $event
      * @param string $name
@@ -97,6 +105,24 @@ class ParticipatingTeam
     {
         Assert::lengthBetween($name, 1, 64);
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return ParticipatingTeamContact|null
+     */
+    public function getContact(): ?ParticipatingTeamContact
+    {
+        return $this->contact;
+    }
+
+    /**
+     * @param ParticipatingTeamContact|null $contact
+     * @return $this
+     */
+    public function setHost(?ParticipatingTeamContact $contact): self
+    {
+        $this->contact = $contact;
         return $this;
     }
 }

@@ -263,7 +263,6 @@ abstract class Event
     public function setHost(?EventHost $host): self
     {
         $this->host = $host;
-        $this->initUpdateTracking();
         return $this;
     }
 
@@ -360,7 +359,6 @@ abstract class Event
     public function setVenue(?EventVenue $venue): self
     {
         $this->venue = $venue;
-        $this->initUpdateTracking();
         return $this;
     }
 
