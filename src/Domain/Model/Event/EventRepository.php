@@ -8,6 +8,8 @@
 
 namespace App\Domain\Model\Event;
 
+use App\Domain\Model\Common\TagProvider;
+use App\Utils\Tags;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -16,7 +18,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  *
  * @package App\Domain\Model\Event
  */
-class EventRepository extends ServiceEntityRepository
+class EventRepository extends ServiceEntityRepository implements TagProvider
 {
     /**
      * @param ManagerRegistry $managerRegistry
@@ -94,5 +96,18 @@ class EventRepository extends ServiceEntityRepository
     {
         $this->_em->remove($event);
         $this->_em->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findAvailableTags(): array
+    {
+        return Tags::createTagList(
+            $this->createQueryBuilder('e')
+                 ->select('e.tags')
+                 ->getQuery()
+                 ->getArrayResult()
+        );
     }
 }

@@ -38,6 +38,17 @@ class EventVenueRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return iterable|EventVenue[]
+     */
+    public function findAll(): iterable
+    {
+        return $this->createQueryBuilder('v')
+                    ->orderBy('v.name', 'ASC')
+                    ->getQuery()
+                    ->getResult();
+    }
+
+    /**
      * @param EventVenue $venue
      * @return EventVenue
      */
