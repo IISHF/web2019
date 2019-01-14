@@ -34,6 +34,13 @@ services:
     App\Application\Event\Command\UpdateTitleEventApplicationHandler:
     App\Application\Event\Command\WithdrawTitleEventApplicationHandler:
 
+    App\Infrastructure\Event\ParamConverter\EventParamConverter:
+        tags:
+            - { name: request.param_converter, converter: app.event }
+    App\Infrastructure\Event\ParamConverter\EventVenueParamConverter:
+        tags:
+            - { name: request.param_converter, converter: app.event_venu }
+
     App\Infrastructure\Event\Form\EventTagType:
     App\Infrastructure\Event\Form\TitleEventApplicationChoiceType:
     App\Infrastructure\Event\Form\VenueChoiceType:
