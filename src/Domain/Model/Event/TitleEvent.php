@@ -8,6 +8,7 @@
 
 namespace App\Domain\Model\Event;
 
+use App\Domain\Model\Common\ContactPerson;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -138,7 +139,7 @@ abstract class TitleEvent extends Event
     /**
      * @param string             $id
      * @param string             $applicantClub
-     * @param EventContact       $contact
+     * @param ContactPerson      $contact
      * @param \DateTimeImmutable $proposedStartDate
      * @param \DateTimeImmutable $proposedEndDate
      * @param EventVenue         $venue
@@ -147,7 +148,7 @@ abstract class TitleEvent extends Event
     public function applyForEvent(
         string $id,
         string $applicantClub,
-        EventContact $contact,
+        ContactPerson $contact,
         \DateTimeImmutable $proposedStartDate,
         \DateTimeImmutable $proposedEndDate,
         EventVenue $venue

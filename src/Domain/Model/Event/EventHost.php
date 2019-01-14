@@ -9,6 +9,7 @@
 namespace App\Domain\Model\Event;
 
 use App\Domain\Model\Common\CreateTracking;
+use App\Domain\Model\Common\ContactPerson;
 use App\Domain\Model\Common\UpdateTracking;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
@@ -22,7 +23,7 @@ use Webmozart\Assert\Assert;
  * @ORM\Entity()
  * @ORM\Table(name="event_hosts")
  */
-class EventHost extends EventContact
+class EventHost extends ContactPerson
 {
     use CreateTracking, UpdateTracking;
 

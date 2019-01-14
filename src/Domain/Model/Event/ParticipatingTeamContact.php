@@ -8,6 +8,7 @@
 
 namespace App\Domain\Model\Event;
 
+use App\Domain\Model\Common\ContactPerson;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\UpdateTracking;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,7 +23,7 @@ use Webmozart\Assert\Assert;
  * @ORM\Entity()
  * @ORM\Table(name="event_team_contacts")
  */
-class ParticipatingTeamContact extends EventContact
+class ParticipatingTeamContact extends ContactPerson
 {
     use CreateTracking, UpdateTracking;
 

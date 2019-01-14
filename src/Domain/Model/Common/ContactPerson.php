@@ -6,23 +6,21 @@
  * Time: 10:48
  */
 
-namespace App\Domain\Model\Event;
+namespace App\Domain\Model\Common;
 
-use App\Domain\Model\Common\HasEmail;
-use App\Domain\Model\Common\MayHavePhoneNumber;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use Webmozart\Assert\Assert;
 
 /**
- * Class EventContact
+ * Class ContactPerson
  *
- * @package App\Domain\Model\Event
+ * @package App\Domain\Model\Common
  *
  * @ORM\MappedSuperclass()
  * @ORM\Embeddable()
  */
-class EventContact
+class ContactPerson
 {
     use HasEmail, MayHavePhoneNumber;
 

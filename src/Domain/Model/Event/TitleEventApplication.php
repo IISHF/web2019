@@ -8,6 +8,7 @@
 
 namespace App\Domain\Model\Event;
 
+use App\Domain\Model\Common\ContactPerson;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\UpdateTracking;
 use Doctrine\ORM\Mapping as ORM;
@@ -49,9 +50,9 @@ class TitleEventApplication
     private $applicantClub;
 
     /**
-     * @ORM\Embedded(class="EventContact", columnPrefix="contact_")
+     * @ORM\Embedded(class="ContactPerson", columnPrefix="contact_")
      *
-     * @var EventContact
+     * @var ContactPerson
      */
     private $contact;
 
@@ -81,7 +82,7 @@ class TitleEventApplication
      * @param string             $id
      * @param TitleEvent         $titleEvent
      * @param string             $applicantClub
-     * @param EventContact       $contact
+     * @param ContactPerson      $contact
      * @param \DateTimeImmutable $proposedStartDate
      * @param \DateTimeImmutable $proposedEndDate
      * @param EventVenue         $venue
@@ -90,7 +91,7 @@ class TitleEventApplication
         string $id,
         TitleEvent $titleEvent,
         string $applicantClub,
-        EventContact $contact,
+        ContactPerson $contact,
         \DateTimeImmutable $proposedStartDate,
         \DateTimeImmutable $proposedEndDate,
         EventVenue $venue
@@ -144,18 +145,18 @@ class TitleEventApplication
     }
 
     /**
-     * @return EventContact
+     * @return ContactPerson
      */
-    public function getContact(): EventContact
+    public function getContact(): ContactPerson
     {
         return $this->contact;
     }
 
     /**
-     * @param EventContact $contact
+     * @param ContactPerson $contact
      * @return $this
      */
-    public function setContact(EventContact $contact): self
+    public function setContact(ContactPerson $contact): self
     {
         $this->contact = $contact;
         return $this;
