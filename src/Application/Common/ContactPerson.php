@@ -8,6 +8,7 @@
 
 namespace App\Application\Common;
 
+use App\Domain\Model\Common\ContactPerson as DomainContactPerson;
 use libphonenumber\PhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -47,16 +48,14 @@ class ContactPerson
     private $phoneNumber;
 
     /**
-     * @param string           $name
-     * @param string           $email
-     * @param PhoneNumber|null $phoneNumber
+     * @param DomainContactPerson $contact
      * @return self
      */
-    public static function update(string $name, string $email, ?PhoneNumber $phoneNumber): self
+    public static function update(DomainContactPerson $contact): self
     {
-        return (new self())->setName($name)
-                           ->setEmail($email)
-                           ->setPhoneNumber($phoneNumber);
+        return (new self())->setName($contact->getName())
+                           ->setEmail($contact->getEmail())
+                           ->setPhoneNumber($contact->getPhoneNumber());
     }
 
     /**

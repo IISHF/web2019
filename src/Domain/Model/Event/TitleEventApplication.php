@@ -50,7 +50,7 @@ class TitleEventApplication
     private $applicantClub;
 
     /**
-     * @ORM\Embedded(class="ContactPerson", columnPrefix="contact_")
+     * @ORM\Embedded(class="App\Domain\Model\Common\ContactPerson", columnPrefix="contact_")
      *
      * @var ContactPerson
      */

@@ -32,7 +32,7 @@ class UpdateTitleEventApplication
         return new self(
             $application->getId(),
             $application->getApplicantClub(),
-            ContactPerson::update($contact->getName(), $contact->getEmail(), $contact->getPhoneNumber()),
+            ContactPerson::update($contact),
             $application->getProposedStartDate(),
             $application->getProposedEndDate(),
             $application->getVenue()

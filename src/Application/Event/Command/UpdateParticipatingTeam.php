@@ -31,9 +31,7 @@ class UpdateParticipatingTeam
         return new self(
             $team->getId(),
             $team->getName(),
-            $contact
-                ? ContactPerson::update($contact->getName(), $contact->getEmail(), $contact->getPhoneNumber())
-                : new ContactPerson()
+            $contact ? ContactPerson::update($contact) : new ContactPerson()
         );
     }
 
