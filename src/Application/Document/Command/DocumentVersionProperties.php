@@ -29,7 +29,7 @@ trait DocumentVersionProperties
     private $version = '';
 
     /**
-     * @Assert\Type("\DateTimeImmutable")
+     * @Assert\Type("DateTimeImmutable")
      * // disabled @see https://github.com/symfony/symfony/issues/29831
      * //Assert\LessThanOrEqual(
      * //     propertyPath="validUntil",
@@ -45,7 +45,7 @@ trait DocumentVersionProperties
     private $validFrom;
 
     /**
-     * @Assert\Type("\DateTimeImmutable")
+     * @Assert\Type("DateTimeImmutable")
      * // disabled @see https://github.com/symfony/symfony/issues/29831
      * //Assert\GreaterThanOrEqual(
      * //     propertyPath="validFrom",

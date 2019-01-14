@@ -29,7 +29,7 @@ class PublishArticle extends ArticleWorkflowCommand
     private $publishNow = true;
 
     /**
-     * @Assert\Type("\DateTimeImmutable")
+     * @Assert\Type("DateTimeImmutable")
      * @Assert\NotNull()
      *
      * @var \DateTimeImmutable

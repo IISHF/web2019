@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 trait ArticlePublishedDate
 {
     /**
-     * @Assert\Type("\DateTimeImmutable")
+     * @Assert\Type("DateTimeImmutable")
      *
      * @var \DateTimeImmutable|null
      */
