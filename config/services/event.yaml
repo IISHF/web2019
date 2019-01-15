@@ -34,6 +34,11 @@ services:
     App\Application\Event\Command\UpdateTitleEventApplicationHandler:
     App\Application\Event\Command\WithdrawTitleEventApplicationHandler:
 
+    App\Infrastructure\Event\Security\Voter\EventVoter:
+    App\Infrastructure\Event\Security\Voter\TitleEventVoter:
+    App\Infrastructure\Event\Security\Voter\TournamentVoter:
+    App\Infrastructure\Event\Security\Voter\EventVenueVoter:
+
     App\Infrastructure\Event\ParamConverter\EventParamConverter:
         tags:
             - { name: request.param_converter, converter: app.event }

@@ -131,7 +131,7 @@ framework:
                         name: Sanctioned
             transitions:
                 award:
-                    guard: 'is_granted("TITLE_EVENT_AWARD", subject)'
+                    guard: 'is_granted("EVENT_AWARD", subject)'
                     from: planned
                     to: awarded
                     metadata:
@@ -142,7 +142,7 @@ framework:
                         form_type: App\Infrastructure\Event\Form\AwardTitleEventType
                         success_message: The title event has been awarded.
                 sanction:
-                    guard: 'is_granted("TITLE_EVENT_SANCTION", subject)'
+                    guard: 'is_granted("EVENT_SANCTION", subject)'
                     from: awarded
                     to: sanctioned
                     metadata:
@@ -153,7 +153,7 @@ framework:
                         form_type: App\Infrastructure\Event\Form\SanctionEventType
                         success_message: The title event has been sanctioned.
                 unsanction:
-                    guard: 'is_granted("TITLE_EVENT_SANCTION", subject)'
+                    guard: 'is_granted("EVENT_SANCTION", subject)'
                     from: sanctioned
                     to: planned
                     metadata:
