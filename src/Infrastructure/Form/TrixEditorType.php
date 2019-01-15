@@ -53,13 +53,12 @@ class TrixEditorType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
-        if (!$options['enable_upload']) {
-            return;
+        if ($options['enable_upload'] !== null) {
+            $view->vars['enable_upload'] = $this->urlGenerator->generate($options['enable_upload']);
+        } else {
+            $view->vars['enable_upload'] = null;
         }
-
-        $view->vars['enable_upload'] = $this->urlGenerator->generate($options['enable_upload']);
     }
-
 
     /**
      * {@inheritdoc}

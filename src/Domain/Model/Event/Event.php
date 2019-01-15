@@ -24,6 +24,9 @@ use Webmozart\Assert\Assert;
  *      uniqueConstraints={
  *          @ORM\UniqueConstraint(name="uniq_event_name", columns={"season", "name"}),
  *          @ORM\UniqueConstraint(name="uniq_event_slug", columns={"season", "slug"})
+ *      },
+ *      indexes={
+ *          @ORM\Index(name="idx_event_season", columns={"season", "level"})
  *      }
  * )
  * @ORM\InheritanceType("SINGLE_TABLE")
@@ -315,6 +318,14 @@ abstract class Event
     }
 
     /**
+     * @return bool
+     */
+    public function hasHost(): bool
+    {
+        return $this->host !== null;
+    }
+
+    /**
      * @return string|null
      */
     public function getHostingClub(): ?string
@@ -408,6 +419,14 @@ abstract class Event
     {
         $this->venue = $venue;
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasVenue(): bool
+    {
+        return $this->venue !== null;
     }
 
     /**

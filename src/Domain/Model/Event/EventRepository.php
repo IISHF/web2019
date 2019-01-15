@@ -29,23 +29,17 @@ class EventRepository extends ServiceEntityRepository implements TagProvider
     }
 
     /**
-     * @param string      $id
-     * @param string|null $type #Entity
+     * @param string $id
      * @return Event|null
      */
-    public function findById(string $id, ?string $type = null): ?Event
+    public function findById(string $id): ?Event
     {
-        $queryBuilder = $this->createQueryBuilderWithAssociations()
-                             ->where('e.id = :id')
-                             ->setParameter('id', $id);
-        if ($type !== null) {
-            $queryBuilder->andWhere('e INSTANCE OF :type')
-                         ->setParameter('type', $this->_em->getClassMetadata($type));
-        }
-
         /** @var Event|null $event */
-        $event = $queryBuilder->getQuery()
-                              ->getOneOrNullResult();
+        $event = $this->createQueryBuilderWithAssociations()
+                      ->where('e.id = :id')
+                      ->setParameter('id', $id)
+                      ->getQuery()
+                      ->getOneOrNullResult();
         return $event;
     }
 
@@ -86,6 +80,48 @@ class EventRepository extends ServiceEntityRepository implements TagProvider
     }
 
     /**
+     * @param int $season
+     * @return iterable|EuropeanChampionship[]
+     */
+    public function findEuropeanChampionShipsForSeason(int $season): iterable
+    {
+        return $this->createQueryBuilderWithEventType(EuropeanChampionship::class)
+                    ->andWhere('e.season = :season')
+                    ->setParameter('season', $season)
+                    ->orderBy('e.name', 'ASC')
+                    ->getQuery()
+                    ->getResult();
+    }
+
+    /**
+     * @param int $season
+     * @return iterable|EuropeanChampionship[]
+     */
+    public function findEuropeanCupsForSeason(int $season): iterable
+    {
+        return $this->createQueryBuilderWithEventType(EuropeanCup::class)
+                    ->andWhere('e.season = :season')
+                    ->setParameter('season', $season)
+                    ->orderBy('e.name', 'ASC')
+                    ->getQuery()
+                    ->getResult();
+    }
+
+    /**
+     * @param int $season
+     * @return iterable|EuropeanChampionship[]
+     */
+    public function findTournamentsForSeason(int $season): iterable
+    {
+        return $this->createQueryBuilderWithEventType(Tournament::class)
+                    ->andWhere('e.season = :season')
+                    ->setParameter('season', $season)
+                    ->orderBy('e.name', 'ASC')
+                    ->getQuery()
+                    ->getResult();
+    }
+
+    /**
      * @return \Doctrine\ORM\QueryBuilder
      */
     private function createQueryBuilderWithAssociations(): \Doctrine\ORM\QueryBuilder
@@ -97,12 +133,26 @@ class EventRepository extends ServiceEntityRepository implements TagProvider
     }
 
     /**
+     * @param string $class
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    private function createQueryBuilderWithEventType(string $class): \Doctrine\ORM\QueryBuilder
+    {
+        return $this->createQueryBuilderWithAssociations()
+                    ->where('e INSTANCE OF :type')
+                    ->setParameter('type', $this->_em->getClassMetadata($class));
+    }
+
+    /**
      * @param Event $event
      * @return Event
      */
     public function save(Event $event): Event
     {
         $this->_em->persist($event);
+        if ($host = $event->getHost()) {
+            $this->_em->persist($host);
+        }
         $this->_em->flush();
         return $event;
     }

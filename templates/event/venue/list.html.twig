@@ -1,0 +1,53 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    <h1>Venues</h1>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="btn-group" role="group">
+            <a href="{{ path('app_event_eventvenue_create') }}" class="btn btn-success">Create</a>
+        </div>
+    {% endif %}
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Address</th>
+            <th scope="col">Updated</th>
+            <th scope="col">&#160;</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for venue in venues %}
+            <tr>
+                <td>
+                    {{ venue.name }}
+                </td>
+                <td>
+                    {{ venue.address.address1 }}, {{ venue.address.address2 }},
+                    {{ venue.address.state }},
+                    {{ venue.address.city }} {{ venue.address.postalCode }},
+                    {{ venue.address.countryName }}
+                </td>
+                <td class="text-nowrap">{{ venue.updatedAt|relative_time }}</td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
+
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">No venues found.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if venues.haveToPaginate %}
+        <nav>
+            {{ pagerfanta(venues) }}
+        </nav>
+    {% endif %}
+{% endblock %}

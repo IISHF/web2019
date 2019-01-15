@@ -23,8 +23,10 @@ class ApplyForTitleEventHandler extends TitleEventApplicationCommandHandler
      */
     public function __invoke(ApplyForTitleEvent $command): void
     {
-        /** @var TitleEvent $event */
-        $event       = $this->getEvent($command->getEventId(), TitleEvent::class);
+        $event = $this->getEvent($command->getEventId());
+        if (!$event instanceof TitleEvent) {
+            throw new \InvalidArgumentException('Invalid event - ' . TitleEvent::class . ' required.');
+        }
         $contact     = $command->getContact();
         $application = $event->applyForEvent(
             $command->getId(),

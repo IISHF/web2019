@@ -43,13 +43,11 @@ class VenueChoiceType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class'                => EventVenue::class,
-                'choice_loader'             => function () {
-                    return new CallbackChoiceLoader(
-                        function () {
-                            return $this->venueRepository->findAll();
-                        }
-                    );
-                },
+                'choice_loader'             => new CallbackChoiceLoader(
+                    function () {
+                        return $this->venueRepository->findAll();
+                    }
+                ),
                 'choice_translation_domain' => false,
                 'choice_value'              => 'id',
                 'choice_label'              => 'name',

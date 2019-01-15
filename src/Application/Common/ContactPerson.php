@@ -10,6 +10,7 @@ namespace App\Application\Common;
 
 use App\Domain\Model\Common\ContactPerson as DomainContactPerson;
 use libphonenumber\PhoneNumber;
+use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**

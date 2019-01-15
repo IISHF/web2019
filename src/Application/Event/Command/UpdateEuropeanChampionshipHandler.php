@@ -22,8 +22,10 @@ class UpdateEuropeanChampionshipHandler extends EventCommandHandler
      */
     public function __invoke(UpdateEuropeanChampionship $command): void
     {
-        /** @var EuropeanChampionship $championship */
-        $championship = $this->getEvent($command->getId(), EuropeanChampionship::class);
+        $championship = $this->getEvent($command->getId());
+        if (!$championship instanceof EuropeanChampionship) {
+            throw new \InvalidArgumentException('Invalid event - ' . EuropeanChampionship::class . ' required.');
+        }
         $championship->setName($command->getName())
                      ->setSeason($command->getSeason())
                      ->setAgeGroup($command->getAgeGroup())

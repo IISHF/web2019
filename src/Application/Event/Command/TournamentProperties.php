@@ -56,7 +56,7 @@ trait TournamentProperties
      * @Assert\Type("App\Domain\Model\Event\EventVenue")
      * @Assert\NotNull()
      *
-     * @var EventVenue
+     * @var EventVenue|null
      */
     private $venue;
 
@@ -105,9 +105,9 @@ trait TournamentProperties
     }
 
     /**
-     * @return EventVenue
+     * @return EventVenue|null
      */
-    public function getVenue(): EventVenue
+    public function getVenue(): ?EventVenue
     {
         return $this->venue;
     }

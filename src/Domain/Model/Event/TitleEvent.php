@@ -17,7 +17,7 @@ use Webmozart\Assert\Assert;
  *
  * @package App\Domain\Model\Event
  *
- * @ORM\Entity()
+ * @ORM\MappedSuperclass()
  */
 abstract class TitleEvent extends Event
 {

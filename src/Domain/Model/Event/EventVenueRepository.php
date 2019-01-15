@@ -8,8 +8,10 @@
 
 namespace App\Domain\Model\Event;
 
+use App\Domain\Common\Repository\DoctrinePaging;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Pagerfanta\Pagerfanta;
 
 /**
  * Class EventVenueRepository
@@ -18,6 +20,8 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class EventVenueRepository extends ServiceEntityRepository
 {
+    use DoctrinePaging;
+
     /**
      * @param ManagerRegistry $managerRegistry
      */
@@ -46,6 +50,18 @@ class EventVenueRepository extends ServiceEntityRepository
         /** @var EventVenue|null $venue */
         $venue = $this->findOneBy(['name' => $name]);
         return $venue;
+    }
+
+    /**
+     * @param int $page
+     * @param int $limit
+     * @return iterable|Pagerfanta|EventVenue[]
+     */
+    public function findPaged(int $page = 1, int $limit = 30): iterable
+    {
+        $queryBuilder = $this->createQueryBuilder('v')
+                             ->orderBy('v.name', 'ASC');
+        return $this->createPager($queryBuilder, $page, $limit);
     }
 
     /**

@@ -41,7 +41,7 @@ class TitleEventType extends AbstractType
                 [
                     'label'         => 'Description',
                     'required'      => false,
-                    'enable_upload' => false,
+                    'enable_upload' => null,
                 ]
             );
     }

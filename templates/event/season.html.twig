@@ -1,0 +1,186 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    <h1>Events Season {{ season }}</h1>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="btn-group" role="group">
+            <div class="dropdown">
+                <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">
+                    Create
+                </button>
+                <div class="dropdown-menu">
+                    <a href="{{ path('app_event_event_createchampionship') }}" class="dropdown-item">European
+                        Championship</a>
+                    <a href="{{ path('app_event_event_createcup') }}" class="dropdown-item">European Cup</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="{{ path('app_event_event_createtournament') }}" class="dropdown-item">Tournament</a>
+                </div>
+            </div>
+            <a href="{{ path('app_event_eventvenue_list') }}" class="btn btn-secondary">Venues</a>
+        </div>
+    {% endif %}
+
+    <h2>European Championships</h2>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Status</th>
+            <th scope="col">Name</th>
+            <th scope="col">Age Group</th>
+            <th scope="col">Date</th>
+            <th scope="col">Host</th>
+            <th scope="col">Venue</th>
+            <th scope="col">Tags</th>
+            <th scope="col">Updated</th>
+            <th scope="col">&#160;</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for championship in championships %}
+            <tr>
+                <td>{{ include('event/_event_state.html.twig', {event: championship}) }}</td>
+                <td>
+                    {{ championship.name }}
+                </td>
+                <td>{{ championship.ageGroup }}</td>
+                <td>
+                    {% if championship.hasDate %}
+                        {{ championship.startDate|date('F j, Y') }} – {{ championship.endDate|date('F j, Y') }}
+                    {% else %}
+                        <span class="text-muted">No date yet.</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if championship.hasHost %}
+                        {{ championship.host.club }}
+                    {% else %}
+                        <span class="text-muted">No host yet.</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if championship.hasVenue %}
+                        {{ championship.venue.address.city }}, {{ championship.venue.address.countryName }}
+                    {% else %}
+                        <span class="text-muted">No venue yet.</span>
+                    {% endif %}
+                </td>
+                <td>{{ include('common/_tags.html.twig', {tags: championship.tags}) }}</td>
+                <td class="text-nowrap">{{ championship.updatedAt|relative_time }}</td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
+
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">No European Championships found.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>European Cups</h2>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Status</th>
+            <th scope="col">Name</th>
+            <th scope="col">Age Group</th>
+            <th scope="col">Date</th>
+            <th scope="col">Host</th>
+            <th scope="col">Venue</th>
+            <th scope="col">Tags</th>
+            <th scope="col">Updated</th>
+            <th scope="col">&#160;</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for cup in cups %}
+            <tr>
+                <td>{{ include('event/_event_state.html.twig', {event: cup}) }}</td>
+                <td>
+                    {{ cup.name }}
+                </td>
+                <td>{{ cup.ageGroup }}</td>
+                <td>
+                    {% if cup.hasDate %}
+                        {{ cup.startDate|date('F j, Y') }} – {{ cup.endDate|date('F j, Y') }}
+                    {% else %}
+                        <span class="text-muted">No date yet.</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if cup.hasHost %}
+                        {{ cup.host.club }}
+                    {% else %}
+                        <span class="text-muted">No host yet.</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if cup.hasVenue %}
+                        {{ cup.venue.address.city }}, {{ cup.venue.address.countryName }}
+                    {% else %}
+                        <span class="text-muted">No venue yet.</span>
+                    {% endif %}
+                </td>
+                <td>{{ include('common/_tags.html.twig', {tags: cup.tags}) }}</td>
+                <td class="text-nowrap">{{ cup.updatedAt|relative_time }}</td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
+
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">No European Cups found.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Tournaments</h2>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Status</th>
+            <th scope="col">Name</th>
+            <th scope="col">Age Group</th>
+            <th scope="col">Date</th>
+            <th scope="col">Host</th>
+            <th scope="col">Venue</th>
+            <th scope="col">Tags</th>
+            <th scope="col">Updated</th>
+            <th scope="col">&#160;</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for tournament in tournaments %}
+            <tr>
+                <td>{{ include('event/_event_state.html.twig', {event: tournament}) }}</td>
+                <td>
+                    {{ tournament.name }}
+                </td>
+                <td>{{ tournament.ageGroup }}</td>
+                <td>{{ tournament.startDate|date('F j, Y') }} – {{ tournament.endDate|date('F j, Y') }}</td>
+                <td>{{ tournament.host.club }}</td>
+                <td>{{ tournament.venue.address.city }}, {{ tournament.venue.address.countryName }}</td>
+                <td>{{ include('common/_tags.html.twig', {tags: tournament.tags}) }}</td>
+                <td class="text-nowrap">{{ tournament.updatedAt|relative_time }}</td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
+
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">No tournaments found.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

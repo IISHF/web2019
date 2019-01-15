@@ -49,7 +49,7 @@ class EventVenueType extends AbstractType
                 [
                     'label'         => 'Rink Information',
                     'required'      => false,
-                    'enable_upload' => false,
+                    'enable_upload' => null,
                 ]
             );
     }

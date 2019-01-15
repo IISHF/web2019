@@ -22,9 +22,11 @@ class UpdateTournamentHandler extends EventCommandHandler
      */
     public function __invoke(UpdateTournament $command): void
     {
-        $host = $command->getHost();
-        /** @var Tournament $tournament */
-        $tournament = $this->getEvent($command->getId(), Tournament::class);
+        $host       = $command->getHost();
+        $tournament = $this->getEvent($command->getId());
+        if (!$tournament instanceof Tournament) {
+            throw new \InvalidArgumentException('Invalid event - ' . Tournament::class . ' required.');
+        }
         $tournament->setName($command->getName())
                    ->setSeason($command->getSeason())
                    ->setAgeGroup($command->getAgeGroup())

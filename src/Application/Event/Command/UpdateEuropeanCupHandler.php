@@ -22,8 +22,10 @@ class UpdateEuropeanCupHandler extends EventCommandHandler
      */
     public function __invoke(UpdateEuropeanCup $command): void
     {
-        /** @var EuropeanCup $cup */
-        $cup = $this->getEvent($command->getId(), EuropeanCup::class);
+        $cup = $this->getEvent($command->getId());
+        if (!$cup instanceof EuropeanCup) {
+            throw new \InvalidArgumentException('Invalid event - ' . EuropeanCup::class . ' required.');
+        }
         $cup->setName($command->getName())
             ->setSeason($command->getSeason())
             ->setAgeGroup($command->getAgeGroup())

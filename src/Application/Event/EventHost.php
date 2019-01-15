@@ -26,7 +26,7 @@ class EventHost extends ContactPerson
      *
      * @var string
      */
-    private $club;
+    private $club = '';
 
     /**
      * @param DomainEventHost $host

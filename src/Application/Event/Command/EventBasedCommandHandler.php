@@ -33,13 +33,12 @@ abstract class EventBasedCommandHandler implements MessageHandlerInterface
     }
 
     /**
-     * @param string      $id
-     * @param string|null $type #Entity
+     * @param string $id
      * @return Event
      */
-    protected function getEvent(string $id, ?string $type = null): Event
+    protected function getEvent(string $id): Event
     {
-        $event = $this->eventRepository->findById($id, $type);
+        $event = $this->eventRepository->findById($id);
         if (!$event) {
             throw new \OutOfBoundsException('No event found for id ' . $id);
         }
