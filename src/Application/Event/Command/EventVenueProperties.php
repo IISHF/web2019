@@ -9,6 +9,7 @@
 namespace App\Application\Event\Command;
 
 use App\Application\Common\Address;
+use App\Application\Event\Validator\UniqueEventVenueName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -22,6 +23,7 @@ trait EventVenueProperties
      * @Assert\Type("string")
      * @Assert\Length(max=64)
      * @Assert\NotBlank()
+     * @UniqueEventVenueName()
      *
      * @var string
      */

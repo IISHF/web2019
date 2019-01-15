@@ -14,6 +14,8 @@ use Symfony\Component\Validator\Constraint;
  * Class UniqueParticipatingTeamName
  *
  * @package App\Application\Event\Validator
+ *
+ * @Annotation
  */
 class UniqueParticipatingTeamName extends Constraint
 {

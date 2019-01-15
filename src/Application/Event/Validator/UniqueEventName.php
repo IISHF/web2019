@@ -14,6 +14,8 @@ use Symfony\Component\Validator\Constraint;
  * Class UniqueEventName
  *
  * @package App\Application\Event\Validator
+ *
+ * @Annotation
  */
 class UniqueEventName extends Constraint
 {
