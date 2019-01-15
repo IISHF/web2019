@@ -51,9 +51,17 @@
     {% endif %}
 {%- endblock %}
 
-{% block trix_editor_widget %}
+{% block tag_widget -%}
+    {%- set attr = attr|merge({
+        'data-enable-select2': 'true',
+        'data-select2-options': select2_options|default({})|json_encode
+    }) -%}
+    {{ block('choice_widget_collapsed') }}
+{%- endblock %}
+
+{% block trix_editor_widget -%}
     {% set allowUpload =  enable_upload != null %}
     {% set trixOptions =  {uploadUrl: enable_upload, allowUpload: allowUpload, allowDelete: allowUpload} %}
     <div data-enable-trix="true" data-name="{{ full_name }}" data-value="{{ value|default('')|e('html_attr') }}"
          data-trix-options="{{ trixOptions|json_encode }}" class="trix-editor"></div>
-{% endblock %}
+{%- endblock %}

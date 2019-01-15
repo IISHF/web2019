@@ -10,12 +10,13 @@ namespace App\Infrastructure\Form;
 
 use App\Domain\Model\Common\TagProvider;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
+use Symfony\Component\Form\ChoiceList\View\ChoiceListView;
+use Symfony\Component\Form\ChoiceList\View\ChoiceView;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -30,8 +31,7 @@ class TagType extends AbstractType implements DataTransformerInterface
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->resetViewTransformers()
-                ->addViewTransformer($this, true);
+        $builder->addViewTransformer($this);
     }
 
     /**
@@ -41,30 +41,8 @@ class TagType extends AbstractType implements DataTransformerInterface
     {
         $resolver->setDefaults(
             [
-                'choice_loader'             => function (Options $options) {
-                    /** @var TagProvider $tagProvider */
-                    $tagProvider = $options['tag_provider'];
-                    return new CallbackChoiceLoader(
-                        function () use ($tagProvider) {
-                            $tags = $tagProvider->findAvailableTags();
-                            return array_combine($tags, $tags);
-                        }
-                    );
-                },
-                'choice_translation_domain' => false,
-                'multiple'                  => true,
-                'enable_select2'            => true,
-                'select2_options'           => function (Options $options, $previousValue) {
-                    return array_merge(
-                        [
-                            'tokenSeparators' => [','],
-                        ],
-                        $previousValue,
-                        [
-                            'tags' => true,
-                        ]
-                    );
-                },
+                'compound' => false,
+                'multiple' => true,
             ]
         );
         $resolver->setRequired('tag_provider');
@@ -74,9 +52,39 @@ class TagType extends AbstractType implements DataTransformerInterface
     /**
      * {@inheritdoc}
      */
-    public function getParent(): ?string
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
-        return ChoiceType::class;
+        /** @var TagProvider $tagProvider */
+        $tagProvider    = $options['tag_provider'];
+        $choiceListView = new ChoiceListView(
+            array_map(
+                function (string $tag) {
+                    return new ChoiceView($tag, $tag, $tag);
+                },
+                array_unique(array_merge($tagProvider->findAvailableTags(), $form->getViewData()))
+            ),
+            []
+        );
+
+        $view->vars = array_replace(
+            $view->vars,
+            [
+                'choices'                   => $choiceListView->choices,
+                'preferred_choices'         => $choiceListView->preferredChoices,
+                'choice_translation_domain' => false,
+                'placeholder'               => null,
+                'multiple'                  => true,
+            ]
+        );
+
+        $view->vars['full_name']       .= '[]';
+        $view->vars['is_selected']     = function ($choice, array $values) {
+            return \in_array($choice, $values, true);
+        };
+        $view->vars['select2_options'] = [
+            'tokenSeparators' => [','],
+            'tags'            => true,
+        ];
     }
 
     /**
