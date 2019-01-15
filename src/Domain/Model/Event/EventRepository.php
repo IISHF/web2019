@@ -68,6 +68,24 @@ class EventRepository extends ServiceEntityRepository implements TagProvider
     }
 
     /**
+     * @param int    $season
+     * @param string $name
+     * @return Event|null
+     */
+    public function findByName(int $season, string $name): ?Event
+    {
+        /** @var Event|null $event */
+        $event = $this->createQueryBuilderWithAssociations()
+                      ->where('e.name = :name')
+                      ->andWhere('e.season = :season')
+                      ->setParameter('name', $name)
+                      ->setParameter('season', $season)
+                      ->getQuery()
+                      ->getOneOrNullResult();
+        return $event;
+    }
+
+    /**
      * @return \Doctrine\ORM\QueryBuilder
      */
     private function createQueryBuilderWithAssociations(): \Doctrine\ORM\QueryBuilder

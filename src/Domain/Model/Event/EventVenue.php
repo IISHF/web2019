@@ -20,7 +20,12 @@ use Webmozart\Assert\Assert;
  * @package App\Domain\Model\Event
  *
  * @ORM\Entity(repositoryClass="EventVenueRepository")
- * @ORM\Table(name="event_venues")
+ * @ORM\Table(
+ *      name="event_venues",
+ *      uniqueConstraints={
+ *          @ORM\UniqueConstraint(name="uniq_venue_name", columns={"name"})
+ *      }
+ * )
  */
 class EventVenue
 {

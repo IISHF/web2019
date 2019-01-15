@@ -20,6 +20,12 @@ use Webmozart\Assert\Assert;
  *
  * @ORM\Entity(repositoryClass="ParticipatingTeamRepository")
  * @ORM\Table(name="event_teams")
+ * @ORM\Table(
+ *      name="event_teams",
+ *      uniqueConstraints={
+ *          @ORM\UniqueConstraint(name="uniq_event_team", columns={"event_id", "name"})
+ *      }
+ * )
  */
 class ParticipatingTeam
 {

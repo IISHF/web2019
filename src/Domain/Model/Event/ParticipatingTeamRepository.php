@@ -33,7 +33,30 @@ class ParticipatingTeamRepository extends ServiceEntityRepository
     public function findById(string $id): ?ParticipatingTeam
     {
         /** @var ParticipatingTeam|null $team */
-        $team = $this->find($id);
+        /** @var ParticipatingTeam|null $team */
+        $team = $this->createQueryBuilderWithAssociations()
+                     ->where('t.id = :id')
+                     ->setParameter('id', $id)
+                     ->getQuery()
+                     ->getOneOrNullResult();
+        return $team;
+    }
+
+    /**
+     * @param string $eventId
+     * @param string $teamName
+     * @return ParticipatingTeam|null
+     */
+    public function findByName(string $eventId, string $teamName): ?ParticipatingTeam
+    {
+        /** @var ParticipatingTeam|null $team */
+        $team = $this->createQueryBuilderWithAssociations()
+                     ->where('t.name = :teamName')
+                     ->andWhere('t.event = :eventId')
+                     ->setParameter('teamName', $teamName)
+                     ->setParameter('eventId', $eventId)
+                     ->getQuery()
+                     ->getOneOrNullResult();
         return $team;
     }
 
@@ -43,9 +66,7 @@ class ParticipatingTeamRepository extends ServiceEntityRepository
      */
     public function findForEvent(Event $event): iterable
     {
-        return $this->createQueryBuilder('t')
-                    ->addSelect('c')
-                    ->leftJoin('t.contact', 'c')
+        return $this->createQueryBuilderWithAssociations()
                     ->where('t.event = :event')
                     ->setParameter('event', $event)
                     ->orderBy('t.name', 'ASC')
@@ -53,6 +74,16 @@ class ParticipatingTeamRepository extends ServiceEntityRepository
                     ->getResult();
     }
 
+    /**
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    private function createQueryBuilderWithAssociations(): \Doctrine\ORM\QueryBuilder
+    {
+        return $this->createQueryBuilder('t')
+                    ->addSelect('c', 'e')
+                    ->innerJoin('t.event', 'e')
+                    ->leftJoin('t.contact', 'c');
+    }
 
     /**
      * @param ParticipatingTeam $team

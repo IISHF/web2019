@@ -49,3 +49,7 @@ services:
     App\Infrastructure\Event\Form\EventTagType:
     App\Infrastructure\Event\Form\TitleEventApplicationChoiceType:
     App\Infrastructure\Event\Form\VenueChoiceType:
+
+    App\Application\Event\Validator\UniqueEventNameValidator:
+    App\Application\Event\Validator\UniqueEventVenueNameValidator:
+    App\Application\Event\Validator\UniqueParticipatingTeamNameValidator:

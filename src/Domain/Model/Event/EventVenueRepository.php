@@ -38,6 +38,17 @@ class EventVenueRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param string $name
+     * @return EventVenue|null
+     */
+    public function findByName(string $name): ?EventVenue
+    {
+        /** @var EventVenue|null $venue */
+        $venue = $this->findOneBy(['name' => $name]);
+        return $venue;
+    }
+
+    /**
      * @return iterable|EventVenue[]
      */
     public function findAll(): iterable
