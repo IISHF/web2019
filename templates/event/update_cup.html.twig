@@ -1,0 +1,8 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    {# @var event \App\Domain\Model\Event\EuropeanCup #}
+    <h1>European Cup {{ event.season }} / {{ event.name }}</h1>
+
+    {% include 'event/_form_cup.html.twig' with {form: form} %}
+{% endblock %}

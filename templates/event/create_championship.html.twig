@@ -3,14 +3,5 @@
 {% block content %}
     <h1>Create European Championship</h1>
 
-    {{ form_start(form) }}
-
-    {{ form_rest(form) }}
-
-    <div class="btn-group" role="group">
-        <button type="submit" class="btn btn-primary">{{ 'Create'|default('Update') }}</button>
-        <a href="{{ path('app_event_event_current') }}" class="btn btn-light">Cancel</a>
-    </div>
-
-    {{ form_end(form) }}
+    {% include 'event/_form_championship.html.twig' with {form: form, submitBtnText: 'Create', submitBtnType: 'success'} %}
 {% endblock %}

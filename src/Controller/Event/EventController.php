@@ -11,18 +11,27 @@ namespace App\Controller\Event;
 use App\Application\Event\Command\CreateEuropeanChampionship;
 use App\Application\Event\Command\CreateEuropeanCup;
 use App\Application\Event\Command\CreateTournament;
+use App\Application\Event\Command\DeleteEvent;
+use App\Application\Event\Command\UpdateEuropeanChampionship;
+use App\Application\Event\Command\UpdateEuropeanCup;
+use App\Application\Event\Command\UpdateTournament;
 use App\Domain\Model\Event\EuropeanChampionship;
 use App\Domain\Model\Event\EuropeanCup;
 use App\Domain\Model\Event\Event;
 use App\Domain\Model\Event\EventRepository;
+use App\Domain\Model\Event\Tournament;
 use App\Infrastructure\Event\Form\CreateEuropeanChampionshipType;
 use App\Infrastructure\Event\Form\CreateEuropeanCupType;
 use App\Infrastructure\Event\Form\CreateTournamentType;
+use App\Infrastructure\Event\Form\UpdateEuropeanChampionshipType;
+use App\Infrastructure\Event\Form\UpdateEuropeanCupType;
+use App\Infrastructure\Event\Form\UpdateTournamentType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -174,12 +183,14 @@ class EventController extends AbstractController
      */
     public function detail(Event $event): Response
     {
-        /** @var string $template #Template */
-        $template = 'event/detail_tournament.html.twig';
         if ($event instanceof EuropeanChampionship) {
             $template = 'event/detail_championship.html.twig';
         } elseif ($event instanceof EuropeanCup) {
             $template = 'event/detail_cup.html.twig';
+        } elseif ($event instanceof Tournament) {
+            $template = 'event/detail_tournament.html.twig';
+        } else {
+            throw $this->createNotFoundException();
         }
 
         return $this->render(
@@ -188,5 +199,93 @@ class EventController extends AbstractController
                 'event' => $event,
             ]
         );
+    }
+
+    /**
+     * @Route(
+     *     "/{season<\d{4}>}/{event}/edit",
+     *     methods={"GET", "POST"},
+     *     requirements={"event": "%routing.uuid%"}
+     * )
+     * @ParamConverter(
+     *      name="event",
+     *      class="App\Domain\Model\Event\Event",
+     *      converter="app.event"
+     * )
+     *
+     * @param Request             $request
+     * @param Event               $event
+     * @param MessageBusInterface $commandBus
+     * @return Response
+     */
+    public function update(Request $request, Event $event, MessageBusInterface $commandBus): Response
+    {
+        if ($event instanceof EuropeanChampionship) {
+            $updateCommand  = UpdateEuropeanChampionship::update($event);
+            $formType       = UpdateEuropeanChampionshipType::class;
+            $template       = 'event/update_championship.html.twig';
+            $successMessage = 'The European Championship has been updated.';
+        } elseif ($event instanceof EuropeanCup) {
+            $updateCommand  = UpdateEuropeanCup::update($event);
+            $formType       = UpdateEuropeanCupType::class;
+            $template       = 'event/update_cup.html.twig';
+            $successMessage = 'The European Cup has been updated.';
+        } elseif ($event instanceof Tournament) {
+            $updateCommand  = UpdateTournament::update($event);
+            $formType       = UpdateTournamentType::class;
+            $template       = 'event/update_tournament.html.twig';
+            $successMessage = 'The tournament has been updated.';
+        } else {
+            throw $this->createNotFoundException();
+        }
+
+        $form = $this->createForm($formType, $updateCommand);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $commandBus->dispatch($updateCommand);
+            $this->addFlash('success', $successMessage);
+
+            return $this->redirectToRoute('app_event_event_season', ['season' => $event->getSeason()]);
+        }
+
+        return $this->render(
+            $template,
+            [
+                'event' => $event,
+                'form'  => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @Route(
+     *     "/{season<\d{4}>}/{event}/delete",
+     *     methods={"POST", "DELETE"},
+     *     requirements={"event": "%routing.uuid%"}
+     * )
+     * @ParamConverter(
+     *      name="event",
+     *      class="App\Domain\Model\Event\Event",
+     *      converter="app.event"
+     * )
+     *
+     * @param Request             $request
+     * @param Event               $event
+     * @param MessageBusInterface $commandBus
+     * @return Response
+     */
+    public function delete(Request $request, Event $event, MessageBusInterface $commandBus): Response
+    {
+        $deleteVenue = DeleteEvent::delete($event);
+
+        if (!$this->isCsrfTokenValid('event_delete_' . $event->getId(), $request->request->get('_token'))) {
+            throw new BadRequestHttpException();
+        }
+
+        $commandBus->dispatch($deleteVenue);
+        $this->addFlash('success', 'The event has been deleted.');
+
+        return $this->redirectToRoute('app_event_event_season', ['season' => $event->getSeason()]);
     }
 }
