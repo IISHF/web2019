@@ -1,0 +1,42 @@
+{# @var event \App\Domain\Model\Event\Event #}
+<dl class="row">
+    <dt class="col-2">ID</dt>
+    <dd class="col-10">{{ event.id }}</dd>
+    <dt class="col-2">Slug</dt>
+    <dd class="col-10">{{ event.slug }}</dd>
+    <dt class="col-2">Status</dt>
+    <dd class="col-10">{{ include('event/_event_state.html.twig', {event: event}) }}</dd>
+    <dt class="col-2">Age Group</dt>
+    <dd class="col-10">{{ event.ageGroup }}</dd>
+    <dt class="col-2">Date</dt>
+    <dd class="col-10">
+        {% if event.hasDate %}
+            {{ event.startDate|date('F j, Y') }} – {{ event.endDate|date('F j, Y') }}
+        {% else %}
+            <span class="text-muted">No date yet.</span>
+        {% endif %}
+    </dd>
+    <dt class="col-2">Host</dt>
+    <dd class="col-10">
+        {% if event.hasHost %}
+            {{ event.host.club }}
+        {% else %}
+            <span class="text-muted">No host yet.</span>
+        {% endif %}
+    </dd>
+    <dt class="col-2">Venue</dt>
+    <dd class="col-10">
+        {% if event.hasVenue %}
+            {{ event.venue.address.city }}, {{ event.venue.address.countryName }}
+        {% else %}
+            <span class="text-muted">No venue yet.</span>
+        {% endif %}
+    </dd>
+    {% block more_fields %}{% endblock %}
+    <dt class="col-2">Tags</dt>
+    <dd class="col-10">{{ include('common/_tags.html.twig', {tags: event.tags}) }}</dd>
+    <dt class="col-2">Last Updated</dt>
+    <dd class="col-10">{{ event.updatedAt|relative_time }}</dd>
+    <dt class="col-2">Created</dt>
+    <dd class="col-10">{{ event.createdAt|relative_time }}</dd>
+</dl>

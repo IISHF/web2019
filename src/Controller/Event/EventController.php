@@ -11,10 +11,14 @@ namespace App\Controller\Event;
 use App\Application\Event\Command\CreateEuropeanChampionship;
 use App\Application\Event\Command\CreateEuropeanCup;
 use App\Application\Event\Command\CreateTournament;
+use App\Domain\Model\Event\EuropeanChampionship;
+use App\Domain\Model\Event\EuropeanCup;
+use App\Domain\Model\Event\Event;
 use App\Domain\Model\Event\EventRepository;
 use App\Infrastructure\Event\Form\CreateEuropeanChampionshipType;
 use App\Infrastructure\Event\Form\CreateEuropeanCupType;
 use App\Infrastructure\Event\Form\CreateTournamentType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -149,6 +153,39 @@ class EventController extends AbstractController
             'event/create_tournament.html.twig',
             [
                 'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @Route(
+     *      "/{season<\d{4}>}/{event}",
+     *      methods={"GET"},
+     *     requirements={"event": "%routing.slug%"}
+     * )
+     * @ParamConverter(
+     *      name="event",
+     *      class="App\Domain\Model\Event\Event",
+     *      converter="app.event"
+     * )
+     *
+     * @param Event $event
+     * @return Response
+     */
+    public function detail(Event $event): Response
+    {
+        /** @var string $template #Template */
+        $template = 'event/detail_tournament.html.twig';
+        if ($event instanceof EuropeanChampionship) {
+            $template = 'event/detail_championship.html.twig';
+        } elseif ($event instanceof EuropeanCup) {
+            $template = 'event/detail_cup.html.twig';
+        }
+
+        return $this->render(
+            $template,
+            [
+                'event' => $event,
             ]
         );
     }

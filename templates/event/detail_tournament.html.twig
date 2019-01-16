@@ -1,0 +1,13 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    {# @var event \App\Domain\Model\Event\Tournament #}
+    <h1>Tournament {{ event.season }} / {{ event.name }}</h1>
+
+    {{ include('event/_event_detail.html.twig', {event: event}) }}
+
+    <div class="btn-group" role="group">
+        <a href="{{ path('app_event_event_season', {season: event.season}) }}"
+           class="btn btn-outline-secondary">Back</a>
+    </div>
+{% endblock %}
