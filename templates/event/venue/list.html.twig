@@ -59,4 +59,8 @@
             {{ pagerfanta(venues) }}
         </nav>
     {% endif %}
+
+    <div class="btn-group" role="group">
+        <a href="{{ path('app_event_event_current') }}" class="btn btn-outline-secondary">Back</a>
+    </div>
 {% endblock %}
