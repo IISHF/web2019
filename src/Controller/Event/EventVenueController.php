@@ -9,8 +9,10 @@
 namespace App\Controller\Event;
 
 use App\Application\Event\Command\CreateEventVenue;
+use App\Domain\Model\Event\EventVenue;
 use App\Domain\Model\Event\EventVenueRepository;
 use App\Infrastructure\Event\Form\CreateEventVenueType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -73,6 +75,31 @@ class EventVenueController extends AbstractController
             'event/venue/create.html.twig',
             [
                 'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @Route(
+     *      "/{venue}",
+     *      methods={"GET"},
+     *     requirements={"venue": "%routing.uuid%"}
+     * )
+     * @ParamConverter(
+     *      name="venue",
+     *      class="App\Domain\Model\Event\EventVenue",
+     *      converter="app.event_venue"
+     * )
+     *
+     * @param EventVenue $venue
+     * @return Response
+     */
+    public function detail(EventVenue $venue): Response
+    {
+        return $this->render(
+            'event/venue/detail.html.twig',
+            [
+                'venue' => $venue,
             ]
         );
     }

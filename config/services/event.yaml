@@ -44,7 +44,7 @@ services:
             - { name: request.param_converter, converter: app.event }
     App\Infrastructure\Event\ParamConverter\EventVenueParamConverter:
         tags:
-            - { name: request.param_converter, converter: app.event_venu }
+            - { name: request.param_converter, converter: app.event_venue }
 
     App\Infrastructure\Event\Form\EventTagType:
     App\Infrastructure\Event\Form\TitleEventApplicationChoiceType:

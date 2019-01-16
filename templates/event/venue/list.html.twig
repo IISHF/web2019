@@ -21,9 +21,7 @@
         <tbody>
         {% for venue in venues %}
             <tr>
-                <td>
-                    {{ venue.name }}
-                </td>
+                <td><a href="{{ path('app_event_eventvenue_detail', {'venue': venue.id}) }}">{{ venue.name }}</a></td>
                 <td>
                     {{ venue.address.address1 }}, {{ venue.address.address2 }},
                     {{ venue.address.state }},
