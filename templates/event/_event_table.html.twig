@@ -1,0 +1,58 @@
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Status</th>
+        <th scope="col">Name</th>
+        <th scope="col">Age Group</th>
+        <th scope="col">Date</th>
+        <th scope="col">Host</th>
+        <th scope="col">Venue</th>
+        <th scope="col">Tags</th>
+        <th scope="col">Updated</th>
+        <th scope="col">&#160;</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for event in events %}
+        <tr>
+            <td>{{ include('event/_event_state.html.twig', {event: event}) }}</td>
+            <td>
+                {{ event.name }}
+            </td>
+            <td>{{ event.ageGroup }}</td>
+            <td>
+                {% if event.hasDate %}
+                    {{ event.startDate|date('F j, Y') }} – {{ event.endDate|date('F j, Y') }}
+                {% else %}
+                    <span class="text-muted">No date yet.</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if event.hasHost %}
+                    {{ event.host.club }}
+                {% else %}
+                    <span class="text-muted">No host yet.</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if event.hasVenue %}
+                    {{ event.venue.address.city }}, {{ event.venue.address.countryName }}
+                {% else %}
+                    <span class="text-muted">No venue yet.</span>
+                {% endif %}
+            </td>
+            <td>{{ include('common/_tags.html.twig', {tags: event.tags}) }}</td>
+            <td class="text-nowrap">{{ event.updatedAt|relative_time }}</td>
+            <td>
+                <div class="btn-group btn-group-sm" role="group">
+
+                </div>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="6">{{ emptyText|default('No events found.') }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
