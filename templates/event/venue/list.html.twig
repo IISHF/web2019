@@ -31,7 +31,18 @@
                 <td class="text-nowrap">{{ venue.updatedAt|relative_time }}</td>
                 <td>
                     <div class="btn-group btn-group-sm" role="group">
-
+                        {% if is_granted('EVENT_VENUE_EDIT', venue) %}
+                            <a href="{{ path('app_event_eventvenue_update', {'venue': venue.id}) }}"
+                               class="btn btn-primary">Edit</a>
+                        {% endif %}
+                        {% if is_granted('EVENT_VENUE_DELETE', venue) %}
+                            {{ include('common/_delete_btn.html.twig', {
+                                title: venue.name,
+                                body: 'Do you really want to delete the venue?',
+                                deleteAction: path('app_event_eventvenue_delete', {'venue': venue.id}),
+                                csrfIntention: 'venue_delete_' ~ venue.id,
+                            }) }}
+                        {% endif %}
                     </div>
                 </td>
             </tr>

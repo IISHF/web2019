@@ -9,14 +9,18 @@
 namespace App\Controller\Event;
 
 use App\Application\Event\Command\CreateEventVenue;
+use App\Application\Event\Command\DeleteEventVenue;
+use App\Application\Event\Command\UpdateEventVenue;
 use App\Domain\Model\Event\EventVenue;
 use App\Domain\Model\Event\EventVenueRepository;
 use App\Infrastructure\Event\Form\CreateEventVenueType;
+use App\Infrastructure\Event\Form\UpdateEventVenueType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -102,5 +106,75 @@ class EventVenueController extends AbstractController
                 'venue' => $venue,
             ]
         );
+    }
+
+    /**
+     * @Route(
+     *     "/{venue}/edit",
+     *     methods={"GET", "POST"},
+     *     requirements={"venue": "%routing.uuid%"}
+     * )
+     * @ParamConverter(
+     *      name="venue",
+     *      class="App\Domain\Model\Event\EventVenue",
+     *      converter="app.event_venue"
+     * )
+     *
+     * @param Request             $request
+     * @param EventVenue          $venue
+     * @param MessageBusInterface $commandBus
+     * @return Response
+     */
+    public function update(Request $request, EventVenue $venue, MessageBusInterface $commandBus): Response
+    {
+        $updateVenue = UpdateEventVenue::update($venue);
+        $form        = $this->createForm(UpdateEventVenueType::class, $updateVenue);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $commandBus->dispatch($updateVenue);
+            $this->addFlash('success', 'The venue has been updated.');
+
+            return $this->redirectToRoute('app_event_eventvenue_list');
+        }
+
+        return $this->render(
+            'event/venue/update.html.twig',
+            [
+                'venue' => $venue,
+                'form'  => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @Route(
+     *     "/{venue}/delete",
+     *     methods={"POST", "DELETE"},
+     *     requirements={"venue": "%routing.uuid%"}
+     * )
+     * @ParamConverter(
+     *      name="venue",
+     *      class="App\Domain\Model\Event\EventVenue",
+     *      converter="app.event_venue"
+     * )
+     *
+     * @param Request             $request
+     * @param EventVenue          $venue
+     * @param MessageBusInterface $commandBus
+     * @return Response
+     */
+    public function delete(Request $request, EventVenue $venue, MessageBusInterface $commandBus): Response
+    {
+        $deleteVenue = DeleteEventVenue::delete($venue);
+
+        if (!$this->isCsrfTokenValid('venue_delete_' . $venue->getId(), $request->request->get('_token'))) {
+            throw new BadRequestHttpException();
+        }
+
+        $commandBus->dispatch($deleteVenue);
+        $this->addFlash('success', 'The venue has been deleted.');
+
+        return $this->redirectToRoute('app_event_eventvenue_list');
     }
 }
