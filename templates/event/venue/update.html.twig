@@ -1,0 +1,7 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    <h1>{{ venue.name }}</h1>
+
+    {% include 'event/venue/_form.html.twig' with {form: form} %}
+{% endblock %}
