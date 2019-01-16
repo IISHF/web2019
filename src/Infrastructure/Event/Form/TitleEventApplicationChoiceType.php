@@ -8,7 +8,6 @@
 
 namespace App\Infrastructure\Event\Form;
 
-use App\Domain\Model\Event\TitleEventApplication;
 use App\Domain\Model\Event\TitleEventApplicationRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
@@ -43,7 +42,6 @@ class TitleEventApplicationChoiceType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class'                => TitleEventApplication::class,
                 'choice_loader'             => function (Options $options) {
                     $titleEventId = $options['title_event_id'];
                     return new CallbackChoiceLoader(

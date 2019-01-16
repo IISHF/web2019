@@ -8,7 +8,6 @@
 
 namespace App\Infrastructure\Event\Form;
 
-use App\Domain\Model\Event\EventVenue;
 use App\Domain\Model\Event\EventVenueRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
@@ -42,7 +41,6 @@ class VenueChoiceType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class'                => EventVenue::class,
                 'choice_loader'             => new CallbackChoiceLoader(
                     function () {
                         return $this->venueRepository->findAll();
