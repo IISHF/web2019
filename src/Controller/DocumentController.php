@@ -56,7 +56,7 @@ class DocumentController extends AbstractController
         return $this->render(
             'document/list.html.twig',
             [
-                'documents' => $documentRepository->findPaged($paging->getPage(), $paging->getLimit(s)),
+                'documents' => $documentRepository->findPaged($paging->getPage(), $paging->getLimit()),
             ]
         );
     }
