@@ -9,6 +9,7 @@
 namespace App\Application\Event\Command;
 
 use App\Application\Common\ContactPerson;
+use App\Application\Event\Validator\UniqueApplicantClubName;
 use App\Domain\Model\Event\EventVenue;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -23,6 +24,7 @@ trait TitleEventApplicationProperties
      * @Assert\Type("string")
      * @Assert\Length(max=128)
      * @Assert\NotBlank()
+     * @UniqueApplicantClubName()
      *
      * @var string
      */

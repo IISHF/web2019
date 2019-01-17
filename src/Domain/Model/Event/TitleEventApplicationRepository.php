@@ -65,6 +65,24 @@ class TitleEventApplicationRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param string $eventId
+     * @param string $clubName
+     * @return TitleEventApplication|null
+     */
+    public function findByClub(string $eventId, string $clubName): ?TitleEventApplication
+    {
+        /** @var TitleEventApplication|null $application */
+        $application = $this->createQueryBuilderWithAssociations()
+                            ->where('a.applicantClub= :clubName')
+                            ->andWhere('a.titleEvent = :eventId')
+                            ->setParameter('clubName', $clubName)
+                            ->setParameter('eventId', $eventId)
+                            ->getQuery()
+                            ->getOneOrNullResult();
+        return $application;
+    }
+
+    /**
      * @return \Doctrine\ORM\QueryBuilder
      */
     private function createQueryBuilderWithAssociations(): \Doctrine\ORM\QueryBuilder
