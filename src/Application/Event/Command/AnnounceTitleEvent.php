@@ -21,7 +21,7 @@ class AnnounceTitleEvent extends EventWorkflowCommand
     public const TRANSITION = 'announce';
 
     /**
-     * @Assert\Type("App\Domain\Model\Event\EventVenue")
+     * @Assert\Type("App\Domain\Model\Event\TitleEventApplication")
      * @Assert\NotNull()
      *
      * @var TitleEventApplication

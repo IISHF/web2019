@@ -13,8 +13,24 @@
     </dl>
 
     <div class="btn-group" role="group">
+        {% if is_granted('EVENT_EDIT', event) %}
+            <a href="{{ path('app_event_titleeventapplication_update', {
+                event: event.id,
+                applicationId: application.id
+            }) }}"
+               class="btn btn-primary">Edit</a>
+            {{ include('common/_delete_btn.html.twig', {
+                title: application.applicantClub,
+                body: 'Do you really want to withdraw the application?',
+                deleteBtn: 'Withdraw',
+                deleteAction: path('app_event_titleeventapplication_withdraw', {
+                    event: event.id,
+                    applicationId: application.id
+                }),
+                csrfIntention: 'event_application_withdraw_' ~ application.id,
+            }) }}
+        {% endif %}
         <a href="{{ path('app_event_event_detail', {season: event.season, event: event.slug}) }}"
            class="btn btn-outline-secondary">Back</a>
     </div>
-
 {% endblock %}

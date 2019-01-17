@@ -30,7 +30,23 @@
                     <td class="text-nowrap">{{ team.updatedAt|relative_time }}</td>
                     <td>
                         <div class="btn-group btn-group-sm" role="group">
-
+                            {% if is_granted('EVENT_EDIT', event) %}
+                                <a href="{{ path('app_event_participatingteam_update', {
+                                    event: event.id,
+                                    teamId: team.id
+                                }) }}"
+                                   class="btn btn-primary">Edit</a>
+                                {{ include('common/_delete_btn.html.twig', {
+                                    title: team.name,
+                                    body: 'Do you really want to remove the team?',
+                                    deleteBtn: 'Remove',
+                                    deleteAction: path('app_event_participatingteam_remove', {
+                                        event: event.id,
+                                        teamId: team.id
+                                    }),
+                                    csrfIntention: 'event_team_remove_' ~ team.id,
+                                }) }}
+                            {% endif %}
                         </div>
                     </td>
                 </tr>
