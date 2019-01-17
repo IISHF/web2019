@@ -33,7 +33,11 @@ class TitleEventApplicationRepository extends ServiceEntityRepository
     public function findById(string $id): ?TitleEventApplication
     {
         /** @var TitleEventApplication|null $application */
-        $application = $this->find($id);
+        $application = $this->createQueryBuilderWithAssociations()
+                            ->where('a.id = :id')
+                            ->setParameter('id', $id)
+                            ->getQuery()
+                            ->getOneOrNullResult();
         return $application;
     }
 
@@ -52,12 +56,23 @@ class TitleEventApplicationRepository extends ServiceEntityRepository
      */
     public function findForEventId(string $titleEventId): iterable
     {
-        return $this->createQueryBuilder('a')
+        return $this->createQueryBuilderWithAssociations()
                     ->where('a.titleEvent = :event')
                     ->setParameter('event', $titleEventId)
                     ->orderBy('a.createdAt', 'ASC')
                     ->getQuery()
                     ->getResult();
+    }
+
+    /**
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    private function createQueryBuilderWithAssociations(): \Doctrine\ORM\QueryBuilder
+    {
+        return $this->createQueryBuilder('a')
+                    ->addSelect('e', 'v')
+                    ->innerJoin('a.titleEvent', 'e')
+                    ->innerJoin('a.venue', 'v');
     }
 
     /**

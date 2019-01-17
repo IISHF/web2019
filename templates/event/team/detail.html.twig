@@ -6,6 +6,16 @@
     <dl class="row">
         <dt class="col-2">ID</dt>
         <dd class="col-10">{{ team.id }}</dd>
+        <dt class="col-2">Contact</dt>
+        <dd class="col-10">{{ team.contact.name }}</dd>
+        <dt class="col-2">E-mail</dt>
+        <dd class="col-10">{{ team.contact.email|safe_email }}</dd>
+        <dt class="col-2">Telephone</dt>
+        <dd class="col-10">
+            {% if team.contact.phoneNumber %}
+                <a href="{{ team.contact.phoneNumber|phone_number_format('RFC3966') }}">{{ team.contact.phoneNumber|phone_number_format() }}</a>
+            {% endif %}
+        </dd>
         <dt class="col-2">Last Updated</dt>
         <dd class="col-10">{{ team.updatedAt|relative_time }}</dd>
         <dt class="col-2">Created</dt>

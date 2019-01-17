@@ -6,6 +6,21 @@
     <dl class="row">
         <dt class="col-2">ID</dt>
         <dd class="col-10">{{ application.id }}</dd>
+        <dt class="col-2">Proposed Date</dt>
+        <dd class="col-10">{{ application.proposedStartDate|date('F j, Y') }}
+            – {{ application.proposedEndDate|date('F j, Y') }}</dd>
+        <dt class="col-2">Contact</dt>
+        <dd class="col-10">{{ application.contact.name }}</dd>
+        <dt class="col-2">E-mail</dt>
+        <dd class="col-10">{{ application.contact.email|safe_email }}</dd>
+        <dt class="col-2">Telephone</dt>
+        <dd class="col-10">
+            {% if application.contact.phoneNumber %}
+                <a href="{{ application.contact.phoneNumber|phone_number_format('RFC3966') }}">{{ application.contact.phoneNumber|phone_number_format() }}</a>
+            {% endif %}
+        </dd>
+        <dt class="col-2">Venue</dt>
+        <dd class="col-10">{{ application.venue.address.city }}, {{ application.venue.address.countryName }}</dd>
         <dt class="col-2">Last Updated</dt>
         <dd class="col-10">{{ application.updatedAt|relative_time }}</dd>
         <dt class="col-2">Created</dt>

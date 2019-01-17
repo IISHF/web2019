@@ -33,7 +33,6 @@ class ParticipatingTeamRepository extends ServiceEntityRepository
     public function findById(string $id): ?ParticipatingTeam
     {
         /** @var ParticipatingTeam|null $team */
-        /** @var ParticipatingTeam|null $team */
         $team = $this->createQueryBuilderWithAssociations()
                      ->where('t.id = :id')
                      ->setParameter('id', $id)
