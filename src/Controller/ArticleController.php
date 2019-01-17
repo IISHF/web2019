@@ -17,6 +17,7 @@ use App\Domain\Model\Article\ArticleRepository;
 use App\Domain\Model\Article\ArticleVersionRepository;
 use App\Infrastructure\Article\Form\CreateArticleType;
 use App\Infrastructure\Article\Form\UpdateArticleType;
+use App\Infrastructure\Controller\PagingRequest;
 use App\Infrastructure\File\FileUploader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -50,17 +51,15 @@ class ArticleController extends AbstractController
      */
     public function list(Request $request, ArticleRepository $articleRepository): Response
     {
-        $page  = $request->query->getInt('page', 1);
-        $limit = $request->query->getInt('limit', 30);
-
+        $paging  = PagingRequest::create($request);
         $showAll = $request->query->getBoolean('all');
         if (!$this->isGranted('ROLE_ADMIN')) {
             $showAll = false;
         }
         if ($showAll) {
-            $articles = $articleRepository->findAllPaged($page, $limit);
+            $articles = $articleRepository->findAllPaged($paging->getPage(), $paging->getLimit());
         } else {
-            $articles = $articleRepository->findPublishedPaged($page, $limit);
+            $articles = $articleRepository->findPublishedPaged($paging->getPage(), $paging->getLimit());
         }
 
         return $this->render(

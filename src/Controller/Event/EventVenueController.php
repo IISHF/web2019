@@ -13,6 +13,7 @@ use App\Application\Event\Command\DeleteEventVenue;
 use App\Application\Event\Command\UpdateEventVenue;
 use App\Domain\Model\Event\EventVenue;
 use App\Domain\Model\Event\EventVenueRepository;
+use App\Infrastructure\Controller\PagingRequest;
 use App\Infrastructure\Event\Form\CreateEventVenueType;
 use App\Infrastructure\Event\Form\UpdateEventVenueType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -43,13 +44,11 @@ class EventVenueController extends AbstractController
      */
     public function list(Request $request, EventVenueRepository $venueRepository): Response
     {
-        $page  = $request->query->getInt('page', 1);
-        $limit = $request->query->getInt('limit', 30);
-
+        $paging = PagingRequest::create($request);
         return $this->render(
             'event/venue/list.html.twig',
             [
-                'venues' => $venueRepository->findPaged($page, $limit),
+                'venues' => $venueRepository->findPaged($paging->getPage(), $paging->getLimit()),
             ]
         );
     }

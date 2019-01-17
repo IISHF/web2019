@@ -17,6 +17,7 @@ use App\Application\Document\Command\UpdateDocumentVersion;
 use App\Domain\Model\Document\Document;
 use App\Domain\Model\Document\DocumentRepository;
 use App\Domain\Model\Document\DocumentVersion;
+use App\Infrastructure\Controller\PagingRequest;
 use App\Infrastructure\Document\Form\CreateDocumentType;
 use App\Infrastructure\Document\Form\CreateDocumentVersionType;
 use App\Infrastructure\Document\Form\UpdateDocumentType;
@@ -48,13 +49,11 @@ class DocumentController extends AbstractController
      */
     public function list(Request $request, DocumentRepository $documentRepository): Response
     {
-        $page  = $request->query->getInt('page', 1);
-        $limit = $request->query->getInt('limit', 30);
-
+        $paging = PagingRequest::create($request);
         return $this->render(
             'document/list.html.twig',
             [
-                'documents' => $documentRepository->findPaged($page, $limit),
+                'documents' => $documentRepository->findPaged($paging->getPage(), $paging->getLimit(s)),
             ]
         );
     }

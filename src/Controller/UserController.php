@@ -13,6 +13,7 @@ use App\Application\User\Command\DeleteUser;
 use App\Application\User\Command\UpdateUser;
 use App\Domain\Model\User\User;
 use App\Domain\Model\User\UserRepository;
+use App\Infrastructure\Controller\PagingRequest;
 use App\Infrastructure\User\Form\CreateUserType;
 use App\Infrastructure\User\Form\UpdateUserType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -43,13 +44,11 @@ class UserController extends AbstractController
      */
     public function list(Request $request, UserRepository $userRepository): Response
     {
-        $page  = $request->query->getInt('page', 1);
-        $limit = $request->query->getInt('limit', 30);
-
+        $paging = PagingRequest::create($request);
         return $this->render(
             'user/list.html.twig',
             [
-                'users' => $userRepository->findPaged($page, $limit),
+                'users' => $userRepository->findPaged($paging->getPage(), $paging->getLimit()),
             ]
         );
     }

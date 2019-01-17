@@ -12,6 +12,7 @@ use App\Application\File\Command\RemoveFile;
 use App\Application\File\ImageResizer;
 use App\Domain\Model\File\File;
 use App\Domain\Model\File\FileRepository;
+use App\Infrastructure\Controller\PagingRequest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -41,9 +42,6 @@ class FileController extends AbstractController
      */
     public function list(Request $request, FileRepository $fileRepository): Response
     {
-        $page  = $request->query->getInt('page', 1);
-        $limit = $request->query->getInt('limit', 30);
-
         $activeFilters     = [];
         $addFilterIfActive = function (string $filter) use ($request, &$activeFilters) {
             $value = $request->query->get($filter);
@@ -69,6 +67,8 @@ class FileController extends AbstractController
             'origin' => $addFilterIfActive('origin'),
         ];
 
+        $paging = PagingRequest::create($request);
+
         return $this->render(
             'file/list.html.twig',
             [
@@ -77,8 +77,8 @@ class FileController extends AbstractController
                 'files'          => $fileRepository->findPaged(
                     $currentFilters['type'],
                     $currentFilters['origin'],
-                    $page,
-                    $limit
+                    $paging->getPage(),
+                    $paging->getLimit()
                 ),
             ]
         );
