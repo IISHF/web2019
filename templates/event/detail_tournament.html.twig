@@ -4,22 +4,26 @@
     {# @var event \App\Domain\Model\Event\Tournament #}
     <h1>Tournament {{ event.season }} / {{ event.name }}</h1>
 
-    {{ include('event/_event_detail.html.twig', {event: event}) }}
+    {{ include('event/_tournament_detail.html.twig', {event: event}) }}
 
-    <div class="btn-group" role="group">
-        {% if is_granted('EVENT_EDIT', event) %}
-            <a href="{{ path('app_event_event_update', {'season': event.season, event: event.id}) }}"
-               class="btn btn-primary">Edit</a>
-        {% endif %}
-        {% if is_granted('EVENT_DELETE', event) %}
-            {{ include('common/_delete_btn.html.twig', {
-                title: event.name,
-                body: 'Do you really want to delete the event?',
-                deleteAction: path('app_event_event_delete', {'season': event.season, event: event.id}),
-                csrfIntention: 'event_delete_' ~ event.id,
-            }) }}
-        {% endif %}
-        <a href="{{ path('app_event_event_season', {season: event.season}) }}"
-           class="btn btn-outline-secondary">Back</a>
-    </div>
+    {% embed 'event/_event_workflow_buttons.html.twig' with {event: event} %}
+        {% block before_workflow %}
+            {% if is_granted('EVENT_EDIT', event) %}
+                <a href="{{ path('app_event_event_update', {'season': event.season, event: event.id}) }}"
+                   class="btn btn-primary">Edit</a>
+            {% endif %}
+        {% endblock %}
+        {% block after_workflow %}
+            {% if is_granted('EVENT_DELETE', event) %}
+                {{ include('common/_delete_btn.html.twig', {
+                    title: event.name,
+                    body: 'Do you really want to delete the tournament?',
+                    deleteAction: path('app_event_event_delete', {'season': event.season, event: event.id}),
+                    csrfIntention: 'event_delete_' ~ event.id,
+                }) }}
+            {% endif %}
+            <a href="{{ path('app_event_event_season', {season: event.season}) }}"
+               class="btn btn-outline-secondary">Back</a>
+        {% endblock %}
+    {% endembed %}
 {% endblock %}

@@ -120,12 +120,12 @@ class DocumentController extends AbstractController
      *     methods={"GET", "POST"},
      *     requirements={"document": "%routing.uuid%"}
      * )
-     * @Security("is_granted('DOCUMENT_EDIT', document)")
      * @ParamConverter(
      *      name="document",
      *      class="App\Domain\Model\Document\Document",
      *      converter="app.document"
      * )
+     * @Security("is_granted('DOCUMENT_EDIT', document)")
      *
      * @param Request             $request
      * @param Document            $document
@@ -158,12 +158,12 @@ class DocumentController extends AbstractController
      *     methods={"POST", "DELETE"},
      *     requirements={"document": "%routing.uuid%"}
      * )
-     * @Security("is_granted('DOCUMENT_DELETE', document)")
      * @ParamConverter(
      *      name="document",
      *      class="App\Domain\Model\Document\Document",
      *      converter="app.document"
      * )
+     * @Security("is_granted('DOCUMENT_DELETE', document)")
      *
      * @param Request             $request
      * @param Document            $document
@@ -188,12 +188,12 @@ class DocumentController extends AbstractController
      *     methods={"GET", "POST"},
      *     requirements={"document": "%routing.uuid%"}
      * )
-     * @Security("is_granted('DOCUMENT_EDIT', document)")
      * @ParamConverter(
      *      name="document",
      *      class="App\Domain\Model\Document\Document",
      *      converter="app.document"
      * )
+     * @Security("is_granted('DOCUMENT_EDIT', document)")
      *
      * @param Request             $request
      * @param Document            $document
@@ -257,12 +257,12 @@ class DocumentController extends AbstractController
      *          "version": "%routing.uuid%"
      *      }
      * )
-     * @Security("is_granted('DOCUMENT_VERSION_EDIT', version)")
      * @ParamConverter(
      *      name="version",
      *      class="App\Domain\Model\Document\DocumentVersion",
      *      converter="app.document_version"
      * )
+     * @Security("is_granted('DOCUMENT_VERSION_EDIT', version)")
      *
      * @param Request             $request
      * @param DocumentVersion     $version
@@ -298,12 +298,12 @@ class DocumentController extends AbstractController
      *          "version": "%routing.uuid%"
      *      }
      * )
-     * @Security("is_granted('DOCUMENT_VERSION_DELETE', version)")
      * @ParamConverter(
      *      name="version",
      *      class="App\Domain\Model\Document\DocumentVersion",
      *      converter="app.document_version"
      * )
+     * @Security("is_granted('DOCUMENT_VERSION_DELETE', version)")
      *
      * @param Request             $request
      * @param DocumentVersion     $version

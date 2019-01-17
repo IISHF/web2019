@@ -26,7 +26,7 @@ class SanctionEvent extends EventWorkflowCommand
      *
      * @var string
      */
-    private $sanctionNumber;
+    private $sanctionNumber = '';
 
     /**
      * @param string $id
@@ -53,6 +53,4 @@ class SanctionEvent extends EventWorkflowCommand
         $this->sanctionNumber = $sanctionNumber;
         return $this;
     }
-
-
 }

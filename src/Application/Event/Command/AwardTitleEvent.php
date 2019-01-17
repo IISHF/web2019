@@ -37,9 +37,9 @@ class AwardTitleEvent extends EventWorkflowCommand
     }
 
     /**
-     * @return TitleEventApplication
+     * @return TitleEventApplication|null
      */
-    public function getApplication(): TitleEventApplication
+    public function getApplication(): ?TitleEventApplication
     {
         return $this->application;
     }

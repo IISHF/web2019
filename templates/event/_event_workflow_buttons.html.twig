@@ -2,11 +2,11 @@
 <div class="{{ btnGroupClass }}" role="group">
     {% block before_workflow %}{% endblock %}
     {{ include('common/_workflow_btns.html.twig', {
-        subject: article,
-        route: 'app_article_workflow',
-        routeParams: {'article': article.id},
-        confirmTitle: article.title,
-        csrfIntentionPrefix: 'article_' ~ article.id
+        subject: event,
+        route: 'app_event_event_workflow',
+        routeParams: {'season': event.season, 'event': event.id},
+        confirmTitle: event.name,
+        csrfIntentionPrefix: 'event_' ~ event.id
     }) }}
     {% block after_workflow %}{% endblock %}
 </div>

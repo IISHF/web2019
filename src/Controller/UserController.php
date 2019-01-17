@@ -58,7 +58,6 @@ class UserController extends AbstractController
 
     /**
      * @Route("/create", methods={"GET", "POST"})
-     * @Security("is_granted('ROLE_ADMIN')")
      *
      * @param Request             $request
      * @param MessageBusInterface $commandBus

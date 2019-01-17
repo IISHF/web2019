@@ -1,0 +1,28 @@
+{% set transitions = workflow_transitions(subject) %}
+{% for transition in transitions %}
+    {% if  workflow_metadata(subject, 'form_type', transition) is not null %}
+        <a class="btn btn-{{ workflow_metadata(subject, 'color', transition) }}"
+           href="{{ path(route, routeParams|merge({'transition': transition.name})) }}">
+            {{ workflow_metadata(subject, 'button', transition) }}
+        </a>
+    {% else %}
+        {% set modalId = 'confirm_' ~ random() %}
+        {% embed 'common/_modal.html.twig' with {modalId: modalId, title: confirmTitle} %}
+            {% block modal_body %}
+                <p>{{ workflow_metadata(subject, 'confirm', transition) }}</p>
+            {% endblock %}
+            {% block modal_footer %}
+                {{ include('common/_form.html.twig', {
+                    action: path(route, routeParams|merge({'transition': transition.name})),
+                    csrfIntention: csrfIntentionPrefix ~ '_' ~ transition.name,
+                    submitBtn: workflow_metadata(subject, 'confirm_btn', transition),
+                    submitBtnType: workflow_metadata(subject, 'color', transition)
+                }) }}
+            {% endblock %}
+        {% endembed %}
+        <button type="button" class="btn btn-{{ workflow_metadata(subject, 'color', transition) }}"
+                data-toggle="modal" data-target="#{{ modalId }}">
+            {{ workflow_metadata(subject, 'button', transition) }}
+        </button>
+    {% endif %}
+{% endfor %}

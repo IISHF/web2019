@@ -12,6 +12,7 @@ use App\Application\Event\Command\CreateEuropeanChampionship;
 use App\Application\Event\Command\CreateEuropeanCup;
 use App\Application\Event\Command\CreateTournament;
 use App\Application\Event\Command\DeleteEvent;
+use App\Application\Event\Command\EventWorkflowCommand;
 use App\Application\Event\Command\UpdateEuropeanChampionship;
 use App\Application\Event\Command\UpdateEuropeanCup;
 use App\Application\Event\Command\UpdateTournament;
@@ -28,13 +29,16 @@ use App\Infrastructure\Event\Form\CreateTournamentType;
 use App\Infrastructure\Event\Form\UpdateEuropeanChampionshipType;
 use App\Infrastructure\Event\Form\UpdateEuropeanCupType;
 use App\Infrastructure\Event\Form\UpdateTournamentType;
+use App\Infrastructure\Workflow\WorkflowMetadata;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Workflow\Registry as WorkflowRegistry;
 
 /**
  * Class EventController
@@ -209,6 +213,7 @@ class EventController extends AbstractController
      *      class="App\Domain\Model\Event\Event",
      *      converter="app.event"
      * )
+     * @Security("is_granted('EVENT_EDIT', event)")
      *
      * @param Request             $request
      * @param Event               $event
@@ -264,6 +269,7 @@ class EventController extends AbstractController
      *      class="App\Domain\Model\Event\Event",
      *      converter="app.event"
      * )
+     * @Security("is_granted('EVENT_DELETE', event)")
      *
      * @param Request             $request
      * @param Event               $event
@@ -277,6 +283,89 @@ class EventController extends AbstractController
         $this->handleCsrfCommand($deleteEvent, 'event_delete_' . $event->getId(), $request, $commandBus);
 
         $this->addFlash('success', 'The event has been deleted.');
+
+        return $this->redirectToRoute('app_event_event_season', ['season' => $event->getSeason()]);
+    }
+
+    /**
+     * @Route(
+     *     "/{season<\d{4}>}/{event}/workflow/{transition<\w+>}",
+     *     methods={"GET", "POST"},
+     *     requirements={"event": "%routing.uuid%"}
+     * )
+     * @ParamConverter(
+     *      name="event",
+     *      class="App\Domain\Model\Event\Event",
+     *      converter="app.event"
+     * )
+     * @Security("is_granted('EVENT_EDIT', event)")
+     *
+     * @param Request             $request
+     * @param Event               $event
+     * @param string              $transition
+     * @param MessageBusInterface $commandBus
+     * @param WorkflowRegistry    $workflowRegistry
+     * @return Response
+     */
+    public function workflow(
+        Request $request,
+        Event $event,
+        string $transition,
+        MessageBusInterface $commandBus,
+        WorkflowRegistry $workflowRegistry
+    ): Response {
+        if ($event instanceof EuropeanChampionship) {
+            $workflow = 'title_event_sanctioning';
+            $template = 'event/workflow_championship.html.twig';
+        } elseif ($event instanceof EuropeanCup) {
+            $workflow = 'title_event_sanctioning';
+            $template = 'event/workflow_cup.html.twig';
+        } elseif ($event instanceof Tournament) {
+            $workflow = 'tournament_sanctioning';
+            $template = 'event/workflow_tournament.html.twig';
+        } else {
+            throw $this->createNotFoundException();
+        }
+
+        $transitionMeta = WorkflowMetadata::find($workflowRegistry, $event, $workflow)
+                                          ->findEnabledTransition($transition);
+        if (!$transitionMeta) {
+            throw new BadRequestHttpException();
+        }
+
+        $successMessage = $transitionMeta->getMetadata('success_message', 'The article has been updated.');
+
+        $command = EventWorkflowCommand::create($event, $transition);
+        if (($formType = $transitionMeta->getFormType()) !== null) {
+            $form = $this->createForm($formType, $command);
+            if ($this->handleForm($command, $form, $request, $commandBus)) {
+                $this->addFlash('success', $successMessage);
+
+                return $this->redirectToRoute('app_event_event_season', ['season' => $event->getSeason()]);
+            }
+
+            return $this->render(
+                $template,
+                [
+                    'event'      => $event,
+                    'transition' => $transitionMeta->getTransition(),
+                    'form'       => $form->createView(),
+                ]
+            );
+        }
+
+        if (!$request->isMethod(Request::METHOD_POST)) {
+            throw new BadRequestHttpException();
+        }
+
+        $this->handleCsrfCommand(
+            $command,
+            'event_' . $event->getId() . '_' . $transitionMeta->getName(),
+            $request,
+            $commandBus
+        );
+
+        $this->addFlash('success', $successMessage);
 
         return $this->redirectToRoute('app_event_event_season', ['season' => $event->getSeason()]);
     }

@@ -110,12 +110,12 @@ class NationalGoverningBodyController extends AbstractController
      *     methods={"GET", "POST"},
      *     requirements={"ngb": "%routing.uuid%"}
      * )
-     * @Security("is_granted('NATIONAL_GOVERNING_BODY_EDIT', ngb)")
      * @ParamConverter(
      *      name="ngb",
      *      class="App\Domain\Model\NationalGoverningBody\NationalGoverningBody",
      *      converter="app.national_governing_body"
      * )
+     * @Security("is_granted('NATIONAL_GOVERNING_BODY_EDIT', ngb)")
      *
      * @param Request               $request
      * @param NationalGoverningBody $ngb
@@ -148,12 +148,12 @@ class NationalGoverningBodyController extends AbstractController
      *     methods={"POST", "DELETE"},
      *     requirements={"ngb": "%routing.uuid%"}
      * )
-     * @Security("is_granted('NATIONAL_GOVERNING_BODY_DELETE', ngb)")
      * @ParamConverter(
      *      name="ngb",
      *      class="App\Domain\Model\NationalGoverningBody\NationalGoverningBody",
      *      converter="app.national_governing_body"
      * )
+     * @Security("is_granted('NATIONAL_GOVERNING_BODY_DELETE', ngb)")
      *
      * @param Request               $request
      * @param NationalGoverningBody $ngb

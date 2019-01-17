@@ -1,0 +1,15 @@
+{{ form_start(form) }}
+{% set workflowColor = workflow_metadata(event, 'color', transition) %}
+<div class="alert alert-{{ workflowColor }}" role="alert">
+    <h1 class="alert-heading">{{ title }}</h1>
+    <p>{{ workflow_metadata(event, 'confirm', transition) }}</p>
+    {{ form_rest(form) }}
+    <hr/>
+    <div class="btn-group" role="group">
+        <button type="submit" class="btn btn-{{ workflowColor }}">
+            {{ workflow_metadata(event, 'confirm_btn', transition) }}
+        </button>
+        <a href="{{ path('app_event_event_season', {season: event.season}) }}" class="btn btn-light">Cancel</a>
+    </div>
+</div>
+{{ form_end(form) }}

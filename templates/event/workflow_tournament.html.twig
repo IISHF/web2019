@@ -1,0 +1,10 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    {{ include('event/_form_workflow.html.twig', {
+        event: event,
+        form: form,
+        transition: transition,
+        title: 'Tournament ' ~ event.season ~ ' / ' ~ event.name
+    }) }}
+{% endblock %}

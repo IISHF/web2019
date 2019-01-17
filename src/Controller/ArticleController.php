@@ -21,6 +21,7 @@ use App\Infrastructure\Controller\CsrfSecuredHandler;
 use App\Infrastructure\Controller\FormHandler;
 use App\Infrastructure\Controller\PagingRequest;
 use App\Infrastructure\File\FileUploader;
+use App\Infrastructure\Workflow\WorkflowMetadata;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,8 +33,6 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Workflow\Registry as WorkflowRegistry;
-use Symfony\Component\Workflow\Transition as WorkflowTransition;
-use Symfony\Component\Workflow\Workflow;
 
 /**
  * Class ArticleController
@@ -179,12 +178,12 @@ class ArticleController extends AbstractController
      *     methods={"GET"},
      *     requirements={"article": "%routing.slug%"}
      * )
-     * @Security("is_granted('ARTICLE_EDIT', article)")
      * @ParamConverter(
      *      name="article",
      *      class="App\Domain\Model\Article\Article",
      *      converter="app.article"
      * )
+     * @Security("is_granted('ARTICLE_EDIT', article)")
      *
      * @param Article                  $article
      * @param int                      $version
@@ -216,12 +215,12 @@ class ArticleController extends AbstractController
      *     methods={"GET", "POST"},
      *     requirements={"article": "%routing.uuid%"}
      * )
-     * @Security("is_granted('ARTICLE_EDIT', article)")
      * @ParamConverter(
      *      name="article",
      *      class="App\Domain\Model\Article\Article",
      *      converter="app.article"
      * )
+     * @Security("is_granted('ARTICLE_EDIT', article)")
      *
      * @param Request             $request
      * @param Article             $article
@@ -264,12 +263,12 @@ class ArticleController extends AbstractController
      *     methods={"POST", "DELETE"},
      *     requirements={"article": "%routing.uuid%"}
      * )
-     * @Security("is_granted('ARTICLE_DELETE', article)")
      * @ParamConverter(
      *      name="article",
      *      class="App\Domain\Model\Article\Article",
      *      converter="app.article"
      * )
+     * @Security("is_granted('ARTICLE_DELETE', article)")
      *
      * @param Request             $request
      * @param Article             $article
@@ -297,12 +296,12 @@ class ArticleController extends AbstractController
      *     methods={"GET", "POST"},
      *     requirements={"article": "%routing.uuid%"}
      * )
-     * @Security("is_granted('ARTICLE_EDIT', article)")
      * @ParamConverter(
      *      name="article",
      *      class="App\Domain\Model\Article\Article",
      *      converter="app.article"
      * )
+     * @Security("is_granted('ARTICLE_EDIT', article)")
      *
      * @param Request             $request
      * @param Article             $article
@@ -318,121 +317,45 @@ class ArticleController extends AbstractController
         MessageBusInterface $commandBus,
         WorkflowRegistry $workflowRegistry
     ): Response {
-        $workflow           = $workflowRegistry->get($article, 'article_publishing');
-        $transitionInstance = $this->findTransition($workflow, $article, $transition);
-        $metaDataStore      = $workflow->getMetadataStore();
 
-        $successMessage = $metaDataStore->getMetadata('success_message', $transitionInstance);
-        if (!$successMessage) {
-            $successMessage = 'The article has been updated.';
+        $transitionMeta = WorkflowMetadata::find($workflowRegistry, $article, 'article_publishing')
+                                          ->findEnabledTransition($transition);
+        if (!$transitionMeta) {
+            throw new BadRequestHttpException();
         }
 
+        $successMessage = $transitionMeta->getMetadata('success_message', 'The article has been updated.');
+
         $command = ArticleWorkflowCommand::create($article, $transition);
-        if (($formType = $metaDataStore->getMetadata('form_type', $transitionInstance)) !== null) {
-            return $this->handleFormTransition(
-                $request,
-                $article,
-                $transitionInstance,
-                $formType,
-                $command,
-                $successMessage,
-                $commandBus
+        if (($formType = $transitionMeta->getFormType()) !== null) {
+            $form = $this->createForm($formType, $command);
+            if ($this->handleForm($command, $form, $request, $commandBus)) {
+                $this->addFlash('success', $successMessage);
+
+                return $this->redirectToRoute('app_article_list', ['all' => true]);
+            }
+
+            return $this->render(
+                'article/workflow.html.twig',
+                [
+                    'article'    => $article,
+                    'transition' => $transitionMeta->getTransition(),
+                    'form'       => $form->createView(),
+                ]
             );
         }
 
-        return $this->handleTransition($request, $article, $transitionInstance, $command, $successMessage, $commandBus);
-    }
-
-    /**
-     * @param Workflow $workflow
-     * @param Article  $article
-     * @param string   $transition
-     * @return WorkflowTransition
-     */
-    private function findTransition(Workflow $workflow, Article $article, string $transition): WorkflowTransition
-    {
-        $transitionInstance = null;
-        foreach ($workflow->getEnabledTransitions($article) as $t) {
-            /** @var WorkflowTransition $t */
-            if ($t->getName() === $transition) {
-                $transitionInstance = $t;
-                break;
-            }
-        }
-        if (!$transitionInstance) {
-            throw new BadRequestHttpException();
-        }
-        return $transitionInstance;
-    }
-
-    /**
-     * @param Request                $request
-     * @param Article                $article
-     * @param WorkflowTransition     $transition
-     * @param string                 $formType
-     * @param ArticleWorkflowCommand $command
-     * @param string                 $successMessage
-     * @param MessageBusInterface    $commandBus
-     * @return Response
-     */
-    private function handleFormTransition(
-        Request $request,
-        Article $article,
-        WorkflowTransition $transition,
-        string $formType,
-        ArticleWorkflowCommand $command,
-        string $successMessage,
-        MessageBusInterface $commandBus
-    ): Response {
-        $form = $this->createForm($formType, $command);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandBus->dispatch($command);
-            $this->addFlash('success', $successMessage);
-
-            return $this->redirectToRoute('app_article_list', ['all' => true]);
-        }
-
-        return $this->render(
-            'article/workflow.html.twig',
-            [
-                'article'    => $article,
-                'transition' => $transition,
-                'form'       => $form->createView(),
-            ]
-        );
-    }
-
-    /**
-     * @param Request                $request
-     * @param Article                $article
-     * @param WorkflowTransition     $transition
-     * @param ArticleWorkflowCommand $command
-     * @param string                 $successMessage
-     * @param MessageBusInterface    $commandBus
-     * @return Response
-     */
-    private function handleTransition(
-        Request $request,
-        Article $article,
-        WorkflowTransition $transition,
-        ArticleWorkflowCommand $command,
-        string $successMessage,
-        MessageBusInterface $commandBus
-    ): Response {
         if (!$request->isMethod(Request::METHOD_POST)) {
             throw new BadRequestHttpException();
         }
-        
+
         $this->handleCsrfCommand(
             $command,
-            'article_' . $transition->getName() . '_' . $article->getId(),
+            'article_' . $article->getId() . '_' . $transitionMeta->getName(),
             $request,
             $commandBus
         );
 
-        $commandBus->dispatch($command);
         $this->addFlash('success', $successMessage);
 
         return $this->redirectToRoute('app_article_list', ['all' => true]);
