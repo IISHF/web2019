@@ -20,6 +20,9 @@ use App\Domain\Model\Event\EuropeanChampionship;
 use App\Domain\Model\Event\EuropeanCup;
 use App\Domain\Model\Event\Event;
 use App\Domain\Model\Event\EventRepository;
+use App\Domain\Model\Event\ParticipatingTeamRepository;
+use App\Domain\Model\Event\TitleEvent;
+use App\Domain\Model\Event\TitleEventApplicationRepository;
 use App\Domain\Model\Event\Tournament;
 use App\Infrastructure\Controller\CsrfSecuredHandler;
 use App\Infrastructure\Controller\FormHandler;
@@ -179,11 +182,16 @@ class EventController extends AbstractController
      *      converter="app.event"
      * )
      *
-     * @param Event $event
+     * @param Event                           $event
+     * @param TitleEventApplicationRepository $applicationRepository
+     * @param ParticipatingTeamRepository     $teamRepository
      * @return Response
      */
-    public function detail(Event $event): Response
-    {
+    public function detail(
+        Event $event,
+        TitleEventApplicationRepository $applicationRepository,
+        ParticipatingTeamRepository $teamRepository
+    ): Response {
         if ($event instanceof EuropeanChampionship) {
             $template = 'event/detail_championship.html.twig';
         } elseif ($event instanceof EuropeanCup) {
@@ -194,10 +202,20 @@ class EventController extends AbstractController
             throw $this->createNotFoundException();
         }
 
+        if ($event instanceof TitleEvent) {
+            $applications = $applicationRepository->findForEvent($event);
+        } else {
+            $applications = [];
+        }
+
+        $teams = $teamRepository->findForEvent($event);
+
         return $this->render(
             $template,
             [
-                'event' => $event,
+                'event'        => $event,
+                'applications' => $applications,
+                'teams'        => $teams,
             ]
         );
     }

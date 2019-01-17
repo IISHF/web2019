@@ -6,6 +6,10 @@
 
     {{ include('event/_cup_detail.html.twig', {event: event}) }}
 
+    {{ include('event/_teams_card.html.twig', {teams: teams}) }}
+
+    {{ include('event/_applications_card.html.twig', {applications: applications}) }}
+
     {% embed 'event/_event_workflow_buttons.html.twig' with {event: event} %}
         {% block before_workflow %}
             {% if is_granted('EVENT_EDIT', event) %}

@@ -1,0 +1,40 @@
+<div class="card my-4">
+    <div class="card-body">
+        <h5 class="card-title">Applications</h5>
+
+        <table class="table table-sm">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Club</th>
+                <th scope="col">Date</th>
+                <th scope="col">Venue</th>
+                <th scope="col">Updated</th>
+                <th scope="col">&#160;</th>
+            </tr>
+            </thead>
+            <tbody>
+            {# @var applications \App\Domain\Model\Event\TitleEventApplication[] #}
+            {% for application in applications %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ application.applicantClub }}</td>
+                    <td>{{ application.proposedStartDate|date('F j, Y') }}
+                        – {{ application.proposedStartDate|date('F j, Y') }}</td>
+                    <td>{{ event.venue.address.city }}, {{ event.venue.address.countryName }}</td>
+                    <td class="text-nowrap">{{ application.updatedAt|relative_time }}</td>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group">
+
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">No applications found.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
