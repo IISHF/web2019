@@ -65,10 +65,10 @@ class EventVenueController extends AbstractController
      */
     public function create(Request $request, MessageBusInterface $commandBus): Response
     {
-        $createVenue = CreateEventVenue::create();
-        $form        = $this->createForm(CreateEventVenueType::class, $createVenue);
+        $create = CreateEventVenue::create();
+        $form   = $this->createForm(CreateEventVenueType::class, $create);
 
-        if ($this->handleForm($createVenue, $form, $request, $commandBus)) {
+        if ($this->handleForm($create, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The new venue has been created.');
 
             return $this->redirectToRoute('app_event_eventvenue_list');
@@ -126,10 +126,10 @@ class EventVenueController extends AbstractController
      */
     public function update(Request $request, EventVenue $venue, MessageBusInterface $commandBus): Response
     {
-        $updateVenue = UpdateEventVenue::update($venue);
-        $form        = $this->createForm(UpdateEventVenueType::class, $updateVenue);
+        $update = UpdateEventVenue::update($venue);
+        $form   = $this->createForm(UpdateEventVenueType::class, $update);
 
-        if ($this->handleForm($updateVenue, $form, $request, $commandBus)) {
+        if ($this->handleForm($update, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The venue has been updated.');
 
             return $this->redirectToRoute('app_event_eventvenue_list');
@@ -163,9 +163,9 @@ class EventVenueController extends AbstractController
      */
     public function delete(Request $request, EventVenue $venue, MessageBusInterface $commandBus): Response
     {
-        $deleteVenue = DeleteEventVenue::delete($venue);
+        $delete = DeleteEventVenue::delete($venue);
 
-        $this->handleCsrfCommand($deleteVenue, 'venue_delete_' . $venue->getId(), $request, $commandBus);
+        $this->handleCsrfCommand($delete, 'venue_delete_' . $venue->getId(), $request, $commandBus);
 
         $this->addFlash('success', 'The venue has been deleted.');
 

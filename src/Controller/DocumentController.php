@@ -71,10 +71,10 @@ class DocumentController extends AbstractController
      */
     public function create(Request $request, MessageBusInterface $commandBus): Response
     {
-        $createDocument = CreateDocument::create();
-        $form           = $this->createForm(CreateDocumentType::class, $createDocument);
+        $create = CreateDocument::create();
+        $form   = $this->createForm(CreateDocumentType::class, $create);
 
-        if ($this->handleForm($createDocument, $form, $request, $commandBus)) {
+        if ($this->handleForm($create, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The new document has been created.');
 
             return $this->redirectToRoute('app_document_list');
@@ -134,10 +134,10 @@ class DocumentController extends AbstractController
      */
     public function update(Request $request, Document $document, MessageBusInterface $commandBus): Response
     {
-        $updateDocument = UpdateDocument::update($document);
-        $form           = $this->createForm(UpdateDocumentType::class, $updateDocument);
+        $update = UpdateDocument::update($document);
+        $form   = $this->createForm(UpdateDocumentType::class, $update);
 
-        if ($this->handleForm($updateDocument, $form, $request, $commandBus)) {
+        if ($this->handleForm($update, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The document has been updated.');
 
             return $this->redirectToRoute('app_document_list');
@@ -172,9 +172,9 @@ class DocumentController extends AbstractController
      */
     public function delete(Request $request, Document $document, MessageBusInterface $commandBus): Response
     {
-        $deleteDocument = DeleteDocument::delete($document);
+        $delete = DeleteDocument::delete($document);
 
-        $this->handleCsrfCommand($deleteDocument, 'document_delete_' . $document->getId(), $request, $commandBus);
+        $this->handleCsrfCommand($delete, 'document_delete_' . $document->getId(), $request, $commandBus);
 
         $this->addFlash('success', 'The document has been deleted.');
 
@@ -202,10 +202,10 @@ class DocumentController extends AbstractController
      */
     public function createVersion(Request $request, Document $document, MessageBusInterface $commandBus): Response
     {
-        $createVersion = CreateDocumentVersion::create($document->getId());
-        $form          = $this->createForm(CreateDocumentVersionType::class, $createVersion);
+        $create = CreateDocumentVersion::create($document->getId());
+        $form   = $this->createForm(CreateDocumentVersionType::class, $create);
 
-        if ($this->handleForm($createVersion, $form, $request, $commandBus)) {
+        if ($this->handleForm($create, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The new document version has been created.');
 
             return $this->redirectToRoute('app_document_detail', ['document' => $document->getSlug()]);
@@ -271,10 +271,10 @@ class DocumentController extends AbstractController
      */
     public function updateVersion(Request $request, DocumentVersion $version, MessageBusInterface $commandBus): Response
     {
-        $updateVersion = UpdateDocumentVersion::update($version);
-        $form          = $this->createForm(UpdateDocumentVersionType::class, $updateVersion);
+        $update = UpdateDocumentVersion::update($version);
+        $form   = $this->createForm(UpdateDocumentVersionType::class, $update);
 
-        if ($this->handleForm($updateVersion, $form, $request, $commandBus)) {
+        if ($this->handleForm($update, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The document version has been updated.');
 
             return $this->redirectToRoute('app_document_detail', ['document' => $version->getDocument()->getSlug()]);
@@ -312,10 +312,10 @@ class DocumentController extends AbstractController
      */
     public function deleteVersion(Request $request, DocumentVersion $version, MessageBusInterface $commandBus): Response
     {
-        $document      = $version->getDocument();
-        $deleteVersion = DeleteDocumentVersion::delete($version);
+        $document = $version->getDocument();
+        $delete   = DeleteDocumentVersion::delete($version);
 
-        $this->handleCsrfCommand($deleteVersion, 'document_version_delete_' . $version->getId(), $request, $commandBus);
+        $this->handleCsrfCommand($delete, 'document_version_delete_' . $version->getId(), $request, $commandBus);
 
         $this->addFlash('success', 'The document version has been deleted.');
 

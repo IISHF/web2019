@@ -65,10 +65,10 @@ class UserController extends AbstractController
      */
     public function create(Request $request, MessageBusInterface $commandBus): Response
     {
-        $createUser = CreateUser::create();
-        $form       = $this->createForm(CreateUserType::class, $createUser);
+        $create = CreateUser::create();
+        $form   = $this->createForm(CreateUserType::class, $create);
 
-        if ($this->handleForm($createUser, $form, $request, $commandBus)) {
+        if ($this->handleForm($create, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The new user has been created.');
 
             return $this->redirectToRoute('app_user_list');
@@ -127,10 +127,10 @@ class UserController extends AbstractController
      */
     public function update(Request $request, User $user, MessageBusInterface $commandBus): Response
     {
-        $updateUser = UpdateUser::update($user);
-        $form       = $this->createForm(UpdateUserType::class, $updateUser);
+        $update = UpdateUser::update($user);
+        $form   = $this->createForm(UpdateUserType::class, $update);
 
-        if ($this->handleForm($updateUser, $form, $request, $commandBus)) {
+        if ($this->handleForm($update, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The user has been updated.');
 
             return $this->redirectToRoute('app_user_list');
@@ -165,9 +165,9 @@ class UserController extends AbstractController
      */
     public function delete(Request $request, User $user, MessageBusInterface $commandBus): Response
     {
-        $deleteUser = DeleteUser::delete($user);
+        $delete = DeleteUser::delete($user);
 
-        $this->handleCsrfCommand($deleteUser, 'user_delete_' . $user->getId(), $request, $commandBus);
+        $this->handleCsrfCommand($delete, 'user_delete_' . $user->getId(), $request, $commandBus);
 
         $this->addFlash('success', 'The user has been deleted.');
 

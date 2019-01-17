@@ -112,10 +112,10 @@ class ArticleController extends AbstractController
             throw new BadRequestHttpException();
         }
 
-        $createArticle = CreateArticle::create($user->getUsername());
-        $form          = $this->createForm(CreateArticleType::class, $createArticle);
+        $create = CreateArticle::create($user->getUsername());
+        $form   = $this->createForm(CreateArticleType::class, $create);
 
-        if ($this->handleForm($createArticle, $form, $request, $commandBus)) {
+        if ($this->handleForm($create, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The new article has been created.');
             return $this->redirectToRoute('app_article_list', ['all' => true]);
         }
@@ -123,7 +123,7 @@ class ArticleController extends AbstractController
         return $this->render(
             'article/create.html.twig',
             [
-                'author' => $createArticle->getAuthor(),
+                'author' => $create->getAuthor(),
                 'form'   => $form->createView(),
             ]
         );
@@ -233,16 +233,14 @@ class ArticleController extends AbstractController
             throw $this->createAccessDeniedException();
         }
 
-        $updateArticle = UpdateArticle::update($article);
-        $form          = $this->createForm(
+        $update = UpdateArticle::update($article);
+        $form   = $this->createForm(
             UpdateArticleType::class,
-            $updateArticle,
-            [
-                'add_published_date' => $article->isPublished(),
-            ]
+            $update,
+            ['add_published_date' => $article->isPublished(),]
         );
 
-        if ($this->handleForm($updateArticle, $form, $request, $commandBus)) {
+        if ($this->handleForm($update, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The article has been updated.');
 
             return $this->redirectToRoute('app_article_list', ['all' => true]);
@@ -281,9 +279,9 @@ class ArticleController extends AbstractController
             throw $this->createAccessDeniedException();
         }
 
-        $deleteArticle = DeleteArticle::delete($article);
+        $delete = DeleteArticle::delete($article);
 
-        $this->handleCsrfCommand($deleteArticle, 'article_delete_' . $article->getId(), $request, $commandBus);
+        $this->handleCsrfCommand($delete, 'article_delete_' . $article->getId(), $request, $commandBus);
 
         $this->addFlash('success', 'The article has been deleted.');
 

@@ -105,8 +105,8 @@ class FileController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        $removeFile = RemoveFile::remove($file);
-        $commandBus->dispatch($removeFile);
+        $remove = RemoveFile::remove($file);
+        $commandBus->dispatch($remove);
 
         return Response::create('', Response::HTTP_NO_CONTENT);
     }

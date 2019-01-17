@@ -62,10 +62,10 @@ class NationalGoverningBodyController extends AbstractController
      */
     public function create(Request $request, MessageBusInterface $commandBus): Response
     {
-        $createNgb = CreateNationalGoverningBody::create();
-        $form      = $this->createForm(CreateNationalGoverningBodyType::class, $createNgb);
+        $create = CreateNationalGoverningBody::create();
+        $form   = $this->createForm(CreateNationalGoverningBodyType::class, $create);
 
-        if ($this->handleForm($createNgb, $form, $request, $commandBus)) {
+        if ($this->handleForm($create, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The new national governing body has been created.');
 
             return $this->redirectToRoute('app_nationalgoverningbody_list');
@@ -124,10 +124,10 @@ class NationalGoverningBodyController extends AbstractController
      */
     public function update(Request $request, NationalGoverningBody $ngb, MessageBusInterface $commandBus): Response
     {
-        $updateNgb = UpdateNationalGoverningBody::update($ngb);
-        $form      = $this->createForm(UpdateNationalGoverningBodyType::class, $updateNgb);
+        $update = UpdateNationalGoverningBody::update($ngb);
+        $form   = $this->createForm(UpdateNationalGoverningBodyType::class, $update);
 
-        if ($this->handleForm($updateNgb, $form, $request, $commandBus)) {
+        if ($this->handleForm($update, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The national governing body has been updated.');
 
             return $this->redirectToRoute('app_nationalgoverningbody_list');
@@ -162,9 +162,9 @@ class NationalGoverningBodyController extends AbstractController
      */
     public function delete(Request $request, NationalGoverningBody $ngb, MessageBusInterface $commandBus): Response
     {
-        $deleteNgb = DeleteNationalGoverningBody::delete($ngb);
+        $delete = DeleteNationalGoverningBody::delete($ngb);
 
-        $this->handleCsrfCommand($deleteNgb, 'ngb_delete_' . $ngb->getId(), $request, $commandBus);
+        $this->handleCsrfCommand($delete, 'ngb_delete_' . $ngb->getId(), $request, $commandBus);
 
         $this->addFlash('success', 'The national governing body has been deleted.');
 

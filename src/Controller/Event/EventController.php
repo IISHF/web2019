@@ -99,13 +99,13 @@ class EventController extends AbstractController
      */
     public function createChampionship(Request $request, MessageBusInterface $commandBus): Response
     {
-        $createChampionship = CreateEuropeanChampionship::create();
-        $form               = $this->createForm(CreateEuropeanChampionshipType::class, $createChampionship);
+        $create = CreateEuropeanChampionship::create();
+        $form   = $this->createForm(CreateEuropeanChampionshipType::class, $create);
 
-        if ($this->handleForm($createChampionship, $form, $request, $commandBus)) {
+        if ($this->handleForm($create, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The new European Championship has been created.');
 
-            return $this->redirectToRoute('app_event_event_season', ['season' => $createChampionship->getSeason()]);
+            return $this->redirectToRoute('app_event_event_season', ['season' => $create->getSeason()]);
         }
 
         return $this->render(
@@ -126,13 +126,13 @@ class EventController extends AbstractController
      */
     public function createCup(Request $request, MessageBusInterface $commandBus): Response
     {
-        $createCup = CreateEuropeanCup::create();
-        $form      = $this->createForm(CreateEuropeanCupType::class, $createCup);
+        $create = CreateEuropeanCup::create();
+        $form   = $this->createForm(CreateEuropeanCupType::class, $create);
 
-        if ($this->handleForm($createCup, $form, $request, $commandBus)) {
+        if ($this->handleForm($create, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The new European Cup has been created.');
 
-            return $this->redirectToRoute('app_event_event_season', ['season' => $createCup->getSeason()]);
+            return $this->redirectToRoute('app_event_event_season', ['season' => $create->getSeason()]);
         }
 
         return $this->render(
@@ -153,13 +153,13 @@ class EventController extends AbstractController
      */
     public function createTournament(Request $request, MessageBusInterface $commandBus): Response
     {
-        $createTournament = CreateTournament::create();
-        $form             = $this->createForm(CreateTournamentType::class, $createTournament);
+        $create = CreateTournament::create();
+        $form   = $this->createForm(CreateTournamentType::class, $create);
 
-        if ($this->handleForm($createTournament, $form, $request, $commandBus)) {
+        if ($this->handleForm($create, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The new tournament has been created.');
 
-            return $this->redirectToRoute('app_event_event_season', ['season' => $createTournament->getSeason()]);
+            return $this->redirectToRoute('app_event_event_season', ['season' => $create->getSeason()]);
         }
 
         return $this->render(
@@ -241,17 +241,17 @@ class EventController extends AbstractController
     public function update(Request $request, Event $event, MessageBusInterface $commandBus): Response
     {
         if ($event instanceof EuropeanChampionship) {
-            $updateCommand  = UpdateEuropeanChampionship::update($event);
+            $update         = UpdateEuropeanChampionship::update($event);
             $formType       = UpdateEuropeanChampionshipType::class;
             $template       = 'event/update_championship.html.twig';
             $successMessage = 'The European Championship has been updated.';
         } elseif ($event instanceof EuropeanCup) {
-            $updateCommand  = UpdateEuropeanCup::update($event);
+            $update         = UpdateEuropeanCup::update($event);
             $formType       = UpdateEuropeanCupType::class;
             $template       = 'event/update_cup.html.twig';
             $successMessage = 'The European Cup has been updated.';
         } elseif ($event instanceof Tournament) {
-            $updateCommand  = UpdateTournament::update($event);
+            $update         = UpdateTournament::update($event);
             $formType       = UpdateTournamentType::class;
             $template       = 'event/update_tournament.html.twig';
             $successMessage = 'The tournament has been updated.';
@@ -259,9 +259,9 @@ class EventController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        $form = $this->createForm($formType, $updateCommand);
+        $form = $this->createForm($formType, $update);
 
-        if ($this->handleForm($updateCommand, $form, $request, $commandBus)) {
+        if ($this->handleForm($update, $form, $request, $commandBus)) {
             $this->addFlash('success', $successMessage);
 
             return $this->redirectToRoute('app_event_event_season', ['season' => $event->getSeason()]);
@@ -296,9 +296,9 @@ class EventController extends AbstractController
      */
     public function delete(Request $request, Event $event, MessageBusInterface $commandBus): Response
     {
-        $deleteEvent = DeleteEvent::delete($event);
+        $delete = DeleteEvent::delete($event);
 
-        $this->handleCsrfCommand($deleteEvent, 'event_delete_' . $event->getId(), $request, $commandBus);
+        $this->handleCsrfCommand($delete, 'event_delete_' . $event->getId(), $request, $commandBus);
 
         $this->addFlash('success', 'The event has been deleted.');
 
