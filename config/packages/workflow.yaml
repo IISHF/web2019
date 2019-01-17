@@ -141,6 +141,16 @@ framework:
                         confirm_btn: Announce title event
                         form_type: App\Infrastructure\Event\Form\AnnounceTitleEventType
                         success_message: The title event has been announced.
+                withhold:
+                    guard: 'is_granted("EVENT_ANNOUNCE", subject)'
+                    from: announced
+                    to: planned
+                    metadata:
+                        color: warning
+                        button: Withhold
+                        confirm: Do you really want to withhold the title event?
+                        confirm_btn: Withhold title event
+                        success_message: The title event has been withheld.
                 sanction:
                     guard: 'is_granted("EVENT_SANCTION", subject)'
                     from: announced
