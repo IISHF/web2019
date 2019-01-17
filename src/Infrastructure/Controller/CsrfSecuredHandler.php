@@ -16,8 +16,6 @@ use Symfony\Component\Messenger\MessageBusInterface;
  * Trait CsrfSecuredHandler
  *
  * @package App\Infrastructure\Controller
- *
- * @method bool isCsrfTokenValid(string $id, ?string $token)
  */
 trait CsrfSecuredHandler
 {
@@ -38,4 +36,11 @@ trait CsrfSecuredHandler
         }
         $commandBus->dispatch($command);
     }
+
+    /**
+     * @param string      $id
+     * @param string|null $token
+     * @return bool
+     */
+    abstract protected function isCsrfTokenValid(string $id, ?string $token): bool;
 }
