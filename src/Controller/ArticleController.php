@@ -17,6 +17,8 @@ use App\Domain\Model\Article\ArticleRepository;
 use App\Domain\Model\Article\ArticleVersionRepository;
 use App\Infrastructure\Article\Form\CreateArticleType;
 use App\Infrastructure\Article\Form\UpdateArticleType;
+use App\Infrastructure\Controller\CsrfSecuredHandler;
+use App\Infrastructure\Controller\FormHandler;
 use App\Infrastructure\Controller\PagingRequest;
 use App\Infrastructure\File\FileUploader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -42,6 +44,8 @@ use Symfony\Component\Workflow\Workflow;
  */
 class ArticleController extends AbstractController
 {
+    use FormHandler, CsrfSecuredHandler;
+
     /**
      * @Route("", methods={"GET"})
      *
@@ -111,12 +115,9 @@ class ArticleController extends AbstractController
 
         $createArticle = CreateArticle::create($user->getUsername());
         $form          = $this->createForm(CreateArticleType::class, $createArticle);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandBus->dispatch($createArticle);
+        if ($this->handleForm($createArticle, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The new article has been created.');
-
             return $this->redirectToRoute('app_article_list', ['all' => true]);
         }
 
@@ -241,10 +242,8 @@ class ArticleController extends AbstractController
                 'add_published_date' => $article->isPublished(),
             ]
         );
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandBus->dispatch($updateArticle);
+        if ($this->handleForm($updateArticle, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The article has been updated.');
 
             return $this->redirectToRoute('app_article_list', ['all' => true]);
@@ -285,14 +284,8 @@ class ArticleController extends AbstractController
 
         $deleteArticle = DeleteArticle::delete($article);
 
-        if (!$this->isCsrfTokenValid(
-            'article_delete_' . $article->getId(),
-            $request->request->get('_token')
-        )) {
-            throw new BadRequestHttpException();
-        }
+        $this->handleCsrfCommand($deleteArticle, 'article_delete_' . $article->getId(), $request, $commandBus);
 
-        $commandBus->dispatch($deleteArticle);
         $this->addFlash('success', 'The article has been deleted.');
 
         return $this->redirectToRoute('app_article_list', ['all' => true]);
@@ -431,12 +424,13 @@ class ArticleController extends AbstractController
         if (!$request->isMethod(Request::METHOD_POST)) {
             throw new BadRequestHttpException();
         }
-        if (!$this->isCsrfTokenValid(
+        
+        $this->handleCsrfCommand(
+            $command,
             'article_' . $transition->getName() . '_' . $article->getId(),
-            $request->request->get('_token')
-        )) {
-            throw new BadRequestHttpException();
-        }
+            $request,
+            $commandBus
+        );
 
         $commandBus->dispatch($command);
         $this->addFlash('success', $successMessage);

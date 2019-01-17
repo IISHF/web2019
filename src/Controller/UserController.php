@@ -13,6 +13,8 @@ use App\Application\User\Command\DeleteUser;
 use App\Application\User\Command\UpdateUser;
 use App\Domain\Model\User\User;
 use App\Domain\Model\User\UserRepository;
+use App\Infrastructure\Controller\CsrfSecuredHandler;
+use App\Infrastructure\Controller\FormHandler;
 use App\Infrastructure\Controller\PagingRequest;
 use App\Infrastructure\User\Form\CreateUserType;
 use App\Infrastructure\User\Form\UpdateUserType;
@@ -21,7 +23,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -35,6 +36,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class UserController extends AbstractController
 {
+    use FormHandler, CsrfSecuredHandler;
+
     /**
      * @Route("", methods={"GET"})
      *
@@ -65,10 +68,8 @@ class UserController extends AbstractController
     {
         $createUser = CreateUser::create();
         $form       = $this->createForm(CreateUserType::class, $createUser);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandBus->dispatch($createUser);
+        if ($this->handleForm($createUser, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The new user has been created.');
 
             return $this->redirectToRoute('app_user_list');
@@ -129,10 +130,8 @@ class UserController extends AbstractController
     {
         $updateUser = UpdateUser::update($user);
         $form       = $this->createForm(UpdateUserType::class, $updateUser);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandBus->dispatch($updateUser);
+        if ($this->handleForm($updateUser, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The user has been updated.');
 
             return $this->redirectToRoute('app_user_list');
@@ -169,11 +168,8 @@ class UserController extends AbstractController
     {
         $deleteUser = DeleteUser::delete($user);
 
-        if (!$this->isCsrfTokenValid('user_delete_' . $user->getId(), $request->request->get('_token'))) {
-            throw new BadRequestHttpException();
-        }
+        $this->handleCsrfCommand($deleteUser, 'user_delete_' . $user->getId(), $request, $commandBus);
 
-        $commandBus->dispatch($deleteUser);
         $this->addFlash('success', 'The user has been deleted.');
 
         return $this->redirectToRoute('app_user_list');

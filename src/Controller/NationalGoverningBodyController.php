@@ -13,6 +13,8 @@ use App\Application\NationalGoverningBody\Command\DeleteNationalGoverningBody;
 use App\Application\NationalGoverningBody\Command\UpdateNationalGoverningBody;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBody;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBodyRepository;
+use App\Infrastructure\Controller\CsrfSecuredHandler;
+use App\Infrastructure\Controller\FormHandler;
 use App\Infrastructure\NationalGoverningBody\Form\CreateNationalGoverningBodyType;
 use App\Infrastructure\NationalGoverningBody\Form\UpdateNationalGoverningBodyType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -20,7 +22,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -33,6 +34,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class NationalGoverningBodyController extends AbstractController
 {
+    use FormHandler, CsrfSecuredHandler;
+
     /**
      * @Route("", methods={"GET"})
      *
@@ -61,10 +64,8 @@ class NationalGoverningBodyController extends AbstractController
     {
         $createNgb = CreateNationalGoverningBody::create();
         $form      = $this->createForm(CreateNationalGoverningBodyType::class, $createNgb);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandBus->dispatch($createNgb);
+        if ($this->handleForm($createNgb, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The new national governing body has been created.');
 
             return $this->redirectToRoute('app_nationalgoverningbody_list');
@@ -125,10 +126,8 @@ class NationalGoverningBodyController extends AbstractController
     {
         $updateNgb = UpdateNationalGoverningBody::update($ngb);
         $form      = $this->createForm(UpdateNationalGoverningBodyType::class, $updateNgb);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandBus->dispatch($updateNgb);
+        if ($this->handleForm($updateNgb, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The national governing body has been updated.');
 
             return $this->redirectToRoute('app_nationalgoverningbody_list');
@@ -165,11 +164,8 @@ class NationalGoverningBodyController extends AbstractController
     {
         $deleteNgb = DeleteNationalGoverningBody::delete($ngb);
 
-        if (!$this->isCsrfTokenValid('ngb_delete_' . $ngb->getId(), $request->request->get('_token'))) {
-            throw new BadRequestHttpException();
-        }
+        $this->handleCsrfCommand($deleteNgb, 'ngb_delete_' . $ngb->getId(), $request, $commandBus);
 
-        $commandBus->dispatch($deleteNgb);
         $this->addFlash('success', 'The national governing body has been deleted.');
 
         return $this->redirectToRoute('app_nationalgoverningbody_list');

@@ -13,6 +13,8 @@ use App\Application\Event\Command\DeleteEventVenue;
 use App\Application\Event\Command\UpdateEventVenue;
 use App\Domain\Model\Event\EventVenue;
 use App\Domain\Model\Event\EventVenueRepository;
+use App\Infrastructure\Controller\CsrfSecuredHandler;
+use App\Infrastructure\Controller\FormHandler;
 use App\Infrastructure\Controller\PagingRequest;
 use App\Infrastructure\Event\Form\CreateEventVenueType;
 use App\Infrastructure\Event\Form\UpdateEventVenueType;
@@ -21,7 +23,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -35,6 +36,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class EventVenueController extends AbstractController
 {
+    use FormHandler, CsrfSecuredHandler;
+
     /**
      * @Route("", methods={"GET"})
      *
@@ -65,10 +68,8 @@ class EventVenueController extends AbstractController
     {
         $createVenue = CreateEventVenue::create();
         $form        = $this->createForm(CreateEventVenueType::class, $createVenue);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandBus->dispatch($createVenue);
+        if ($this->handleForm($createVenue, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The new venue has been created.');
 
             return $this->redirectToRoute('app_event_eventvenue_list');
@@ -128,10 +129,8 @@ class EventVenueController extends AbstractController
     {
         $updateVenue = UpdateEventVenue::update($venue);
         $form        = $this->createForm(UpdateEventVenueType::class, $updateVenue);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandBus->dispatch($updateVenue);
+        if ($this->handleForm($updateVenue, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The venue has been updated.');
 
             return $this->redirectToRoute('app_event_eventvenue_list');
@@ -167,11 +166,8 @@ class EventVenueController extends AbstractController
     {
         $deleteVenue = DeleteEventVenue::delete($venue);
 
-        if (!$this->isCsrfTokenValid('venue_delete_' . $venue->getId(), $request->request->get('_token'))) {
-            throw new BadRequestHttpException();
-        }
+        $this->handleCsrfCommand($deleteVenue, 'venue_delete_' . $venue->getId(), $request, $commandBus);
 
-        $commandBus->dispatch($deleteVenue);
         $this->addFlash('success', 'The venue has been deleted.');
 
         return $this->redirectToRoute('app_event_eventvenue_list');

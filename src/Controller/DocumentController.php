@@ -17,6 +17,8 @@ use App\Application\Document\Command\UpdateDocumentVersion;
 use App\Domain\Model\Document\Document;
 use App\Domain\Model\Document\DocumentRepository;
 use App\Domain\Model\Document\DocumentVersion;
+use App\Infrastructure\Controller\CsrfSecuredHandler;
+use App\Infrastructure\Controller\FormHandler;
 use App\Infrastructure\Controller\PagingRequest;
 use App\Infrastructure\Document\Form\CreateDocumentType;
 use App\Infrastructure\Document\Form\CreateDocumentVersionType;
@@ -27,7 +29,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -40,6 +41,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DocumentController extends AbstractController
 {
+    use FormHandler, CsrfSecuredHandler;
+
     /**
      * @Route("", methods={"GET"})
      *
@@ -70,10 +73,8 @@ class DocumentController extends AbstractController
     {
         $createDocument = CreateDocument::create();
         $form           = $this->createForm(CreateDocumentType::class, $createDocument);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandBus->dispatch($createDocument);
+        if ($this->handleForm($createDocument, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The new document has been created.');
 
             return $this->redirectToRoute('app_document_list');
@@ -135,10 +136,8 @@ class DocumentController extends AbstractController
     {
         $updateDocument = UpdateDocument::update($document);
         $form           = $this->createForm(UpdateDocumentType::class, $updateDocument);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandBus->dispatch($updateDocument);
+        if ($this->handleForm($updateDocument, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The document has been updated.');
 
             return $this->redirectToRoute('app_document_list');
@@ -175,11 +174,8 @@ class DocumentController extends AbstractController
     {
         $deleteDocument = DeleteDocument::delete($document);
 
-        if (!$this->isCsrfTokenValid('document_delete_' . $document->getId(), $request->request->get('_token'))) {
-            throw new BadRequestHttpException();
-        }
+        $this->handleCsrfCommand($deleteDocument, 'document_delete_' . $document->getId(), $request, $commandBus);
 
-        $commandBus->dispatch($deleteDocument);
         $this->addFlash('success', 'The document has been deleted.');
 
         return $this->redirectToRoute('app_document_list');
@@ -208,10 +204,8 @@ class DocumentController extends AbstractController
     {
         $createVersion = CreateDocumentVersion::create($document->getId());
         $form          = $this->createForm(CreateDocumentVersionType::class, $createVersion);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandBus->dispatch($createVersion);
+        if ($this->handleForm($createVersion, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The new document version has been created.');
 
             return $this->redirectToRoute('app_document_detail', ['document' => $document->getSlug()]);
@@ -279,10 +273,8 @@ class DocumentController extends AbstractController
     {
         $updateVersion = UpdateDocumentVersion::update($version);
         $form          = $this->createForm(UpdateDocumentVersionType::class, $updateVersion);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandBus->dispatch($updateVersion);
+        if ($this->handleForm($updateVersion, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The document version has been updated.');
 
             return $this->redirectToRoute('app_document_detail', ['document' => $version->getDocument()->getSlug()]);
@@ -323,14 +315,8 @@ class DocumentController extends AbstractController
         $document      = $version->getDocument();
         $deleteVersion = DeleteDocumentVersion::delete($version);
 
-        if (!$this->isCsrfTokenValid(
-            'document_version_delete_' . $version->getId(),
-            $request->request->get('_token')
-        )) {
-            throw new BadRequestHttpException();
-        }
+        $this->handleCsrfCommand($deleteVersion, 'document_version_delete_' . $version->getId(), $request, $commandBus);
 
-        $commandBus->dispatch($deleteVersion);
         $this->addFlash('success', 'The document version has been deleted.');
 
         return $this->redirectToRoute('app_document_detail', ['document' => $document->getSlug()]);

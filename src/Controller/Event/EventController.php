@@ -20,6 +20,8 @@ use App\Domain\Model\Event\EuropeanCup;
 use App\Domain\Model\Event\Event;
 use App\Domain\Model\Event\EventRepository;
 use App\Domain\Model\Event\Tournament;
+use App\Infrastructure\Controller\CsrfSecuredHandler;
+use App\Infrastructure\Controller\FormHandler;
 use App\Infrastructure\Event\Form\CreateEuropeanChampionshipType;
 use App\Infrastructure\Event\Form\CreateEuropeanCupType;
 use App\Infrastructure\Event\Form\CreateTournamentType;
@@ -31,7 +33,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -44,6 +45,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class EventController extends AbstractController
 {
+    use FormHandler, CsrfSecuredHandler;
+
     /**
      * @Route("", methods={"GET"})
      * @Route("/current", methods={"GET"})
@@ -91,10 +94,8 @@ class EventController extends AbstractController
     {
         $createChampionship = CreateEuropeanChampionship::create();
         $form               = $this->createForm(CreateEuropeanChampionshipType::class, $createChampionship);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandBus->dispatch($createChampionship);
+        if ($this->handleForm($createChampionship, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The new European Championship has been created.');
 
             return $this->redirectToRoute('app_event_event_season', ['season' => $createChampionship->getSeason()]);
@@ -120,10 +121,8 @@ class EventController extends AbstractController
     {
         $createCup = CreateEuropeanCup::create();
         $form      = $this->createForm(CreateEuropeanCupType::class, $createCup);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandBus->dispatch($createCup);
+        if ($this->handleForm($createCup, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The new European Cup has been created.');
 
             return $this->redirectToRoute('app_event_event_season', ['season' => $createCup->getSeason()]);
@@ -149,10 +148,8 @@ class EventController extends AbstractController
     {
         $createTournament = CreateTournament::create();
         $form             = $this->createForm(CreateTournamentType::class, $createTournament);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandBus->dispatch($createTournament);
+        if ($this->handleForm($createTournament, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The new tournament has been created.');
 
             return $this->redirectToRoute('app_event_event_season', ['season' => $createTournament->getSeason()]);
@@ -240,10 +237,8 @@ class EventController extends AbstractController
         }
 
         $form = $this->createForm($formType, $updateCommand);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandBus->dispatch($updateCommand);
+        if ($this->handleForm($updateCommand, $form, $request, $commandBus)) {
             $this->addFlash('success', $successMessage);
 
             return $this->redirectToRoute('app_event_event_season', ['season' => $event->getSeason()]);
@@ -277,13 +272,10 @@ class EventController extends AbstractController
      */
     public function delete(Request $request, Event $event, MessageBusInterface $commandBus): Response
     {
-        $deleteVenue = DeleteEvent::delete($event);
+        $deleteEvent = DeleteEvent::delete($event);
 
-        if (!$this->isCsrfTokenValid('event_delete_' . $event->getId(), $request->request->get('_token'))) {
-            throw new BadRequestHttpException();
-        }
+        $this->handleCsrfCommand($deleteEvent, 'event_delete_' . $event->getId(), $request, $commandBus);
 
-        $commandBus->dispatch($deleteVenue);
         $this->addFlash('success', 'The event has been deleted.');
 
         return $this->redirectToRoute('app_event_event_season', ['season' => $event->getSeason()]);

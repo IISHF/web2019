@@ -13,6 +13,7 @@ use App\Application\User\Command\ConfirmUser;
 use App\Application\User\Command\RequestPasswordReset;
 use App\Application\User\Command\ResetPassword;
 use App\Domain\Model\User\UserRepository;
+use App\Infrastructure\Controller\FormHandler;
 use App\Infrastructure\User\Form\ChangePasswordType;
 use App\Infrastructure\User\Form\ConfirmUserType;
 use App\Infrastructure\User\Form\RequestPasswordResetType;
@@ -33,6 +34,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AccountController extends AbstractController
 {
+    use FormHandler;
+
     /**
      * @Route("/change-password", methods={"GET", "POST"})
      *
@@ -48,10 +51,8 @@ class AccountController extends AbstractController
 
         $changePassword = ChangePassword::change($user, $request);
         $form           = $this->createForm(ChangePasswordType::class, $changePassword);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandBus->dispatch($changePassword);
+        if ($this->handleForm($changePassword, $form, $request, $commandBus)) {
             $this->addFlash('success', 'Your password has been changed.');
             return $this->redirectToRoute('home');
         }
@@ -80,10 +81,8 @@ class AccountController extends AbstractController
 
         $requestPassword = RequestPasswordReset::request($request);
         $form            = $this->createForm(RequestPasswordResetType::class, $requestPassword);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandBus->dispatch($requestPassword);
+        if ($this->handleForm($requestPassword, $form, $request, $commandBus)) {
             $this->addFlash(
                 'success',
                 'Your password has been reset. Please check your email for further instructions.'
@@ -128,10 +127,8 @@ class AccountController extends AbstractController
 
         $resetPassword = ResetPassword::reset($resetPasswordToken, $request);
         $form          = $this->createForm(ResetPasswordType::class, $resetPassword);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandBus->dispatch($resetPassword);
+        if ($this->handleForm($resetPassword, $form, $request, $commandBus)) {
             $this->addFlash('success', 'Your password has been reset. Please login.');
 
             return $this->redirectToRoute('home');
@@ -174,10 +171,8 @@ class AccountController extends AbstractController
 
         $confirmUser = ConfirmUser::confirm($confirmToken, $request);
         $form        = $this->createForm(ConfirmUserType::class, $confirmUser);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandBus->dispatch($confirmUser);
+        if ($this->handleForm($confirmUser, $form, $request, $commandBus)) {
             $this->addFlash('success', 'Your user account has been confirmed. Please login.');
 
             return $this->redirectToRoute('home');
