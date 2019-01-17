@@ -8,12 +8,221 @@
 
 namespace App\Controller\Event;
 
+use App\Application\Event\Command\ApplyForTitleEvent;
+use App\Application\Event\Command\UpdateTitleEventApplication;
+use App\Application\Event\Command\WithdrawTitleEventApplication;
+use App\Domain\Model\Event\Event;
+use App\Domain\Model\Event\TitleEvent;
+use App\Domain\Model\Event\TitleEventApplicationRepository;
+use App\Infrastructure\Controller\CsrfSecuredHandler;
+use App\Infrastructure\Controller\FormHandler;
+use App\Infrastructure\Event\Form\ApplyForTitleEventType;
+use App\Infrastructure\Event\Form\UpdateTitleEventApplicationType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Routing\Annotation\Route;
+
 /**
  * Class TitleEventApplicationController
  *
  * @package App\Controller\Event
+ *
+ * @Route(
+ *      "/events/{event}/applications",
+ *      requirements={"event": "%routing.uuid%"}
+ * )
+ * @ParamConverter(
+ *      name="event",
+ *      class="App\Domain\Model\Event\Event",
+ *      converter="app.event"
+ * )
  */
-class TitleEventApplicationController
+class TitleEventApplicationController extends AbstractController
 {
+    use FormHandler, CsrfSecuredHandler;
 
+    /**
+     * @Route("/apply", methods={"GET", "POST"})
+     * @Security("is_granted('EVENT_EDIT', event)")
+     *
+     * @param Request             $request
+     * @param Event               $event
+     * @param MessageBusInterface $commandBus
+     * @return Response
+     */
+    public function apply(Request $request, Event $event, MessageBusInterface $commandBus): Response
+    {
+        if (!$event instanceof TitleEvent) {
+            throw $this->createNotFoundException();
+        }
+
+        $apply = ApplyForTitleEvent::apply($event->getId());
+        $form  = $this->createForm(ApplyForTitleEventType::class, $apply);
+
+        if ($this->handleForm($apply, $form, $request, $commandBus)) {
+            $this->addFlash('success', 'The new title event application has been added.');
+
+            return $this->redirectToRoute(
+                'app_event_event_detail',
+                [
+                    'season' => $event->getSeason(),
+                    'event'  => $event->getSlug(),
+                ]
+            );
+        }
+
+        return $this->render(
+            'event/application/apply.html.twig',
+            [
+                'event' => $event,
+                'form'  => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @Route(
+     *      "/{applicationId}",
+     *      methods={"GET"},
+     *      requirements={"applicationId": "%routing.uuid%"}
+     * )
+     *
+     * @param Event                           $event
+     * @param string                          $applicationId
+     * @param TitleEventApplicationRepository $applicationRepository
+     * @return Response
+     */
+    public function detail(
+        Event $event,
+        string $applicationId,
+        TitleEventApplicationRepository $applicationRepository
+    ): Response {
+        if (!$event instanceof TitleEvent) {
+            throw $this->createNotFoundException();
+        }
+
+        $application = $applicationRepository->findById($applicationId);
+        if (!$application) {
+            throw $this->createNotFoundException();
+        }
+
+        return $this->render(
+            'event/application/detail.html.twig',
+            [
+                'event'       => $event,
+                'application' => $application,
+            ]
+        );
+    }
+
+    /**
+     * @Route(
+     *     "/{applicationId}/edit",
+     *     methods={"GET", "POST"},
+     *     requirements={"applicationId": "%routing.uuid%"}
+     * )
+     * @Security("is_granted('EVENT_EDIT', event)")
+     *
+     * @param Request                         $request
+     * @param Event                           $event
+     * @param string                          $applicationId
+     * @param TitleEventApplicationRepository $applicationRepository
+     * @param MessageBusInterface             $commandBus
+     * @return Response
+     */
+    public function update(
+        Request $request,
+        Event $event,
+        string $applicationId,
+        TitleEventApplicationRepository $applicationRepository,
+        MessageBusInterface $commandBus
+    ): Response {
+        if (!$event instanceof TitleEvent) {
+            throw $this->createNotFoundException();
+        }
+
+        $application = $applicationRepository->findById($applicationId);
+        if (!$application) {
+            throw $this->createNotFoundException();
+        }
+
+        $update = UpdateTitleEventApplication::update($application);
+        $form   = $this->createForm(UpdateTitleEventApplicationType::class, $update);
+
+        if ($this->handleForm($update, $form, $request, $commandBus)) {
+            $this->addFlash('success', 'The title event application has been updated.');
+
+            return $this->redirectToRoute(
+                'app_event_event_detail',
+                [
+                    'season' => $event->getSeason(),
+                    'event'  => $event->getSlug(),
+                ]
+            );
+        }
+
+        return $this->render(
+            'event/application/update.html.twig',
+            [
+                'event'       => $event,
+                'application' => $application,
+                'form'        => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @Route(
+     *     "/{applicationId}/withdraw",
+     *     methods={"POST", "DELETE"},
+     *     requirements={"applicationId": "%routing.uuid%"}
+     * )
+     * @Security("is_granted('EVENT_EDIT', event)")
+     *
+     * @param Request                         $request
+     * @param Event                           $event
+     * @param string                          $applicationId
+     * @param TitleEventApplicationRepository $applicationRepository
+     * @param MessageBusInterface             $commandBus
+     * @return Response
+     */
+    public function withdraw(
+        Request $request,
+        Event $event,
+        string $applicationId,
+        TitleEventApplicationRepository $applicationRepository,
+        MessageBusInterface $commandBus
+    ): Response {
+        if (!$event instanceof TitleEvent) {
+            throw $this->createNotFoundException();
+        }
+
+        $application = $applicationRepository->findById($applicationId);
+        if (!$application) {
+            throw $this->createNotFoundException();
+        }
+
+        $withdraw = WithdrawTitleEventApplication::withdraw($application);
+
+        $this->handleCsrfCommand(
+            $withdraw,
+            'event_application_withdraw_' . $application->getId(),
+            $request,
+            $commandBus
+        );
+
+        $this->addFlash('success', 'The title event application has been withdrawn.');
+
+        return $this->redirectToRoute(
+            'app_event_event_detail',
+            [
+                'season' => $event->getSeason(),
+                'event'  => $event->getSlug(),
+            ]
+        );
+    }
 }

@@ -1,7 +1,12 @@
 <div class="card my-4">
     <div class="card-body">
         <h5 class="card-title">Teams</h5>
-
+        {% if is_granted('EVENT_EDIT', event) %}
+            <div class="btn-group" role="group">
+                <a href="{{ path('app_event_participatingteam_add', {event: event.id}) }}"
+                   class="btn btn-success">Add team</a>
+            </div>
+        {% endif %}
         <table class="table table-sm">
             <thead class="thead-dark">
             <tr>
@@ -16,7 +21,12 @@
             {% for team in teams %}
                 <tr>
                     <th scope="row">{{ loop.index }}</th>
-                    <td>{{ team.name }}</td>
+                    <td>
+                        <a href="{{ path('app_event_participatingteam_detail', {
+                            event: event.id,
+                            teamId: team.id
+                        }) }}">{{ team.name }}</a>
+                    </td>
                     <td class="text-nowrap">{{ team.updatedAt|relative_time }}</td>
                     <td>
                         <div class="btn-group btn-group-sm" role="group">

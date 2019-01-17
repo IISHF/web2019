@@ -4,7 +4,7 @@
     {{ include('common/_workflow_btns.html.twig', {
         subject: event,
         route: 'app_event_event_workflow',
-        routeParams: {'season': event.season, 'event': event.id},
+        routeParams: {'event': event.id},
         confirmTitle: event.name,
         csrfIntentionPrefix: 'event_' ~ event.id
     }) }}

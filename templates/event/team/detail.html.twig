@@ -1,0 +1,19 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    <h1>{{ team.name }}</h1>
+
+    <dl class="row">
+        <dt class="col-2">ID</dt>
+        <dd class="col-10">{{ team.id }}</dd>
+        <dt class="col-2">Last Updated</dt>
+        <dd class="col-10">{{ team.updatedAt|relative_time }}</dd>
+        <dt class="col-2">Created</dt>
+        <dd class="col-10">{{ team.createdAt|relative_time }}</dd>
+    </dl>
+
+    <div class="btn-group" role="group">
+        <a href="{{ path('app_event_event_detail', {season: event.season, event: event.slug}) }}"
+           class="btn btn-outline-secondary">Back</a>
+    </div>
+{% endblock %}

@@ -50,7 +50,7 @@
                     {% embed 'event/_event_workflow_buttons.html.twig' with {event: event, size: 'sm'} %}
                         {% block before_workflow %}
                             {% if is_granted('EVENT_EDIT', event) %}
-                                <a href="{{ path('app_event_event_update', {'season': event.season, event: event.id}) }}"
+                                <a href="{{ path('app_event_event_update', {event: event.id}) }}"
                                    class="btn btn-primary">Edit</a>
                             {% endif %}
                         {% endblock %}
@@ -59,7 +59,7 @@
                                 {{ include('common/_delete_btn.html.twig', {
                                     title: event.name,
                                     body: 'Do you really want to delete the event?',
-                                    deleteAction: path('app_event_event_delete', {'season': event.season, event: event.id}),
+                                    deleteAction: path('app_event_event_delete', {event: event.id}),
                                     csrfIntention: 'event_delete_' ~ event.id,
                                 }) }}
                             {% endif %}

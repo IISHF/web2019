@@ -1,7 +1,12 @@
 <div class="card my-4">
     <div class="card-body">
         <h5 class="card-title">Applications</h5>
-
+        {% if is_granted('EVENT_EDIT', event) %}
+            <div class="btn-group" role="group">
+                <a href="{{ path('app_event_titleeventapplication_apply', {event: event.id}) }}"
+                   class="btn btn-success">Add application</a>
+            </div>
+        {% endif %}
         <table class="table table-sm">
             <thead class="thead-dark">
             <tr>
@@ -18,10 +23,15 @@
             {% for application in applications %}
                 <tr>
                     <th scope="row">{{ loop.index }}</th>
-                    <td>{{ application.applicantClub }}</td>
+                    <td>
+                        <a href="{{ path('app_event_titleeventapplication_detail', {
+                            event: event.id,
+                            applicationId: application.id
+                        }) }}">{{ application.applicantClub }}</a>
+                    </td>
                     <td>{{ application.proposedStartDate|date('F j, Y') }}
                         – {{ application.proposedStartDate|date('F j, Y') }}</td>
-                    <td>{{ event.venue.address.city }}, {{ event.venue.address.countryName }}</td>
+                    <td>{{ application.venue.address.city }}, {{ application.venue.address.countryName }}</td>
                     <td class="text-nowrap">{{ application.updatedAt|relative_time }}</td>
                     <td>
                         <div class="btn-group btn-group-sm" role="group">

@@ -1,0 +1,12 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    <h1>Add title event application to {{ event.name }}</h1>
+
+    {% include 'event/application/_form.html.twig' with {
+        event: event,
+        form: form,
+        submitBtnText: 'Add',
+        submitBtnType: 'success'
+    } %}
+{% endblock %}

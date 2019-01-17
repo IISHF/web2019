@@ -6,12 +6,12 @@
 
     {{ include('event/_tournament_detail.html.twig', {event: event}) }}
 
-    {{ include('event/_teams_card.html.twig', {teams: teams}) }}
+    {{ include('event/_teams_card.html.twig', {event: event, teams: teams}) }}
 
     {% embed 'event/_event_workflow_buttons.html.twig' with {event: event} %}
         {% block before_workflow %}
             {% if is_granted('EVENT_EDIT', event) %}
-                <a href="{{ path('app_event_event_update', {'season': event.season, event: event.id}) }}"
+                <a href="{{ path('app_event_event_update', {event: event.id}) }}"
                    class="btn btn-primary">Edit</a>
             {% endif %}
         {% endblock %}
@@ -20,7 +20,7 @@
                 {{ include('common/_delete_btn.html.twig', {
                     title: event.name,
                     body: 'Do you really want to delete the tournament?',
-                    deleteAction: path('app_event_event_delete', {'season': event.season, event: event.id}),
+                    deleteAction: path('app_event_event_delete', {event: event.id}),
                     csrfIntention: 'event_delete_' ~ event.id,
                 }) }}
             {% endif %}

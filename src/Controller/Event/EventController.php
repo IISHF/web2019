@@ -222,7 +222,7 @@ class EventController extends AbstractController
 
     /**
      * @Route(
-     *     "/{season<\d{4}>}/{event}/edit",
+     *     "/{event}/edit",
      *     methods={"GET", "POST"},
      *     requirements={"event": "%routing.uuid%"}
      * )
@@ -278,7 +278,7 @@ class EventController extends AbstractController
 
     /**
      * @Route(
-     *     "/{season<\d{4}>}/{event}/delete",
+     *     "/{event}/delete",
      *     methods={"POST", "DELETE"},
      *     requirements={"event": "%routing.uuid%"}
      * )
@@ -307,7 +307,7 @@ class EventController extends AbstractController
 
     /**
      * @Route(
-     *     "/{season<\d{4}>}/{event}/workflow/{transition<\w+>}",
+     *     "/{event}/workflow/{transition<\w+>}",
      *     methods={"GET", "POST"},
      *     requirements={"event": "%routing.uuid%"}
      * )

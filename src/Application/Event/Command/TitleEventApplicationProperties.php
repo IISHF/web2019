@@ -132,9 +132,9 @@ trait TitleEventApplicationProperties
     }
 
     /**
-     * @return EventVenue
+     * @return EventVenue|null
      */
-    public function getVenue(): EventVenue
+    public function getVenue(): ?EventVenue
     {
         return $this->venue;
     }
