@@ -28,7 +28,7 @@ class TitleEventVoter extends DelegatingVoter
             return false;
         }
 
-        return \in_array($attribute, ['EVENT_EDIT', 'EVENT_DELETE', 'EVENT_AWARD', 'EVENT_SANCTION']);
+        return \in_array($attribute, ['EVENT_EDIT', 'EVENT_DELETE', 'EVENT_ANNOUNCE', 'EVENT_SANCTION']);
     }
 
     /**

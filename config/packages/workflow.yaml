@@ -123,27 +123,27 @@ framework:
                 planned:
                     metadata:
                         name: Planned
-                awarded:
+                announced:
                     metadata:
-                        name: Awarded
+                        name: Announced
                 sanctioned:
                     metadata:
                         name: Sanctioned
             transitions:
-                award:
-                    guard: 'is_granted("EVENT_AWARD", subject)'
+                announce:
+                    guard: 'is_granted("EVENT_ANNOUNCE", subject)'
                     from: planned
-                    to: awarded
+                    to: announced
                     metadata:
                         color: primary
-                        button: Award
-                        confirm: Do you really want to award the title event?
-                        confirm_btn: Award title event
-                        form_type: App\Infrastructure\Event\Form\AwardTitleEventType
-                        success_message: The title event has been awarded.
+                        button: Announce
+                        confirm: Do you really want to announce the title event?
+                        confirm_btn: Announce title event
+                        form_type: App\Infrastructure\Event\Form\AnnounceTitleEventType
+                        success_message: The title event has been announced.
                 sanction:
                     guard: 'is_granted("EVENT_SANCTION", subject)'
-                    from: awarded
+                    from: announced
                     to: sanctioned
                     metadata:
                         color: success

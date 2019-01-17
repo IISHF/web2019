@@ -37,8 +37,8 @@ abstract class EventWorkflowCommand
     public static function create(Event $event, string $transition): self
     {
         switch ($transition) {
-            case AwardTitleEvent::TRANSITION:
-                return new AwardTitleEvent($event->getId());
+            case AnnounceTitleEvent::TRANSITION:
+                return new AnnounceTitleEvent($event->getId());
             case SanctionEvent::TRANSITION:
                 return new SanctionEvent($event->getId());
             default:

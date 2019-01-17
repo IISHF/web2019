@@ -1,7 +1,7 @@
 {% if workflow_has_marked_place(event, 'planned') %}
     <span class="badge badge-info">{{ workflow_metadata(event, 'name', 'planned') }}</span>
-{% elseif workflow_has_marked_place(event, 'awarded') %}
-    <span class="badge badge-success">{{ workflow_metadata(event, 'name', 'awarded') }}</span>
+{% elseif workflow_has_marked_place(event, 'announced') %}
+    <span class="badge badge-success">{{ workflow_metadata(event, 'name', 'announced') }}</span>
 {% elseif workflow_has_marked_place(event, 'sanctioned') %}
     <span class="badge badge-primary">
         {{ event.sanctionNumber|default(workflow_metadata(event, 'name', 'sanctioned')) }}

@@ -12,20 +12,20 @@ use App\Domain\Model\Event\TitleEvent;
 use Ramsey\Uuid\Uuid;
 
 /**
- * Class AwardTitleEventHandler
+ * Class AnnounceTitleEventHandler
  *
  * @package App\Application\Event\Command
  */
-class AwardTitleEventHandler extends WorkflowCommandHandler
+class AnnounceTitleEventHandler extends WorkflowCommandHandler
 {
     /**
-     * @param AwardTitleEvent $command
+     * @param AnnounceTitleEvent $command
      */
-    public function __invoke(AwardTitleEvent $command): void
+    public function __invoke(AnnounceTitleEvent $command): void
     {
         /** @var TitleEvent $event */
         $event = $this->applyTransition($command);
-        $event->awardEventApplication((string)Uuid::uuid4(), $command->getApplication());
+        $event->announceTitleEvent((string)Uuid::uuid4(), $command->getApplication());
         $this->eventRepository->save($event);
     }
 }

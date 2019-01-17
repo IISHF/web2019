@@ -8,7 +8,7 @@
 
 namespace App\Infrastructure\Event\Form;
 
-use App\Application\Event\Command\AwardTitleEvent;
+use App\Application\Event\Command\AnnounceTitleEvent;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -16,11 +16,11 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class AwardTitleEventType
+ * Class AnnounceTitleEventType
  *
  * @package App\Infrastructure\Event\Form
  */
-class AwardTitleEventType extends AbstractType
+class AnnounceTitleEventType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -30,9 +30,9 @@ class AwardTitleEventType extends AbstractType
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
             function (FormEvent $event) {
-                /** @var AwardTitleEvent $awardTitleEvent */
-                $awardTitleEvent = $event->getData();
-                $titleEventId    = $awardTitleEvent->getId();
+                /** @var AnnounceTitleEvent $announceTitleEvent */
+                $announceTitleEvent = $event->getData();
+                $titleEventId       = $announceTitleEvent->getId();
                 $event->getForm()
                       ->add(
                           'application',
@@ -54,7 +54,7 @@ class AwardTitleEventType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => AwardTitleEvent::class,
+                'data_class' => AnnounceTitleEvent::class,
             ]
         );
     }

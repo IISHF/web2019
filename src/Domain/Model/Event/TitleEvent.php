@@ -132,7 +132,7 @@ abstract class TitleEvent extends Event
      * @param TitleEventApplication $application
      * @return $this
      */
-    public function awardEventApplication(string $id, TitleEventApplication $application): self
+    public function announceTitleEvent(string $id, TitleEventApplication $application): self
     {
         if ($application->getTitleEvent() !== $this) {
             throw new \InvalidArgumentException('The title event application is not registered with this event.');

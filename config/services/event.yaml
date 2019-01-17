@@ -19,7 +19,7 @@ services:
     App\Application\Event\Command\DeleteEventHandler:
 
     App\Application\Event\Command\TransitionEventHandler:
-    App\Application\Event\Command\AwardTitleEventHandler:
+    App\Application\Event\Command\AnnounceTitleEventHandler:
     App\Application\Event\Command\SanctionEventHandler:
 
     App\Application\Event\Command\CreateEventVenueHandler:

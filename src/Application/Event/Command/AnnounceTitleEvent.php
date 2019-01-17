@@ -12,13 +12,13 @@ use App\Domain\Model\Event\TitleEventApplication;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class AwardTitleEvent
+ * Class AnnounceTitleEvent
  *
  * @package App\Application\Event\Command
  */
-class AwardTitleEvent extends EventWorkflowCommand
+class AnnounceTitleEvent extends EventWorkflowCommand
 {
-    public const TRANSITION = 'award';
+    public const TRANSITION = 'announce';
 
     /**
      * @Assert\Type("App\Domain\Model\Event\EventVenue")
