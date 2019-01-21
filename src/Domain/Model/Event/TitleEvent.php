@@ -152,4 +152,14 @@ abstract class TitleEvent extends Event
 
         return $this;
     }
+
+    /**
+     * @return $this
+     */
+    public function withholdTitleEVent(): self
+    {
+        return $this->setHost(null)
+                    ->clearDate()
+                    ->setVenue(null);
+    }
 }

@@ -27,8 +27,7 @@ class WithholdTitleEventHandler extends WorkflowCommandHandler
         if ($host = $event->getHost()) {
             $this->eventRepository->deleteHost($host);
         }
-        $event->setHost(null);
-        $event->setVenue(null);
+        $event->withholdTitleEVent();
         $this->eventRepository->save($event);
     }
 }
