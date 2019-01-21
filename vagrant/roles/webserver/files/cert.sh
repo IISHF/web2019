@@ -11,5 +11,5 @@ openssl req \
     -nodes \
     -days 365 \
     -newkey rsa:4096 \
-    -keyout ${CERT_PATH}/iishf-test2.key \
-    -out ${CERT_PATH}/iishf-test2.crt
+    -keyout ${CERT_PATH}/iishf-test.key \
+    -out ${CERT_PATH}/iishf-test.crt
