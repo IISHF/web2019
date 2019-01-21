@@ -163,11 +163,18 @@ class EventRepository extends ServiceEntityRepository implements TagProvider
     public function delete(Event $event): void
     {
         $this->_em->remove($event);
-        $host = $event->getHost();
-        if ($host) {
+        if ($host = $event->getHost()) {
             $this->_em->remove($host);
         }
         $this->_em->flush();
+    }
+
+    /**
+     * @param EventHost $host
+     */
+    public function deleteHost(EventHost $host): void
+    {
+        $this->_em->remove($host);
     }
 
     /**

@@ -39,6 +39,8 @@ abstract class EventWorkflowCommand
         switch ($transition) {
             case AnnounceTitleEvent::TRANSITION:
                 return new AnnounceTitleEvent($event->getId());
+            case WithholdTitleEvent::TRANSITION:
+                return new WithholdTitleEvent($event->getId());
             case SanctionEvent::TRANSITION:
                 return new SanctionEvent($event->getId());
             default:
