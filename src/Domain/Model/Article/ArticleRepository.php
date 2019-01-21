@@ -126,7 +126,6 @@ class ArticleRepository extends ServiceEntityRepository implements TagProvider
     public function save(Article $article): Article
     {
         $this->_em->persist($article);
-        $this->_em->flush();
         return $article;
     }
 
@@ -136,7 +135,6 @@ class ArticleRepository extends ServiceEntityRepository implements TagProvider
     public function delete(Article $article): void
     {
         $this->_em->remove($article);
-        $this->_em->flush();
     }
 
     /**
@@ -206,16 +204,8 @@ class ArticleRepository extends ServiceEntityRepository implements TagProvider
      */
     public function saveAttachment(ArticleAttachment $attachment): ArticleAttachment
     {
-        $this->_em->beginTransaction();
-        try {
-            $this->_em->persist($attachment);
-            $this->fileRepository->save($attachment->getFile());
-            $this->_em->flush();
-            $this->_em->commit();
-        } catch (\Exception $e) {
-            $this->_em->rollback();
-            throw $e;
-        }
+        $this->_em->persist($attachment);
+        $this->fileRepository->save($attachment->getFile());
         return $attachment;
     }
 
@@ -224,15 +214,7 @@ class ArticleRepository extends ServiceEntityRepository implements TagProvider
      */
     public function deleteAttachment(ArticleAttachment $attachment): void
     {
-        $this->_em->beginTransaction();
-        try {
-            $this->_em->remove($attachment);
-            $this->fileRepository->delete($attachment->getFile());
-            $this->_em->flush();
-            $this->_em->commit();
-        } catch (\Exception $e) {
-            $this->_em->rollback();
-            throw $e;
-        }
+        $this->_em->remove($attachment);
+        $this->fileRepository->delete($attachment->getFile());
     }
 }

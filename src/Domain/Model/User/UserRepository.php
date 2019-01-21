@@ -106,7 +106,6 @@ class UserRepository extends ServiceEntityRepository
     public function save(User $user): User
     {
         $this->_em->persist($user);
-        $this->_em->flush();
         return $user;
     }
 
@@ -116,6 +115,5 @@ class UserRepository extends ServiceEntityRepository
     public function delete(User $user): void
     {
         $this->_em->remove($user);
-        $this->_em->flush();
     }
 }

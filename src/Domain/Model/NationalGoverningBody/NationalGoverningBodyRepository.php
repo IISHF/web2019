@@ -110,7 +110,6 @@ class NationalGoverningBodyRepository extends ServiceEntityRepository
     public function save(NationalGoverningBody $ngb): NationalGoverningBody
     {
         $this->_em->persist($ngb);
-        $this->_em->flush();
         return $ngb;
     }
 
@@ -120,6 +119,5 @@ class NationalGoverningBodyRepository extends ServiceEntityRepository
     public function delete(NationalGoverningBody $ngb): void
     {
         $this->_em->remove($ngb);
-        $this->_em->flush();
     }
 }

@@ -92,7 +92,6 @@ class ParticipatingTeamRepository extends ServiceEntityRepository
     {
         $this->_em->persist($team);
         $this->_em->persist($team->getContact());
-        $this->_em->flush();
         return $team;
     }
 
@@ -103,6 +102,5 @@ class ParticipatingTeamRepository extends ServiceEntityRepository
     {
         $this->_em->remove($team);
         $this->_em->remove($team->getContact());
-        $this->_em->flush();
     }
 }

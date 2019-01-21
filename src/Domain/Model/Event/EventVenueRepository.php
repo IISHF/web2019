@@ -82,7 +82,6 @@ class EventVenueRepository extends ServiceEntityRepository
     public function save(EventVenue $venue): EventVenue
     {
         $this->_em->persist($venue);
-        $this->_em->flush();
         return $venue;
     }
 
@@ -92,6 +91,5 @@ class EventVenueRepository extends ServiceEntityRepository
     public function delete(EventVenue $venue): void
     {
         $this->_em->remove($venue);
-        $this->_em->flush();
     }
 }

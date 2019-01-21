@@ -132,18 +132,10 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
      */
     public function save(Document $document): Document
     {
-        $this->_em->beginTransaction();
-        try {
-            $this->_em->persist($document);
-            foreach ($document->getVersions() as $version) {
-                $this->_em->persist($version);
-                $this->fileRepository->save($version->getFile());
-            }
-            $this->_em->flush();
-            $this->_em->commit();
-        } catch (\Exception $e) {
-            $this->_em->rollback();
-            throw $e;
+        $this->_em->persist($document);
+        foreach ($document->getVersions() as $version) {
+            $this->_em->persist($version);
+            $this->fileRepository->save($version->getFile());
         }
         return $document;
     }
@@ -153,18 +145,10 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
      */
     public function delete(Document $document): void
     {
-        $this->_em->beginTransaction();
-        try {
-            $this->_em->remove($document);
-            foreach ($document->getVersions() as $version) {
-                $this->_em->remove($version);
-                $this->fileRepository->delete($version->getFile());
-            }
-            $this->_em->flush();
-            $this->_em->commit();
-        } catch (\Exception $e) {
-            $this->_em->rollback();
-            throw $e;
+        $this->_em->remove($document);
+        foreach ($document->getVersions() as $version) {
+            $this->_em->remove($version);
+            $this->fileRepository->delete($version->getFile());
         }
     }
 
@@ -250,16 +234,8 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
      */
     public function saveVersion(DocumentVersion $documentVersion): DocumentVersion
     {
-        $this->_em->beginTransaction();
-        try {
-            $this->_em->persist($documentVersion);
-            $this->fileRepository->save($documentVersion->getFile());
-            $this->_em->flush();
-            $this->_em->commit();
-        } catch (\Exception $e) {
-            $this->_em->rollback();
-            throw $e;
-        }
+        $this->_em->persist($documentVersion);
+        $this->fileRepository->save($documentVersion->getFile());
         return $documentVersion;
     }
 
@@ -268,16 +244,8 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
      */
     public function deleteVersion(DocumentVersion $documentVersion): void
     {
-        $this->_em->beginTransaction();
-        try {
-            $documentVersion->removeFromDocument();
-            $this->_em->remove($documentVersion);
-            $this->fileRepository->delete($documentVersion->getFile());
-            $this->_em->flush();
-            $this->_em->commit();
-        } catch (\Exception $e) {
-            $this->_em->rollback();
-            throw $e;
-        }
+        $documentVersion->removeFromDocument();
+        $this->_em->remove($documentVersion);
+        $this->fileRepository->delete($documentVersion->getFile());
     }
 }

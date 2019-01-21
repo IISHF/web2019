@@ -100,7 +100,6 @@ class TitleEventApplicationRepository extends ServiceEntityRepository
     public function save(TitleEventApplication $application): TitleEventApplication
     {
         $this->_em->persist($application);
-        $this->_em->flush();
         return $application;
     }
 
@@ -110,6 +109,5 @@ class TitleEventApplicationRepository extends ServiceEntityRepository
     public function delete(TitleEventApplication $application): void
     {
         $this->_em->remove($application);
-        $this->_em->flush();
     }
 }

@@ -153,7 +153,6 @@ class EventRepository extends ServiceEntityRepository implements TagProvider
         if ($host = $event->getHost()) {
             $this->_em->persist($host);
         }
-        $this->_em->flush();
         return $event;
     }
 
@@ -166,7 +165,6 @@ class EventRepository extends ServiceEntityRepository implements TagProvider
         if ($host = $event->getHost()) {
             $this->_em->remove($host);
         }
-        $this->_em->flush();
     }
 
     /**
