@@ -41,8 +41,9 @@ class TagType extends AbstractType implements DataTransformerInterface
     {
         $resolver->setDefaults(
             [
-                'compound' => false,
-                'multiple' => true,
+                'compound'   => false,
+                'multiple'   => true,
+                'empty_data' => null,
             ]
         );
         $resolver->setRequired('tag_provider');
@@ -61,7 +62,7 @@ class TagType extends AbstractType implements DataTransformerInterface
                 function (string $tag) {
                     return new ChoiceView($tag, $tag, $tag);
                 },
-                array_unique(array_merge($tagProvider->findAvailableTags(), $form->getViewData()))
+                array_unique(array_merge($tagProvider->findAvailableTags(), $form->getData() ?? []))
             ),
             []
         );
