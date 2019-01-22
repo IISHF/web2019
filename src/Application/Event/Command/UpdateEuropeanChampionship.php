@@ -16,7 +16,7 @@ use App\Domain\Model\Event\EuropeanChampionship;
  *
  * @package App\Application\Event\Command
  */
-class UpdateEuropeanChampionship
+class UpdateEuropeanChampionship implements HasSanctionStatus
 {
     use UuidAware, EventProperties, TitleEventProperties;
 
@@ -33,7 +33,8 @@ class UpdateEuropeanChampionship
             $championship->getAgeGroup(),
             $championship->getPlannedLength(),
             $championship->getDescription(),
-            $championship->getTags()
+            $championship->getTags(),
+            $championship->getSanctionNumber()
         );
     }
 
@@ -45,6 +46,7 @@ class UpdateEuropeanChampionship
      * @param int         $plannedLength
      * @param string|null $description
      * @param string[]    $tags
+     * @param string|null $sanctionNumber
      */
     private function __construct(
         string $id,
@@ -53,14 +55,17 @@ class UpdateEuropeanChampionship
         string $ageGroup,
         int $plannedLength,
         ?string $description,
-        array $tags
+        array $tags,
+        ?string $sanctionNumber
     ) {
-        $this->id            = $id;
-        $this->name          = $name;
-        $this->season        = $season;
-        $this->ageGroup      = $ageGroup;
-        $this->plannedLength = $plannedLength;
-        $this->description   = $description;
-        $this->tags          = $tags;
+        $this->id             = $id;
+        $this->name           = $name;
+        $this->season         = $season;
+        $this->ageGroup       = $ageGroup;
+        $this->plannedLength  = $plannedLength;
+        $this->description    = $description;
+        $this->tags           = $tags;
+        $this->sanctionNumber = $sanctionNumber;
+        $this->sanctioned     = $sanctionNumber !== null;
     }
 }

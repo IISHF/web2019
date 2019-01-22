@@ -48,6 +48,22 @@ trait EventProperties
     private $ageGroup = Event::AGE_GROUP_MEN;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\Length(max=16)
+     * @Assert\Expression(
+     *      expression="not this.isSanctioned() ? value === null : true",
+     *      message="This value must be empty while the event is not sanctioned yet."
+     * )
+     * @Assert\Expression(
+     *      expression="this.isSanctioned() ? value !== null : true",
+     *      message="This value must not be empty when the event is already sanctioned."
+     * )
+     *
+     * @var string|null
+     */
+    private $sanctionNumber;
+
+    /**
      * @Assert\Type("array")
      * @Assert\All({
      *     @Assert\Type("string"),
@@ -57,6 +73,11 @@ trait EventProperties
      * @var string[]
      */
     private $tags = [];
+
+    /**
+     * @var bool
+     */
+    private $sanctioned = false;
 
     /**
      * @return string
@@ -113,6 +134,24 @@ trait EventProperties
     }
 
     /**
+     * @return string|null
+     */
+    public function getSanctionNumber(): ?string
+    {
+        return $this->sanctionNumber;
+    }
+
+    /**
+     * @param string|null $sanctionNumber
+     * @return $this
+     */
+    public function setSanctionNumber(?string $sanctionNumber): self
+    {
+        $this->sanctionNumber = $sanctionNumber;
+        return $this;
+    }
+
+    /**
      * @return string[]
      */
     public function getTags(): array
@@ -128,5 +167,13 @@ trait EventProperties
     {
         $this->tags = $tags;
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSanctioned(): bool
+    {
+        return $this->sanctioned;
     }
 }

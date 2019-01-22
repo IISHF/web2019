@@ -18,7 +18,7 @@ use App\Domain\Model\Event\Tournament;
  *
  * @package App\Application\Event\Command
  */
-class UpdateTournament
+class UpdateTournament implements HasSanctionStatus
 {
     use UuidAware, EventProperties, TournamentProperties;
 
@@ -37,7 +37,8 @@ class UpdateTournament
             $tournament->getStartDate(),
             $tournament->getEndDate(),
             $tournament->getVenue(),
-            $tournament->getTags()
+            $tournament->getTags(),
+            $tournament->getSanctionNumber()
         );
     }
 
@@ -51,6 +52,7 @@ class UpdateTournament
      * @param \DateTimeImmutable $endDate
      * @param EventVenue         $venue
      * @param string[]           $tags
+     * @param string|null        $sanctionNumber
      */
     private function __construct(
         string $id,
@@ -61,16 +63,19 @@ class UpdateTournament
         \DateTimeImmutable $startDate,
         \DateTimeImmutable $endDate,
         EventVenue $venue,
-        array $tags
+        array $tags,
+        ?string $sanctionNumber
     ) {
-        $this->id        = $id;
-        $this->name      = $name;
-        $this->season    = $season;
-        $this->ageGroup  = $ageGroup;
-        $this->host      = $host;
-        $this->startDate = $startDate;
-        $this->endDate   = $endDate;
-        $this->venue     = $venue;
-        $this->tags      = $tags;
+        $this->id             = $id;
+        $this->name           = $name;
+        $this->season         = $season;
+        $this->ageGroup       = $ageGroup;
+        $this->host           = $host;
+        $this->startDate      = $startDate;
+        $this->endDate        = $endDate;
+        $this->venue          = $venue;
+        $this->tags           = $tags;
+        $this->sanctionNumber = $sanctionNumber;
+        $this->sanctioned     = $sanctionNumber !== null;
     }
 }
