@@ -21,6 +21,8 @@ use Webmozart\Assert\Assert;
  */
 abstract class TitleEvent extends Event
 {
+    public const STATE_ANNOUNCED = 'announced';
+
     /**
      * @ORM\Column(name="planned_length", type="smallint", options={"unsigned": true})
      *
@@ -59,6 +61,17 @@ abstract class TitleEvent extends Event
 
         $this->setPlannedLength($plannedLength)
              ->setDescription($description);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAnnounced(): bool
+    {
+        return $this->getCurrentState() === self::STATE_ANNOUNCED
+            && $this->hasHost()
+            && $this->hasDate()
+            && $this->hasVenue();
     }
 
     /**

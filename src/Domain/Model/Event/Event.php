@@ -296,7 +296,7 @@ abstract class Event
      */
     public function isSanctioned(): bool
     {
-        return $this->currentState === self::STATE_SANCTIONED;
+        return $this->currentState === self::STATE_SANCTIONED && $this->sanctionNumber !== null;
     }
 
     /**
