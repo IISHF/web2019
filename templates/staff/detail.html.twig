@@ -27,7 +27,7 @@
     </dl>
 
     <div class="btn-group" role="group">
-        {% if is_granted('STAFF_MEMBER_EDIT_EDIT', member) %}
+        {% if is_granted('STAFF_MEMBER_EDIT', member) %}
             <a href="{{ path('app_staffmember_update', {'member': member.id}) }}"
                class="btn btn-primary">Edit</a>
         {% endif %}
@@ -36,7 +36,7 @@
                 title: member.name,
                 body: 'Do you really want to delete the staff member?',
                 deleteAction: path('app_staffmember_delete', {'member': member.id}),
-                csrfIntention: 'staff_member_delete_' ~ ngb.id,
+                csrfIntention: 'staff_member_delete_' ~ member.id,
             }) }}
         {% endif %}
         <a href="{{ path('app_staffmember_list') }}" class="btn btn-outline-secondary">Back</a>

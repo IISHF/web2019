@@ -1,0 +1,12 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    <div class="jumbotron">
+        <h1 class="display-4">IISHF!</h1>
+        <p class="lead">This is the IISHF.</p>
+        <hr class="my-4">
+        <p>Some more text.</p>
+        <a class="btn btn-primary btn-lg" href="{{ path('app_staffmember_list') }}" role="button">Staff</a>
+        <a class="btn btn-primary btn-lg" href="{{ path('app_committee_list') }}" role="button">Committees</a>
+    </div>
+{% endblock %}

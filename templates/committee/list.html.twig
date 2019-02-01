@@ -14,22 +14,33 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{ committee.title }}</h5>
-                    <div class="card-text trix-content">
-                        {{ committee.description|purify('article') }}
+                    <div class="card-text">
+                        <div class="trix-content">
+                            {{ committee.description|purify('article') }}
+                        </div>
+                        {% if committee.members is not empty %}
+                            <ul>
+                                {% for member in committee.members %}
+                                    <li>{{ member.name }}{% if member.title is not empty %} ({{ member.title }}){% endif %}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>No members in this committee.</p>
+                        {% endif %}
                     </div>
                     <div class="btn-group btn-group" role="group">
                         <a href="{{ path('app_committee_detail', {'committee': committee.slug}) }}"
                            class="btn btn-outline-primary">Details</a>
-                        {% if is_granted('COMMITTEE_EDIT', ngb) %}
+                        {% if is_granted('COMMITTEE_EDIT', committee) %}
                             <a href="{{ path('app_committee_update', {'committee': committee.id}) }}"
                                class="btn btn-primary">Edit</a>
                         {% endif %}
-                        {% if is_granted('COMMITTEE_DELETE', ngb) %}
+                        {% if is_granted('COMMITTEE_DELETE', committee) %}
                             {{ include('common/_delete_btn.html.twig', {
                                 title: committee.title,
                                 body: 'Do you really want to delete the committee?',
                                 deleteAction: path('app_committee_delete', {'committee': committee.id}),
-                                csrfIntention: 'committee_delete_' ~ member.id,
+                                csrfIntention: 'committee_delete_' ~ committee.id,
                             }) }}
                         {% endif %}
                     </div>

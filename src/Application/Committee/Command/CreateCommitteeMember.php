@@ -9,6 +9,7 @@
 namespace App\Application\Committee\Command;
 
 use App\Application\Common\Command\UuidAware;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class CreateCommitteeMember

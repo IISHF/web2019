@@ -23,11 +23,11 @@
                     <div class="btn-group btn-group" role="group">
                         <a href="{{ path('app_staffmember_detail', {'member': member.id}) }}"
                            class="btn btn-outline-primary">Details</a>
-                        {% if is_granted('STAFF_MEMBER_EDIT', ngb) %}
+                        {% if is_granted('STAFF_MEMBER_EDIT', member) %}
                             <a href="{{ path('app_staffmember_update', {'member': member.id}) }}"
                                class="btn btn-primary">Edit</a>
                         {% endif %}
-                        {% if is_granted('STAFF_MEMBER_DELETE', ngb) %}
+                        {% if is_granted('STAFF_MEMBER_DELETE', member) %}
                             {{ include('common/_delete_btn.html.twig', {
                                 title: member.name,
                                 body: 'Do you really want to delete the staff member?',

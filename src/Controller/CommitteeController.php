@@ -261,7 +261,7 @@ class CommitteeController extends AbstractController
 
     /**
      * @Route(
-     *     "/{committee}/{members}/delete",
+     *     "/{committee}/{member}/delete",
      *     methods={"POST", "DELETE"},
      *     requirements={
      *          "committee": "%routing.uuid%",

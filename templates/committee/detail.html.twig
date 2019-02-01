@@ -3,6 +3,21 @@
 {% block content %}
     <h1>{{ committee.title }}</h1>
 
+    <dl class="row">
+        <dt class="col-2">ID</dt>
+        <dd class="col-10">{{ committee.id }}</dd>
+        <dt class="col-2">Title</dt>
+        <dd class="col-10">{{ committee.title }}</dd>
+        <dt class="col-2">Description</dt>
+        <dd class="col-10">
+            <div class="trix-content">{{ committee.description|purify('article') }}</div>
+        </dd>
+        <dt class="col-2">Last Updated</dt>
+        <dd class="col-10">{{ committee.updatedAt|relative_time }}</dd>
+        <dt class="col-2">Created</dt>
+        <dd class="col-10">{{ committee.createdAt|relative_time }}</dd>
+    </dl>
+
     <div class="card my-4">
         <div class="card-body">
             <h5 class="card-title">Members</h5>

@@ -115,7 +115,7 @@ class StaffMemberController extends AbstractController
      *      class="App\Domain\Model\Staff\StaffMember",
      *      converter="app.staff_member"
      * )
-     * @Security("is_granted('STSTAFF_MEMBER_EDIT', member)")
+     * @Security("is_granted('STAFF_MEMBER_EDIT', member)")
      *
      * @param Request             $request
      * @param StaffMember         $member
@@ -153,7 +153,7 @@ class StaffMemberController extends AbstractController
      *      class="App\Domain\Model\Staff\StaffMember",
      *      converter="app.staff_member"
      * )
-     * @Security("is_granted('STDESTAFF_MEMBER_EDIT', member)")
+     * @Security("is_granted('STAFF_MEMBER_DELETE', member)")
      *
      * @param Request             $request
      * @param StaffMember         $member

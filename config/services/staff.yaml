@@ -14,4 +14,6 @@ services:
 
     App\Infrastructure\Staff\ParamConverter\StaffMemberParamConverter:
         tags:
-            - { name: request.param_converter, converter: app.staf_member }
+            - { name: request.param_converter, converter: app.staff_member }
+
+    App\Infrastructure\Staff\Form\StaffMemberRoleType:
