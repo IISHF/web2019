@@ -11,7 +11,6 @@ namespace App\Application\Event\Command;
 use App\Application\Common\Command\UuidAware;
 use App\Application\Event\EventHost;
 use App\Domain\Model\Event\EuropeanChampionship;
-use App\Domain\Model\Event\EventVenue;
 
 /**
  * Class UpdateEuropeanChampionship
@@ -37,7 +36,7 @@ class UpdateEuropeanChampionship implements HasSanctionStatus, HasAnnouncementSt
             $host      = EventHost::fromEventHostEntity($championship->getHost());
             $startDate = $championship->getStartDate();
             $endDate   = $championship->getEndDate();
-            $venue     = $championship->getVenue();
+            $venue     = $championship->getVenue()->getId();
         }
 
         return new self(
@@ -70,7 +69,7 @@ class UpdateEuropeanChampionship implements HasSanctionStatus, HasAnnouncementSt
      * @param EventHost|null          $host
      * @param \DateTimeImmutable|null $startDate
      * @param \DateTimeImmutable|null $endDate
-     * @param EventVenue|null         $venue
+     * @param string|null             $venue
      */
     private function __construct(
         string $id,
@@ -85,7 +84,7 @@ class UpdateEuropeanChampionship implements HasSanctionStatus, HasAnnouncementSt
         ?EventHost $host,
         ?\DateTimeImmutable $startDate,
         ?\DateTimeImmutable $endDate,
-        ?EventVenue $venue
+        ?string $venue
     ) {
         $this->id             = $id;
         $this->name           = $name;

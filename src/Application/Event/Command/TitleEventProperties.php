@@ -9,7 +9,6 @@
 namespace App\Application\Event\Command;
 
 use App\Application\Event\EventHost;
-use App\Domain\Model\Event\EventVenue;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -87,13 +86,14 @@ trait TitleEventProperties
     private $endDate;
 
     /**
-     * @Assert\Type("App\Domain\Model\Event\EventVenue")
+     * @Assert\Type("string")
+     * @Assert\Uuid()
      * @Assert\Expression(
      *      expression="not this.isAnnounced() ? value === null : true",
      *      message="This value must be empty while the event is not announced yet."
      * )
      *
-     * @var EventVenue|null
+     * @var string|null
      */
     private $venue;
 
@@ -206,9 +206,9 @@ trait TitleEventProperties
     }
 
     /**
-     * @return EventVenue
+     * @return string
      */
-    public function getVenue(): EventVenue
+    public function getVenue(): string
     {
         if (!$this->venue || !$this->isAnnounced()) {
             throw new \BadMethodCallException('Cannot get the venue of an unannounced event.');
@@ -217,10 +217,10 @@ trait TitleEventProperties
     }
 
     /**
-     * @param EventVenue $venue
+     * @param string $venue
      * @return $this
      */
-    public function setVenue(EventVenue $venue): self
+    public function setVenue(string $venue): self
     {
         if (!$this->isAnnounced()) {
             throw new \BadMethodCallException('Cannot set the venue of an unannounced event.');

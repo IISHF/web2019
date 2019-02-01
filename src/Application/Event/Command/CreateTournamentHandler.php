@@ -40,7 +40,7 @@ class CreateTournamentHandler extends EventCommandHandler
             ),
             $command->getStartDate(),
             $command->getEndDate(),
-            $command->getVenue(),
+            $this->getVenue($command->getVenue()),
             $command->getTags()
         );
         $this->eventRepository->save($cup);

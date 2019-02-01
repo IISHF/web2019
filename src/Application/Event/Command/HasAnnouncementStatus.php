@@ -9,7 +9,6 @@
 namespace App\Application\Event\Command;
 
 use App\Application\Event\EventHost;
-use App\Domain\Model\Event\EventVenue;
 
 /**
  * Interface HasAnnouncementStatus
@@ -49,12 +48,12 @@ interface HasAnnouncementStatus
     public function setEndDate(\DateTimeImmutable $endDate);
 
     /**
-     * @return EventVenue
+     * @return string
      */
-    public function getVenue(): EventVenue;
+    public function getVenue(): string;
 
     /**
-     * @param EventVenue $venue
+     * @param string $venue
      */
-    public function setVenue(EventVenue $venue);
+    public function setVenue(string $venue);
 }

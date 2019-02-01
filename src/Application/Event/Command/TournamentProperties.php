@@ -53,10 +53,11 @@ trait TournamentProperties
     private $endDate;
 
     /**
-     * @Assert\Type("App\Domain\Model\Event\EventVenue")
-     * @Assert\NotNull()
+     * @Assert\Type("string")
+     * @Assert\Uuid()
+     * @Assert\NotBlank()
      *
-     * @var EventVenue|null
+     * @var string|null
      */
     private $venue;
 
@@ -105,18 +106,18 @@ trait TournamentProperties
     }
 
     /**
-     * @return EventVenue|null
+     * @return string|null
      */
-    public function getVenue(): ?EventVenue
+    public function getVenue(): ?string
     {
         return $this->venue;
     }
 
     /**
-     * @param EventVenue $venue
+     * @param string $venue
      * @return $this
      */
-    public function setVenue(EventVenue $venue): self
+    public function setVenue(string $venue): self
     {
         $this->venue = $venue;
         return $this;

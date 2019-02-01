@@ -10,7 +10,6 @@ namespace App\Application\Event\Command;
 
 use App\Application\Common\Command\UuidAware;
 use App\Application\Event\EventHost;
-use App\Domain\Model\Event\EventVenue;
 use App\Domain\Model\Event\Tournament;
 
 /**
@@ -36,7 +35,7 @@ class UpdateTournament implements HasSanctionStatus
             EventHost::fromEventHostEntity($tournament->getHost()),
             $tournament->getStartDate(),
             $tournament->getEndDate(),
-            $tournament->getVenue(),
+            $tournament->getVenue()->getId(),
             $tournament->getTags(),
             $tournament->getSanctionNumber()
         );
@@ -50,7 +49,7 @@ class UpdateTournament implements HasSanctionStatus
      * @param EventHost          $host
      * @param \DateTimeImmutable $startDate
      * @param \DateTimeImmutable $endDate
-     * @param EventVenue         $venue
+     * @param string             $venue
      * @param string[]           $tags
      * @param string|null        $sanctionNumber
      */
@@ -62,7 +61,7 @@ class UpdateTournament implements HasSanctionStatus
         EventHost $host,
         \DateTimeImmutable $startDate,
         \DateTimeImmutable $endDate,
-        EventVenue $venue,
+        string $venue,
         array $tags,
         ?string $sanctionNumber
     ) {

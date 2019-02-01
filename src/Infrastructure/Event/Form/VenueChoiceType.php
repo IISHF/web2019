@@ -43,12 +43,12 @@ class VenueChoiceType extends AbstractType
             [
                 'choice_loader'             => new CallbackChoiceLoader(
                     function () {
-                        return $this->venueRepository->findAll();
+                        foreach ($this->venueRepository->findAll() as $venue) {
+                            yield $venue->getName() => $venue->getId();
+                        }
                     }
                 ),
                 'choice_translation_domain' => false,
-                'choice_value'              => 'id',
-                'choice_label'              => 'name',
                 'multiple'                  => false,
                 'enable_select2'            => true,
             ]

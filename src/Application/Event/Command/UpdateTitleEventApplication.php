@@ -10,7 +10,6 @@ namespace App\Application\Event\Command;
 
 use App\Application\Common\Command\UuidAware;
 use App\Application\Common\ContactPerson;
-use App\Domain\Model\Event\EventVenue;
 use App\Domain\Model\Event\TitleEventApplication;
 
 /**
@@ -35,7 +34,7 @@ class UpdateTitleEventApplication
             ContactPerson::fromContactPersonEntity($contact),
             $application->getProposedStartDate(),
             $application->getProposedEndDate(),
-            $application->getVenue()
+            $application->getVenue()->getId()
         );
     }
 
@@ -45,7 +44,7 @@ class UpdateTitleEventApplication
      * @param ContactPerson      $contact
      * @param \DateTimeImmutable $proposedStartDate
      * @param \DateTimeImmutable $proposedEndDate
-     * @param EventVenue         $venue
+     * @param string             $venue
      */
     private function __construct(
         string $id,
@@ -53,7 +52,7 @@ class UpdateTitleEventApplication
         ContactPerson $contact,
         \DateTimeImmutable $proposedStartDate,
         \DateTimeImmutable $proposedEndDate,
-        EventVenue $venue
+        string $venue
     ) {
         $this->id                = $id;
         $this->applicantClub     = $applicantClub;

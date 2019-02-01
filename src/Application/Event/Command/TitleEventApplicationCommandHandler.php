@@ -9,6 +9,7 @@
 namespace App\Application\Event\Command;
 
 use App\Domain\Model\Event\EventRepository;
+use App\Domain\Model\Event\EventVenueRepository;
 use App\Domain\Model\Event\TitleEventApplication;
 use App\Domain\Model\Event\TitleEventApplicationRepository;
 
@@ -26,13 +27,15 @@ abstract class TitleEventApplicationCommandHandler extends EventBasedCommandHand
 
     /**
      * @param EventRepository                 $eventRepository
+     * @param EventVenueRepository            $venueRepository
      * @param TitleEventApplicationRepository $applicationRepository
      */
     public function __construct(
         EventRepository $eventRepository,
+        EventVenueRepository $venueRepository,
         TitleEventApplicationRepository $applicationRepository
     ) {
-        parent::__construct($eventRepository);
+        parent::__construct($eventRepository, $venueRepository);
         $this->applicationRepository = $applicationRepository;
     }
 
