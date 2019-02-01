@@ -3,7 +3,7 @@ import Dropzone from 'react-dropzone';
 import {fromEvent} from 'file-selector';
 import fileSize from 'filesize';
 import classNames from 'classnames';
-import Button from 'react-bootstrap/lib/Button';
+import Button from 'react-bootstrap/Button';
 
 export default class Upload extends React.Component {
     constructor(props) {
