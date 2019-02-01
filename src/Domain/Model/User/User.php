@@ -512,6 +512,8 @@ class User implements UserInterface
      */
     public function setRoles(array $roles): self
     {
+        $collator = \Collator::create('en-US');
+        $collator->sort($roles);
         $this->roles = array_unique($roles);
         return $this;
     }
