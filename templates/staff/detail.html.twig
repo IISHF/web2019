@@ -1,0 +1,45 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    <h1>{{ member.name }}</h1>
+
+    <dl class="row">
+        <dt class="col-2">ID</dt>
+        <dd class="col-10">{{ member.id }}</dd>
+        <dt class="col-2">Last Name</dt>
+        <dd class="col-10">{{ member.lastName }}</dd>
+        <dt class="col-2">First Name</dt>
+        <dd class="col-10">{{ member.firstName }}</dd>
+        <dt class="col-2">E-mail</dt>
+        <dd class="col-10">{{ member.email|safe_email }}</dd>
+        <dt class="col-2">Title</dt>
+        <dd class="col-10">{{ member.title }}</dd>
+        <dt class="col-2">Roles</dt>
+        <dd class="col-10">
+            {% for role in member.roles %}
+                <span class="badge badge-info">{{ role }}</span>
+            {% endfor %}
+        </dd>
+        <dt class="col-2">Last Updated</dt>
+        <dd class="col-10">{{ member.updatedAt|relative_time }}</dd>
+        <dt class="col-2">Created</dt>
+        <dd class="col-10">{{ member.createdAt|relative_time }}</dd>
+    </dl>
+
+    <div class="btn-group" role="group">
+        {% if is_granted('STAFF_MEMBER_EDIT_EDIT', member) %}
+            <a href="{{ path('app_staffmember_update', {'member': member.id}) }}"
+               class="btn btn-primary">Edit</a>
+        {% endif %}
+        {% if is_granted('STAFF_MEMBER_DELETE', member) %}
+            {{ include('common/_delete_btn.html.twig', {
+                title: member.name,
+                body: 'Do you really want to delete the staff member?',
+                deleteAction: path('app_staffmember_delete', {'member': member.id}),
+                csrfIntention: 'staff_member_delete_' ~ ngb.id,
+            }) }}
+        {% endif %}
+        <a href="{{ path('app_staffmember_list') }}" class="btn btn-outline-secondary">Back</a>
+    </div>
+
+{% endblock %}
