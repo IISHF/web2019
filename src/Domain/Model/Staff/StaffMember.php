@@ -75,28 +75,8 @@ class StaffMember
      * @param string   $email
      * @param string   $title
      * @param string[] $roles
-     * @return self
      */
-    public static function create(
-        string $id,
-        string $firstName,
-        string $lastName,
-        string $email,
-        string $title,
-        array $roles
-    ): self {
-        return new self($id, $firstName, $lastName, $email, $title, $roles);
-    }
-
-    /**
-     * @param string   $id
-     * @param string   $firstName
-     * @param string   $lastName
-     * @param string   $email
-     * @param string   $title
-     * @param string[] $roles
-     */
-    private function __construct(
+    public function __construct(
         string $id,
         string $firstName,
         string $lastName,

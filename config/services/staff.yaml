@@ -5,3 +5,13 @@ services:
         public: false
 
     App\Domain\Model\Staff\StaffMemberRepository:
+
+    App\Application\Staff\Command\CreateStaffMemberHandler:
+    App\Application\Staff\Command\UpdateStaffMemberHandler:
+    App\Application\Staff\Command\DeleteStaffMemberHandler:
+
+    App\Infrastructure\Staff\Security\Voter\StaffMemberVoter:
+
+    App\Infrastructure\Staff\ParamConverter\StaffMemberParamConverter:
+        tags:
+            - { name: request.param_converter, converter: app.staf_member }
