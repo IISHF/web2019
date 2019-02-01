@@ -1,0 +1,73 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    <h1>{{ committee.title }}</h1>
+
+    <div class="card my-4">
+        <div class="card-body">
+            <h5 class="card-title">Members</h5>
+            {% if is_granted('COMMITTEE_EDIT', committee) %}
+                <div class="btn-group" role="group">
+                    <a href="{{ path('app_committee_createmember', {committee: committee.id}) }}"
+                       class="btn btn-success">Create</a>
+                </div>
+            {% endif %}
+            <table class="table table-sm">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Country</th>
+                    <th scope="col">&#160;</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for member in committee.members %}
+                    <tr>
+                        <td>{{ member.name }}</td>
+                        <td>{{ member.title }}</td>
+                        <td>{{ member.countryName }}</td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group">
+                                {% if is_granted('COMMITTEE_MEMBER_EDIT', member) %}
+                                    <a href="{{ path('app_committee_updatemember', {
+                                        'committee': committee.id,
+                                        'member': member.id
+                                    }) }}" class="btn btn-primary">Edit</a>
+                                {% endif %}
+                                {% if is_granted('COMMITTEE_MEMBER_DELETE', member) %}
+                                    {{ include('common/_delete_btn.html.twig', {
+                                        title: member.name,
+                                        body: 'Do you really want to delete the committee member?',
+                                        deleteAction: path('app_committee_deletemember', {'committee': committee.id, 'member': member.id}),
+                                        csrfIntention: 'committee_member_delete_' ~ member.id,
+                                    }) }}
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7">No committee members found.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="btn-group" role="group">
+        {% if is_granted('COMMITTEE_EDIT', committee) %}
+            <a href="{{ path('app_committee_update', {'committee': committee.id}) }}" class="btn btn-primary">Edit</a>
+        {% endif %}
+        {% if is_granted('COMMITTEE_DELETE', committee) %}
+            {{ include('common/_delete_btn.html.twig', {
+                title: committee.title,
+                body: 'Do you really want to delete the committee?',
+                deleteAction: path('app_committee_delete', {'committee': committee.id}),
+                csrfIntention: 'committee_delete_' ~ committee.id,
+            }) }}
+        {% endif %}
+        <a href="{{ path('app_committee_list') }}" class="btn btn-outline-secondary">Back</a>
+    </div>
+{% endblock %}

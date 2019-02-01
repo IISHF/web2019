@@ -15,9 +15,13 @@ services:
     App\Application\Committee\Command\DeleteCommitteeMemberHandler:
 
     App\Infrastructure\Committee\Security\Voter\CommitteeVoter:
+    App\Infrastructure\Committee\Security\Voter\CommitteeMemberVoter:
 
     App\Infrastructure\Committee\ParamConverter\CommitteeParamConverter:
         tags:
             - { name: request.param_converter, converter: app.committee }
+    App\Infrastructure\Committee\ParamConverter\CommitteeMemberParamConverter:
+        tags:
+            - { name: request.param_converter, converter: app.committee_member }
 
     App\Application\Committee\Validator\UniqueCommitteeTitleValidator:
