@@ -47,5 +47,4 @@ class DocumentVersionVoter extends DelegatingVoter
 
         return true;
     }
-
 }
