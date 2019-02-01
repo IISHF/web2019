@@ -24,7 +24,8 @@ use Webmozart\Assert\Assert;
  * @ORM\Table(
  *      name="documents",
  *      uniqueConstraints={
- *          @ORM\UniqueConstraint(name="uniq_document_title", columns={"title"})
+ *          @ORM\UniqueConstraint(name="uniq_document_title", columns={"title"}),
+ *          @ORM\UniqueConstraint(name="uniq_document_slug", columns={"slug"})
  *      }
  * )
  */
