@@ -9,6 +9,7 @@
 namespace App\Application\Event\Command;
 
 use App\Domain\Model\Event\EventRepository;
+use App\Domain\Model\Event\EventVenue;
 use App\Domain\Model\Event\EventVenueRepository;
 use App\Domain\Model\Event\TitleEventApplication;
 use App\Domain\Model\Event\TitleEventApplicationRepository;
@@ -26,17 +27,23 @@ abstract class TitleEventApplicationCommandHandler extends EventBasedCommandHand
     protected $applicationRepository;
 
     /**
+     * @var EventVenueRepository
+     */
+    private $venueRepository;
+
+    /**
      * @param EventRepository                 $eventRepository
-     * @param EventVenueRepository            $venueRepository
      * @param TitleEventApplicationRepository $applicationRepository
+     * @param EventVenueRepository            $venueRepository
      */
     public function __construct(
         EventRepository $eventRepository,
-        EventVenueRepository $venueRepository,
-        TitleEventApplicationRepository $applicationRepository
+        TitleEventApplicationRepository $applicationRepository,
+        EventVenueRepository $venueRepository
     ) {
-        parent::__construct($eventRepository, $venueRepository);
+        parent::__construct($eventRepository);
         $this->applicationRepository = $applicationRepository;
+        $this->venueRepository       = $venueRepository;
     }
 
     /**
@@ -50,5 +57,18 @@ abstract class TitleEventApplicationCommandHandler extends EventBasedCommandHand
             throw new \OutOfBoundsException('No title event application found for id ' . $id);
         }
         return $application;
+    }
+
+    /**
+     * @param string $id
+     * @return EventVenue
+     */
+    protected function getVenue(string $id): EventVenue
+    {
+        $venue = $this->venueRepository->findById($id);
+        if (!$venue) {
+            throw new \OutOfBoundsException('No event venue found for id ' . $id);
+        }
+        return $venue;
     }
 }

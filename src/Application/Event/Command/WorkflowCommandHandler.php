@@ -10,7 +10,6 @@ namespace App\Application\Event\Command;
 
 use App\Domain\Model\Event\Event;
 use App\Domain\Model\Event\EventRepository;
-use App\Domain\Model\Event\EventVenueRepository;
 use Symfony\Component\Workflow\Registry;
 
 /**
@@ -26,16 +25,12 @@ abstract class WorkflowCommandHandler extends EventCommandHandler
     private $workflowRegistry;
 
     /**
-     * @param EventRepository      $eventRepository
-     * @param EventVenueRepository $venueRepository
-     * @param Registry             $workflowRegistry
+     * @param EventRepository $eventRepository
+     * @param Registry        $workflowRegistry
      */
-    public function __construct(
-        EventRepository $eventRepository,
-        EventVenueRepository $venueRepository,
-        Registry $workflowRegistry
-    ) {
-        parent::__construct($eventRepository, $venueRepository);
+    public function __construct(EventRepository $eventRepository, Registry $workflowRegistry)
+    {
+        parent::__construct($eventRepository);
         $this->workflowRegistry = $workflowRegistry;
     }
 

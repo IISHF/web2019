@@ -9,7 +9,6 @@
 namespace App\Application\Event\Command;
 
 use App\Domain\Model\Event\EventRepository;
-use App\Domain\Model\Event\EventVenueRepository;
 use App\Domain\Model\Event\ParticipatingTeam;
 use App\Domain\Model\Event\ParticipatingTeamRepository;
 
@@ -27,15 +26,11 @@ abstract class ParticipatingTeamCommandHandler extends EventBasedCommandHandler
 
     /**
      * @param EventRepository             $eventRepository
-     * @param EventVenueRepository        $venueRepository
      * @param ParticipatingTeamRepository $teamRepository
      */
-    public function __construct(
-        EventRepository $eventRepository,
-        EventVenueRepository $venueRepository,
-        ParticipatingTeamRepository $teamRepository
-    ) {
-        parent::__construct($eventRepository, $venueRepository);
+    public function __construct(EventRepository $eventRepository, ParticipatingTeamRepository $teamRepository)
+    {
+        parent::__construct($eventRepository);
         $this->teamRepository = $teamRepository;
     }
 

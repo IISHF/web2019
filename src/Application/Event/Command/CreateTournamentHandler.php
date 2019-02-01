@@ -17,7 +17,7 @@ use Ramsey\Uuid\Uuid;
  *
  * @package App\Application\Event\Command
  */
-class CreateTournamentHandler extends EventCommandHandler
+class CreateTournamentHandler extends TournamentCommandHandler
 {
     /**
      * @param CreateTournament $command

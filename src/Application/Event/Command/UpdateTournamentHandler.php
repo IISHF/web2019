@@ -15,7 +15,7 @@ use App\Domain\Model\Event\Tournament;
  *
  * @package App\Application\Event\Command
  */
-class UpdateTournamentHandler extends EventCommandHandler
+class UpdateTournamentHandler extends TournamentCommandHandler
 {
     /**
      * @param UpdateTournament $command
