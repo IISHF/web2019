@@ -8,6 +8,8 @@
 
 namespace App\Domain\Model\Staff;
 
+use App\Domain\Model\Common\TagProvider;
+use App\Utils\Tags;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -16,7 +18,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  *
  * @package App\Domain\Model\Staff
  */
-class StaffMemberRepository extends ServiceEntityRepository
+class StaffMemberRepository extends ServiceEntityRepository implements TagProvider
 {
     /**
      * @param ManagerRegistry $managerRegistry
@@ -47,6 +49,27 @@ class StaffMemberRepository extends ServiceEntityRepository
                     ->addOrderBy('m.firstName', 'ASC')
                     ->getQuery()
                     ->getResult();
+    }
+
+    /**
+     * @return string[]|
+     */
+    public function findAvailableRoles(): array
+    {
+        return Tags::createTagList(
+            $this->createQueryBuilder('m')
+                 ->select('m.roles')
+                 ->getQuery()
+                 ->getArrayResult()
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findAvailableTags(): array
+    {
+        return $this->findAvailableRoles();
     }
 
     /**

@@ -57,6 +57,14 @@ class StaffMemberType extends AbstractType
                     'label'    => 'Title',
                     'required' => true,
                 ]
+            )
+            ->add(
+                'roles',
+                StaffMemberRoleType::class,
+                [
+                    'label'    => 'Roles',
+                    'required' => false,
+                ]
             );
     }
 }
