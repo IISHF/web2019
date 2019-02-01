@@ -142,21 +142,6 @@ class ArticleCommand extends CommandWithFilesystem
     /**
      * @param string $query
      * @param string $keyColumn
-     * @param string $valueColumn
-     * @return array
-     */
-    private function createLookupMap(string $query, string $keyColumn = 'id', string $valueColumn = 'name'): array
-    {
-        $map = [];
-        foreach ($this->db->fetchAll($query) as $i) {
-            $map[(int)$i[$keyColumn]] = $i[$valueColumn];
-        }
-        return $map;
-    }
-
-    /**
-     * @param string $query
-     * @param string $keyColumn
      * @return array
      */
     private function createAttachmentMap(string $query, string $keyColumn = 'nid'): array

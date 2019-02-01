@@ -117,4 +117,19 @@ abstract class Command extends BaseCommand
         $dbUri    = $input->getOption('db');
         $this->db = \Doctrine\DBAL\DriverManager::getConnection(['url' => $dbUri]);
     }
+
+    /**
+     * @param string $query
+     * @param string $keyColumn
+     * @param string $valueColumn
+     * @return array
+     */
+    protected function createLookupMap(string $query, string $keyColumn = 'id', string $valueColumn = 'name'): array
+    {
+        $map = [];
+        foreach ($this->db->fetchAll($query) as $i) {
+            $map[(int)$i[$keyColumn]] = $i[$valueColumn];
+        }
+        return $map;
+    }
 }
