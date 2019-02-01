@@ -15,9 +15,11 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ member.name }}</h5>
                     <h6 class="card-subtitle">{{ member.title }}</h6>
-                    <p class="card-text">
-
-                    </p>
+                    <div class="card-text">
+                        {% for role in member.roles %}
+                            <span class="badge badge-info">{{ role }}</span>
+                        {% endfor %}
+                    </div>
                     <div class="btn-group btn-group" role="group">
                         <a href="{{ path('app_staffmember_detail', {'member': member.id}) }}"
                            class="btn btn-outline-primary">Details</a>
