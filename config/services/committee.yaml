@@ -1,0 +1,23 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    App\Domain\Model\Committee\CommitteeRepository:
+
+    App\Application\Committee\Command\CreateCommitteeHandler:
+    App\Application\Committee\Command\UpdateCommitteeHandler:
+    App\Application\Committee\Command\DeleteCommitteeHandler:
+
+    App\Application\Committee\Command\CreateCommitteeMemberHandler:
+    App\Application\Committee\Command\UpdateCommitteeMemberHandler:
+    App\Application\Committee\Command\DeleteCommitteeMemberHandler:
+
+    App\Infrastructure\Committee\Security\Voter\CommitteeVoter:
+
+    App\Infrastructure\Committee\ParamConverter\CommitteeParamConverter:
+        tags:
+            - { name: request.param_converter, converter: app.committee }
+
+    App\Application\Committee\Validator\UniqueCommitteeTitleValidator:
