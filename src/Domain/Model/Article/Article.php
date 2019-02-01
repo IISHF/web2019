@@ -337,6 +337,8 @@ class Article
      */
     public function setTags(array $tags): self
     {
+        $collator = \Collator::create('en-US');
+        $collator->sort($tags);
         $this->tags = array_unique($tags);
         return $this;
     }
