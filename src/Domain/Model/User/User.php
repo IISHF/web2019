@@ -20,7 +20,6 @@ use Webmozart\Assert\Assert;
  * @package App\Domain\Model\User
  *
  * @ORM\Entity(repositoryClass="UserRepository")
- * @ORM\Table(name="users")
  * @ORM\Table(
  *      name="users",
  *      uniqueConstraints={

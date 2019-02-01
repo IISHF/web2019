@@ -19,7 +19,6 @@ use Webmozart\Assert\Assert;
  * @package App\Domain\Model\Event
  *
  * @ORM\Entity(repositoryClass="ParticipatingTeamRepository")
- * @ORM\Table(name="event_teams")
  * @ORM\Table(
  *      name="event_teams",
  *      uniqueConstraints={

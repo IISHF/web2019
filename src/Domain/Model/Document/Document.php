@@ -21,7 +21,6 @@ use Webmozart\Assert\Assert;
  * @package App\Domain\Model\Document
  *
  * @ORM\Entity(repositoryClass="DocumentRepository")
- * @ORM\Table(name="documents")
  * @ORM\Table(
  *      name="documents",
  *      uniqueConstraints={
