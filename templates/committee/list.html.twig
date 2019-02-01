@@ -1,0 +1,40 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    <h1>Committees</h1>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="btn-group" role="group">
+            <a href="{{ path('app_committee_create') }}" class="btn btn-success">Create</a>
+        </div>
+    {% endif %}
+
+    <div class="card-columns">
+        {% for committee in committees %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ committee.title }}</h5>
+                    <div class="card-text trix-content">
+                        {{ committee.description|purify('article') }}
+                    </div>
+                    <div class="btn-group btn-group" role="group">
+                        <a href="{{ path('app_committee_detail', {'committee': committee.slug}) }}"
+                           class="btn btn-outline-primary">Details</a>
+                        {% if is_granted('COMMITTEE_EDIT', ngb) %}
+                            <a href="{{ path('app_committee_update', {'committee': committee.id}) }}"
+                               class="btn btn-primary">Edit</a>
+                        {% endif %}
+                        {% if is_granted('COMMITTEE_DELETE', ngb) %}
+                            {{ include('common/_delete_btn.html.twig', {
+                                title: committee.title,
+                                body: 'Do you really want to delete the committee?',
+                                deleteAction: path('app_committee_delete', {'committee': committee.id}),
+                                csrfIntention: 'committee_delete_' ~ member.id,
+                            }) }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
