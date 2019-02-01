@@ -35,8 +35,6 @@ class PagingRequest
     }
 
     /**
-     * PagingRequest constructor.
-     *
      * @param Request $request
      */
     private function __construct(Request $request)
