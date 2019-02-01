@@ -64,14 +64,28 @@ class CommitteeMember
     private $country;
 
     /**
-     * @param string    $id
-     * @param Committee $committee
-     * @param string    $firstName
-     * @param string    $lastName
-     * @param string    $country
+     * @ORM\Column(name="title", type="string", length=128, nullable=true)
+     *
+     * @var string|null
      */
-    public function __construct(string $id, Committee $committee, string $firstName, string $lastName, string $country)
-    {
+    private $title;
+
+    /**
+     * @param string      $id
+     * @param Committee   $committee
+     * @param string      $firstName
+     * @param string      $lastName
+     * @param string      $country
+     * @param string|null $title
+     */
+    public function __construct(
+        string $id,
+        Committee $committee,
+        string $firstName,
+        string $lastName,
+        string $country,
+        ?string $title
+    ) {
         Assert::uuid($id);
 
         $this->id = $id;
@@ -79,6 +93,7 @@ class CommitteeMember
              ->setFirstName($firstName)
              ->setLastName($lastName)
              ->setCountry($country)
+             ->setTitle($title)
              ->initCreateTracking()
              ->initUpdateTracking();
     }
@@ -210,5 +225,24 @@ class CommitteeMember
     public function getCountryName(): string
     {
         return Country::getCountryNameByCode($this->country);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string|null $title
+     * @return $this
+     */
+    public function setTitle(?string $title): self
+    {
+        Assert::nullOrLengthBetween($title, 1, 128);
+        $this->title = $title;
+        return $this;
     }
 }

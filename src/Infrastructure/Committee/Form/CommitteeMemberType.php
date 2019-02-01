@@ -49,6 +49,14 @@ class CommitteeMemberType extends AbstractType
                     'label'    => 'Country',
                     'required' => true,
                 ]
+            )
+            ->add(
+                'title',
+                TextType::class,
+                [
+                    'label'    => 'Title',
+                    'required' => false,
+                ]
             );
     }
 }

@@ -45,6 +45,14 @@ trait CommitteeMemberProperties
     private $country = '';
 
     /**
+     * @Assert\Type("string")
+     * @Assert\Length(max=128)
+     *
+     * @var string|null
+     */
+    private $title;
+
+    /**
      * @return string
      */
     public function getFirstName(): string
@@ -95,6 +103,24 @@ trait CommitteeMemberProperties
     public function setCountry(string $country): self
     {
         $this->country = $country;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string|null $title
+     * @return $this
+     */
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
         return $this;
     }
 }

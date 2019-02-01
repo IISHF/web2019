@@ -162,15 +162,21 @@ class Committee
     }
 
     /**
-     * @param string $id
-     * @param string $firstName
-     * @param string $lastName
-     * @param string $country
+     * @param string      $id
+     * @param string      $firstName
+     * @param string      $lastName
+     * @param string      $country
+     * @param string|null $title
      * @return CommitteeMember
      */
-    public function createMember(string $id, string $firstName, string $lastName, string $country): CommitteeMember
-    {
-        $member = new CommitteeMember($id, $this, $firstName, $lastName, $country);
+    public function createMember(
+        string $id,
+        string $firstName,
+        string $lastName,
+        string $country,
+        ?string $title
+    ): CommitteeMember {
+        $member = new CommitteeMember($id, $this, $firstName, $lastName, $country, $title);
         $this->addMember($member);
         return $member;
     }
