@@ -12,6 +12,8 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-xml": "*",
+        "ext-dom": "*",
+        "ext-simplexml": "*",
         "ext-zip": "*",
         "exercise/htmlpurifier-bundle": "^2.0",
         "guzzlehttp/guzzle": "^6.3",

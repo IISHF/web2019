@@ -95,4 +95,13 @@ abstract class CommandWithFilesystem extends Command
     {
         return realpath($path) && is_dir($path) && is_readable($path . '/.');
     }
+
+    /**
+     * @param string $path
+     * @return bool
+     */
+    protected static function isFileReadable(string $path): bool
+    {
+        return realpath($path) && is_file($path) && is_readable($path);
+    }
 }
