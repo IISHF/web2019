@@ -15,11 +15,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\Exception\ValidationFailedException;
 
 /**
- * Class StaffMembers
+ * Class StaffMemberCommand
  *
  * @package App\Command\Migrate
  */
-class StaffMembers extends Command
+class StaffMemberCommand extends Command
 {
     /**
      * {@inheritdoc}
