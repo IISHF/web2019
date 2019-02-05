@@ -21,7 +21,13 @@ use Webmozart\Assert\Assert;
  * @package App\Domain\Model\HallOfFame
  *
  * @ORM\Entity(repositoryClass="HallOfFameRepository")
- * @ORM\Table(name="hall_of_fame")
+ * @ORM\Table(
+ *      name="hall_of_fame",
+ *      indexes={
+ *          @ORM\Index(name="idx_season_age_group", columns={"season", "age_group"}),
+ *          @ORM\Index(name="idx_age_group_season", columns={"age_group", "season"})
+ *      }
+ * )
  */
 class HallOfFameEntry
 {
