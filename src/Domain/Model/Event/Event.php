@@ -8,6 +8,7 @@
 
 namespace App\Domain\Model\Event;
 
+use App\Domain\Common\AgeGroup;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\UpdateTracking;
 use Doctrine\ORM\Mapping as ORM;
@@ -43,22 +44,6 @@ abstract class Event
 
     public const STATE_PLANNED    = 'planned';
     public const STATE_SANCTIONED = 'sanctioned';
-
-    public const AGE_GROUP_VETERANS = 'veterans';
-    public const AGE_GROUP_MEN      = 'men';
-    public const AGE_GROUP_WOMEN    = 'women';
-    public const AGE_GROUP_U19      = 'u19';
-    public const AGE_GROUP_U16      = 'u16';
-    public const AGE_GROUP_U13      = 'u13';
-
-    private static $availableAgeGroups = [
-        self::AGE_GROUP_VETERANS,
-        self::AGE_GROUP_MEN,
-        self::AGE_GROUP_WOMEN,
-        self::AGE_GROUP_U19,
-        self::AGE_GROUP_U16,
-        self::AGE_GROUP_U13,
-    ];
 
     /**
      * @ORM\Column(name="id", type="guid")
@@ -256,7 +241,7 @@ abstract class Event
      */
     public function setAgeGroup(string $ageGroup): self
     {
-        Assert::oneOf($ageGroup, self::$availableAgeGroups);
+        AgeGroup::assertValidAgeGroup($ageGroup);
         $this->ageGroup = $ageGroup;
         return $this;
     }

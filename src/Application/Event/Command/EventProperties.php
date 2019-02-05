@@ -9,6 +9,7 @@
 namespace App\Application\Event\Command;
 
 use App\Application\Event\Validator\UniqueEventName;
+use App\Domain\Common\AgeGroup;
 use App\Domain\Model\Event\Event;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -45,7 +46,7 @@ trait EventProperties
      *
      * @var string
      */
-    private $ageGroup = Event::AGE_GROUP_MEN;
+    private $ageGroup = AgeGroup::AGE_GROUP_MEN;
 
     /**
      * @Assert\Type("string")

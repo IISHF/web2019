@@ -214,8 +214,10 @@ class CommitteeMember
      */
     public function setCountry(string $country): self
     {
+        $country = mb_strtoupper($country, 'UTF-8');
         Assert::length($country, 2);
-        $this->country = mb_strtoupper($country, 'UTF-8');
+        Country::assertValidCountry($country);
+        $this->country = $country;
         return $this;
     }
 

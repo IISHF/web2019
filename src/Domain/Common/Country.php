@@ -9,6 +9,7 @@
 namespace App\Domain\Common;
 
 use Symfony\Component\Intl\Intl;
+use Webmozart\Assert\Assert;
 
 /**
  * Class Country
@@ -20,7 +21,7 @@ final class Country
     /**
      * @var array
      */
-    private static $countryNames;
+    private static $countries;
 
     /**
      */
@@ -36,13 +37,10 @@ final class Country
      */
     public static function getCountryNameByCode(string $code, ?string $defaultCode = 'DE'): string
     {
-        if (!self::$countryNames) {
-            self::$countryNames = Intl::getRegionBundle()
-                                      ->getCountryNames();
-        }
+        $countries = self::getCountries();
 
-        if (isset(self::$countryNames[$code])) {
-            return self::$countryNames[$code];
+        if (isset($countries[$code])) {
+            return $countries[$code];
         }
 
         if ($defaultCode !== null) {
@@ -50,5 +48,34 @@ final class Country
         }
 
         return 'unknown';
+    }
+
+    /**
+     * @return array
+     */
+    public static function getCountries(): array
+    {
+        if (!self::$countries) {
+            self::$countries = Intl::getRegionBundle()
+                                   ->getCountryNames();
+        }
+        return self::$countries;
+    }
+
+    /**
+     * @param string $country
+     * @return bool
+     */
+    public static function isValidCountry(string $country): bool
+    {
+        return isset(self::getCountries()[$country]);
+    }
+
+    /**
+     * @param string $country
+     */
+    public static function assertValidCountry(string $country): void
+    {
+        Assert::oneOf($country, array_values(self::getCountries()));
     }
 }

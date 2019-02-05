@@ -10,10 +10,10 @@ namespace App\Command\Migrate;
 
 use App\Application\Committee\Command\CreateCommittee;
 use App\Application\Committee\Command\CreateCommitteeMember;
+use App\Domain\Common\Country;
 use App\Utils\Validation;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Intl\Intl;
 use Symfony\Component\Messenger\Exception\ValidationFailedException;
 
 /**
@@ -135,7 +135,7 @@ HTML
      */
     private function extractCommittees(\SimpleXMLElement $xml): array
     {
-        $countries  = array_flip(Intl::getRegionBundle()->getCountryNames());
+        $countries  = array_flip(Country::getCountries());
         $committees = [];
         foreach ($xml->xpath('//div[@class="data"]/h2') as $c) {
             /** @var \SimpleXMLElement $c */
