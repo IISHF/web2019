@@ -8,9 +8,9 @@
 
 namespace App\Application\Event\Command;
 
+use App\Application\Common\Validator\AgeGroup as ValidAgeGroup;
 use App\Application\Event\Validator\UniqueEventName;
 use App\Domain\Common\AgeGroup;
-use App\Domain\Model\Event\Event;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -43,6 +43,7 @@ trait EventProperties
      * @Assert\Type("string")
      * @Assert\Length(max=16)
      * @Assert\NotBlank()
+     * @ValidAgeGroup()
      *
      * @var string
      */

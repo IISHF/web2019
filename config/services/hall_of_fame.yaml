@@ -5,3 +5,13 @@ services:
         public: false
 
     App\Domain\Model\HallOfFame\HallOfFameRepository:
+
+    App\Application\HallOfFame\Command\CreateHallOfFameEntryHandler:
+    App\Application\HallOfFame\Command\UpdateHallOfFameEntryHandler:
+    App\Application\HallOfFame\Command\DeleteHallOfFameEntryHandler:
+
+    App\Infrastructure\HallOfFame\Security\Voter\HallOfFameEntryVoter:
+
+    App\Infrastructure\HallOfFame\ParamConverter\HallOfFameEntryParamConverter:
+        tags:
+            - { name: request.param_converter, converter: app.hall_of_fame_entry }

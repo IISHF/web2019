@@ -8,6 +8,7 @@
 
 namespace App\Application\HallOfFame\Command;
 
+use App\Application\Common\Validator\AgeGroup as ValidAgeGroup;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -30,6 +31,7 @@ trait HallOfFameEntryProperties
      * @Assert\Type("string")
      * @Assert\Length(max=16)
      * @Assert\NotBlank()
+     * @ValidAgeGroup()
      *
      * @var string
      */
@@ -41,14 +43,6 @@ trait HallOfFameEntryProperties
      * @var \DateTimeImmutable|null
      */
     private $eventDate;
-
-    /**
-     * @Assert\Type("bool")
-     * @Assert\NotNull()
-     *
-     * @var bool
-     */
-    private $championship;
 
     /**
      * @Assert\Type("string")
@@ -136,14 +130,6 @@ trait HallOfFameEntryProperties
     {
         $this->eventDate = $eventDate;
         return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isChampionship(): bool
-    {
-        return $this->championship;
     }
 
     /**
