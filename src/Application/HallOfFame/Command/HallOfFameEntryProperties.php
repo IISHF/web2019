@@ -20,7 +20,7 @@ trait HallOfFameEntryProperties
 {
     /**
      * @Assert\Type("integer")
-     * @Assert\Range(min=2000, max=9999)
+     * @Assert\Range(min=1990, max=9999)
      * @Assert\NotBlank()
      *
      * @var int

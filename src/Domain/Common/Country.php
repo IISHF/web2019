@@ -76,6 +76,6 @@ final class Country
      */
     public static function assertValidCountry(string $country): void
     {
-        Assert::oneOf($country, array_values(self::getCountries()));
+        Assert::oneOf($country, array_keys(self::getCountries()));
     }
 }

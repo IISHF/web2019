@@ -211,7 +211,7 @@ class HallOfFameEntry
      */
     public function setSeason(int $season): self
     {
-        Assert::range($season, 2000, 9999);
+        Assert::range($season, 1990, 9999);
         $this->season = $season;
         return $this;
     }

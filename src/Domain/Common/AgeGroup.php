@@ -65,6 +65,6 @@ final class AgeGroup
      */
     public static function assertValidAgeGroup(string $ageGroup): void
     {
-        Assert::oneOf($ageGroup, array_values(self::$availableAgeGroups));
+        Assert::oneOf($ageGroup, array_keys(self::$availableAgeGroups));
     }
 }
