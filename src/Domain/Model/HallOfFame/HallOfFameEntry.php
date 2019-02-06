@@ -130,13 +130,13 @@ class HallOfFameEntry
     ) {
         Assert::uuid($id);
 
-        $this->id           = $id;
-        $this->championship = $championship;
+        $this->id = $id;
 
         $this->setSeason($season)
              ->setAgeGroup($ageGroup)
              ->setEvent($event)
              ->setEventDate($eventDate)
+             ->setChampionship($championship)
              ->setWinnerClub($winnerClub)
              ->setWinnerCountry($winnerCountry)
              ->setHostClub($hostClub)
@@ -251,6 +251,16 @@ class HallOfFameEntry
     public function isChampionship(): bool
     {
         return $this->championship;
+    }
+
+    /**
+     * @param bool $championship
+     * @return $this
+     */
+    public function setChampionship(bool $championship): self
+    {
+        $this->championship = $championship;
+        return $this;
     }
 
     /**

@@ -9,7 +9,6 @@
 namespace App\Application\HallOfFame\Command;
 
 use App\Application\Common\Command\UuidAware;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class CreateHallOfFameEntry
@@ -23,14 +22,6 @@ class CreateHallOfFameEntry
     private const EVENT_EUROPEAN_CHAMPIONSHIP    = 'European Championship';
     private const EVENT_EUROPEAN_CUP             = 'European Cup';
     private const EVENT_EUROPEAN_CUP_WINNERS_CUP = 'European Cup Winners\' Cup';
-
-    /**
-     * @Assert\Type("bool")
-     * @Assert\NotNull()
-     *
-     * @var bool
-     */
-    private $championship;
 
     /**
      * @param string $ageGroup
@@ -52,7 +43,7 @@ class CreateHallOfFameEntry
     {
         return self::create()
                    ->setAgeGroup($ageGroup)
-                   ->setChampionship(true)
+                   ->setChampionship(false)
                    ->setEvent(self::EVENT_EUROPEAN_CUP);
     }
 
@@ -64,7 +55,7 @@ class CreateHallOfFameEntry
     {
         return self::create()
                    ->setAgeGroup($ageGroup)
-                   ->setChampionship(true)
+                   ->setChampionship(false)
                    ->setEvent(self::EVENT_EUROPEAN_CUP_WINNERS_CUP);
     }
 
@@ -83,23 +74,5 @@ class CreateHallOfFameEntry
     {
         $this->id     = $id;
         $this->season = idate('Y');
-    }
-
-    /**
-     * @return bool
-     */
-    public function isChampionship(): bool
-    {
-        return $this->championship;
-    }
-
-    /**
-     * @param bool $championship
-     * @return $this
-     */
-    public function setChampionship(bool $championship): self
-    {
-        $this->championship = $championship;
-        return $this;
     }
 }

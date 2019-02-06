@@ -90,7 +90,7 @@ class HallOfFameController extends AbstractController
      *      class="App\Domain\Model\HallOfFame\HallOfFameEntry",
      *      converter="app.hall_of_fame_entry"
      * )
-     * @Security("is_granted('HHALL_OF_FAME_ENTRY_EDIT', entry)")
+     * @Security("is_granted('HALL_OF_FAME_ENTRY_EDIT', entry)")
      *
      * @param Request             $request
      * @param HallOfFameEntry     $entry
@@ -128,7 +128,7 @@ class HallOfFameController extends AbstractController
      *      class="App\Domain\Model\HallOfFame\HallOfFameEntry",
      *      converter="app.hall_of_fame_entry"
      * )
-     * @Security("is_granted('HALL_HALL_OF_FAME_ENTRY_DELETE', entry)")
+     * @Security("is_granted('HALL_OF_FAME_ENTRY_DELETE', entry)")
      *
      * @param Request             $request
      * @param HallOfFameEntry     $entry

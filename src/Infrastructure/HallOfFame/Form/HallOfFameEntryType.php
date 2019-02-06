@@ -10,6 +10,7 @@ namespace App\Infrastructure\HallOfFame\Form;
 
 use App\Infrastructure\Event\Form\AgeGroupChoiceType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -35,6 +36,20 @@ class HallOfFameEntryType extends AbstractType
                     'label'    => 'Season',
                     'scale'    => 0,
                     'required' => true,
+                ]
+            )
+            ->add(
+                'championship',
+                ChoiceType::class,
+                [
+                    'label'    => 'Event Type',
+                    'choices'  => [
+                        'Championship' => true,
+                        'Cup'          => false,
+                    ],
+                    'required' => true,
+                    'expanded' => true,
+                    'multiple' => false,
                 ]
             )
             ->add(

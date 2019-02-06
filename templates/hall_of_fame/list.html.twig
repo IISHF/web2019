@@ -26,7 +26,14 @@
             <tr>
                 <td>{{ entry.season }}</td>
                 <td>{{ entry.ageGroupName }}</td>
-                <td>{{ entry.event }}</td>
+                <td>
+                    {% if entry.championship %}
+                        <span class="badge badge-primary">Championship</span>
+                    {% else %}
+                        <span class="badge badge-secondary">Cup</span>
+                    {% endif %}
+                    {{ entry.event }}
+                </td>
                 <td>{{ entry.winnerClub }}, {{ entry.winnerCountryName }}</td>
                 <td>
                     {% if entry.hostClub and entry.hostCountry %}

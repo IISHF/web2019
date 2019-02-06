@@ -56,6 +56,14 @@ trait HallOfFameEntryProperties
     private $eventDate;
 
     /**
+     * @Assert\Type("bool")
+     * @Assert\NotNull()
+     *
+     * @var bool
+     */
+    private $championship = false;
+
+    /**
      * @Assert\Type("string")
      * @Assert\Length(max=128)
      * @Assert\NotBlank()
@@ -166,6 +174,24 @@ trait HallOfFameEntryProperties
     public function setEventDate(?string $eventDate): self
     {
         $this->eventDate = $eventDate;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isChampionship(): bool
+    {
+        return $this->championship;
+    }
+
+    /**
+     * @param bool $championship
+     * @return $this
+     */
+    public function setChampionship(bool $championship): self
+    {
+        $this->championship = $championship;
         return $this;
     }
 

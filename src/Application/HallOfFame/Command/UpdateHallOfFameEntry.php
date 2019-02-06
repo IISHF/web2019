@@ -32,6 +32,7 @@ class UpdateHallOfFameEntry
             $entry->getAgeGroup(),
             $entry->getEvent(),
             $entry->getEventDate(),
+            $entry->isChampionship(),
             $entry->getWinnerClub(),
             $entry->getWinnerCountry(),
             $entry->getHostClub(),
@@ -45,6 +46,7 @@ class UpdateHallOfFameEntry
      * @param string      $ageGroup
      * @param string      $event
      * @param string|null $eventDate
+     * @param bool        $championship
      * @param string      $winnerClub
      * @param string      $winnerCountry
      * @param string|null $hostClub
@@ -56,6 +58,7 @@ class UpdateHallOfFameEntry
         string $ageGroup,
         string $event,
         ?string $eventDate,
+        bool $championship,
         string $winnerClub,
         string $winnerCountry,
         ?string $hostClub,
@@ -66,6 +69,7 @@ class UpdateHallOfFameEntry
         $this->ageGroup      = $ageGroup;
         $this->event         = $event;
         $this->eventDate     = $eventDate;
+        $this->championship  = $championship;
         $this->winnerClub    = $winnerClub;
         $this->winnerCountry = $winnerCountry;
         $this->hostClub      = $hostClub;

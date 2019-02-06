@@ -25,6 +25,7 @@ class UpdateHallOfFameEntryHandler extends HallOfFameEntryCommandHandler
               ->setAgeGroup($command->getAgeGroup())
               ->setEvent($command->getEvent())
               ->setEventDate($command->getEventDate())
+              ->setChampionship($command->isChampionship())
               ->setWinnerClub($command->getWinnerClub())
               ->setWinnerCountry($command->getWinnerCountry())
               ->setHostClub($command->getHostClub())
