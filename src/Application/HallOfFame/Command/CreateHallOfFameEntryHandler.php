@@ -22,29 +22,18 @@ class CreateHallOfFameEntryHandler extends HallOfFameEntryCommandHandler
      */
     public function __invoke(CreateHallOfFameEntry $command): void
     {
-        if ($command->isChampionship()) {
-            $entry = HallOfFameEntry::forChampionship(
-                $command->getId(),
-                $command->getSeason(),
-                $command->getAgeGroup(),
-                $command->getEventDate(),
-                $command->getWinnerClub(),
-                $command->getWinnerCountry(),
-                $command->getHostClub(),
-                $command->getHostCountry()
-            );
-        } else {
-            $entry = HallOfFameEntry::forCup(
-                $command->getId(),
-                $command->getSeason(),
-                $command->getAgeGroup(),
-                $command->getEventDate(),
-                $command->getWinnerClub(),
-                $command->getWinnerCountry(),
-                $command->getHostClub(),
-                $command->getHostCountry()
-            );
-        }
+        $entry = new HallOfFameEntry(
+            $command->getId(),
+            $command->getSeason(),
+            $command->getAgeGroup(),
+            $command->getEvent(),
+            $command->getEventDate(),
+            $command->isChampionship(),
+            $command->getWinnerClub(),
+            $command->getWinnerCountry(),
+            $command->getHostClub(),
+            $command->getHostCountry()
+        );
         $this->hallOfFameRepository->save($entry);
     }
 }

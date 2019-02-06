@@ -9,6 +9,7 @@
 namespace App\Application\HallOfFame\Command;
 
 use App\Application\Common\Validator\AgeGroup as ValidAgeGroup;
+use App\Domain\Common\AgeGroup;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -35,12 +36,22 @@ trait HallOfFameEntryProperties
      *
      * @var string
      */
-    private $ageGroup;
+    private $ageGroup = AgeGroup::AGE_GROUP_MEN;
 
     /**
-     * @Assert\Type("DateTimeImmutable")
+     * @Assert\Type("string")
+     * @Assert\Length(max=128)
+     * @Assert\NotBlank()
      *
-     * @var \DateTimeImmutable|null
+     * @var string
+     */
+    private $event = '';
+
+    /**
+     * @Assert\Type("string")
+     * @Assert\Length(max=64)
+     *
+     * @var string|null
      */
     private $eventDate;
 
@@ -51,7 +62,7 @@ trait HallOfFameEntryProperties
      *
      * @var string
      */
-    private $winnerClub;
+    private $winnerClub = '';
 
     /**
      * @Assert\Type("string")
@@ -60,7 +71,7 @@ trait HallOfFameEntryProperties
      *
      * @var string
      */
-    private $winnerCountry;
+    private $winnerCountry = '';
 
     /**
      * @Assert\Type("string")
@@ -115,18 +126,36 @@ trait HallOfFameEntryProperties
     }
 
     /**
-     * @return \DateTimeImmutable|null
+     * @return string
      */
-    public function getEventDate(): ?\DateTimeImmutable
+    public function getEvent(): string
+    {
+        return $this->event;
+    }
+
+    /**
+     * @param string $event
+     * @return $this
+     */
+    public function setEvent(string $event): self
+    {
+        $this->event = $event;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEventDate(): ?string
     {
         return $this->eventDate;
     }
 
     /**
-     * @param \DateTimeImmutable|null $eventDate
+     * @param string|null $eventDate
      * @return $this
      */
-    public function setEventDate(?\DateTimeImmutable $eventDate): self
+    public function setEventDate(?string $eventDate): self
     {
         $this->eventDate = $eventDate;
         return $this;

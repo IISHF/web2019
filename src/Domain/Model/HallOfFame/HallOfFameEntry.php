@@ -56,9 +56,16 @@ class HallOfFameEntry
     private $ageGroup;
 
     /**
-     * @ORM\Column(name="event_date", type="date_immutable", nullable=true)
+     * @ORM\Column(name="event", type="string", length=128)
      *
-     * @var \DateTimeImmutable|null
+     * @var string
+     */
+    private $event;
+
+    /**
+     * @ORM\Column(name="event_date", type="string", length=64, nullable=true)
+     *
+     * @var string|null
      */
     private $eventDate;
 
@@ -84,7 +91,7 @@ class HallOfFameEntry
     private $winnerCountry;
 
     /**
-     * @ORM\Column(name="club", type="string", length=128, nullable=true)
+     * @ORM\Column(name="host_club", type="string", length=128, nullable=true)
      *
      * @var string|null
      */
@@ -98,75 +105,23 @@ class HallOfFameEntry
     private $hostCountry;
 
     /**
-     * @param string                  $id
-     * @param int                     $season
-     * @param string                  $ageGroup
-     * @param \DateTimeImmutable|null $eventDate
-     * @param string                  $winnerClub
-     * @param string                  $winnerCountry
-     * @param string|null             $hostClub
-     * @param string|null             $hostCountry
-     * @return self
+     * @param string      $id
+     * @param int         $season
+     * @param string      $ageGroup
+     * @param string      $event
+     * @param string|null $eventDate
+     * @param bool        $championship
+     * @param string      $winnerClub
+     * @param string      $winnerCountry
+     * @param string|null $hostClub
+     * @param string|null $hostCountry
      */
-    public static function forChampionship(
+    public function __construct(
         string $id,
         int $season,
         string $ageGroup,
-        ?\DateTimeImmutable $eventDate,
-        string $winnerClub,
-        string $winnerCountry,
-        ?string $hostClub,
-        ?string $hostCountry
-    ): self {
-        return new self(
-            $id, $season, $ageGroup, $eventDate, true, $winnerClub, $winnerCountry, $hostClub, $hostCountry
-        );
-    }
-
-    /**
-     * @param string                  $id
-     * @param int                     $season
-     * @param string                  $ageGroup
-     * @param \DateTimeImmutable|null $eventDate
-     * @param string                  $winnerClub
-     * @param string                  $winnerCountry
-     * @param string|null             $hostClub
-     * @param string|null             $hostCountry
-     * @return self
-     */
-    public static function forCup(
-        string $id,
-        int $season,
-        string $ageGroup,
-        ?\DateTimeImmutable $eventDate,
-        string $winnerClub,
-        string $winnerCountry,
-        ?string $hostClub,
-        ?string $hostCountry
-    ): self {
-        return new self(
-            $id, $season, $ageGroup, $eventDate, false, $winnerClub, $winnerCountry, $hostClub, $hostCountry
-        );
-    }
-
-    /**
-     * HallOfFameEntry constructor.
-     *
-     * @param string                  $id
-     * @param int                     $season
-     * @param string                  $ageGroup
-     * @param \DateTimeImmutable|null $eventDate
-     * @param bool                    $championship
-     * @param string                  $winnerClub
-     * @param string                  $winnerCountry
-     * @param string|null             $hostClub
-     * @param string|null             $hostCountry
-     */
-    private function __construct(
-        string $id,
-        int $season,
-        string $ageGroup,
-        ?\DateTimeImmutable $eventDate,
+        string $event,
+        ?string $eventDate,
         bool $championship,
         string $winnerClub,
         string $winnerCountry,
@@ -180,6 +135,7 @@ class HallOfFameEntry
 
         $this->setSeason($season)
              ->setAgeGroup($ageGroup)
+             ->setEvent($event)
              ->setEventDate($eventDate)
              ->setWinnerClub($winnerClub)
              ->setWinnerCountry($winnerCountry)
@@ -236,19 +192,39 @@ class HallOfFameEntry
     }
 
     /**
-     * @return \DateTimeImmutable|null
+     * @return string
      */
-    public function getEventDate(): ?\DateTimeImmutable
+    public function getEvent(): string
+    {
+        return $this->event;
+    }
+
+    /**
+     * @param string $event
+     * @return $this
+     */
+    public function setEvent(string $event): self
+    {
+        Assert::nullOrLengthBetween($event, 1, 128);
+        $this->event = $event;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEventDate(): ?string
     {
         return $this->eventDate;
     }
 
     /**
-     * @param \DateTimeImmutable|null $eventDate
+     * @param string|null $eventDate
      * @return $this
      */
-    public function setEventDate(?\DateTimeImmutable $eventDate): self
+    public function setEventDate(?string $eventDate): self
     {
+        Assert::nullOrLengthBetween($eventDate, 1, 64);
         $this->eventDate = $eventDate;
         return $this;
     }

@@ -23,6 +23,7 @@ class UpdateHallOfFameEntryHandler extends HallOfFameEntryCommandHandler
         $entry = $this->getEntry($command->getId());
         $entry->setSeason($command->getSeason())
               ->setAgeGroup($command->getAgeGroup())
+              ->setEvent($command->getEvent())
               ->setEventDate($command->getEventDate())
               ->setWinnerClub($command->getWinnerClub())
               ->setWinnerCountry($command->getWinnerCountry())

@@ -30,6 +30,7 @@ class UpdateHallOfFameEntry
             $entry->getId(),
             $entry->getSeason(),
             $entry->getAgeGroup(),
+            $entry->getEvent(),
             $entry->getEventDate(),
             $entry->getWinnerClub(),
             $entry->getWinnerCountry(),
@@ -39,20 +40,22 @@ class UpdateHallOfFameEntry
     }
 
     /**
-     * @param string                  $id
-     * @param int                     $season
-     * @param string                  $ageGroup
-     * @param \DateTimeImmutable|null $eventDate
-     * @param string                  $winnerClub
-     * @param string                  $winnerCountry
-     * @param string|null             $hostClub
-     * @param string|null             $hostCountry
+     * @param string      $id
+     * @param int         $season
+     * @param string      $ageGroup
+     * @param string      $event
+     * @param string|null $eventDate
+     * @param string      $winnerClub
+     * @param string      $winnerCountry
+     * @param string|null $hostClub
+     * @param string|null $hostCountry
      */
     private function __construct(
         string $id,
         int $season,
         string $ageGroup,
-        ?\DateTimeImmutable $eventDate,
+        string $event,
+        ?string $eventDate,
         string $winnerClub,
         string $winnerCountry,
         ?string $hostClub,
@@ -61,6 +64,7 @@ class UpdateHallOfFameEntry
         $this->id            = $id;
         $this->season        = $season;
         $this->ageGroup      = $ageGroup;
+        $this->event         = $event;
         $this->eventDate     = $eventDate;
         $this->winnerClub    = $winnerClub;
         $this->winnerCountry = $winnerCountry;

@@ -58,10 +58,15 @@ class HallOfFameCommand extends CommandWithFilesystem
         $this->beginTransaction();
         try {
             foreach ($this->readDataFile($dataFile) as $i => $entry) {
-                $createEntry = CreateHallOfFameEntry::create();
-                $createEntry->setChampionship($entry['championship'])
-                            ->setSeason($entry['season'])
-                            ->setAgeGroup($entry['ageGroup'])
+                if ($entry['championship']) {
+                    $createEntry = CreateHallOfFameEntry::createEuropeanChampionship($entry['ageGroup']);
+                } elseif ($entry['ageGroup'] === 'Men Cup Winners') {
+                    $createEntry = CreateHallOfFameEntry::createEuropeanCupWinnersCup(AgeGroup::AGE_GROUP_MEN);
+                } else {
+                    $createEntry = CreateHallOfFameEntry::createEuropeanCup($entry['ageGroup']);
+                }
+                $createEntry->setSeason($entry['season'])
+                            ->setEventDate($entry['eventDate'])
                             ->setWinnerClub($entry['winnerClub'])
                             ->setWinnerCountry($entry['winnerCountry'])
                             ->setHostClub($entry['hostClub'])
@@ -82,10 +87,11 @@ class HallOfFameCommand extends CommandWithFilesystem
                     $createEntry->isChampionship() ? 'Champ.' : 'Cup',
                     $createEntry->getSeason(),
                     $createEntry->getAgeGroup(),
-                    $createEntry->getWinnerClub(),
-                    $createEntry->getWinnerCountry(),
-                    $createEntry->getHostClub(),
-                    $createEntry->getHostCountry(),
+                    $createEntry->getEvent(),
+                    $createEntry->getEventDate(),
+                    $createEntry->getWinnerClub() . ', ' . $createEntry->getWinnerCountry(),
+                    ($createEntry->getHostClub() ?: '')
+                    . ($createEntry->getHostCountry() ? ', ' . $createEntry->getHostCountry() : ''),
                     $result,
                 ];
                 $this->io->progressAdvance();
@@ -98,7 +104,7 @@ class HallOfFameCommand extends CommandWithFilesystem
         }
         $this->io->progressFinish();
         $this->io->table(
-            ['#', 'Type', 'Season', 'Age Group', 'Winner', 'W. Country', 'Host', 'H. Country'],
+            ['#', 'Type', 'Season', 'Age Group', 'Event', 'Date', 'Winner', 'Host'],
             $results
         );
         $this->io->success('Imported ' . $count . ' hall of fame entries.');
