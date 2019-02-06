@@ -1,0 +1,7 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    <h1>Create Hall of Fame Entry</h1>
+
+    {% include 'hall_of_fame/_form.html.twig' with {form: form, submitBtnText: 'Create', submitBtnType: 'success'} %}
+{% endblock %}

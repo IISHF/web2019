@@ -1,0 +1,7 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    <h1>{{ entry.event }}</h1>
+
+    {% include 'hall_of_fame/_form.html.twig' with {form: form} %}
+{% endblock %}
