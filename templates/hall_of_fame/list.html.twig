@@ -13,7 +13,6 @@
         <thead class="thead-dark">
         <tr>
             <th scope="col">Season</th>
-            <th scope="col">Age Group</th>
             <th scope="col">Event</th>
             <th scope="col">Winner</th>
             <th scope="col">Host</th>
@@ -25,16 +24,21 @@
         {% for entry in entries %}
             <tr>
                 <td>{{ entry.season }}</td>
-                <td>{{ entry.ageGroupName }}</td>
                 <td>
                     {% if entry.championship %}
                         <span class="badge badge-primary">Championship</span>
                     {% else %}
                         <span class="badge badge-secondary">Cup</span>
                     {% endif %}
-                    {{ entry.event }}
+                    {{ entry.ageGroupName }} {{ entry.event }}
                 </td>
-                <td>{{ entry.winnerClub }}, {{ entry.winnerCountryName }}</td>
+                <td>
+                    {% if entry.championship %}
+                        {{ entry.winnerCountryName }}
+                    {% else %}
+                        {{ entry.winnerClub }}, {{ entry.winnerCountryName }}
+                    {% endif %}
+                </td>
                 <td>
                     {% if entry.hostClub and entry.hostCountry %}
                         {{ entry.hostClub }}, {{ entry.hostCountryName }}
