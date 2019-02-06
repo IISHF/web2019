@@ -154,6 +154,14 @@ class HallOfFameEntry
     }
 
     /**
+     * @return string
+     */
+    public function getCaption(): string
+    {
+        return sprintf('%d %s %s', $this->season, $this->getAgeGroupName(), $this->event);
+    }
+
+    /**
      * @return int
      */
     public function getSeason(): int
@@ -189,6 +197,14 @@ class HallOfFameEntry
         AgeGroup::assertValidAgeGroup($ageGroup);
         $this->ageGroup = $ageGroup;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAgeGroupName(): string
+    {
+        return AgeGroup::getAgeGroup($this->ageGroup, 'unknown');
     }
 
     /**

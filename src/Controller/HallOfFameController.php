@@ -45,7 +45,7 @@ class HallOfFameController extends AbstractController
     public function list(HallOfFameRepository $hallOfFameRepository): Response
     {
         return $this->render(
-            'staff/list.html.twig',
+            'hall_of_fame/list.html.twig',
             [
                 'entries' => $hallOfFameRepository->findAll(),
             ]

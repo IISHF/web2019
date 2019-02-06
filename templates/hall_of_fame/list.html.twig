@@ -1,0 +1,57 @@
+{% extends 'public_base.html.twig' %}
+
+{% block content %}
+    <h1>Hall of Fame</h1>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="btn-group" role="group">
+            <a href="{{ path('app_halloffame_create') }}" class="btn btn-success">Create</a>
+        </div>
+    {% endif %}
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Season</th>
+            <th scope="col">Age Group</th>
+            <th scope="col">Event</th>
+            <th scope="col">Winner</th>
+            <th scope="col">Host</th>
+            <th scope="col">Updated</th>
+            <th scope="col">&#160;</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entry in entries %}
+            <tr>
+                <td>{{ entry.season }}</td>
+                <td>{{ entry.ageGroupName }}</td>
+                <td>{{ entry.event }}</td>
+                <td>{{ entry.winnerClub }}, {{ entry.winnerCountryName }}</td>
+                <td>
+                    {% if entry.hostClub and entry.hostCountry %}
+                        {{ entry.hostClub }}, {{ entry.hostCountryName }}
+                    {% endif %}
+                </td>
+                <td class="text-nowrap">{{ entry.updatedAt|relative_time }}</td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
+                        {% if is_granted('HALL_OF_FAME_ENTRY_EDIT', entry) %}
+                            <a href="{{ path('app_halloffame_update', {'entry': entry.id}) }}"
+                               class="btn btn-primary">Edit</a>
+                        {% endif %}
+                        {% if is_granted('HALL_OF_FAME_ENTRY_DELETE', entry) %}
+                            {{ include('common/_delete_btn.html.twig', {
+                                title: entry.caption,
+                                body: 'Do you really want to delete the hall of fame entry?',
+                                deleteAction: path('app_halloffame_delete', {'entry': entry.id}),
+                                csrfIntention: 'hall_of_fame_entry_delete_' ~ entry.id,
+                            }) }}
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
