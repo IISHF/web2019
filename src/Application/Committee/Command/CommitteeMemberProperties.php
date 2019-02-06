@@ -8,6 +8,8 @@
 
 namespace App\Application\Committee\Command;
 
+use App\Application\Committee\Validator\TermType;
+use App\Domain\Model\Committee\CommitteeMember;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -51,6 +53,31 @@ trait CommitteeMemberProperties
      * @var string|null
      */
     private $title;
+
+    /**
+     * @Assert\Type("integer")
+     * @Assert\NotBlank()
+     * @TermType()
+     *
+     * @var int
+     */
+    private $termType = CommitteeMember::TERM_TYPE_ELECTED;
+
+    /**
+     * @Assert\Type("integer")
+     * @Assert\Range(min=2000, max=9999)
+     *
+     * @var int|null
+     */
+    private $termSince;
+
+    /**
+     * @Assert\Type("integer")
+     * @Assert\Range(min=1, max=99)
+     *
+     * @var int|null
+     */
+    private $termDuration;
 
     /**
      * @return string
@@ -121,6 +148,60 @@ trait CommitteeMemberProperties
     public function setTitle(?string $title): self
     {
         $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTermType(): int
+    {
+        return $this->termType;
+    }
+
+    /**
+     * @param int $termType
+     * @return $this
+     */
+    public function setTermType(int $termType): self
+    {
+        $this->termType = $termType;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getTermSince(): ?int
+    {
+        return $this->termSince;
+    }
+
+    /**
+     * @param int|null $termSince
+     * @return $this
+     */
+    public function setTermSince(?int $termSince): self
+    {
+        $this->termSince = $termSince;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getTermDuration(): ?int
+    {
+        return $this->termDuration;
+    }
+
+    /**
+     * @param int|null $termDuration
+     * @return $this
+     */
+    public function setTermDuration(?int $termDuration): self
+    {
+        $this->termDuration = $termDuration;
         return $this;
     }
 }

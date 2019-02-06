@@ -204,7 +204,7 @@ class HallOfFameEntry
      */
     public function getAgeGroupName(): string
     {
-        return AgeGroup::getAgeGroup($this->ageGroup, 'unknown');
+        return AgeGroup::getAgeGroupName($this->ageGroup, 'unknown');
     }
 
     /**

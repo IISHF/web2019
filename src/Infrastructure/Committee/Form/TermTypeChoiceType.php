@@ -2,23 +2,23 @@
 /**
  * Created by PhpStorm.
  * User: stefan
- * Date: 2019-01-14
- * Time: 19:32
+ * Date: 2019-02-06
+ * Time: 09:39
  */
 
-namespace App\Infrastructure\Event\Form;
+namespace App\Infrastructure\Committee\Form;
 
-use App\Domain\Common\AgeGroup;
+use App\Domain\Model\Committee\CommitteeMember;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class AgeGroupChoiceType
+ * Class TermTypeChoiceType
  *
- * @package App\Infrastructure\Event\Form
+ * @package App\Infrastructure\Committee\Form
  */
-class AgeGroupChoiceType extends AbstractType
+class TermTypeChoiceType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -27,10 +27,10 @@ class AgeGroupChoiceType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'choices'                   => array_flip(AgeGroup::getAgeGroups()),
+                'choices'                   => array_flip(CommitteeMember::getTermTypes()),
                 'multiple'                  => false,
                 'choice_translation_domain' => false,
-                'enable_select2'            => true,
+                'expanded'                  => true,
             ]
         );
     }

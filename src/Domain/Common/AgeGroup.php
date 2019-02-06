@@ -56,7 +56,7 @@ final class AgeGroup
      * @param string|null $default
      * @return string|null
      */
-    public static function getAgeGroup(string $ageGroup, ?string $default = null): ?string
+    public static function getAgeGroupName(string $ageGroup, ?string $default = null): ?string
     {
         return self::$availableAgeGroups[$ageGroup] ?? $default;
     }

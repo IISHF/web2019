@@ -9,6 +9,7 @@
 namespace App\Infrastructure\Event\Form;
 
 use App\Application\Event\Command\HasSanctionStatus;
+use App\Infrastructure\Common\Form\AgeGroupChoiceType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

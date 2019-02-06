@@ -26,6 +26,19 @@ class CommitteeMember
 {
     use CreateTracking, UpdateTracking;
 
+    public const TERM_TYPE_ELECTED         = 1;
+    public const TERM_TYPE_NOMINATED_IISHF = 2;
+    public const TERM_TYPE_NOMINATED_NGB   = 3;
+
+    /**
+     * @var array
+     */
+    private static $availableTermTypes = [
+        self::TERM_TYPE_ELECTED         => 'Elected by AGM',
+        self::TERM_TYPE_NOMINATED_IISHF => 'Nominated by IISHF',
+        self::TERM_TYPE_NOMINATED_NGB   => 'Nominated by NGB',
+    ];
+
     /**
      * @ORM\Column(name="id", type="guid")
      * @ORM\Id
@@ -71,12 +84,71 @@ class CommitteeMember
     private $title;
 
     /**
+     * @ORM\Column(name="term_type", type="smallint", options={"unsigned": true})
+     *
+     * @var int
+     */
+    private $termType;
+
+    /**
+     * @ORM\Column(name="term_since", type="smallint", options={"unsigned": true}, nullable=true)
+     *
+     * @var int|null
+     */
+    private $termSince;
+
+    /**
+     * @ORM\Column(name="term_duration", type="smallint", options={"unsigned": true}, nullable=true)
+     *
+     * @var int|null
+     */
+    private $termDuration;
+
+    /**
+     * @return array
+     */
+    public static function getTermTypes(): array
+    {
+        return self::$availableTermTypes;
+    }
+
+    /**
+     * @param int         $termType
+     * @param string|null $default
+     * @return string|null
+     */
+    public static function getTermTypeName(int $termType, ?string $default = null): ?string
+    {
+        return self::$availableTermTypes[$termType] ?? $default;
+    }
+
+    /**
+     * @param int $termType
+     * @return bool
+     */
+    public static function isValidTermType(int $termType): bool
+    {
+        return isset(self::$availableTermTypes[$termType]);
+    }
+
+    /**
+     * @param int $termType
+     */
+    public static function assertValidTermType(int $termType): void
+    {
+        Assert::oneOf($termType, array_keys(self::$availableTermTypes));
+    }
+
+    /**
      * @param string      $id
      * @param Committee   $committee
      * @param string      $firstName
      * @param string      $lastName
      * @param string      $country
      * @param string|null $title
+     * @param int         $termType
+     * @param int|null    $termSince
+     * @param int|null    $termDuration
      */
     public function __construct(
         string $id,
@@ -84,7 +156,10 @@ class CommitteeMember
         string $firstName,
         string $lastName,
         string $country,
-        ?string $title
+        ?string $title,
+        int $termType,
+        ?int $termSince,
+        ?int $termDuration
     ) {
         Assert::uuid($id);
 
@@ -94,6 +169,7 @@ class CommitteeMember
              ->setLastName($lastName)
              ->setCountry($country)
              ->setTitle($title)
+             ->setTerm($termType, $termSince, $termDuration)
              ->initCreateTracking()
              ->initUpdateTracking();
     }
@@ -245,6 +321,63 @@ class CommitteeMember
     {
         Assert::nullOrLengthBetween($title, 1, 128);
         $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTermType(): int
+    {
+        return $this->termType;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTermSince(): int
+    {
+        return $this->termSince;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTermDuration(): int
+    {
+        return $this->termDuration;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTermTypeDescription(): string
+    {
+        $type = self::getTermTypeName($this->termType, 'unknown');
+        if ($this->termSince !== null) {
+            $type .= ' in ' . $this->termSince;
+        }
+        if ($this->termDuration !== null) {
+            $type .= ' for ' . $this->termDuration . ' years';
+        }
+
+        return $type;
+    }
+
+    /**
+     * @param int      $termType
+     * @param int|null $termSince
+     * @param int|null $termDuration
+     * @return $this
+     */
+    public function setTerm(int $termType, ?int $termSince, ?int $termDuration): self
+    {
+        self::assertValidTermType($termType);
+        Assert::nullOrRange($termSince, 2000, 9999);
+        Assert::nullOrRange($termDuration, 1, 99);
+        $this->termType     = $termType;
+        $this->termSince    = $termSince;
+        $this->termDuration = $termDuration;
         return $this;
     }
 }

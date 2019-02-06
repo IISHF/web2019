@@ -10,6 +10,7 @@ namespace App\Infrastructure\Committee\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -46,8 +47,9 @@ class CommitteeMemberType extends AbstractType
                 'country',
                 CountryType::class,
                 [
-                    'label'    => 'Country',
-                    'required' => true,
+                    'label'          => 'Country',
+                    'required'       => true,
+                    'enable_select2' => true,
                 ]
             )
             ->add(
@@ -56,6 +58,32 @@ class CommitteeMemberType extends AbstractType
                 [
                     'label'    => 'Title',
                     'required' => false,
+                ]
+            )
+            ->add(
+                'termType',
+                TermTypeChoiceType::class,
+                [
+                    'label'    => 'Term Type',
+                    'required' => true,
+                ]
+            )
+            ->add(
+                'termSince',
+                IntegerType::class,
+                [
+                    'label'    => 'Term since',
+                    'required' => false,
+                    'scale'    => 0,
+                ]
+            )
+            ->add(
+                'termDuration',
+                IntegerType::class,
+                [
+                    'label'    => 'Term Duration',
+                    'required' => false,
+                    'scale'    => 0,
                 ]
             );
     }

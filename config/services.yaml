@@ -50,5 +50,3 @@ services:
     App\Infrastructure\Twig\EmailRuntime:
         tags:
             - twig.runtime
-
-    App\Application\Common\Validator\AgeGroupValidator:

@@ -57,8 +57,9 @@ class NationalGoverningBodyType extends AbstractType
                 'country',
                 CountryType::class,
                 [
-                    'label'    => 'Country',
-                    'required' => true,
+                    'label'          => 'Country',
+                    'required'       => true,
+                    'enable_select2' => true,
                 ]
             )
             ->add(

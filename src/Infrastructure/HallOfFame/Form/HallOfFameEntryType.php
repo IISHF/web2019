@@ -8,7 +8,7 @@
 
 namespace App\Infrastructure\HallOfFame\Form;
 
-use App\Infrastructure\Event\Form\AgeGroupChoiceType;
+use App\Infrastructure\Common\Form\AgeGroupChoiceType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
@@ -89,8 +89,9 @@ class HallOfFameEntryType extends AbstractType
                 'winnerCountry',
                 CountryType::class,
                 [
-                    'label'    => 'Winning Club\'s Country',
-                    'required' => true,
+                    'label'          => 'Winning Club\'s Country',
+                    'required'       => true,
+                    'enable_select2' => true,
                 ]
             )
             ->add(
@@ -105,8 +106,9 @@ class HallOfFameEntryType extends AbstractType
                 'hostCountry',
                 CountryType::class,
                 [
-                    'label'    => 'Hosting Club\'s Country',
-                    'required' => false,
+                    'label'          => 'Hosting Club\'s Country',
+                    'required'       => false,
+                    'enable_select2' => true,
                 ]
             );
     }

@@ -30,25 +30,41 @@ class UpdateCommitteeMember
             $member->getId(),
             $member->getFirstName(),
             $member->getLastName(),
-            $member->getCountry()
+            $member->getCountry(),
+            $member->getTitle(),
+            $member->getTermType(),
+            $member->getTermSince(),
+            $member->getTermDuration()
         );
     }
 
     /**
-     * @param string $id
-     * @param string $firstName
-     * @param string $lastName
-     * @param string $country
+     * @param string      $id
+     * @param string      $firstName
+     * @param string      $lastName
+     * @param string      $country
+     * @param string|null $title
+     * @param int         $termType
+     * @param int|null    $termSince
+     * @param int|null    $termDuration
      */
     private function __construct(
         string $id,
         string $firstName,
         string $lastName,
-        string $country
+        string $country,
+        ?string $title,
+        int $termType,
+        ?int $termSince,
+        ?int $termDuration
     ) {
-        $this->id        = $id;
-        $this->firstName = $firstName;
-        $this->lastName  = $lastName;
-        $this->country   = $country;
+        $this->id           = $id;
+        $this->firstName    = $firstName;
+        $this->lastName     = $lastName;
+        $this->country      = $country;
+        $this->title        = $title;
+        $this->termType     = $termType;
+        $this->termSince    = $termSince;
+        $this->termDuration = $termDuration;
     }
 }
