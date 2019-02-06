@@ -76,6 +76,10 @@ trait HallOfFameEntryProperties
     /**
      * @Assert\Type("string")
      * @Assert\Length(max=128)
+     * @Assert\Expression(
+     *      expression="value === null ? this.getHostCountry() === null : this.getHostCountry()",
+     *      message="Either both the hosting club and its country must be filled in or both must be empty."
+     * )
      *
      * @var string|null
      */
@@ -84,6 +88,10 @@ trait HallOfFameEntryProperties
     /**
      * @Assert\Type("string")
      * @Assert\Country()
+     * @Assert\Expression(
+     *      expression="value === null ? this.getHostClub() === null : this.getHostClub() !== null",
+     *      message="Either both the hosting club and its country must be filled in or both must be empty."
+     * )
      *
      * @var string|null
      */
