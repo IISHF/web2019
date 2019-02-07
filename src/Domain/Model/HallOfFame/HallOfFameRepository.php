@@ -56,7 +56,10 @@ class HallOfFameRepository extends ServiceEntityRepository
     public function groupBySeason(): iterable
     {
         return $this->groupBy(
-            $this->findAll(),
+            $this->createQueryBuilder('h')
+                 ->orderBy('h.season', 'DESC')
+                 ->addOrderBy('h.championship', 'DESC')
+                 ->addOrderBy('h.ageGroup', 'ASC'),
             function (HallOfFameEntry $entry) {
                 return $entry->getSeason();
             }
@@ -64,15 +67,31 @@ class HallOfFameRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param HallOfFameEntry[] $list
-     * @param callable          $getGroup
      * @return iterable|HallOfFameEntry[][]
      */
-    private function groupBy(iterable $list, callable $getGroup): iterable
+    public function groupByAgeGroup(): iterable
+    {
+        return $this->groupBy(
+            $this->createQueryBuilder('h')
+                 ->orderBy('h.ageGroup', 'ASC')
+                 ->addOrderBy('h.season', 'DESC')
+                 ->addOrderBy('h.championship', 'DESC'),
+            function (HallOfFameEntry $entry) {
+                return $entry->getAgeGroupName();
+            }
+        );
+    }
+
+    /**
+     * @param \Doctrine\ORM\QueryBuilder $queryBuilder
+     * @param callable                   $getGroup
+     * @return iterable|HallOfFameEntry[][]
+     */
+    private function groupBy(\Doctrine\ORM\QueryBuilder $queryBuilder, callable $getGroup): iterable
     {
         $current = null;
         $batch   = [];
-        foreach ($list as $entry) {
+        foreach ($queryBuilder->getQuery()->getResult() as $entry) {
             $groupBy = $getGroup($entry);
             if ($current !== $groupBy) {
                 if (!empty($batch)) {
