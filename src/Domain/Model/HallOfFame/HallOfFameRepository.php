@@ -51,6 +51,44 @@ class HallOfFameRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return iterable|HallOfFameEntry[][]
+     */
+    public function groupBySeason(): iterable
+    {
+        return $this->groupBy(
+            $this->findAll(),
+            function (HallOfFameEntry $entry) {
+                return $entry->getSeason();
+            }
+        );
+    }
+
+    /**
+     * @param HallOfFameEntry[] $list
+     * @param callable          $getGroup
+     * @return iterable|HallOfFameEntry[][]
+     */
+    private function groupBy(iterable $list, callable $getGroup): iterable
+    {
+        $current = null;
+        $batch   = [];
+        foreach ($list as $entry) {
+            $groupBy = $getGroup($entry);
+            if ($current !== $groupBy) {
+                if (!empty($batch)) {
+                    yield $current => $batch;
+                }
+                $current = $groupBy;
+                $batch   = [];
+            }
+            $batch[] = $entry;
+        }
+        if (!empty($batch)) {
+            yield $current => $batch;
+        }
+    }
+
+    /**
      * @param HallOfFameEntry $entry
      * @return HallOfFameEntry
      */
