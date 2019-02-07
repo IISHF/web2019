@@ -24,8 +24,8 @@ use Webmozart\Assert\Assert;
  * @ORM\Table(
  *      name="hall_of_fame",
  *      indexes={
- *          @ORM\Index(name="idx_season_age_group", columns={"season", "age_group"}),
- *          @ORM\Index(name="idx_age_group_season", columns={"age_group", "season"})
+ *          @ORM\Index(name="idx_season_age_group", columns={"season", "championship", "age_group"}),
+ *          @ORM\Index(name="idx_age_group_season", columns={"championship", "age_group", "season"})
  *      }
  * )
  */

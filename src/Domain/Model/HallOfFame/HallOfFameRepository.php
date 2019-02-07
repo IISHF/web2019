@@ -44,6 +44,7 @@ class HallOfFameRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('h')
                     ->orderBy('h.season', 'DESC')
+                    ->addOrderBy('h.championship', 'DESC')
                     ->addOrderBy('h.ageGroup', 'ASC')
                     ->getQuery()
                     ->getResult();
