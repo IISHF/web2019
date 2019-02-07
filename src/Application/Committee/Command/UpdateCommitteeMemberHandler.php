@@ -25,7 +25,8 @@ class UpdateCommitteeMemberHandler extends CommitteeCommandHandler
                ->setLastName($command->getLastName())
                ->setCountry($command->getCountry())
                ->setTitle($command->getTitle())
-               ->setTerm($command->getTermType(), $command->getTermSince(), $command->getTermDuration());
+               ->setTerm($command->getTermType(), $command->getTermSince(), $command->getTermDuration())
+               ->setMemberType($command->getMemberType());
         $this->committeeRepository->saveMember($member);
     }
 }

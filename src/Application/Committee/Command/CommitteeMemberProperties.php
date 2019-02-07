@@ -8,6 +8,7 @@
 
 namespace App\Application\Committee\Command;
 
+use App\Application\Committee\Validator\MemberType;
 use App\Application\Committee\Validator\TermType;
 use App\Domain\Model\Committee\CommitteeMember;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -78,6 +79,15 @@ trait CommitteeMemberProperties
      * @var int|null
      */
     private $termDuration;
+
+    /**
+     * @Assert\Type("integer")
+     * @Assert\NotBlank()
+     * @MemberType()
+     *
+     * @var int
+     */
+    private $memberType = CommitteeMember::MEMBER_TYPE_MEMBER;
 
     /**
      * @return string
@@ -202,6 +212,24 @@ trait CommitteeMemberProperties
     public function setTermDuration(?int $termDuration): self
     {
         $this->termDuration = $termDuration;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMemberType(): int
+    {
+        return $this->memberType;
+    }
+
+    /**
+     * @param int $memberType
+     * @return $this
+     */
+    public function setMemberType(int $memberType): self
+    {
+        $this->memberType = $memberType;
         return $this;
     }
 }

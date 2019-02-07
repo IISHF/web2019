@@ -74,6 +74,14 @@ class CommitteeCommand extends CommandWithFilesystem
                                      ->setCountry($member['country'])
                                      ->setTitle($member['title']);
 
+                        if (in_array($member['title'], ['Chairman', 'Disciplinary Officer'])) {
+                            $createMember->setMemberType(CommitteeMember::MEMBER_TYPE_CHAIRMAN);
+                        } elseif (in_array($member['title'], ['Vice-Chairman', 'Vice Disciplinary Officer'])) {
+                            $createMember->setMemberType(CommitteeMember::MEMBER_TYPE_VICE_CHAIRMAN);
+                        } else {
+                            $createMember->setMemberType(CommitteeMember::MEMBER_TYPE_MEMBER);
+                        }
+
                         if ($committee['title'] === 'IISHF Disciplinary Committee') {
                             $createMember->setTermType(CommitteeMember::TERM_TYPE_NOMINATED_IISHF)
                                          ->setTermSince(2017)

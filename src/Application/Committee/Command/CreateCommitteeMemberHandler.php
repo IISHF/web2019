@@ -29,7 +29,8 @@ class CreateCommitteeMemberHandler extends CommitteeCommandHandler
             $command->getTitle(),
             $command->getTermType(),
             $command->getTermSince(),
-            $command->getTermDuration()
+            $command->getTermDuration(),
+            $command->getMemberType()
         );
         $this->committeeRepository->saveMember($member);
     }

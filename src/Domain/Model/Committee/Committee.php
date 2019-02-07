@@ -170,6 +170,7 @@ class Committee
      * @param int         $termType
      * @param int|null    $termSince
      * @param int|null    $termDuration
+     * @param int         $memberType
      * @return CommitteeMember
      */
     public function createMember(
@@ -180,7 +181,8 @@ class Committee
         ?string $title,
         int $termType,
         ?int $termSince,
-        ?int $termDuration
+        ?int $termDuration,
+        int $memberType
     ): CommitteeMember {
         $member = new CommitteeMember(
             $id,
@@ -191,7 +193,8 @@ class Committee
             $title,
             $termType,
             $termSince,
-            $termDuration
+            $termDuration,
+            $memberType
         );
         $this->addMember($member);
         return $member;

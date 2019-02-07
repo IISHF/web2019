@@ -15,19 +15,19 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 /**
- * Class TermTypeValidator
+ * Class MemberTypeValidator
  *
  * @package App\Application\Committee\Validator
  */
-class TermTypeValidator extends ConstraintValidator
+class MemberTypeValidator extends ConstraintValidator
 {
     /**
      * {@inheritdoc}
      */
     public function validate($value, Constraint $constraint): void
     {
-        if (!$constraint instanceof TermType) {
-            throw new UnexpectedTypeException($constraint, TermType::class);
+        if (!$constraint instanceof MemberType) {
+            throw new UnexpectedTypeException($constraint, MemberType::class);
         }
         if ($value === null || $value === '') {
             return;
@@ -36,7 +36,7 @@ class TermTypeValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, 'integer');
         }
 
-        if (CommitteeMember::isValidTermType($value)) {
+        if (CommitteeMember::isValidMemberType($value)) {
             return;
         }
 

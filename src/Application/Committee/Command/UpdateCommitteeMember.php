@@ -34,7 +34,8 @@ class UpdateCommitteeMember
             $member->getTitle(),
             $member->getTermType(),
             $member->getTermSince(),
-            $member->getTermDuration()
+            $member->getTermDuration(),
+            $member->getMemberType()
         );
     }
 
@@ -47,6 +48,7 @@ class UpdateCommitteeMember
      * @param int         $termType
      * @param int|null    $termSince
      * @param int|null    $termDuration
+     * @param int         $memberType
      */
     private function __construct(
         string $id,
@@ -56,7 +58,8 @@ class UpdateCommitteeMember
         ?string $title,
         int $termType,
         ?int $termSince,
-        ?int $termDuration
+        ?int $termDuration,
+        int $memberType
     ) {
         $this->id           = $id;
         $this->firstName    = $firstName;
@@ -66,5 +69,6 @@ class UpdateCommitteeMember
         $this->termType     = $termType;
         $this->termSince    = $termSince;
         $this->termDuration = $termDuration;
+        $this->memberType   = $memberType;
     }
 }

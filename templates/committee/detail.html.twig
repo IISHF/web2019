@@ -40,7 +40,14 @@
                 <tbody>
                 {% for member in committee.members %}
                     <tr>
-                        <td>{{ member.name }}</td>
+                        <td>
+                            {% if member.chairman %}
+                                <span class="badge badge-primary">C</span>
+                            {% elseif member.viceChairman %}
+                                <span class="badge badge-secondary">V</span>
+                            {% endif %}
+                            {{ member.name }}
+                        </td>
                         <td>{{ member.title }}</td>
                         <td>{{ member.termTypeDescription }}</td>
                         <td>{{ member.countryName }}</td>

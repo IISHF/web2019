@@ -96,7 +96,10 @@ class CommitteeRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
                     ->addSelect('cm')
-                    ->leftJoin('c.members', 'cm');
+                    ->leftJoin('c.members', 'cm')
+                    ->orderBy('cm.memberType', 'ASC')
+                    ->addOrderBy('cm.lastName', 'ASC')
+                    ->addOrderBy('cm.firstName', 'ASC');
     }
 
     /**
@@ -104,8 +107,11 @@ class CommitteeRepository extends ServiceEntityRepository
      */
     public function findAll(): iterable
     {
-        return $this->createQueryBuilder('c')
+        return $this->createQueryBuilderWithMembers()
                     ->orderBy('c.title', 'ASC')
+                    ->addOrderBy('cm.memberType', 'ASC')
+                    ->addOrderBy('cm.lastName', 'ASC')
+                    ->addOrderBy('cm.firstName', 'ASC')
                     ->getQuery()
                     ->getResult();
     }

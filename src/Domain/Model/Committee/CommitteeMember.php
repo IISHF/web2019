@@ -30,6 +30,10 @@ class CommitteeMember
     public const TERM_TYPE_NOMINATED_IISHF = 2;
     public const TERM_TYPE_NOMINATED_NGB   = 3;
 
+    public const MEMBER_TYPE_CHAIRMAN      = 1;
+    public const MEMBER_TYPE_VICE_CHAIRMAN = 2;
+    public const MEMBER_TYPE_MEMBER        = 3;
+
     /**
      * @var array
      */
@@ -37,6 +41,15 @@ class CommitteeMember
         self::TERM_TYPE_ELECTED         => 'Elected by AGM',
         self::TERM_TYPE_NOMINATED_IISHF => 'Nominated by IISHF',
         self::TERM_TYPE_NOMINATED_NGB   => 'Nominated by NGB',
+    ];
+
+    /**
+     * @var array
+     */
+    private static $availableMemberTypes = [
+        self::MEMBER_TYPE_CHAIRMAN      => 'Chairman',
+        self::MEMBER_TYPE_VICE_CHAIRMAN => 'Vice Chairman',
+        self::MEMBER_TYPE_MEMBER        => 'Member',
     ];
 
     /**
@@ -105,6 +118,13 @@ class CommitteeMember
     private $termDuration;
 
     /**
+     * @ORM\Column(name="member_type", type="smallint", options={"unsigned": true})
+     *
+     * @var int
+     */
+    private $memberType;
+
+    /**
      * @return array
      */
     public static function getTermTypes(): array
@@ -140,6 +160,31 @@ class CommitteeMember
     }
 
     /**
+     * @return array
+     */
+    public static function getMemberTypes(): array
+    {
+        return self::$availableMemberTypes;
+    }
+
+    /**
+     * @param int $memberType
+     * @return bool
+     */
+    public static function isValidMemberType(int $memberType): bool
+    {
+        return isset(self::$availableMemberTypes[$memberType]);
+    }
+
+    /**
+     * @param int $memberType
+     */
+    public static function assertValidMemberType(int $memberType): void
+    {
+        Assert::oneOf($memberType, array_keys(self::$availableTermTypes));
+    }
+
+    /**
      * @param string      $id
      * @param Committee   $committee
      * @param string      $firstName
@@ -149,6 +194,7 @@ class CommitteeMember
      * @param int         $termType
      * @param int|null    $termSince
      * @param int|null    $termDuration
+     * @param int         $memberType
      */
     public function __construct(
         string $id,
@@ -159,7 +205,8 @@ class CommitteeMember
         ?string $title,
         int $termType,
         ?int $termSince,
-        ?int $termDuration
+        ?int $termDuration,
+        int $memberType
     ) {
         Assert::uuid($id);
 
@@ -170,6 +217,7 @@ class CommitteeMember
              ->setCountry($country)
              ->setTitle($title)
              ->setTerm($termType, $termSince, $termDuration)
+             ->setMemberType($memberType)
              ->initCreateTracking()
              ->initUpdateTracking();
     }
@@ -378,6 +426,49 @@ class CommitteeMember
         $this->termType     = $termType;
         $this->termSince    = $termSince;
         $this->termDuration = $termDuration;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMemberType(): int
+    {
+        return $this->memberType;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isChairman(): bool
+    {
+        return $this->memberType === self::MEMBER_TYPE_CHAIRMAN;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isViceChairman(): bool
+    {
+        return $this->memberType === self::MEMBER_TYPE_VICE_CHAIRMAN;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMember(): bool
+    {
+        return !$this->isChairman() && !$this->isViceChairman();
+    }
+
+    /**
+     * @param int $memberType
+     * @return $this
+     */
+    public function setMemberType(int $memberType): self
+    {
+        self::assertValidMemberType($memberType);
+        $this->memberType = $memberType;
         return $this;
     }
 }

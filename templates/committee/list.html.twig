@@ -21,7 +21,14 @@
                         {% if committee.members is not empty %}
                             <ul>
                                 {% for member in committee.members %}
-                                    <li>{{ member.name }}{% if member.title is not empty %} ({{ member.title }}){% endif %}</li>
+                                    <li>
+                                        {% if member.chairman %}
+                                            <span class="badge badge-primary">C</span>
+                                        {% elseif member.viceChairman %}
+                                            <span class="badge badge-secondary">V</span>
+                                        {% endif %}
+                                        {{ member.name }}
+                                    </li>
                                 {% endfor %}
                             </ul>
                         {% else %}

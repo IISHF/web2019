@@ -61,6 +61,14 @@ class CommitteeMemberType extends AbstractType
                 ]
             )
             ->add(
+                'memberType',
+                MemberTypeChoiceType::class,
+                [
+                    'label'    => 'Member Type',
+                    'required' => true,
+                ]
+            )
+            ->add(
                 'termType',
                 TermTypeChoiceType::class,
                 [
