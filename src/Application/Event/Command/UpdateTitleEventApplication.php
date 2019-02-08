@@ -34,7 +34,8 @@ class UpdateTitleEventApplication
             ContactPerson::fromContactPersonEntity($contact),
             $application->getProposedStartDate(),
             $application->getProposedEndDate(),
-            $application->getVenue()->getId()
+            $application->getVenue()->getId(),
+            $application->getTimeZone()
         );
     }
 
@@ -45,6 +46,7 @@ class UpdateTitleEventApplication
      * @param \DateTimeImmutable $proposedStartDate
      * @param \DateTimeImmutable $proposedEndDate
      * @param string             $venue
+     * @param \DateTimeZone      $timeZone
      */
     private function __construct(
         string $id,
@@ -52,7 +54,8 @@ class UpdateTitleEventApplication
         ContactPerson $contact,
         \DateTimeImmutable $proposedStartDate,
         \DateTimeImmutable $proposedEndDate,
-        string $venue
+        string $venue,
+        \DateTimeZone $timeZone
     ) {
         $this->id                = $id;
         $this->applicantClub     = $applicantClub;
@@ -60,5 +63,6 @@ class UpdateTitleEventApplication
         $this->proposedStartDate = $proposedStartDate;
         $this->proposedEndDate   = $proposedEndDate;
         $this->venue             = $venue;
+        $this->timeZone          = $timeZone;
     }
 }

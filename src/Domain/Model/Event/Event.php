@@ -126,6 +126,18 @@ abstract class Event
     private $venue;
 
     /**
+     * @ORM\Column(name="time_zone", type="string", length=32, nullable=true)
+     *
+     * @var string|null
+     */
+    private $timeZone;
+
+    /**
+     * @var \DateTimeZone|null
+     */
+    private $timeZoneInstance;
+
+    /**
      * @ORM\Column(name="tags", type="json")
      *
      * @var string[]
@@ -412,6 +424,41 @@ abstract class Event
     public function hasVenue(): bool
     {
         return $this->venue !== null;
+    }
+
+    /**
+     * @return \DateTimeZone|null
+     */
+    public function getTimeZone(): ?\DateTimeZone
+    {
+        if (!$this->timeZoneInstance && $this->timeZone) {
+            $this->timeZoneInstance = new \DateTimeZone($this->timeZone);
+        }
+        return $this->timeZoneInstance;
+    }
+
+    /**
+     * @param \DateTimeZone|null $timeZone
+     * @return $this
+     */
+    public function setTimeZone(?\DateTimeZone $timeZone): self
+    {
+        if ($timeZone) {
+            Assert::lengthBetween($timeZone->getName(), 1, 32);
+            $this->timeZone = $timeZone->getName();
+        } else {
+            $this->timeZone = null;
+        }
+        $this->timeZoneInstance = $timeZone;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasTimeZone(): bool
+    {
+        return $this->timeZone !== null;
     }
 
     /**

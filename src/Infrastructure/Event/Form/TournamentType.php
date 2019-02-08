@@ -10,6 +10,7 @@ namespace App\Infrastructure\Event\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TimezoneType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -61,6 +62,16 @@ class TournamentType extends AbstractType
                 [
                     'label'    => 'Venue',
                     'required' => true,
+                ]
+            )
+            ->add(
+                'timeZone',
+                TimezoneType::class,
+                [
+                    'label'          => 'Time Zone',
+                    'input'          => 'datetimezone',
+                    'required'       => true,
+                    'enable_select2' => true,
                 ]
             );
     }

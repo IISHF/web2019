@@ -40,5 +40,6 @@ class ApplyForTitleEvent
         $this->contact           = new ContactPerson();
         $this->proposedStartDate = new \DateTimeImmutable('next Saturday');
         $this->proposedEndDate   = $this->proposedStartDate->modify('+ 1 day');
+        $this->timeZone          = new \DateTimeZone('Europe/Berlin');
     }
 }

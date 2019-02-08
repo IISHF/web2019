@@ -79,6 +79,18 @@ class TitleEventApplication
     private $venue;
 
     /**
+     * @ORM\Column(name="time_zone", type="string", length=32, nullable=true)
+     *
+     * @var string|null
+     */
+    private $timeZone;
+
+    /**
+     * @var \DateTimeZone|null
+     */
+    private $timeZoneInstance;
+
+    /**
      * @param string             $id
      * @param TitleEvent         $titleEvent
      * @param string             $applicantClub
@@ -86,6 +98,7 @@ class TitleEventApplication
      * @param \DateTimeImmutable $proposedStartDate
      * @param \DateTimeImmutable $proposedEndDate
      * @param EventVenue         $venue
+     * @param string             $timeZone
      */
     public function __construct(
         string $id,
@@ -94,7 +107,8 @@ class TitleEventApplication
         ContactPerson $contact,
         \DateTimeImmutable $proposedStartDate,
         \DateTimeImmutable $proposedEndDate,
-        EventVenue $venue
+        EventVenue $venue,
+        string $timeZone
     ) {
         Assert::uuid($id);
 
@@ -105,6 +119,7 @@ class TitleEventApplication
              ->setContact($contact)
              ->setProposedDate($proposedStartDate, $proposedEndDate)
              ->setVenue($venue)
+             ->setTimeZone($timeZone)
              ->initCreateTracking()
              ->initUpdateTracking();
     }
@@ -207,6 +222,29 @@ class TitleEventApplication
     public function setVenue(EventVenue $venue): self
     {
         $this->venue = $venue;
+        return $this;
+    }
+
+    /**
+     * @return \DateTimeZone|null
+     */
+    public function getTimeZone(): ?\DateTimeZone
+    {
+        if (!$this->timeZoneInstance) {
+            $this->timeZoneInstance = new \DateTimeZone($this->timeZone);
+        }
+        return $this->timeZoneInstance;
+    }
+
+    /**
+     * @param \DateTimeZone $timeZone
+     * @return $this
+     */
+    public function setTimeZone(\DateTimeZone $timeZone): self
+    {
+        Assert::lengthBetween($timeZone->getName(), 1, 32);
+        $this->timeZone         = $timeZone->getName();
+        $this->timeZoneInstance = $timeZone;
         return $this;
     }
 }

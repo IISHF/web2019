@@ -71,7 +71,8 @@ abstract class TitleEvent extends Event
         return $this->getCurrentState() === self::STATE_ANNOUNCED
             && $this->hasHost()
             && $this->hasDate()
-            && $this->hasVenue();
+            && $this->hasVenue()
+            && $this->hasTimeZone();
     }
 
     /**
@@ -119,6 +120,7 @@ abstract class TitleEvent extends Event
      * @param \DateTimeImmutable $proposedStartDate
      * @param \DateTimeImmutable $proposedEndDate
      * @param EventVenue         $venue
+     * @param string             $timeZone
      * @return TitleEventApplication
      */
     public function applyForEvent(
@@ -127,7 +129,8 @@ abstract class TitleEvent extends Event
         ContactPerson $contact,
         \DateTimeImmutable $proposedStartDate,
         \DateTimeImmutable $proposedEndDate,
-        EventVenue $venue
+        EventVenue $venue,
+        string $timeZone
     ): TitleEventApplication {
         return new TitleEventApplication(
             $id,
@@ -136,7 +139,8 @@ abstract class TitleEvent extends Event
             $contact,
             $proposedStartDate,
             $proposedEndDate,
-            $venue
+            $venue,
+            $timeZone
         );
     }
 
@@ -161,7 +165,8 @@ abstract class TitleEvent extends Event
             )
         )
              ->setDate($application->getProposedStartDate(), $application->getProposedEndDate())
-             ->setVenue($application->getVenue());
+             ->setVenue($application->getVenue())
+             ->setTimeZone($application->getTimeZone());
 
         return $this;
     }
@@ -173,6 +178,7 @@ abstract class TitleEvent extends Event
     {
         return $this->setHost(null)
                     ->clearDate()
-                    ->setVenue(null);
+                    ->setVenue(null)
+                    ->setTimeZone(null);
     }
 }

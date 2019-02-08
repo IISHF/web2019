@@ -14,6 +14,7 @@
                 <th scope="col">Club</th>
                 <th scope="col">Date</th>
                 <th scope="col">Venue</th>
+                <th scope="col">Time Zone</th>
                 <th scope="col">Updated</th>
                 <th scope="col">&#160;</th>
             </tr>
@@ -32,6 +33,7 @@
                     <td>{{ application.proposedStartDate|date('F j, Y') }}
                         – {{ application.proposedStartDate|date('F j, Y') }}</td>
                     <td>{{ application.venue.address.city }}, {{ application.venue.address.countryName }}</td>
+                    <td>{{ application.timeZone.name }}</td>
                     <td class="text-nowrap">{{ application.updatedAt|relative_time }}</td>
                     <td>
                         <div class="btn-group btn-group-sm" role="group">
@@ -57,7 +59,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="6">No applications found.</td>
+                    <td colspan="7">No applications found.</td>
                 </tr>
             {% endfor %}
             </tbody>

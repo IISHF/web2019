@@ -30,6 +30,7 @@ class Tournament extends Event
      * @param \DateTimeImmutable $startDate
      * @param \DateTimeImmutable $endDate
      * @param EventVenue         $venue
+     * @param string             $timeZone
      * @param array              $tags
      */
     public function __construct(
@@ -42,13 +43,15 @@ class Tournament extends Event
         \DateTimeImmutable $startDate,
         \DateTimeImmutable $endDate,
         EventVenue $venue,
+        string $timeZone,
         array $tags
     ) {
         parent::__construct($id, $name, $slug, $season, $ageGroup, $tags);
 
         $this->setHost($host)
              ->setDate($startDate, $endDate)
-             ->setVenue($venue);
+             ->setVenue($venue)
+             ->setTimeZone($timeZone);
     }
 
     /**
@@ -99,5 +102,22 @@ class Tournament extends Event
     {
         Assert::notNull($venue);
         return parent::setVenue($venue);
+    }
+
+    /**
+     * @return \DateTimeZone
+     */
+    public function getTimeZone(): \DateTimeZone
+    {
+        return parent::getTimeZone();
+    }
+
+    /**
+     * {@inheritdoc)
+     */
+    public function setTimeZone(?\DateTimeZone $timeZone): Event
+    {
+        Assert::notNull($timeZone);
+        return parent::setTimeZone($timeZone);
     }
 }

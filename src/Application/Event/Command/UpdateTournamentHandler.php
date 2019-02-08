@@ -32,6 +32,7 @@ class UpdateTournamentHandler extends TournamentCommandHandler
                    ->setAgeGroup($command->getAgeGroup())
                    ->setDate($command->getStartDate(), $command->getEndDate())
                    ->setVenue($this->getVenue($command->getVenue()))
+                   ->setTimeZone($command->getTimeZone())
                    ->setTags($command->getTags());
         $tournament->getHost()
                    ->setClub($host->getClub())

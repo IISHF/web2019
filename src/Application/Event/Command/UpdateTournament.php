@@ -36,6 +36,7 @@ class UpdateTournament implements HasSanctionStatus
             $tournament->getStartDate(),
             $tournament->getEndDate(),
             $tournament->getVenue()->getId(),
+            $tournament->getTimeZone(),
             $tournament->getTags(),
             $tournament->getSanctionNumber()
         );
@@ -50,6 +51,7 @@ class UpdateTournament implements HasSanctionStatus
      * @param \DateTimeImmutable $startDate
      * @param \DateTimeImmutable $endDate
      * @param string             $venue
+     * @param \DateTimeZone      $timeZone
      * @param string[]           $tags
      * @param string|null        $sanctionNumber
      */
@@ -62,6 +64,7 @@ class UpdateTournament implements HasSanctionStatus
         \DateTimeImmutable $startDate,
         \DateTimeImmutable $endDate,
         string $venue,
+        \DateTimeZone $timeZone,
         array $tags,
         ?string $sanctionNumber
     ) {
@@ -73,6 +76,7 @@ class UpdateTournament implements HasSanctionStatus
         $this->startDate      = $startDate;
         $this->endDate        = $endDate;
         $this->venue          = $venue;
+        $this->timeZone       = $timeZone;
         $this->tags           = $tags;
         $this->sanctionNumber = $sanctionNumber;
         $this->sanctioned     = $sanctionNumber !== null;

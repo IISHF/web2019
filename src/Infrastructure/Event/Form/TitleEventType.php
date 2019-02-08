@@ -13,6 +13,7 @@ use App\Infrastructure\Form\TrixEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TimezoneType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -94,6 +95,16 @@ class TitleEventType extends AbstractType
                           [
                               'label'    => 'Venue',
                               'required' => true,
+                          ]
+                      )
+                      ->add(
+                          'timeZone',
+                          TimezoneType::class,
+                          [
+                              'label'          => 'Time Zone',
+                              'input'          => 'datetimezone',
+                              'required'       => true,
+                              'enable_select2' => true,
                           ]
                       );
             }

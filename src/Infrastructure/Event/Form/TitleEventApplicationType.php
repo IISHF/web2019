@@ -12,6 +12,7 @@ use App\Infrastructure\Common\Form\ContactPersonType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimezoneType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -71,6 +72,16 @@ class TitleEventApplicationType extends AbstractType
                 [
                     'label'    => 'Venue',
                     'required' => true,
+                ]
+            )
+            ->add(
+                'timeZone',
+                TimezoneType::class,
+                [
+                    'label'          => 'Time Zone',
+                    'input'          => 'datetimezone',
+                    'required'       => true,
+                    'enable_select2' => true,
                 ]
             );
     }

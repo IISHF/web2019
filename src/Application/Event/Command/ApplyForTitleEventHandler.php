@@ -38,7 +38,8 @@ class ApplyForTitleEventHandler extends TitleEventApplicationCommandHandler
             ),
             $command->getProposedStartDate(),
             $command->getProposedEndDate(),
-            $this->getVenue($command->getVenue())
+            $this->getVenue($command->getVenue()),
+            $command->getTimeZone()
         );
         $this->applicationRepository->save($application);
     }

@@ -9,7 +9,6 @@
 namespace App\Application\Event\Command;
 
 use App\Application\Event\EventHost;
-use App\Domain\Model\Event\EventVenue;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -57,9 +56,17 @@ trait TournamentProperties
      * @Assert\Uuid()
      * @Assert\NotBlank()
      *
-     * @var string|null
+     * @var string
      */
     private $venue;
+
+    /**
+     * @Assert\Type("DateTimeZone")
+     * @Assert\NotNull()
+     *
+     * @var \DateTimeZone
+     */
+    private $timeZone;
 
     /**
      * @return EventHost
@@ -120,6 +127,24 @@ trait TournamentProperties
     public function setVenue(string $venue): self
     {
         $this->venue = $venue;
+        return $this;
+    }
+
+    /**
+     * @return \DateTimeZone|null
+     */
+    public function getTimeZone(): ?\DateTimeZone
+    {
+        return $this->timeZone;
+    }
+
+    /**
+     * @param \DateTimeZone $timeZone
+     * @return $this
+     */
+    public function setTimeZone(\DateTimeZone $timeZone): self
+    {
+        $this->timeZone = $timeZone;
         return $this;
     }
 }

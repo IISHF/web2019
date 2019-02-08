@@ -8,6 +8,7 @@
         <th scope="col">Date</th>
         <th scope="col">Host</th>
         <th scope="col">Venue</th>
+        <th scope="col">Time Zone</th>
         <th scope="col">Tags</th>
         <th scope="col">Updated</th>
         <th scope="col">&#160;</th>
@@ -43,6 +44,13 @@
                     <span class="text-muted">No venue yet.</span>
                 {% endif %}
             </td>
+            <td>
+                {% if event.hasTimeZone %}
+                    {{ event.timeZone.name }}
+                {% else %}
+                    <span class="text-muted">No time zone yet.</span>
+                {% endif %}
+            </td>
             <td>{{ include('common/_tags.html.twig', {tags: event.tags}) }}</td>
             <td class="text-nowrap">{{ event.updatedAt|relative_time }}</td>
             <td>
@@ -70,7 +78,7 @@
         </tr>
     {% else %}
         <tr>
-            <td colspan="9">{{ emptyText|default('No events found.') }}</td>
+            <td colspan="10">{{ emptyText|default('No events found.') }}</td>
         </tr>
     {% endfor %}
     </tbody>

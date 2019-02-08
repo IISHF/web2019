@@ -38,5 +38,6 @@ class CreateTournament
         $this->host      = new EventHost();
         $this->startDate = new \DateTimeImmutable('next Saturday');
         $this->endDate   = $this->startDate->modify('+ 1 day');
+        $this->timeZone  = new \DateTimeZone('Europe/Berlin');
     }
 }
