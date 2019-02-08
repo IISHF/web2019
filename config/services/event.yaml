@@ -9,6 +9,7 @@ services:
     App\Domain\Model\Event\EventVenueRepository:
     App\Domain\Model\Event\ParticipatingTeamRepository:
     App\Domain\Model\Event\TitleEventApplicationRepository:
+    App\Domain\Model\Event\Game\GameRepository:
 
     App\Application\Event\Command\CreateEuropeanChampionshipHandler:
     App\Application\Event\Command\UpdateEuropeanChampionshipHandler:
