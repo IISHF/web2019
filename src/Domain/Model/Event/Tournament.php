@@ -30,7 +30,7 @@ class Tournament extends Event
      * @param \DateTimeImmutable $startDate
      * @param \DateTimeImmutable $endDate
      * @param EventVenue         $venue
-     * @param string             $timeZone
+     * @param \DateTimeZone      $timeZone
      * @param array              $tags
      */
     public function __construct(
@@ -43,7 +43,7 @@ class Tournament extends Event
         \DateTimeImmutable $startDate,
         \DateTimeImmutable $endDate,
         EventVenue $venue,
-        string $timeZone,
+        \DateTimeZone $timeZone,
         array $tags
     ) {
         parent::__construct($id, $name, $slug, $season, $ageGroup, $tags);

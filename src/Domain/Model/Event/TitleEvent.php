@@ -120,7 +120,7 @@ abstract class TitleEvent extends Event
      * @param \DateTimeImmutable $proposedStartDate
      * @param \DateTimeImmutable $proposedEndDate
      * @param EventVenue         $venue
-     * @param string             $timeZone
+     * @param \DateTimeZone      $timeZone
      * @return TitleEventApplication
      */
     public function applyForEvent(
@@ -130,7 +130,7 @@ abstract class TitleEvent extends Event
         \DateTimeImmutable $proposedStartDate,
         \DateTimeImmutable $proposedEndDate,
         EventVenue $venue,
-        string $timeZone
+        \DateTimeZone $timeZone
     ): TitleEventApplication {
         return new TitleEventApplication(
             $id,

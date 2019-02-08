@@ -98,7 +98,7 @@ class TitleEventApplication
      * @param \DateTimeImmutable $proposedStartDate
      * @param \DateTimeImmutable $proposedEndDate
      * @param EventVenue         $venue
-     * @param string             $timeZone
+     * @param \DateTimeZone      $timeZone
      */
     public function __construct(
         string $id,
@@ -108,7 +108,7 @@ class TitleEventApplication
         \DateTimeImmutable $proposedStartDate,
         \DateTimeImmutable $proposedEndDate,
         EventVenue $venue,
-        string $timeZone
+        \DateTimeZone $timeZone
     ) {
         Assert::uuid($id);
 
