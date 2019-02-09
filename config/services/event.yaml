@@ -45,6 +45,12 @@ services:
     App\Infrastructure\Event\ParamConverter\EventVenueParamConverter:
         tags:
             - { name: request.param_converter, converter: app.event_venue }
+    App\Infrastructure\Event\ParamConverter\ParticipatingTeamParamConverter:
+        tags:
+            - { name: request.param_converter, converter: app.event_team }
+    App\Infrastructure\Event\ParamConverter\TitleEventApplicationParamConverter:
+        tags:
+            - { name: request.param_converter, converter: app.event_application }
 
     App\Infrastructure\Event\Form\EventTagType:
     App\Infrastructure\Event\Form\TitleEventApplicationChoiceType:

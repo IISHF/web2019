@@ -83,7 +83,7 @@ class GameController extends AbstractController
      * @Route(
      *      "/{game}",
      *      methods={"GET"},
-     *      requirements={"gameId": "%routing.uuid%"}
+     *      requirements={"game": "%routing.uuid%"}
      * )
      * @ParamConverter(
      *      name="game",
@@ -110,7 +110,7 @@ class GameController extends AbstractController
      * @Route(
      *      "/{game}/edit",
      *      methods={"GET", "POST"},
-     *      requirements={"gameId": "%routing.uuid%"}
+     *      requirements={"game": "%routing.uuid%"}
      * )
      * @ParamConverter(
      *      name="game",
@@ -156,7 +156,7 @@ class GameController extends AbstractController
      * @Route(
      *      "/{game}/delete",
      *      methods={"POST", "DELETE"},
-     *      requirements={"gameId": "%routing.uuid%"}
+     *      requirements={"game": "%routing.uuid%"}
      * )
      * @ParamConverter(
      *      name="game",

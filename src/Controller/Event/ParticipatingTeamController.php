@@ -12,7 +12,7 @@ use App\Application\Event\Command\AddParticipatingTeam;
 use App\Application\Event\Command\RemoveParticipatingTeam;
 use App\Application\Event\Command\UpdateParticipatingTeam;
 use App\Domain\Model\Event\Event;
-use App\Domain\Model\Event\ParticipatingTeamRepository;
+use App\Domain\Model\Event\ParticipatingTeam;
 use App\Infrastructure\Controller\CsrfSecuredHandler;
 use App\Infrastructure\Controller\FormHandler;
 use App\Infrastructure\Event\Form\AddParticipatingTeamType;
@@ -81,23 +81,22 @@ class ParticipatingTeamController extends AbstractController
 
     /**
      * @Route(
-     *      "/{teamId}",
+     *      "/{team}",
      *      methods={"GET"},
-     *      requirements={"teamId": "%routing.uuid%"}
+     *      requirements={"team": "%routing.uuid%"}
+     * )
+     * @ParamConverter(
+     *      name="team",
+     *      class="App\Domain\Model\Event\ParticipatingTeam",
+     *      converter="app.event_team"
      * )
      *
-     * @param Event                       $event
-     * @param string                      $teamId
-     * @param ParticipatingTeamRepository $teamRepository
+     * @param Event             $event
+     * @param ParticipatingTeam $team
      * @return Response
      */
-    public function detail(Event $event, string $teamId, ParticipatingTeamRepository $teamRepository): Response
+    public function detail(Event $event, ParticipatingTeam $team): Response
     {
-        $team = $teamRepository->findById($teamId);
-        if (!$team) {
-            throw $this->createNotFoundException();
-        }
-
         return $this->render(
             'event/team/detail.html.twig',
             [
@@ -109,31 +108,29 @@ class ParticipatingTeamController extends AbstractController
 
     /**
      * @Route(
-     *     "/{teamId}/edit",
+     *     "/{team}/edit",
      *     methods={"GET", "POST"},
-     *     requirements={"teamId": "%routing.uuid%"}
+     *     requirements={"team": "%routing.uuid%"}
+     * )
+     * @ParamConverter(
+     *      name="team",
+     *      class="App\Domain\Model\Event\ParticipatingTeam",
+     *      converter="app.event_team"
      * )
      * @Security("is_granted('EVENT_EDIT', event)")
      *
-     * @param Request                     $request
-     * @param Event                       $event
-     * @param string                      $teamId
-     * @param ParticipatingTeamRepository $teamRepository
-     * @param MessageBusInterface         $commandBus
+     * @param Request             $request
+     * @param Event               $event
+     * @param ParticipatingTeam   $team
+     * @param MessageBusInterface $commandBus
      * @return Response
      */
     public function update(
         Request $request,
         Event $event,
-        string $teamId,
-        ParticipatingTeamRepository $teamRepository,
+        ParticipatingTeam $team,
         MessageBusInterface $commandBus
     ): Response {
-        $team = $teamRepository->findById($teamId);
-        if (!$team) {
-            throw $this->createNotFoundException();
-        }
-
         $update = UpdateParticipatingTeam::update($team);
         $form   = $this->createForm(UpdateParticipatingTeamType::class, $update);
 
@@ -161,31 +158,29 @@ class ParticipatingTeamController extends AbstractController
 
     /**
      * @Route(
-     *     "/{teamId}/remove",
+     *     "/{team}/remove",
      *     methods={"POST", "DELETE"},
-     *     requirements={"teamId": "%routing.uuid%"}
+     *     requirements={"team": "%routing.uuid%"}
+     * )
+     * @ParamConverter(
+     *      name="team",
+     *      class="App\Domain\Model\Event\ParticipatingTeam",
+     *      converter="app.event_team"
      * )
      * @Security("is_granted('EVENT_EDIT', event)")
      *
-     * @param Request                     $request
-     * @param Event                       $event
-     * @param string                      $teamId
-     * @param ParticipatingTeamRepository $teamRepository
-     * @param MessageBusInterface         $commandBus
+     * @param Request             $request
+     * @param Event               $event
+     * @param ParticipatingTeam   $team
+     * @param MessageBusInterface $commandBus
      * @return Response
      */
     public function remove(
         Request $request,
         Event $event,
-        string $teamId,
-        ParticipatingTeamRepository $teamRepository,
+        ParticipatingTeam $team,
         MessageBusInterface $commandBus
     ): Response {
-        $team = $teamRepository->findById($teamId);
-        if (!$team) {
-            throw $this->createNotFoundException();
-        }
-
         $withdraw = RemoveParticipatingTeam::remove($team);
 
         $this->handleCsrfCommand($withdraw, 'event_team_remove_' . $team->getId(), $request, $commandBus);

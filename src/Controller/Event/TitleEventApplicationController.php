@@ -13,7 +13,7 @@ use App\Application\Event\Command\UpdateTitleEventApplication;
 use App\Application\Event\Command\WithdrawTitleEventApplication;
 use App\Domain\Model\Event\Event;
 use App\Domain\Model\Event\TitleEvent;
-use App\Domain\Model\Event\TitleEventApplicationRepository;
+use App\Domain\Model\Event\TitleEventApplication;
 use App\Infrastructure\Controller\CsrfSecuredHandler;
 use App\Infrastructure\Controller\FormHandler;
 use App\Infrastructure\Event\Form\ApplyForTitleEventType;
@@ -86,27 +86,23 @@ class TitleEventApplicationController extends AbstractController
 
     /**
      * @Route(
-     *      "/{applicationId}",
+     *      "/{application}",
      *      methods={"GET"},
-     *      requirements={"applicationId": "%routing.uuid%"}
+     *      requirements={"application": "%routing.uuid%"}
+     * )
+     * @ParamConverter(
+     *      name="application",
+     *      class="App\Domain\Model\Event\TitleEventApplication",
+     *      converter="app.event_application"
      * )
      *
-     * @param Event                           $event
-     * @param string                          $applicationId
-     * @param TitleEventApplicationRepository $applicationRepository
+     * @param Event                 $event
+     * @param TitleEventApplication $application
      * @return Response
      */
-    public function detail(
-        Event $event,
-        string $applicationId,
-        TitleEventApplicationRepository $applicationRepository
-    ): Response {
+    public function detail(Event $event, TitleEventApplication $application): Response
+    {
         if (!$event instanceof TitleEvent) {
-            throw $this->createNotFoundException();
-        }
-
-        $application = $applicationRepository->findById($applicationId);
-        if (!$application) {
             throw $this->createNotFoundException();
         }
 
@@ -121,32 +117,30 @@ class TitleEventApplicationController extends AbstractController
 
     /**
      * @Route(
-     *     "/{applicationId}/edit",
+     *     "/{application}/edit",
      *     methods={"GET", "POST"},
-     *     requirements={"applicationId": "%routing.uuid%"}
+     *     requirements={"application": "%routing.uuid%"}
+     * )
+     * @ParamConverter(
+     *      name="application",
+     *      class="App\Domain\Model\Event\TitleEventApplication",
+     *      converter="app.event_application"
      * )
      * @Security("is_granted('EVENT_EDIT', event)")
      *
-     * @param Request                         $request
-     * @param Event                           $event
-     * @param string                          $applicationId
-     * @param TitleEventApplicationRepository $applicationRepository
-     * @param MessageBusInterface             $commandBus
+     * @param Request               $request
+     * @param Event                 $event
+     * @param TitleEventApplication $application
+     * @param MessageBusInterface   $commandBus
      * @return Response
      */
     public function update(
         Request $request,
         Event $event,
-        string $applicationId,
-        TitleEventApplicationRepository $applicationRepository,
+        TitleEventApplication $application,
         MessageBusInterface $commandBus
     ): Response {
         if (!$event instanceof TitleEvent) {
-            throw $this->createNotFoundException();
-        }
-
-        $application = $applicationRepository->findById($applicationId);
-        if (!$application) {
             throw $this->createNotFoundException();
         }
 
@@ -177,32 +171,30 @@ class TitleEventApplicationController extends AbstractController
 
     /**
      * @Route(
-     *     "/{applicationId}/withdraw",
+     *     "/{application}/withdraw",
      *     methods={"POST", "DELETE"},
-     *     requirements={"applicationId": "%routing.uuid%"}
+     *     requirements={"application": "%routing.uuid%"}
+     * )
+     * @ParamConverter(
+     *      name="application",
+     *      class="App\Domain\Model\Event\TitleEventApplication",
+     *      converter="app.event_application"
      * )
      * @Security("is_granted('EVENT_EDIT', event)")
      *
-     * @param Request                         $request
-     * @param Event                           $event
-     * @param string                          $applicationId
-     * @param TitleEventApplicationRepository $applicationRepository
-     * @param MessageBusInterface             $commandBus
+     * @param Request               $request
+     * @param Event                 $event
+     * @param TitleEventApplication $application
+     * @param MessageBusInterface   $commandBus
      * @return Response
      */
     public function withdraw(
         Request $request,
         Event $event,
-        string $applicationId,
-        TitleEventApplicationRepository $applicationRepository,
+        TitleEventApplication $application,
         MessageBusInterface $commandBus
     ): Response {
         if (!$event instanceof TitleEvent) {
-            throw $this->createNotFoundException();
-        }
-
-        $application = $applicationRepository->findById($applicationId);
-        if (!$application) {
             throw $this->createNotFoundException();
         }
 
