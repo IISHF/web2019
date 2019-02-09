@@ -15,7 +15,7 @@ use Webmozart\Assert\Assert;
  *
  * @package App\Domain\Model\Committee
  */
-class MemberType
+final class MemberType
 {
     public const CHAIRMAN      = 1;
     public const VICE_CHAIRMAN = 2;
