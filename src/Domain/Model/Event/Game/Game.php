@@ -54,7 +54,7 @@ class Game
      *
      * @var int
      */
-    private $gameNumber;
+    private $gameNumber = 0;
 
     /**
      * @ORM\Column(name="game_type", type="smallint", options={"unsigned": true})
@@ -110,7 +110,6 @@ class Game
     /**
      * @param string             $id
      * @param Event              $event
-     * @param int                $gameNumber
      * @param int                $gameType
      * @param \DateTimeImmutable $dateTime
      * @param ParticipatingTeam  $homeTeam
@@ -121,7 +120,6 @@ class Game
     public function __construct(
         string $id,
         Event $event,
-        int $gameNumber,
         int $gameType,
         \DateTimeImmutable $dateTime,
         ParticipatingTeam $homeTeam,
@@ -134,8 +132,7 @@ class Game
         $this->id    = $id;
         $this->event = $event;
 
-        $this->setGameNumber($gameNumber)
-             ->setGameType($gameType)
+        $this->setGameType($gameType)
              ->setDateTime($dateTime)
              ->setHomeTeam($homeTeam)
              ->setAwayTeam($awayTeam)

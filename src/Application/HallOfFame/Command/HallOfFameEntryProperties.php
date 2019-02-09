@@ -85,7 +85,7 @@ trait HallOfFameEntryProperties
      * @Assert\Type("string")
      * @Assert\Length(max=128)
      * @Assert\Expression(
-     *      expression="value === null ? this.getHostCountry() === null : this.getHostCountry()",
+     *      expression="value === null ? this.getHostCountry() === null : this.getHostCountry() !== null",
      *      message="Either both the hosting club and its country must be filled in or both must be empty."
      * )
      *

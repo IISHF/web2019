@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    App\Domain\Model\Event\Game\GameRepository:
+
+    App\Application\Event\Game\Command\CreateGameHandler:
+    App\Application\Event\Game\Command\UpdateGameHandler:
+    App\Application\Event\Game\Command\DeleteGameHandler:

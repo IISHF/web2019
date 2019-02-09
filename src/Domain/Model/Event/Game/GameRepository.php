@@ -33,13 +33,13 @@ class GameRepository extends ServiceEntityRepository
      */
     public function findById(string $id): ?Game
     {
-        /** @var Game|null $team */
-        $team = $this->createQueryBuilderWithAssociations()
+        /** @var Game|null $game */
+        $game = $this->createQueryBuilderWithAssociations()
                      ->where('g.id = :id')
                      ->setParameter('id', $id)
                      ->getQuery()
                      ->getOneOrNullResult();
-        return $team;
+        return $game;
     }
 
     /**
@@ -69,20 +69,42 @@ class GameRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Game $team
+     * @param Game $game
      * @return Game
      */
-    public function save(Game $team): Game
+    public function save(Game $game): Game
     {
-        $this->_em->persist($team);
-        return $team;
+        $games   = $this->findBy(['event' => $game->getEvent()], ['dateTimeUtc' => 'ASC']);
+        $games[] = $game;
+        usort(
+            $games,
+            function (Game $a, Game $b) {
+                return $a->getDateTimeUtc() <=> $b->getDateTimeUtc();
+            }
+        );
+        $gameNumber = 1;
+        foreach ($games as $g) {
+            /** @var Game $g */
+            $g->setGameNumber($gameNumber++);
+        }
+
+        $this->_em->persist($game);
+        return $game;
     }
 
     /**
-     * @param Game $team
+     * @param Game $game
      */
-    public function delete(Game $team): void
+    public function delete(Game $game): void
     {
-        $this->_em->remove($team);
+        $games      = $this->findBy(['event' => $game->getEvent()], ['dateTimeUtc' => 'ASC']);
+        $gameNumber = 1;
+        foreach ($games as $g) {
+            /** @var Game $g */
+            if ($g->getId() !== $game->getId()) {
+                $g->setGameNumber($gameNumber++);
+            }
+        }
+        $this->_em->remove($game);
     }
 }

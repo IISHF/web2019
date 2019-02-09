@@ -9,6 +9,7 @@
 namespace App\Domain\Model\Event\Game;
 
 use Doctrine\ORM\Mapping as ORM;
+use Webmozart\Assert\Assert;
 
 /**
  * Class GameResult
@@ -38,7 +39,7 @@ class GameResult
      */
     public static function noResult(): self
     {
-        return new self(null, null);
+        return self::create(null, null);
     }
 
     /**
@@ -47,6 +48,16 @@ class GameResult
      * @return self
      */
     public static function result(int $homeGoals, int $awayGoals): self
+    {
+        return self::create($homeGoals, $awayGoals);
+    }
+
+    /**
+     * @param int|null $homeGoals
+     * @param int|null $awayGoals
+     * @return self
+     */
+    public static function create(?int $homeGoals, ?int $awayGoals): self
     {
         return new self($homeGoals, $awayGoals);
     }
@@ -59,6 +70,14 @@ class GameResult
      */
     private function __construct(?int $homeGoals, ?int $awayGoals)
     {
+        if ($homeGoals !== null) {
+            Assert::notNull($homeGoals);
+        }
+        if ($awayGoals !== null) {
+            Assert::notNull($homeGoals);
+        }
+        Assert::nullOrRange($homeGoals, 0, 99);
+        Assert::nullOrRange($awayGoals, 0, 99);
         $this->homeGoals = $homeGoals;
         $this->awayGoals = $awayGoals;
     }
