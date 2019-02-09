@@ -17,17 +17,17 @@ use Webmozart\Assert\Assert;
  */
 class MemberType
 {
-    public const MEMBER_TYPE_CHAIRMAN      = 1;
-    public const MEMBER_TYPE_VICE_CHAIRMAN = 2;
-    public const MEMBER_TYPE_MEMBER        = 3;
+    public const CHAIRMAN      = 1;
+    public const VICE_CHAIRMAN = 2;
+    public const MEMBER        = 3;
 
     /**
      * @var array
      */
     private static $availableMemberTypes = [
-        self::MEMBER_TYPE_CHAIRMAN      => 'Chairman',
-        self::MEMBER_TYPE_VICE_CHAIRMAN => 'Vice Chairman',
-        self::MEMBER_TYPE_MEMBER        => 'Member',
+        self::CHAIRMAN      => 'Chairman',
+        self::VICE_CHAIRMAN => 'Vice Chairman',
+        self::MEMBER        => 'Member',
     ];
 
     /**

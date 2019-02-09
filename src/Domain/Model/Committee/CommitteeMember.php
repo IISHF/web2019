@@ -356,7 +356,7 @@ class CommitteeMember
      */
     public function isChairman(): bool
     {
-        return $this->memberType === MemberType::MEMBER_TYPE_CHAIRMAN;
+        return $this->memberType === MemberType::CHAIRMAN;
     }
 
     /**
@@ -364,7 +364,7 @@ class CommitteeMember
      */
     public function isViceChairman(): bool
     {
-        return $this->memberType === MemberType::MEMBER_TYPE_VICE_CHAIRMAN;
+        return $this->memberType === MemberType::VICE_CHAIRMAN;
     }
 
     /**

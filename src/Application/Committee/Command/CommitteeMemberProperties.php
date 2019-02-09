@@ -88,7 +88,7 @@ trait CommitteeMemberProperties
      *
      * @var int
      */
-    private $memberType = MemberType::MEMBER_TYPE_MEMBER;
+    private $memberType = MemberType::MEMBER;
 
     /**
      * @return string
