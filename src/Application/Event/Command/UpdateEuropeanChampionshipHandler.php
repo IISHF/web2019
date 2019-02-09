@@ -15,7 +15,7 @@ use App\Domain\Model\Event\EuropeanChampionship;
  *
  * @package App\Application\Event\Command
  */
-class UpdateEuropeanChampionshipHandler extends EventCommandHandler
+class UpdateEuropeanChampionshipHandler extends TitleEventCommandHandler
 {
     /**
      * @param UpdateEuropeanChampionship $command
@@ -32,6 +32,16 @@ class UpdateEuropeanChampionshipHandler extends EventCommandHandler
                      ->setPlannedLength($command->getPlannedLength())
                      ->setDescription($command->getDescription())
                      ->setTags($command->getTags());
+        if ($championship->isAnnounced()) {
+            $championship->setVenue($this->getVenue($command->getVenue()))
+                         ->setTimeZone($command->getTimeZone());
+            $host = $command->getHost();
+            $championship->getHost()
+                         ->setClub($host->getClub())
+                         ->setName($host->getName())
+                         ->setEmail($host->getEmail())
+                         ->setPhoneNumber($host->getPhoneNumber());
+        }
         $this->eventRepository->save($championship);
     }
 }
