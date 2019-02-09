@@ -14,6 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  * Class GameResult
  *
  * @package App\Domain\Model\Event\Game
+ *
+ * @ORM\Embeddable()
  */
 class GameResult
 {
