@@ -14,6 +14,7 @@
                 <th scope="col">Fixture</th>
                 <th scope="col">Date/Time local</th>
                 <th scope="col">Date/Time UTC</th>
+                <th scope="col">Date/Time</th>
                 <th scope="col">Remarks</th>
                 <th scope="col">Result</th>
                 <th scope="col">Updated</th>
@@ -31,6 +32,7 @@
                         }) }}">{{ game.fixture }}</a></td>
                     <td>{{ game.dateTimeLocal|date('F j, Y H:i', false) }}</td>
                     <td>{{ game.dateTimeUtc|date('F j, Y H:i', false) }}</td>
+                    <td>{{ game.dateTimeLocal|local_time }}</td>
                     <td>{{ game.remarks }}</td>
                     <td>{{ game.result.isResult ? game.result.homeGoals ~ ':' ~ game.result.awayGoals : '' }}</td>
                     <td class="text-nowrap">{{ game.updatedAt|relative_time }}</td>

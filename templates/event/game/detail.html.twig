@@ -14,6 +14,8 @@
         <dd class="col-10">{{ game.dateTimeLocal|date('F j, Y H:i', false) }}</dd>
         <dt class="col-2">Date/Time UTC</dt>
         <dd class="col-10">{{ game.dateTimeUtc|date('F j, Y H:i', false) }}</dd>
+        <dt class="col-2">Date/Time</dt>
+        <dd class="col-10">{{ game.dateTimeLocal|local_time }}</dd>
         <dt class="col-2">Home Team</dt>
         <dd class="col-10">{{ game.homeTeam.name }}</dd>
         <dt class="col-2">Away Team</dt>
