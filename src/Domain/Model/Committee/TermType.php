@@ -17,17 +17,17 @@ use Webmozart\Assert\Assert;
  */
 final class TermType
 {
-    public const TERM_TYPE_ELECTED         = 1;
-    public const TERM_TYPE_NOMINATED_IISHF = 2;
-    public const TERM_TYPE_NOMINATED_NGB   = 3;
+    public const ELECTED         = 1;
+    public const NOMINATED_IISHF = 2;
+    public const NOMINATED_NGB   = 3;
 
     /**
      * @var array
      */
     private static $availableTermTypes = [
-        self::TERM_TYPE_ELECTED         => 'Elected by AGM',
-        self::TERM_TYPE_NOMINATED_IISHF => 'Nominated by IISHF',
-        self::TERM_TYPE_NOMINATED_NGB   => 'Nominated by NGB',
+        self::ELECTED         => 'Elected by AGM',
+        self::NOMINATED_IISHF => 'Nominated by IISHF',
+        self::NOMINATED_NGB   => 'Nominated by NGB',
     ];
 
     /**
