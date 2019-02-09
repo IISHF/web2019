@@ -8,6 +8,7 @@
 
 namespace App\Domain\Model\Event\Game;
 
+use App\Domain\Common\DateTime;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\UpdateTracking;
 use App\Domain\Model\Event\Event;
@@ -241,9 +242,8 @@ class Game
                 'The event has no time zone set. The game date and time cannot be updated.'
             );
         }
-        $dateTimeLocal       = new \DateTimeImmutable($dateTime->format('Y-m-d H:i:s'), $this->event->getTimeZone());
-        $this->dateTimeLocal = $dateTimeLocal;
-        $this->dateTimeUtc   = $dateTimeLocal->setTimezone(self::utc());
+        $this->dateTimeLocal = DateTime::reinterpret($dateTime, $this->event->getTimeZone());
+        $this->dateTimeUtc   = DateTime::toUtc($this->dateTimeLocal);
         return $this;
     }
 
