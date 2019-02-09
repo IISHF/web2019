@@ -6,11 +6,17 @@
 
     {{ include('event/_cup_detail.html.twig', {event: event}) }}
 
-    {{ include('event/_teams_card.html.twig', {event: event, teams: teams}) }}
+    {% if event.announced %}
+        {{ include('event/_teams_card.html.twig', {event: event, teams: teams}) }}
+    {% endif %}
 
-    {{ include('event/_games_card.html.twig', {event: event, games: games}) }}
+    {% if event.sanctioned %}
+        {{ include('event/_games_card.html.twig', {event: event, games: games}) }}
+    {% endif %}
 
-    {{ include('event/_applications_card.html.twig', {event: event, applications: applications}) }}
+    {% if not event.announced %}
+        {{ include('event/_applications_card.html.twig', {event: event, applications: applications}) }}
+    {% endif %}
 
     {% embed 'event/_event_workflow_buttons.html.twig' with {event: event} %}
         {% block before_workflow %}
