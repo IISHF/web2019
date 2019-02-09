@@ -34,11 +34,6 @@ class Game
     use CreateTracking, UpdateTracking;
 
     /**
-     * @var \DateTimeZone|null
-     */
-    private static $utc;
-
-    /**
      * @ORM\Column(name="id", type="guid")
      * @ORM\Id
      *
@@ -111,17 +106,6 @@ class Game
      * @var GameResult
      */
     private $result;
-
-    /**
-     * @return \DateTimeZone
-     */
-    private static function utc(): \DateTimeZone
-    {
-        if (!self::$utc) {
-            self::$utc = new \DateTimeZone('UTC');
-        }
-        return self::$utc;
-    }
 
     /**
      * @param string             $id
