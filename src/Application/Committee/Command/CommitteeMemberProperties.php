@@ -62,7 +62,7 @@ trait CommitteeMemberProperties
      *
      * @var int
      */
-    private $termType = CommitteeMember::TERM_TYPE_ELECTED;
+    private $termType = TermType::TERM_TYPE_ELECTED;
 
     /**
      * @Assert\Type("integer")

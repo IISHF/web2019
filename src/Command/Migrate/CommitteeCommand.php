@@ -12,6 +12,7 @@ use App\Application\Committee\Command\CreateCommittee;
 use App\Application\Committee\Command\CreateCommitteeMember;
 use App\Domain\Common\Country;
 use App\Domain\Model\Committee\CommitteeMember;
+use App\Domain\Model\Committee\TermType;
 use App\Utils\Validation;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -83,22 +84,22 @@ class CommitteeCommand extends CommandWithFilesystem
                         }
 
                         if ($committee['title'] === 'IISHF Disciplinary Committee') {
-                            $createMember->setTermType(CommitteeMember::TERM_TYPE_NOMINATED_IISHF)
+                            $createMember->setTermType(TermType::TERM_TYPE_NOMINATED_IISHF)
                                          ->setTermSince(2017)
                                          ->setTermDuration(2);
 
                         } elseif ($committee['title'] === 'IISHF Appeals Committee') {
-                            $createMember->setTermType(CommitteeMember::TERM_TYPE_ELECTED)
+                            $createMember->setTermType(TermType::TERM_TYPE_ELECTED)
                                          ->setTermSince(2017)
                                          ->setTermDuration(2);
 
                         } elseif ($committee['title'] === 'IISHF Technical Committee') {
                             if (in_array($member['title'], ['Chairman', 'Vice-Chairman'])) {
-                                $createMember->setTermType(CommitteeMember::TERM_TYPE_ELECTED)
+                                $createMember->setTermType(TermType::TERM_TYPE_ELECTED)
                                              ->setTermSince(2017)
                                              ->setTermDuration(2);
                             } else {
-                                $createMember->setTermType(CommitteeMember::TERM_TYPE_NOMINATED_NGB);
+                                $createMember->setTermType(TermType::TERM_TYPE_NOMINATED_NGB);
                             }
                         }
 

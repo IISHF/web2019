@@ -8,7 +8,7 @@
 
 namespace App\Application\Committee\Validator;
 
-use App\Domain\Model\Committee\CommitteeMember;
+use App\Domain\Model\Committee\TermType;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -36,7 +36,7 @@ class TermTypeValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, 'integer');
         }
 
-        if (CommitteeMember::isValidTermType($value)) {
+        if (TermType::isValidTermType($value)) {
             return;
         }
 
