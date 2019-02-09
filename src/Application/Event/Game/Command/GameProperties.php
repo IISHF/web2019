@@ -39,6 +39,10 @@ trait GameProperties
      * @Assert\Type("string")
      * @Assert\Uuid()
      * @Assert\NotBlank()
+     * @Assert\NotIdenticalTo(
+     *      propertyPath="awayTeam",
+     *      message="The home team cannot be the same team as the away team."
+     * )
      *
      * @var string
      */
@@ -48,6 +52,10 @@ trait GameProperties
      * @Assert\Type("string")
      * @Assert\Uuid()
      * @Assert\NotBlank()
+     * @Assert\NotIdenticalTo(
+     *      propertyPath="homeTeam",
+     *      message="The away team cannot be the same team as the home team."
+     * )
      *
      * @var string
      */
