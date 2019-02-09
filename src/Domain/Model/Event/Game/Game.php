@@ -22,12 +22,7 @@ use Webmozart\Assert\Assert;
  * @package App\Domain\Model\Event\Game
  *
  * @ORM\Entity(repositoryClass="GameRepository")
- * @ORM\Table(
- *      name="event_games",
- *      uniqueConstraints={
- *          @ORM\UniqueConstraint(name="uniq_event_game", columns={"event_id", "game_number"})
- *      }
- * )
+ * @ORM\Table(name="event_games")
  */
 class Game
 {
@@ -186,6 +181,14 @@ class Game
     }
 
     /**
+     * @return string
+     */
+    public function getGameTypeName(): string
+    {
+        return GameType::getGameTypeName($this->gameType, 'unknown');
+    }
+
+    /**
      * @param int $gameType
      * @return $this
      */
@@ -201,6 +204,14 @@ class Game
      */
     public function getDateTimeLocal(): \DateTimeImmutable
     {
+        if (!$this->event->getTimeZone()) {
+            throw new \BadMethodCallException(
+                'The event has no time zone set. The game date and time cannot be retrieved.'
+            );
+        }
+        if ($this->dateTimeLocal->getTimezone()->getName() !== $this->event->getTimeZone()->getName()) {
+            $this->dateTimeLocal = DateTime::reinterpret($this->dateTimeLocal, $this->event->getTimeZone());
+        }
         return $this->dateTimeLocal;
     }
 
@@ -209,6 +220,9 @@ class Game
      */
     public function getDateTimeUtc(): \DateTimeImmutable
     {
+        if ($this->dateTimeUtc->getTimezone()->getName() !== 'UTC') {
+            $this->dateTimeUtc = DateTime::reinterpretAsUtc($this->dateTimeUtc);
+        }
         return $this->dateTimeUtc;
     }
 
@@ -264,6 +278,14 @@ class Game
         Assert::same($this->event, $awayTeam->getEvent());
         $this->awayTeam = $awayTeam;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFixture(): string
+    {
+        return $this->homeTeam->getName() . ' vs. ' . $this->awayTeam->getName();
     }
 
     /**

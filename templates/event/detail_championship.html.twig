@@ -8,6 +8,8 @@
 
     {{ include('event/_teams_card.html.twig', {event: event, teams: teams}) }}
 
+    {{ include('event/_games_card.html.twig', {event: event, games: games}) }}
+
     {{ include('event/_applications_card.html.twig', {event: event, applications: applications}) }}
 
     {% embed 'event/_event_workflow_buttons.html.twig' with {event: event} %}

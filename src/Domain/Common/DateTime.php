@@ -67,4 +67,13 @@ final class DateTime
     {
         return new \DateTimeImmutable($dateTime->format('Y-m-d H:i:s.u'), $inTimeZone);
     }
+
+    /**
+     * @param \DateTimeInterface $dateTime
+     * @return \DateTimeImmutable
+     */
+    public static function reinterpretAsUtc(\DateTimeInterface $dateTime): \DateTimeImmutable
+    {
+        return new \DateTimeImmutable($dateTime->format('Y-m-d H:i:s.u'), self::utc());
+    }
 }

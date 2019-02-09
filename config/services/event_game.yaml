@@ -9,3 +9,11 @@ services:
     App\Application\Event\Game\Command\CreateGameHandler:
     App\Application\Event\Game\Command\UpdateGameHandler:
     App\Application\Event\Game\Command\DeleteGameHandler:
+
+    App\Infrastructure\Event\Game\Security\Voter\GameVoter:
+
+    App\Infrastructure\Event\Game\ParamConverter\GameParamConverter:
+        tags:
+            - { name: request.param_converter, converter: app.event_game }
+
+    App\Infrastructure\Event\Game\Form\TeamChoiceType:

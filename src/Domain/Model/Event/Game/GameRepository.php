@@ -49,7 +49,7 @@ class GameRepository extends ServiceEntityRepository
     public function findForEvent(Event $event): iterable
     {
         return $this->createQueryBuilderWithAssociations()
-                    ->where('t.event = :event')
+                    ->where('g.event = :event')
                     ->setParameter('event', $event)
                     ->orderBy('g.gameNumber', 'ASC')
                     ->getQuery()
@@ -75,7 +75,17 @@ class GameRepository extends ServiceEntityRepository
     public function save(Game $game): Game
     {
         $games   = $this->findBy(['event' => $game->getEvent()], ['dateTimeUtc' => 'ASC']);
-        $games[] = $game;
+        $newGame = true;
+        foreach ($games as $g) {
+            /** @var Game $g */
+            if ($g->getId() === $game->getId()) {
+                $newGame = false;
+                break;
+            }
+        }
+        if ($newGame) {
+            $games[] = $game;
+        }
         usort(
             $games,
             function (Game $a, Game $b) {
