@@ -173,8 +173,7 @@ class Game
      * @param Event              $event
      * @param int                $gameNumber
      * @param int                $gameType
-     * @param \DateTimeImmutable $dateTimeLocal
-     * @param \DateTimeImmutable $dateTimeUtc
+     * @param \DateTimeImmutable $dateTime
      * @param ParticipatingTeam  $homeTeam
      * @param ParticipatingTeam  $awayTeam
      * @param string|null        $remarks
@@ -185,8 +184,7 @@ class Game
         Event $event,
         int $gameNumber,
         int $gameType,
-        \DateTimeImmutable $dateTimeLocal,
-        \DateTimeImmutable $dateTimeUtc,
+        \DateTimeImmutable $dateTime,
         ParticipatingTeam $homeTeam,
         ParticipatingTeam $awayTeam,
         ?string $remarks,
@@ -199,7 +197,7 @@ class Game
 
         $this->setGameNumber($gameNumber)
              ->setGameType($gameType)
-             ->setDateTimeLocal($dateTimeLocal)
+             ->setDateTime($dateTime)
              ->setHomeTeam($homeTeam)
              ->setAwayTeam($awayTeam)
              ->setRemarks($remarks)
@@ -271,22 +269,28 @@ class Game
     }
 
     /**
-     * @param \DateTimeImmutable $dateTimeLocal
-     * @return $this
-     */
-    public function setDateTimeLocal(\DateTimeImmutable $dateTimeLocal): self
-    {
-        $this->dateTimeLocal = $dateTimeLocal;
-        $this->dateTimeUtc   = $dateTimeLocal->setTimezone(self::utc());
-        return $this;
-    }
-
-    /**
      * @return \DateTimeImmutable
      */
     public function getDateTimeUtc(): \DateTimeImmutable
     {
         return $this->dateTimeUtc;
+    }
+
+    /**
+     * @param \DateTimeImmutable $dateTime
+     * @return $this
+     */
+    public function setDateTime(\DateTimeImmutable $dateTime): self
+    {
+        if (!$this->event->getTimeZone()) {
+            throw new \BadMethodCallException(
+                'The event has no time zone set. The game date and time cannot be updated.'
+            );
+        }
+        $dateTimeLocal       = new \DateTimeImmutable($dateTime->format('Y-m-d H:i:s'), $this->event->getTimeZone());
+        $this->dateTimeLocal = $dateTimeLocal;
+        $this->dateTimeUtc   = $dateTimeLocal->setTimezone(self::utc());
+        return $this;
     }
 
     /**
