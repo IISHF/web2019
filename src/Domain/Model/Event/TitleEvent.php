@@ -68,7 +68,7 @@ abstract class TitleEvent extends Event
      */
     public function isAnnounced(): bool
     {
-        return $this->getCurrentState() === self::STATE_ANNOUNCED
+        return ($this->getCurrentState() === self::STATE_ANNOUNCED || $this->isSanctioned())
             && $this->hasHost()
             && $this->hasDate()
             && $this->hasVenue()

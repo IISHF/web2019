@@ -32,11 +32,13 @@ class UpdateEuropeanChampionship implements HasSanctionStatus, HasAnnouncementSt
         $startDate = null;
         $endDate   = null;
         $venue     = null;
+        $timeZone  = null;
         if ($announced) {
             $host      = EventHost::fromEventHostEntity($championship->getHost());
             $startDate = $championship->getStartDate();
             $endDate   = $championship->getEndDate();
             $venue     = $championship->getVenue()->getId();
+            $timeZone  = $championship->getTimeZone();
         }
 
         return new self(
@@ -52,7 +54,8 @@ class UpdateEuropeanChampionship implements HasSanctionStatus, HasAnnouncementSt
             $host,
             $startDate,
             $endDate,
-            $venue
+            $venue,
+            $timeZone
         );
     }
 
@@ -70,6 +73,7 @@ class UpdateEuropeanChampionship implements HasSanctionStatus, HasAnnouncementSt
      * @param \DateTimeImmutable|null $startDate
      * @param \DateTimeImmutable|null $endDate
      * @param string|null             $venue
+     * @param \DateTimeZone|null      $timeZone
      */
     private function __construct(
         string $id,
@@ -84,7 +88,8 @@ class UpdateEuropeanChampionship implements HasSanctionStatus, HasAnnouncementSt
         ?EventHost $host,
         ?\DateTimeImmutable $startDate,
         ?\DateTimeImmutable $endDate,
-        ?string $venue
+        ?string $venue,
+        ?\DateTimeZone $timeZone
     ) {
         $this->id             = $id;
         $this->name           = $name;
@@ -100,5 +105,6 @@ class UpdateEuropeanChampionship implements HasSanctionStatus, HasAnnouncementSt
         $this->startDate      = $startDate;
         $this->endDate        = $endDate;
         $this->venue          = $venue;
+        $this->timeZone       = $timeZone;
     }
 }

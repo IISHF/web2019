@@ -32,11 +32,13 @@ class UpdateEuropeanCup implements HasSanctionStatus, HasAnnouncementStatus
         $startDate = null;
         $endDate   = null;
         $venue     = null;
+        $timeZone  = null;
         if ($announced) {
             $host      = EventHost::fromEventHostEntity($cup->getHost());
             $startDate = $cup->getStartDate();
             $endDate   = $cup->getEndDate();
             $venue     = $cup->getVenue()->getId();
+            $timeZone  = $cup->getTimeZone();
         }
 
         return new self(
@@ -53,7 +55,8 @@ class UpdateEuropeanCup implements HasSanctionStatus, HasAnnouncementStatus
             $host,
             $startDate,
             $endDate,
-            $venue
+            $venue,
+            $timeZone
         );
     }
 
@@ -72,6 +75,7 @@ class UpdateEuropeanCup implements HasSanctionStatus, HasAnnouncementStatus
      * @param \DateTimeImmutable|null $startDate
      * @param \DateTimeImmutable|null $endDate
      * @param string|null             $venue
+     * @param \DateTimeZone|null      $timeZone
      */
     private function __construct(
         string $id,
@@ -87,7 +91,8 @@ class UpdateEuropeanCup implements HasSanctionStatus, HasAnnouncementStatus
         ?EventHost $host,
         ?\DateTimeImmutable $startDate,
         ?\DateTimeImmutable $endDate,
-        ?string $venue
+        ?string $venue,
+        ?\DateTimeZone $timeZone
     ) {
         $this->id             = $id;
         $this->name           = $name;
@@ -104,5 +109,6 @@ class UpdateEuropeanCup implements HasSanctionStatus, HasAnnouncementStatus
         $this->startDate      = $startDate;
         $this->endDate        = $endDate;
         $this->venue          = $venue;
+        $this->timeZone       = $timeZone;
     }
 }

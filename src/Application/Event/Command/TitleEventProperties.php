@@ -98,6 +98,14 @@ trait TitleEventProperties
     private $venue;
 
     /**
+     * @Assert\Type("DateTimeZone")
+     * @Assert\NotNull()
+     *
+     * @var \DateTimeZone
+     */
+    private $timeZone;
+
+    /**
      * @var bool
      */
     private $announced = false;
@@ -226,6 +234,30 @@ trait TitleEventProperties
             throw new \BadMethodCallException('Cannot set the venue of an unannounced event.');
         }
         $this->venue = $venue;
+        return $this;
+    }
+
+    /**
+     * @return \DateTimeZone
+     */
+    public function getTimeZone(): \DateTimeZone
+    {
+        if (!$this->timeZone || !$this->isAnnounced()) {
+            throw new \BadMethodCallException('Cannot get the time zone of an unannounced event.');
+        }
+        return $this->timeZone;
+    }
+
+    /**
+     * @param \DateTimeZone $timeZone
+     * @return $this
+     */
+    public function setTimeZone(\DateTimeZone $timeZone): self
+    {
+        if (!$this->isAnnounced()) {
+            throw new \BadMethodCallException('Cannot set the time zone of an unannounced event.');
+        }
+        $this->timeZone = $timeZone;
         return $this;
     }
 }
