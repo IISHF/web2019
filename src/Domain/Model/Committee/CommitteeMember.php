@@ -26,19 +26,6 @@ class CommitteeMember
 {
     use CreateTracking, UpdateTracking;
 
-    public const MEMBER_TYPE_CHAIRMAN      = 1;
-    public const MEMBER_TYPE_VICE_CHAIRMAN = 2;
-    public const MEMBER_TYPE_MEMBER        = 3;
-
-    /**
-     * @var array
-     */
-    private static $availableMemberTypes = [
-        self::MEMBER_TYPE_CHAIRMAN      => 'Chairman',
-        self::MEMBER_TYPE_VICE_CHAIRMAN => 'Vice Chairman',
-        self::MEMBER_TYPE_MEMBER        => 'Member',
-    ];
-
     /**
      * @ORM\Column(name="id", type="guid")
      * @ORM\Id
@@ -110,31 +97,6 @@ class CommitteeMember
      * @var int
      */
     private $memberType;
-
-    /**
-     * @return array
-     */
-    public static function getMemberTypes(): array
-    {
-        return self::$availableMemberTypes;
-    }
-
-    /**
-     * @param int $memberType
-     * @return bool
-     */
-    public static function isValidMemberType(int $memberType): bool
-    {
-        return isset(self::$availableMemberTypes[$memberType]);
-    }
-
-    /**
-     * @param int $memberType
-     */
-    public static function assertValidMemberType(int $memberType): void
-    {
-        Assert::oneOf($memberType, array_keys(self::$availableMemberTypes));
-    }
 
     /**
      * @param string      $id
@@ -394,7 +356,7 @@ class CommitteeMember
      */
     public function isChairman(): bool
     {
-        return $this->memberType === self::MEMBER_TYPE_CHAIRMAN;
+        return $this->memberType === MemberType::MEMBER_TYPE_CHAIRMAN;
     }
 
     /**
@@ -402,7 +364,7 @@ class CommitteeMember
      */
     public function isViceChairman(): bool
     {
-        return $this->memberType === self::MEMBER_TYPE_VICE_CHAIRMAN;
+        return $this->memberType === MemberType::MEMBER_TYPE_VICE_CHAIRMAN;
     }
 
     /**
@@ -419,7 +381,7 @@ class CommitteeMember
      */
     public function setMemberType(int $memberType): self
     {
-        self::assertValidMemberType($memberType);
+        MemberType::assertValidMemberType($memberType);
         $this->memberType = $memberType;
         return $this;
     }

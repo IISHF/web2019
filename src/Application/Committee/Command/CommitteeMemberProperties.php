@@ -8,9 +8,10 @@
 
 namespace App\Application\Committee\Command;
 
-use App\Application\Committee\Validator\MemberType;
-use App\Application\Committee\Validator\TermType;
-use App\Domain\Model\Committee\CommitteeMember;
+use App\Application\Committee\Validator\MemberType as ValidMemberType;
+use App\Application\Committee\Validator\TermType as ValidTermType;
+use App\Domain\Model\Committee\MemberType;
+use App\Domain\Model\Committee\TermType;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -58,7 +59,7 @@ trait CommitteeMemberProperties
     /**
      * @Assert\Type("integer")
      * @Assert\NotBlank()
-     * @TermType()
+     * @ValidTermType()
      *
      * @var int
      */
@@ -83,11 +84,11 @@ trait CommitteeMemberProperties
     /**
      * @Assert\Type("integer")
      * @Assert\NotBlank()
-     * @MemberType()
+     * @ValidMemberType()
      *
      * @var int
      */
-    private $memberType = CommitteeMember::MEMBER_TYPE_MEMBER;
+    private $memberType = MemberType::MEMBER_TYPE_MEMBER;
 
     /**
      * @return string

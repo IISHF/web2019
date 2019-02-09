@@ -11,7 +11,7 @@ namespace App\Command\Migrate;
 use App\Application\Committee\Command\CreateCommittee;
 use App\Application\Committee\Command\CreateCommitteeMember;
 use App\Domain\Common\Country;
-use App\Domain\Model\Committee\CommitteeMember;
+use App\Domain\Model\Committee\MemberType;
 use App\Domain\Model\Committee\TermType;
 use App\Utils\Validation;
 use Symfony\Component\Console\Input\InputInterface;
@@ -76,11 +76,11 @@ class CommitteeCommand extends CommandWithFilesystem
                                      ->setTitle($member['title']);
 
                         if (in_array($member['title'], ['Chairman', 'Disciplinary Officer'])) {
-                            $createMember->setMemberType(CommitteeMember::MEMBER_TYPE_CHAIRMAN);
+                            $createMember->setMemberType(MemberType::MEMBER_TYPE_CHAIRMAN);
                         } elseif (in_array($member['title'], ['Vice-Chairman', 'Vice Disciplinary Officer'])) {
-                            $createMember->setMemberType(CommitteeMember::MEMBER_TYPE_VICE_CHAIRMAN);
+                            $createMember->setMemberType(MemberType::MEMBER_TYPE_VICE_CHAIRMAN);
                         } else {
-                            $createMember->setMemberType(CommitteeMember::MEMBER_TYPE_MEMBER);
+                            $createMember->setMemberType(MemberType::MEMBER_TYPE_MEMBER);
                         }
 
                         if ($committee['title'] === 'IISHF Disciplinary Committee') {

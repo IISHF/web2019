@@ -8,7 +8,7 @@
 
 namespace App\Infrastructure\Committee\Form;
 
-use App\Domain\Model\Committee\CommitteeMember;
+use App\Domain\Model\Committee\MemberType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -27,7 +27,7 @@ class MemberTypeChoiceType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'choices'                   => array_flip(CommitteeMember::getMemberTypes()),
+                'choices'                   => array_flip(MemberType::getMemberTypes()),
                 'multiple'                  => false,
                 'choice_translation_domain' => false,
                 'expanded'                  => true,

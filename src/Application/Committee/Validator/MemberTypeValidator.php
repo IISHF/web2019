@@ -8,7 +8,6 @@
 
 namespace App\Application\Committee\Validator;
 
-use App\Domain\Model\Committee\CommitteeMember;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -36,7 +35,7 @@ class MemberTypeValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, 'integer');
         }
 
-        if (CommitteeMember::isValidMemberType($value)) {
+        if (\App\Domain\Model\Committee\MemberType::isValidMemberType($value)) {
             return;
         }
 
