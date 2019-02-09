@@ -32,17 +32,6 @@ class Game
 {
     use CreateTracking, UpdateTracking;
 
-    public const GAME_TYPE_FIXED    = 1;
-    public const GAME_TYPE_EDITABLE = 2;
-
-    /**
-     * @var array
-     */
-    private static $availableGameTypes = [
-        self::GAME_TYPE_FIXED    => 'Fixed (Preliminary Game)',
-        self::GAME_TYPE_EDITABLE => 'Editable (Final Game)',
-    ];
-
     /**
      * @var \DateTimeZone|null
      */
@@ -121,41 +110,6 @@ class Game
      * @var GameResult
      */
     private $result;
-
-    /**
-     * @return array
-     */
-    public static function getGameTypes(): array
-    {
-        return self::$availableGameTypes;
-    }
-
-    /**
-     * @param int         $gameType
-     * @param string|null $default
-     * @return string|null
-     */
-    public static function getGameTypeName(int $gameType, ?string $default = null): ?string
-    {
-        return self::$availableGameTypes[$gameType] ?? $default;
-    }
-
-    /**
-     * @param int $gameType
-     * @return bool
-     */
-    public static function isValidGameType(int $gameType): bool
-    {
-        return isset(self::$availableGameTypes[$gameType]);
-    }
-
-    /**
-     * @param int $gameType
-     */
-    public static function assertValidGameType(int $gameType): void
-    {
-        Assert::oneOf($gameType, array_keys(self::$availableGameTypes));
-    }
 
     /**
      * @return \DateTimeZone
@@ -255,7 +209,7 @@ class Game
      */
     public function setGameType(int $gameType): self
     {
-        self::assertValidGameType($gameType);
+        GameType::assertValidGameType($gameType);
         $this->gameType = $gameType;
         return $this;
     }
