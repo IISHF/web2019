@@ -32,7 +32,7 @@ class UpdateEuropeanChampionshipHandler extends TitleEventCommandHandler
                      ->setPlannedLength($command->getPlannedLength())
                      ->setDescription($command->getDescription())
                      ->setTags($command->getTags());
-        if ($championship->isAnnounced()) {
+        if ($championship->isAnnounced() || $championship->isSanctioned()) {
             $championship->setVenue($this->getVenue($command->getVenue()))
                          ->setTimeZone($command->getTimeZone());
             $host = $command->getHost();

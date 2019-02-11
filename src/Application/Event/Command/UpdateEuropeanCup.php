@@ -17,7 +17,7 @@ use App\Domain\Model\Event\EuropeanCup;
  *
  * @package App\Application\Event\Command
  */
-class UpdateEuropeanCup implements HasSanctionStatus, HasAnnouncementStatus
+class UpdateEuropeanCup implements HasAnnouncementStatus
 {
     use UuidAware, EventProperties, TitleEventProperties, EuropeanCupProperties;
 

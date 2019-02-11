@@ -33,7 +33,7 @@ class UpdateEuropeanCupHandler extends TitleEventCommandHandler
             ->setPlannedTeams($command->getPlannedTeams())
             ->setDescription($command->getDescription())
             ->setTags($command->getTags());
-        if ($cup->isAnnounced()) {
+        if ($cup->isAnnounced() || $cup->isSanctioned()) {
             $cup->setVenue($this->getVenue($command->getVenue()))
                 ->setTimeZone($command->getTimeZone());
             $host = $command->getHost();

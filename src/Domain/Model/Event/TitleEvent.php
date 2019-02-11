@@ -63,12 +63,25 @@ abstract class TitleEvent extends Event
              ->setDescription($description);
     }
 
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isSanctioned(): bool
+    {
+        return parent::isSanctioned()
+            && $this->hasHost()
+            && $this->hasDate()
+            && $this->hasVenue()
+            && $this->hasTimeZone();
+    }
+
     /**
      * @return bool
      */
     public function isAnnounced(): bool
     {
-        return ($this->getCurrentState() === self::STATE_ANNOUNCED || $this->isSanctioned())
+        return $this->getCurrentState() === self::STATE_ANNOUNCED
             && $this->hasHost()
             && $this->hasDate()
             && $this->hasVenue()

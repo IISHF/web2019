@@ -15,7 +15,7 @@ use App\Application\Event\EventHost;
  *
  * @package App\Application\Event\Command
  */
-interface HasAnnouncementStatus
+interface HasAnnouncementStatus extends HasSanctionStatus
 {
     /**
      * @return bool

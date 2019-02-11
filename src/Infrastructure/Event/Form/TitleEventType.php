@@ -55,7 +55,7 @@ class TitleEventType extends AbstractType
             function (FormEvent $event) {
                 $eventCommand = $event->getData();
                 if (!$eventCommand instanceof HasAnnouncementStatus
-                    || !$eventCommand->isAnnounced()) {
+                    || !($eventCommand->isAnnounced() && $eventCommand->isSanctioned())) {
                     return;
                 }
                 $event->getForm()
