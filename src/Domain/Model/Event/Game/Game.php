@@ -66,6 +66,18 @@ class Game
     private $dateTimeLocal;
 
     /**
+     * @ORM\Column(name="time_zone", type="string", length=32)
+     *
+     * @var string
+     */
+    private $timeZone;
+
+    /**
+     * @var \DateTimeZone|null
+     */
+    private $timeZoneInstance;
+
+    /**
      * @ORM\Column(name="date_time_utc", type="datetime_immutable")
      *
      * @var \DateTimeImmutable
@@ -107,6 +119,7 @@ class Game
      * @param Event              $event
      * @param int                $gameType
      * @param \DateTimeImmutable $dateTime
+     * @param \DateTimeZone      $timeZone
      * @param ParticipatingTeam  $homeTeam
      * @param ParticipatingTeam  $awayTeam
      * @param string|null        $remarks
@@ -117,6 +130,7 @@ class Game
         Event $event,
         int $gameType,
         \DateTimeImmutable $dateTime,
+        \DateTimeZone $timeZone,
         ParticipatingTeam $homeTeam,
         ParticipatingTeam $awayTeam,
         ?string $remarks,
@@ -129,6 +143,7 @@ class Game
 
         $this->setGameType($gameType)
              ->setDateTime($dateTime)
+             ->setTimeZone($timeZone)
              ->setHomeTeam($homeTeam)
              ->setAwayTeam($awayTeam)
              ->setRemarks($remarks)
@@ -204,13 +219,8 @@ class Game
      */
     public function getDateTimeLocal(): \DateTimeImmutable
     {
-        if (!$this->event->getTimeZone()) {
-            throw new \BadMethodCallException(
-                'The event has no time zone set. The game date and time cannot be retrieved.'
-            );
-        }
-        if ($this->dateTimeLocal->getTimezone()->getName() !== $this->event->getTimeZone()->getName()) {
-            $this->dateTimeLocal = DateTime::reinterpret($this->dateTimeLocal, $this->event->getTimeZone());
+        if ($this->dateTimeLocal->getTimezone()->getName() !== $this->getTimeZone()->getName()) {
+            $this->dateTimeLocal = DateTime::reinterpret($this->dateTimeLocal, $this->getTimeZone());
         }
         return $this->dateTimeLocal;
     }
@@ -232,13 +242,33 @@ class Game
      */
     public function setDateTime(\DateTimeImmutable $dateTime): self
     {
-        if (!$this->event->getTimeZone()) {
-            throw new \BadMethodCallException(
-                'The event has no time zone set. The game date and time cannot be updated.'
-            );
-        }
-        $this->dateTimeLocal = DateTime::reinterpret($dateTime, $this->event->getTimeZone());
+        $this->dateTimeLocal = DateTime::reinterpret($dateTime, $this->getTimeZone());
         $this->dateTimeUtc   = DateTime::toUtc($this->dateTimeLocal);
+        return $this;
+    }
+
+    /**
+     * @return \DateTimeZone
+     */
+    public function getTimeZone(): \DateTimeZone
+    {
+        if (!$this->timeZoneInstance) {
+            $this->timeZoneInstance = new \DateTimeZone($this->timeZone);
+        }
+        return $this->timeZoneInstance;
+    }
+
+    /**
+     * @param \DateTimeZone $timeZone
+     * @return $this
+     */
+    public function setTimeZone(\DateTimeZone $timeZone): self
+    {
+        Assert::lengthBetween($timeZone->getName(), 1, 32);
+        $this->timeZone         = $timeZone->getName();
+        $this->timeZoneInstance = $timeZone;
+        $this->dateTimeLocal    = DateTime::reinterpret($this->dateTimeLocal, $this->getTimeZone());
+        $this->dateTimeUtc      = DateTime::toUtc($this->dateTimeLocal);
         return $this;
     }
 

@@ -23,11 +23,13 @@ class CreateGameHandler extends GameCommandHandler
      */
     public function __invoke(CreateGame $command): void
     {
-        $game = new Game(
+        $event = $this->getEvent($command->getEventId());
+        $game  = new Game(
             $command->getId(),
-            $this->getEvent($command->getEventId()),
+            $event,
             $command->getGameType(),
             $command->getDateTime(),
+            $event->getTimeZone(),
             $this->getTeam($command->getHomeTeam()),
             $this->getTeam($command->getAwayTeam()),
             $command->getRemarks(),

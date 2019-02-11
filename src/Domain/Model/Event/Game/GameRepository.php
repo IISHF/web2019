@@ -69,37 +69,41 @@ class GameRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Game $game
-     * @return Game
+     * @param Game[] $games
+     * @return Game[]
      */
-    public function save(Game $game): Game
+    public function save(Game ...$games): array
     {
-        $games   = $this->findBy(['event' => $game->getEvent()], ['dateTimeUtc' => 'ASC']);
-        $newGame = true;
-        foreach ($games as $g) {
-            /** @var Game $g */
-            if ($g->getId() === $game->getId()) {
-                $newGame = false;
-                break;
+        if (empty($games)) {
+            return [];
+        }
+        $currentGames = $this->findBy(['event' => $games[0]->getEvent()], ['dateTimeUtc' => 'ASC']);
+        foreach ($currentGames as $currentGame) {
+            /** @var Game $currentGame */
+            $newGame = null;
+            foreach ($games as $game) {
+                if ($currentGame->getId() === $game->getId()) {
+                    $newGame = $game;
+                    break;
+                }
+            }
+            if ($newGame) {
+                $currentGames[] = $newGame;
             }
         }
-        if ($newGame) {
-            $games[] = $game;
-        }
         usort(
-            $games,
+            $currentGames,
             function (Game $a, Game $b) {
                 return $a->getDateTimeUtc() <=> $b->getDateTimeUtc();
             }
         );
         $gameNumber = 1;
-        foreach ($games as $g) {
-            /** @var Game $g */
-            $g->setGameNumber($gameNumber++);
+        foreach ($currentGames as $game) {
+            /** @var Game $game */
+            $game->setGameNumber($gameNumber++);
+            $this->_em->persist($game);
         }
-
-        $this->_em->persist($game);
-        return $game;
+        return $games;
     }
 
     /**

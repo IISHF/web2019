@@ -8,6 +8,7 @@
 
 namespace App\Application\Event\Command;
 
+use App\Application\Event\Game\Command\UpdateScheduleTimeZone;
 use App\Domain\Model\Event\Tournament;
 
 /**
@@ -27,6 +28,11 @@ class UpdateTournamentHandler extends TournamentCommandHandler
         if (!$tournament instanceof Tournament) {
             throw new \InvalidArgumentException('Invalid event - ' . Tournament::class . ' required.');
         }
+        $currentTimeZone = $tournament->getTimeZone();
+        if ($currentTimeZone->getName() !== $command->getTimeZone()->getName()) {
+            $this->dispatchCommand(UpdateScheduleTimeZone::update($tournament->getId(), $command->getTimeZone()));
+        }
+
         $tournament->setName($command->getName())
                    ->setSeason($command->getSeason())
                    ->setAgeGroup($command->getAgeGroup())

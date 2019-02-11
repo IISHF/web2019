@@ -9,8 +9,8 @@
 namespace App\Application\Event\Game\Command;
 
 use App\Application\Common\Command\UuidAware;
+use App\Application\Event\Command\EventAware;
 use App\Domain\Model\Event\Game\GameType;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class CreateGame
@@ -19,16 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class CreateGame
 {
-    use UuidAware, GameProperties;
-
-    /**
-     * @Assert\Type("string")
-     * @Assert\Uuid()
-     * @Assert\NotBlank()
-     *
-     * @var string
-     */
-    private $eventId;
+    use UuidAware, EventAware, GameProperties;
 
     /**
      * @param string $eventId
@@ -49,13 +40,5 @@ class CreateGame
         $this->eventId  = $eventId;
         $this->gameType = GameType::GAME_TYPE_FIXED;
         $this->dateTime = new \DateTimeImmutable('tomorrow 9:00');
-    }
-
-    /**
-     * @return string
-     */
-    public function getEventId(): string
-    {
-        return $this->eventId;
     }
 }

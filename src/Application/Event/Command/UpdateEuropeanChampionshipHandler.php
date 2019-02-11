@@ -8,6 +8,7 @@
 
 namespace App\Application\Event\Command;
 
+use App\Application\Event\Game\Command\UpdateScheduleTimeZone;
 use App\Domain\Model\Event\EuropeanChampionship;
 
 /**
@@ -33,6 +34,11 @@ class UpdateEuropeanChampionshipHandler extends TitleEventCommandHandler
                      ->setDescription($command->getDescription())
                      ->setTags($command->getTags());
         if ($championship->isAnnounced() || $championship->isSanctioned()) {
+            $currentTimeZone = $championship->getTimeZone();
+            if ($currentTimeZone->getName() !== $command->getTimeZone()->getName()) {
+                $this->dispatchCommand(UpdateScheduleTimeZone::update($championship->getId(), $command->getTimeZone()));
+            }
+
             $championship->setVenue($this->getVenue($command->getVenue()))
                          ->setTimeZone($command->getTimeZone());
             $host = $command->getHost();

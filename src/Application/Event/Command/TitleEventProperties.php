@@ -38,7 +38,7 @@ trait TitleEventProperties
     /**
      * @Assert\Type("App\Application\Event\EventHost")
      * @Assert\Expression(
-     *      expression="not this.isAnnounced() ? value === null : true",
+     *      expression="not (this.isAnnounced() or this.isSanctioned()) ? value === null : true",
      *      message="This value must be empty while the event is not announced yet."
      * )
      * @Assert\Valid()
@@ -50,11 +50,11 @@ trait TitleEventProperties
     /**
      * @Assert\Type("DateTimeImmutable")
      * @Assert\Expression(
-     *      expression="not this.isAnnounced() ? value === null : true",
+     *      expression="not (this.isAnnounced() or this.isSanctioned()) ? value === null : true",
      *      message="This value must be empty while the event is not announced yet."
      * )
      * @Assert\Expression(
-     *      expression="this.isAnnounced() ? value !== null : true",
+     *      expression="(this.isAnnounced() or this.isSanctioned()) ? value !== null : true",
      *      message="This value must not be empty when the event is already announced."
      * )
      * @Assert\Expression(
@@ -69,11 +69,11 @@ trait TitleEventProperties
     /**
      * @Assert\Type("DateTimeImmutable")
      * @Assert\Expression(
-     *      expression="not this.isAnnounced() ? value === null : true",
+     *      expression="not (this.isAnnounced() or this.isSanctioned()) ? value === null : true",
      *      message="This value must be empty while the event is not announced yet."
      * )
      * @Assert\Expression(
-     *      expression="this.isAnnounced() ? value !== null : true",
+     *      expression="(this.isAnnounced() or this.isSanctioned()) ? value !== null : true",
      *      message="This value must not be empty when the event is already announced."
      * )
      * @Assert\Expression(
@@ -89,7 +89,7 @@ trait TitleEventProperties
      * @Assert\Type("string")
      * @Assert\Uuid()
      * @Assert\Expression(
-     *      expression="not this.isAnnounced() ? value === null : true",
+     *      expression="not (this.isAnnounced() or this.isSanctioned()) ? value === null : true",
      *      message="This value must be empty while the event is not announced yet."
      * )
      *
