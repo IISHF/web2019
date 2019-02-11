@@ -27,13 +27,14 @@ class UpdateEuropeanCup implements HasAnnouncementStatus
      */
     public static function update(EuropeanCup $cup): self
     {
-        $announced = $cup->isAnnounced();
-        $host      = null;
-        $startDate = null;
-        $endDate   = null;
-        $venue     = null;
-        $timeZone  = null;
-        if ($announced) {
+        $announced  = $cup->isAnnounced();
+        $sanctionNo = $cup->getSanctionNumber();
+        $host       = null;
+        $startDate  = null;
+        $endDate    = null;
+        $venue      = null;
+        $timeZone   = null;
+        if ($announced || $sanctionNo) {
             $host      = EventHost::fromEventHostEntity($cup->getHost());
             $startDate = $cup->getStartDate();
             $endDate   = $cup->getEndDate();
@@ -50,7 +51,7 @@ class UpdateEuropeanCup implements HasAnnouncementStatus
             $cup->getPlannedTeams(),
             $cup->getDescription(),
             $cup->getTags(),
-            $cup->getSanctionNumber(),
+            $sanctionNo,
             $announced,
             $host,
             $startDate,

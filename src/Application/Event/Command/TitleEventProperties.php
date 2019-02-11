@@ -159,7 +159,7 @@ trait TitleEventProperties
      */
     public function getHost(): EventHost
     {
-        if (!$this->host || !$this->isAnnounced()) {
+        if (!$this->host) {
             throw new \BadMethodCallException('Cannot get the host of an unannounced event.');
         }
         return $this->host;
@@ -170,7 +170,7 @@ trait TitleEventProperties
      */
     public function getStartDate(): \DateTimeImmutable
     {
-        if (!$this->startDate || !$this->isAnnounced()) {
+        if (!$this->startDate) {
             throw new \BadMethodCallException('Cannot get the start date of an unannounced event.');
         }
         return $this->startDate;
@@ -182,9 +182,6 @@ trait TitleEventProperties
      */
     public function setStartDate(\DateTimeImmutable $startDate): self
     {
-        if (!$this->isAnnounced()) {
-            throw new \BadMethodCallException('Cannot set the start date of an unannounced event.');
-        }
         $this->startDate = $startDate;
         return $this;
     }
@@ -194,7 +191,7 @@ trait TitleEventProperties
      */
     public function getEndDate(): \DateTimeImmutable
     {
-        if (!$this->endDate || !$this->isAnnounced()) {
+        if (!$this->endDate) {
             throw new \BadMethodCallException('Cannot get the end date of an unannounced event.');
         }
         return $this->endDate;
@@ -206,9 +203,6 @@ trait TitleEventProperties
      */
     public function setEndDate(\DateTimeImmutable $endDate): self
     {
-        if (!$this->isAnnounced()) {
-            throw new \BadMethodCallException('Cannot set the end date of an unannounced event.');
-        }
         $this->endDate = $endDate;
         return $this;
     }
@@ -218,7 +212,7 @@ trait TitleEventProperties
      */
     public function getVenue(): string
     {
-        if (!$this->venue || !$this->isAnnounced()) {
+        if (!$this->venue) {
             throw new \BadMethodCallException('Cannot get the venue of an unannounced event.');
         }
         return $this->venue;
@@ -242,7 +236,7 @@ trait TitleEventProperties
      */
     public function getTimeZone(): \DateTimeZone
     {
-        if (!$this->timeZone || !$this->isAnnounced()) {
+        if (!$this->timeZone) {
             throw new \BadMethodCallException('Cannot get the time zone of an unannounced event.');
         }
         return $this->timeZone;
@@ -254,9 +248,6 @@ trait TitleEventProperties
      */
     public function setTimeZone(\DateTimeZone $timeZone): self
     {
-        if (!$this->isAnnounced()) {
-            throw new \BadMethodCallException('Cannot set the time zone of an unannounced event.');
-        }
         $this->timeZone = $timeZone;
         return $this;
     }

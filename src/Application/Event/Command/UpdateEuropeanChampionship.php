@@ -27,13 +27,14 @@ class UpdateEuropeanChampionship implements HasAnnouncementStatus
      */
     public static function update(EuropeanChampionship $championship): self
     {
-        $announced = $championship->isAnnounced();
-        $host      = null;
-        $startDate = null;
-        $endDate   = null;
-        $venue     = null;
-        $timeZone  = null;
-        if ($announced) {
+        $announced  = $championship->isAnnounced();
+        $sanctionNo = $championship->getSanctionNumber();
+        $host       = null;
+        $startDate  = null;
+        $endDate    = null;
+        $venue      = null;
+        $timeZone   = null;
+        if ($announced || $sanctionNo) {
             $host      = EventHost::fromEventHostEntity($championship->getHost());
             $startDate = $championship->getStartDate();
             $endDate   = $championship->getEndDate();
@@ -49,7 +50,7 @@ class UpdateEuropeanChampionship implements HasAnnouncementStatus
             $championship->getPlannedLength(),
             $championship->getDescription(),
             $championship->getTags(),
-            $championship->getSanctionNumber(),
+            $sanctionNo,
             $announced,
             $host,
             $startDate,
