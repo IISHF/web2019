@@ -7,7 +7,7 @@ services:
     App\Domain\Model\Event\EventRepository:
     App\Domain\Model\Event\EventVenueRepository:
     App\Domain\Model\Event\ParticipatingTeamRepository:
-    App\Domain\Model\Event\TitleEventApplicationRepository:
+    App\Domain\Model\Event\Application\TitleEventApplicationRepository:
 
     App\Application\Event\Command\CreateEuropeanChampionshipHandler:
     App\Application\Event\Command\UpdateEuropeanChampionshipHandler:
@@ -30,9 +30,9 @@ services:
     App\Application\Event\Command\UpdateParticipatingTeamHandler:
     App\Application\Event\Command\RemoveParticipatingTeamHandler:
 
-    App\Application\Event\Command\ApplyForTitleEventHandler:
-    App\Application\Event\Command\UpdateTitleEventApplicationHandler:
-    App\Application\Event\Command\WithdrawTitleEventApplicationHandler:
+    App\Application\Event\Application\Command\ApplyForTitleEventHandler:
+    App\Application\Event\Application\Command\UpdateTitleEventApplicationHandler:
+    App\Application\Event\Application\Command\WithdrawTitleEventApplicationHandler:
 
     App\Infrastructure\Event\Security\Voter\EventVoter:
     App\Infrastructure\Event\Security\Voter\TitleEventVoter:
@@ -48,7 +48,7 @@ services:
     App\Infrastructure\Event\ParamConverter\ParticipatingTeamParamConverter:
         tags:
             - { name: request.param_converter, converter: app.event_team }
-    App\Infrastructure\Event\ParamConverter\TitleEventApplicationParamConverter:
+    App\Infrastructure\Event\Application\ParamConverter\TitleEventApplicationParamConverter:
         tags:
             - { name: request.param_converter, converter: app.event_application }
 
@@ -56,7 +56,7 @@ services:
     App\Infrastructure\Event\Form\TitleEventApplicationChoiceType:
     App\Infrastructure\Event\Form\VenueChoiceType:
 
-    App\Application\Event\Validator\UniqueApplicantClubNameValidator:
+    App\Application\Event\Application\Validator\UniqueApplicantClubNameValidator:
     App\Application\Event\Validator\UniqueEventNameValidator:
     App\Application\Event\Validator\UniqueEventVenueNameValidator:
     App\Application\Event\Validator\UniqueParticipatingTeamNameValidator:

@@ -16,6 +16,7 @@ use App\Application\Event\Command\EventWorkflowCommand;
 use App\Application\Event\Command\UpdateEuropeanChampionship;
 use App\Application\Event\Command\UpdateEuropeanCup;
 use App\Application\Event\Command\UpdateTournament;
+use App\Domain\Model\Event\Application\TitleEventApplicationRepository;
 use App\Domain\Model\Event\EuropeanChampionship;
 use App\Domain\Model\Event\EuropeanCup;
 use App\Domain\Model\Event\Event;
@@ -23,7 +24,6 @@ use App\Domain\Model\Event\EventRepository;
 use App\Domain\Model\Event\Game\GameRepository;
 use App\Domain\Model\Event\ParticipatingTeamRepository;
 use App\Domain\Model\Event\TitleEvent;
-use App\Domain\Model\Event\TitleEventApplicationRepository;
 use App\Domain\Model\Event\Tournament;
 use App\Infrastructure\Controller\CsrfSecuredHandler;
 use App\Infrastructure\Controller\FormHandler;
@@ -191,7 +191,7 @@ class EventController extends AbstractController
      */
     public function detail(
         Event $event,
-        TitleEventApplicationRepository $applicationRepository,
+        \App\Domain\Model\Event\Application\TitleEventApplicationRepository $applicationRepository,
         ParticipatingTeamRepository $teamRepository,
         GameRepository $gameRepository
     ): Response {

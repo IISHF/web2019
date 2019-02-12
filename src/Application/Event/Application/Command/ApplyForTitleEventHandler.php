@@ -6,7 +6,7 @@
  * Time: 15:43
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Application\Command;
 
 use App\Domain\Model\Common\ContactPerson;
 use App\Domain\Model\Event\TitleEvent;
@@ -14,7 +14,7 @@ use App\Domain\Model\Event\TitleEvent;
 /**
  * Class ApplyForTitleEventHandler
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Application\Command
  */
 class ApplyForTitleEventHandler extends TitleEventApplicationCommandHandler
 {

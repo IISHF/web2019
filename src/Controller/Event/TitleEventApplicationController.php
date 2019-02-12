@@ -8,16 +8,15 @@
 
 namespace App\Controller\Event;
 
-use App\Application\Event\Command\ApplyForTitleEvent;
-use App\Application\Event\Command\UpdateTitleEventApplication;
-use App\Application\Event\Command\WithdrawTitleEventApplication;
+use App\Application\Event\Application\Command\ApplyForTitleEvent;
+use App\Application\Event\Application\Command\UpdateTitleEventApplication;
+use App\Application\Event\Application\Command\WithdrawTitleEventApplication;
 use App\Domain\Model\Event\Event;
 use App\Domain\Model\Event\TitleEvent;
-use App\Domain\Model\Event\TitleEventApplication;
 use App\Infrastructure\Controller\CsrfSecuredHandler;
 use App\Infrastructure\Controller\FormHandler;
-use App\Infrastructure\Event\Form\ApplyForTitleEventType;
-use App\Infrastructure\Event\Form\UpdateTitleEventApplicationType;
+use App\Infrastructure\Event\Application\Form\ApplyForTitleEventType;
+use App\Infrastructure\Event\Application\Form\UpdateTitleEventApplicationType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -96,11 +95,11 @@ class TitleEventApplicationController extends AbstractController
      *      converter="app.event_application"
      * )
      *
-     * @param Event                 $event
-     * @param TitleEventApplication $application
+     * @param Event                                                     $event
+     * @param \App\Domain\Model\Event\Application\TitleEventApplication $application
      * @return Response
      */
-    public function detail(Event $event, TitleEventApplication $application): Response
+    public function detail(Event $event, \App\Domain\Model\Event\Application\TitleEventApplication $application): Response
     {
         if (!$event instanceof TitleEvent) {
             throw $this->createNotFoundException();
@@ -128,16 +127,16 @@ class TitleEventApplicationController extends AbstractController
      * )
      * @Security("is_granted('EVENT_EDIT', event)")
      *
-     * @param Request               $request
-     * @param Event                 $event
-     * @param TitleEventApplication $application
-     * @param MessageBusInterface   $commandBus
+     * @param Request                                                   $request
+     * @param Event                                                     $event
+     * @param \App\Domain\Model\Event\Application\TitleEventApplication $application
+     * @param MessageBusInterface                                       $commandBus
      * @return Response
      */
     public function update(
         Request $request,
         Event $event,
-        TitleEventApplication $application,
+        \App\Domain\Model\Event\Application\TitleEventApplication $application,
         MessageBusInterface $commandBus
     ): Response {
         if (!$event instanceof TitleEvent) {
@@ -182,16 +181,16 @@ class TitleEventApplicationController extends AbstractController
      * )
      * @Security("is_granted('EVENT_EDIT', event)")
      *
-     * @param Request               $request
-     * @param Event                 $event
-     * @param TitleEventApplication $application
-     * @param MessageBusInterface   $commandBus
+     * @param Request                                                   $request
+     * @param Event                                                     $event
+     * @param \App\Domain\Model\Event\Application\TitleEventApplication $application
+     * @param MessageBusInterface                                       $commandBus
      * @return Response
      */
     public function withdraw(
         Request $request,
         Event $event,
-        TitleEventApplication $application,
+        \App\Domain\Model\Event\Application\TitleEventApplication $application,
         MessageBusInterface $commandBus
     ): Response {
         if (!$event instanceof TitleEvent) {

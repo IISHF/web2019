@@ -8,7 +8,7 @@
 
 namespace App\Application\Event\Command;
 
-use App\Domain\Model\Event\TitleEventApplication;
+use App\Domain\Model\Event\Application\TitleEventApplication;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -21,7 +21,7 @@ class AnnounceTitleEvent extends EventWorkflowCommand
     public const TRANSITION = 'announce';
 
     /**
-     * @Assert\Type("App\Domain\Model\Event\TitleEventApplication")
+     * @Assert\Type("App\Domain\Model\Event\Application\TitleEventApplication")
      * @Assert\NotNull()
      *
      * @var TitleEventApplication

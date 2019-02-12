@@ -6,9 +6,10 @@
  * Time: 17:31
  */
 
-namespace App\Infrastructure\Event\Form;
+namespace App\Infrastructure\Event\Application\Form;
 
 use App\Infrastructure\Common\Form\ContactPersonType;
+use App\Infrastructure\Event\Form\VenueChoiceType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,7 +19,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * Class TitleEventApplicationType
  *
- * @package App\Infrastructure\Event\Form
+ * @package App\Infrastructure\Event\Application\Form
  */
 class TitleEventApplicationType extends AbstractType
 {

@@ -6,12 +6,12 @@
  * Time: 16:14
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Application\Command;
 
 /**
  * Class UpdateTitleEventApplicationHandler
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Application\Command
  */
 class UpdateTitleEventApplicationHandler extends TitleEventApplicationCommandHandler
 {

@@ -6,15 +6,16 @@
  * Time: 12:48
  */
 
-namespace App\Domain\Model\Event;
+namespace App\Domain\Model\Event\Application;
 
+use App\Domain\Model\Event\TitleEvent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * Class TitleEventApplicationRepository
  *
- * @package App\Domain\Model\Event
+ * @package App\Domain\Model\Event\Application
  */
 class TitleEventApplicationRepository extends ServiceEntityRepository
 {

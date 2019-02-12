@@ -9,6 +9,7 @@
 namespace App\Domain\Model\Event;
 
 use App\Domain\Model\Common\ContactPerson;
+use App\Domain\Model\Event\Application\TitleEventApplication;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 

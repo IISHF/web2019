@@ -6,11 +6,11 @@
  * Time: 11:40
  */
 
-namespace App\Application\Event\Validator;
+namespace App\Application\Event\Application\Validator;
 
-use App\Application\Event\Command\ApplyForTitleEvent;
-use App\Application\Event\Command\UpdateTitleEventApplication;
-use App\Domain\Model\Event\TitleEventApplicationRepository;
+use App\Application\Event\Application\Command\ApplyForTitleEvent;
+use App\Application\Event\Application\Command\UpdateTitleEventApplication;
+use App\Domain\Model\Event\Application\TitleEventApplicationRepository;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;

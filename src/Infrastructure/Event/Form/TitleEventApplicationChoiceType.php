@@ -8,7 +8,7 @@
 
 namespace App\Infrastructure\Event\Form;
 
-use App\Domain\Model\Event\TitleEventApplicationRepository;
+use App\Domain\Model\Event\Application\TitleEventApplicationRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

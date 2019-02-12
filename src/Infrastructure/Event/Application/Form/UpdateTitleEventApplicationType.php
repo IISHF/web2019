@@ -3,21 +3,21 @@
  * Created by PhpStorm.
  * User: stefan
  * Date: 2019-01-14
- * Time: 17:34
+ * Time: 17:35
  */
 
-namespace App\Infrastructure\Event\Form;
+namespace App\Infrastructure\Event\Application\Form;
 
-use App\Application\Event\Command\ApplyForTitleEvent;
+use App\Application\Event\Application\Command\UpdateTitleEventApplication;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class ApplyForTitleEventType
+ * Class UpdateTitleEventApplicationType
  *
- * @package App\Infrastructure\Event\Form
+ * @package App\Infrastructure\Event\Application\Form
  */
-class ApplyForTitleEventType extends AbstractType
+class UpdateTitleEventApplicationType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -26,7 +26,7 @@ class ApplyForTitleEventType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => ApplyForTitleEvent::class,
+                'data_class' => UpdateTitleEventApplication::class,
             ]
         );
     }

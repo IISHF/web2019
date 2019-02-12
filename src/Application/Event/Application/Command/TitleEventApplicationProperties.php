@@ -6,16 +6,16 @@
  * Time: 09:32
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Application\Command;
 
 use App\Application\Common\ContactPerson;
-use App\Application\Event\Validator\UniqueApplicantClubName;
+use App\Application\Event\Application\Validator\UniqueApplicantClubName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Trait TitleEventApplicationProperties
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Application\Command
  */
 trait TitleEventApplicationProperties
 {

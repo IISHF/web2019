@@ -6,15 +6,16 @@
  * Time: 09:27
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Application\Command;
 
 use App\Application\Common\Command\UuidAware;
 use App\Application\Common\ContactPerson;
+use App\Application\Event\Command\EventAware;
 
 /**
  * Class ApplyForTitleEvent
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Application\Command
  */
 class ApplyForTitleEvent
 {

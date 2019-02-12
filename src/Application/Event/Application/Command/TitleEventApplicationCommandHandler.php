@@ -6,18 +6,19 @@
  * Time: 15:28
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Application\Command;
 
+use App\Application\Event\Command\EventBasedCommandHandler;
+use App\Domain\Model\Event\Application\TitleEventApplication;
+use App\Domain\Model\Event\Application\TitleEventApplicationRepository;
 use App\Domain\Model\Event\EventRepository;
 use App\Domain\Model\Event\EventVenue;
 use App\Domain\Model\Event\EventVenueRepository;
-use App\Domain\Model\Event\TitleEventApplication;
-use App\Domain\Model\Event\TitleEventApplicationRepository;
 
 /**
  * Class TitleEventApplicationCommandHandler
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Application\Command
  */
 abstract class TitleEventApplicationCommandHandler extends EventBasedCommandHandler
 {
@@ -48,7 +49,7 @@ abstract class TitleEventApplicationCommandHandler extends EventBasedCommandHand
 
     /**
      * @param string $id
-     * @return TitleEventApplication
+     * @return \App\Domain\Model\Event\Application\TitleEventApplication
      */
     protected function getApplication(string $id): TitleEventApplication
     {

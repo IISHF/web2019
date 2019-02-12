@@ -6,18 +6,20 @@
  * Time: 10:49
  */
 
-namespace App\Domain\Model\Event;
+namespace App\Domain\Model\Event\Application;
 
 use App\Domain\Model\Common\ContactPerson;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\UpdateTracking;
+use App\Domain\Model\Event\EventVenue;
+use App\Domain\Model\Event\TitleEvent;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
 /**
  * Class TitleEventApplication
  *
- * @package App\Domain\Model\Event
+ * @package App\Domain\Model\Event\Application
  *
  * @ORM\Entity(repositoryClass="TitleEventApplicationRepository")
  * @ORM\Table(name="event_applications")

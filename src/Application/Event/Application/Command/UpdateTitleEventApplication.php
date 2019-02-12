@@ -6,16 +6,16 @@
  * Time: 09:30
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Application\Command;
 
 use App\Application\Common\Command\UuidAware;
 use App\Application\Common\ContactPerson;
-use App\Domain\Model\Event\TitleEventApplication;
+use App\Domain\Model\Event\Application\TitleEventApplication;
 
 /**
  * Class UpdateTitleEventApplication
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Application\Command
  */
 class UpdateTitleEventApplication
 {

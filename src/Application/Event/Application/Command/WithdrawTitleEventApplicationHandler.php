@@ -6,12 +6,12 @@
  * Time: 16:20
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Application\Command;
 
 /**
  * Class WithdrawTitleEventApplicationHandler
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Application\Command
  */
 class WithdrawTitleEventApplicationHandler extends TitleEventApplicationCommandHandler
 {

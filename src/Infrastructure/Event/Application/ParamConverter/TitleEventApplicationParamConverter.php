@@ -6,10 +6,10 @@
  * Time: 11:12
  */
 
-namespace App\Infrastructure\Event\ParamConverter;
+namespace App\Infrastructure\Event\Application\ParamConverter;
 
-use App\Domain\Model\Event\TitleEventApplication;
-use App\Domain\Model\Event\TitleEventApplicationRepository;
+use App\Domain\Model\Event\Application\TitleEventApplication;
+use App\Domain\Model\Event\Application\TitleEventApplicationRepository;
 use App\Infrastructure\ParamConverter\LoaderParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Class TitleEventApplicationParamConverter
  *
- * @package App\Infrastructure\Event\ParamConverter
+ * @package App\Infrastructure\Event\Application\ParamConverter
  */
 class TitleEventApplicationParamConverter extends LoaderParamConverter
 {
