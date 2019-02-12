@@ -6,15 +6,15 @@
  * Time: 09:09
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Venue\Command;
 
 use App\Application\Common\Command\UuidAware;
-use App\Domain\Model\Event\EventVenue;
+use App\Domain\Model\Event\Venue\EventVenue;
 
 /**
  * Class DeleteEventVenue
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Venue\Command
  */
 class DeleteEventVenue
 {

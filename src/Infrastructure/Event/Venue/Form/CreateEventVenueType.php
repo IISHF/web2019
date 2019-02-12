@@ -6,16 +6,16 @@
  * Time: 17:08
  */
 
-namespace App\Infrastructure\Event\Form;
+namespace App\Infrastructure\Event\Venue\Form;
 
-use App\Application\Event\Command\CreateEventVenue;
+use App\Application\Event\Venue\Command\CreateEventVenue;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class CreateEventVenueType
  *
- * @package App\Infrastructure\Event\Form
+ * @package App\Infrastructure\Event\Venue\Form
  */
 class CreateEventVenueType extends AbstractType
 {

@@ -8,16 +8,16 @@
 
 namespace App\Controller\Event;
 
-use App\Application\Event\Command\CreateEventVenue;
-use App\Application\Event\Command\DeleteEventVenue;
-use App\Application\Event\Command\UpdateEventVenue;
-use App\Domain\Model\Event\EventVenue;
-use App\Domain\Model\Event\EventVenueRepository;
+use App\Application\Event\Venue\Command\CreateEventVenue;
+use App\Application\Event\Venue\Command\DeleteEventVenue;
+use App\Application\Event\Venue\Command\UpdateEventVenue;
+use App\Domain\Model\Event\Venue\EventVenue;
+use App\Domain\Model\Event\Venue\EventVenueRepository;
 use App\Infrastructure\Controller\CsrfSecuredHandler;
 use App\Infrastructure\Controller\FormHandler;
 use App\Infrastructure\Controller\PagingRequest;
-use App\Infrastructure\Event\Form\CreateEventVenueType;
-use App\Infrastructure\Event\Form\UpdateEventVenueType;
+use App\Infrastructure\Event\Venue\Form\CreateEventVenueType;
+use App\Infrastructure\Event\Venue\Form\UpdateEventVenueType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -90,7 +90,7 @@ class EventVenueController extends AbstractController
      * )
      * @ParamConverter(
      *      name="venue",
-     *      class="App\Domain\Model\Event\EventVenue",
+     *      class="App\Domain\Model\Event\Venue\EventVenue",
      *      converter="app.event_venue"
      * )
      *
@@ -115,7 +115,7 @@ class EventVenueController extends AbstractController
      * )
      * @ParamConverter(
      *      name="venue",
-     *      class="App\Domain\Model\Event\EventVenue",
+     *      class="App\Domain\Model\Event\Venue\EventVenue",
      *      converter="app.event_venue"
      * )
      *
@@ -152,7 +152,7 @@ class EventVenueController extends AbstractController
      * )
      * @ParamConverter(
      *      name="venue",
-     *      class="App\Domain\Model\Event\EventVenue",
+     *      class="App\Domain\Model\Event\Venue\EventVenue",
      *      converter="app.event_venue"
      * )
      *

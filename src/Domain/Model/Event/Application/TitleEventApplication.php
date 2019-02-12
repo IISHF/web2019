@@ -11,8 +11,8 @@ namespace App\Domain\Model\Event\Application;
 use App\Domain\Model\Common\ContactPerson;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\UpdateTracking;
-use App\Domain\Model\Event\EventVenue;
 use App\Domain\Model\Event\TitleEvent;
+use App\Domain\Model\Event\Venue\EventVenue;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -73,7 +73,7 @@ class TitleEventApplication
     private $proposedEndDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="EventVenue")
+     * @ORM\ManyToOne(targetEntity="App\Domain\Model\Event\Venue\EventVenue")
      * @ORM\JoinColumn(name="venue_id", referencedColumnName="id")
      *
      * @var EventVenue

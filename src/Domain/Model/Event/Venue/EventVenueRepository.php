@@ -6,7 +6,7 @@
  * Time: 12:46
  */
 
-namespace App\Domain\Model\Event;
+namespace App\Domain\Model\Event\Venue;
 
 use App\Domain\Common\Repository\DoctrinePaging;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -16,7 +16,7 @@ use Pagerfanta\Pagerfanta;
 /**
  * Class EventVenueRepository
  *
- * @package App\Domain\Model\Event
+ * @package App\Domain\Model\Event\Venue
  */
 class EventVenueRepository extends ServiceEntityRepository
 {

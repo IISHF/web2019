@@ -6,16 +6,16 @@
  * Time: 08:58
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Venue\Command;
 
 use App\Application\Common\Address;
-use App\Application\Event\Validator\UniqueEventVenueName;
+use App\Application\Event\Venue\Validator\UniqueEventVenueName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Trait EventVenueProperties
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Venue\Command
  */
 trait EventVenueProperties
 {

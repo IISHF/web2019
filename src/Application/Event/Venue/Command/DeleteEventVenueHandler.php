@@ -6,12 +6,12 @@
  * Time: 15:58
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Venue\Command;
 
 /**
  * Class DeleteEventVenueHandler
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Venue\Command
  */
 class DeleteEventVenueHandler extends EventVenueCommandHandler
 {

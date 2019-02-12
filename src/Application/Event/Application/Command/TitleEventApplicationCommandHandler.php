@@ -12,8 +12,8 @@ use App\Application\Event\Command\EventBasedCommandHandler;
 use App\Domain\Model\Event\Application\TitleEventApplication;
 use App\Domain\Model\Event\Application\TitleEventApplicationRepository;
 use App\Domain\Model\Event\EventRepository;
-use App\Domain\Model\Event\EventVenue;
-use App\Domain\Model\Event\EventVenueRepository;
+use App\Domain\Model\Event\Venue\EventVenue;
+use App\Domain\Model\Event\Venue\EventVenueRepository;
 
 /**
  * Class TitleEventApplicationCommandHandler

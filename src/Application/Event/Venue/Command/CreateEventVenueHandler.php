@@ -6,14 +6,14 @@
  * Time: 15:51
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Venue\Command;
 
-use App\Domain\Model\Event\EventVenue;
+use App\Domain\Model\Event\Venue\EventVenue;
 
 /**
  * Class CreateEventVenueHandler
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Venue\Command
  */
 class CreateEventVenueHandler extends EventVenueCommandHandler
 {

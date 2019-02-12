@@ -6,10 +6,10 @@
  * Time: 20:00
  */
 
-namespace App\Infrastructure\Event\ParamConverter;
+namespace App\Infrastructure\Event\Venue\ParamConverter;
 
-use App\Domain\Model\Event\EventVenue;
-use App\Domain\Model\Event\EventVenueRepository;
+use App\Domain\Model\Event\Venue\EventVenue;
+use App\Domain\Model\Event\Venue\EventVenueRepository;
 use App\Infrastructure\ParamConverter\LoaderParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Class EventVenueParamConverter
  *
- * @package App\Infrastructure\Event\ParamConverter
+ * @package App\Infrastructure\Event\Venue\ParamConverter
  */
 class EventVenueParamConverter extends LoaderParamConverter
 {

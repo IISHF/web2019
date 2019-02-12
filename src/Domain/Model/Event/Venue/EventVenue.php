@@ -6,7 +6,7 @@
  * Time: 14:44
  */
 
-namespace App\Domain\Model\Event;
+namespace App\Domain\Model\Event\Venue;
 
 use App\Domain\Model\Common\Address;
 use App\Domain\Model\Common\CreateTracking;
@@ -17,7 +17,7 @@ use Webmozart\Assert\Assert;
 /**
  * Class EventVenue
  *
- * @package App\Domain\Model\Event
+ * @package App\Domain\Model\Event\Venue
  *
  * @ORM\Entity(repositoryClass="EventVenueRepository")
  * @ORM\Table(

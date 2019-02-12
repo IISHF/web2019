@@ -6,10 +6,10 @@
  * Time: 07:26
  */
 
-namespace App\Application\Event\Validator;
+namespace App\Application\Event\Venue\Validator;
 
-use App\Application\Event\Command\UpdateEventVenue;
-use App\Domain\Model\Event\EventVenueRepository;
+use App\Application\Event\Venue\Command\UpdateEventVenue;
+use App\Domain\Model\Event\Venue\EventVenueRepository;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 /**
  * Class UniqueEventVenueNameValidator
  *
- * @package App\Application\Event\Validator
+ * @package App\Application\Event\Venue\Validator
  */
 class UniqueEventVenueNameValidator extends ConstraintValidator
 {

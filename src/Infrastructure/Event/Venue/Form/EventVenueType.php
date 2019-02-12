@@ -6,7 +6,7 @@
  * Time: 17:06
  */
 
-namespace App\Infrastructure\Event\Form;
+namespace App\Infrastructure\Event\Venue\Form;
 
 use App\Infrastructure\Common\Form\AddressType;
 use App\Infrastructure\Form\TrixEditorType;
@@ -17,7 +17,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * Class EventVenueType
  *
- * @package App\Infrastructure\Event\Form
+ * @package App\Infrastructure\Event\Venue\Form
  */
 class EventVenueType extends AbstractType
 {

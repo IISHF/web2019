@@ -6,16 +6,16 @@
  * Time: 07:13
  */
 
-namespace App\Infrastructure\Event\Security\Voter;
+namespace App\Infrastructure\Event\Venue\Security\Voter;
 
-use App\Domain\Model\Event\EventVenue;
+use App\Domain\Model\Event\Venue\EventVenue;
 use App\Infrastructure\Security\Voter\DelegatingVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class EventVenueVoter
  *
- * @package App\Infrastructure\Event\Security\Voter
+ * @package App\Infrastructure\Event\Venue\Security\Voter
  */
 class EventVenueVoter extends DelegatingVoter
 {

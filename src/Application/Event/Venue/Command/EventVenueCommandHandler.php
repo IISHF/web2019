@@ -6,16 +6,16 @@
  * Time: 15:24
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Venue\Command;
 
-use App\Domain\Model\Event\EventVenue;
-use App\Domain\Model\Event\EventVenueRepository;
+use App\Domain\Model\Event\Venue\EventVenue;
+use App\Domain\Model\Event\Venue\EventVenueRepository;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 /**
  * Class EventVenueCommandHandler
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Venue\Command
  */
 abstract class EventVenueCommandHandler implements MessageHandlerInterface
 {

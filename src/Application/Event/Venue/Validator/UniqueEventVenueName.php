@@ -6,14 +6,14 @@
  * Time: 07:23
  */
 
-namespace App\Application\Event\Validator;
+namespace App\Application\Event\Venue\Validator;
 
 use Symfony\Component\Validator\Constraint;
 
 /**
  * Class UniqueEventVenueName
  *
- * @package App\Application\Event\Validator
+ * @package App\Application\Event\Venue\Validator
  *
  * @Annotation
  */

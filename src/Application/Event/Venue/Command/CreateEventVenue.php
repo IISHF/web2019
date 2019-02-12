@@ -6,7 +6,7 @@
  * Time: 08:57
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Venue\Command;
 
 use App\Application\Common\Address;
 use App\Application\Common\Command\UuidAware;
@@ -14,7 +14,7 @@ use App\Application\Common\Command\UuidAware;
 /**
  * Class CreateEventVenue
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Venue\Command
  */
 class CreateEventVenue
 {

@@ -9,8 +9,8 @@
 namespace App\Application\Event\Command;
 
 use App\Domain\Model\Event\EventRepository;
-use App\Domain\Model\Event\EventVenue;
-use App\Domain\Model\Event\EventVenueRepository;
+use App\Domain\Model\Event\Venue\EventVenue;
+use App\Domain\Model\Event\Venue\EventVenueRepository;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
@@ -26,9 +26,9 @@ abstract class TitleEventCommandHandler extends EventCommandHandler
     private $venueRepository;
 
     /**
-     * @param EventRepository $eventRepository
+     * @param EventRepository      $eventRepository
      * @param EventVenueRepository $venueRepository
-     * @param MessageBusInterface $commandBus
+     * @param MessageBusInterface  $commandBus
      */
     public function __construct(
         EventRepository $eventRepository,

@@ -12,6 +12,7 @@ use App\Domain\Common\AgeGroup;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\UpdateTracking;
 use App\Domain\Model\Event\Team\ParticipatingTeam;
+use App\Domain\Model\Event\Venue\EventVenue;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -119,7 +120,7 @@ abstract class Event
     private $endDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="EventVenue")
+     * @ORM\ManyToOne(targetEntity="App\Domain\Model\Event\Venue\EventVenue")
      * @ORM\JoinColumn(name="venue_id", referencedColumnName="id", nullable=true)
      *
      * @var EventVenue|null
