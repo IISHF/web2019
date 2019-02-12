@@ -6,15 +6,15 @@
  * Time: 15:30
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Team\Command;
 
-use App\Domain\Model\Event\ParticipatingTeamContact;
+use App\Domain\Model\Event\Team\ParticipatingTeamContact;
 use Ramsey\Uuid\Uuid;
 
 /**
  * Class AddParticipatingTeamHandler
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Team\Command
  */
 class AddParticipatingTeamHandler extends ParticipatingTeamCommandHandler
 {

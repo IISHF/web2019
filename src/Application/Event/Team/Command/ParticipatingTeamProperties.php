@@ -6,16 +6,16 @@
  * Time: 09:18
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Team\Command;
 
 use App\Application\Common\ContactPerson;
-use App\Application\Event\Validator\UniqueParticipatingTeamName;
+use App\Application\Event\Team\Validator\UniqueParticipatingTeamName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Trait ParticipatingTeamProperties
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Team\Command
  */
 trait ParticipatingTeamProperties
 {

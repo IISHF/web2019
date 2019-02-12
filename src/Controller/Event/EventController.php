@@ -22,7 +22,7 @@ use App\Domain\Model\Event\EuropeanCup;
 use App\Domain\Model\Event\Event;
 use App\Domain\Model\Event\EventRepository;
 use App\Domain\Model\Event\Game\GameRepository;
-use App\Domain\Model\Event\ParticipatingTeamRepository;
+use App\Domain\Model\Event\Team\ParticipatingTeamRepository;
 use App\Domain\Model\Event\TitleEvent;
 use App\Domain\Model\Event\Tournament;
 use App\Infrastructure\Controller\CsrfSecuredHandler;
@@ -191,7 +191,7 @@ class EventController extends AbstractController
      */
     public function detail(
         Event $event,
-        \App\Domain\Model\Event\Application\TitleEventApplicationRepository $applicationRepository,
+        TitleEventApplicationRepository $applicationRepository,
         ParticipatingTeamRepository $teamRepository,
         GameRepository $gameRepository
     ): Response {

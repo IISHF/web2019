@@ -9,7 +9,7 @@
 namespace App\Infrastructure\Event\Game\Form;
 
 use App\Domain\Model\Event\Event;
-use App\Domain\Model\Event\ParticipatingTeamRepository;
+use App\Domain\Model\Event\Team\ParticipatingTeamRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

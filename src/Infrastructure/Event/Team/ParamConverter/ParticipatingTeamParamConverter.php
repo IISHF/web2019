@@ -6,10 +6,10 @@
  * Time: 11:12
  */
 
-namespace App\Infrastructure\Event\ParamConverter;
+namespace App\Infrastructure\Event\Team\ParamConverter;
 
-use App\Domain\Model\Event\ParticipatingTeam;
-use App\Domain\Model\Event\ParticipatingTeamRepository;
+use App\Domain\Model\Event\Team\ParticipatingTeam;
+use App\Domain\Model\Event\Team\ParticipatingTeamRepository;
 use App\Infrastructure\ParamConverter\LoaderParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;

@@ -6,9 +6,9 @@
  * Time: 16:09
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Team\Command;
 
-use App\Domain\Model\Event\ParticipatingTeamContact;
+use App\Domain\Model\Event\Team\ParticipatingTeamContact;
 use Ramsey\Uuid\Uuid;
 
 /**

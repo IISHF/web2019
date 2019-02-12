@@ -6,8 +6,9 @@
  * Time: 07:47
  */
 
-namespace App\Domain\Model\Event;
+namespace App\Domain\Model\Event\Team;
 
+use App\Domain\Model\Event\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 

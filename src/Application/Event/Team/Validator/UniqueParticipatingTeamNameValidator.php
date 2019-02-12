@@ -6,11 +6,11 @@
  * Time: 07:26
  */
 
-namespace App\Application\Event\Validator;
+namespace App\Application\Event\Team\Validator;
 
-use App\Application\Event\Command\AddParticipatingTeam;
-use App\Application\Event\Command\UpdateParticipatingTeam;
-use App\Domain\Model\Event\ParticipatingTeamRepository;
+use App\Application\Event\Team\Command\AddParticipatingTeam;
+use App\Application\Event\Team\Command\UpdateParticipatingTeam;
+use App\Domain\Model\Event\Team\ParticipatingTeamRepository;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 /**
  * Class UniqueParticipatingTeamNameValidator
  *
- * @package App\Application\Event\Validator
+ * @package App\Application\Event\Team\Validator
  */
 class UniqueParticipatingTeamNameValidator extends ConstraintValidator
 {

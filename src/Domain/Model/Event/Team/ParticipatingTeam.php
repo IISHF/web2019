@@ -6,17 +6,18 @@
  * Time: 12:08
  */
 
-namespace App\Domain\Model\Event;
+namespace App\Domain\Model\Event\Team;
 
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\UpdateTracking;
+use App\Domain\Model\Event\Event;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
 /**
  * Class ParticipatingTeam
  *
- * @package App\Domain\Model\Event
+ * @package App\Domain\Model\Event\Team
  *
  * @ORM\Entity(repositoryClass="ParticipatingTeamRepository")
  * @ORM\Table(

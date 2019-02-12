@@ -6,16 +6,16 @@
  * Time: 17:21
  */
 
-namespace App\Infrastructure\Event\Form;
+namespace App\Infrastructure\Event\Team\Form;
 
-use App\Application\Event\Command\UpdateParticipatingTeam;
+use App\Application\Event\Team\Command\UpdateParticipatingTeam;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class UpdateParticipatingTeamType
  *
- * @package App\Infrastructure\Event\Form
+ * @package App\Infrastructure\Event\Team\Form
  */
 class UpdateParticipatingTeamType extends AbstractType
 {

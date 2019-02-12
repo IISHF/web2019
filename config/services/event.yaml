@@ -6,7 +6,7 @@ services:
 
     App\Domain\Model\Event\EventRepository:
     App\Domain\Model\Event\EventVenueRepository:
-    App\Domain\Model\Event\ParticipatingTeamRepository:
+    App\Domain\Model\Event\Team\ParticipatingTeamRepository:
     App\Domain\Model\Event\Application\TitleEventApplicationRepository:
 
     App\Application\Event\Command\CreateEuropeanChampionshipHandler:
@@ -26,9 +26,9 @@ services:
     App\Application\Event\Command\UpdateEventVenueHandler:
     App\Application\Event\Command\DeleteEventVenueHandler:
 
-    App\Application\Event\Command\AddParticipatingTeamHandler:
-    App\Application\Event\Command\UpdateParticipatingTeamHandler:
-    App\Application\Event\Command\RemoveParticipatingTeamHandler:
+    App\Application\Event\Team\Command\AddParticipatingTeamHandler:
+    App\Application\Event\Team\Command\UpdateParticipatingTeamHandler:
+    App\Application\Event\Team\Command\RemoveParticipatingTeamHandler:
 
     App\Application\Event\Application\Command\ApplyForTitleEventHandler:
     App\Application\Event\Application\Command\UpdateTitleEventApplicationHandler:
@@ -45,7 +45,7 @@ services:
     App\Infrastructure\Event\ParamConverter\EventVenueParamConverter:
         tags:
             - { name: request.param_converter, converter: app.event_venue }
-    App\Infrastructure\Event\ParamConverter\ParticipatingTeamParamConverter:
+    App\Infrastructure\Event\Team\ParamConverter\ParticipatingTeamParamConverter:
         tags:
             - { name: request.param_converter, converter: app.event_team }
     App\Infrastructure\Event\Application\ParamConverter\TitleEventApplicationParamConverter:
@@ -59,4 +59,4 @@ services:
     App\Application\Event\Application\Validator\UniqueApplicantClubNameValidator:
     App\Application\Event\Validator\UniqueEventNameValidator:
     App\Application\Event\Validator\UniqueEventVenueNameValidator:
-    App\Application\Event\Validator\UniqueParticipatingTeamNameValidator:
+    App\Application\Event\Team\Validator\UniqueParticipatingTeamNameValidator:

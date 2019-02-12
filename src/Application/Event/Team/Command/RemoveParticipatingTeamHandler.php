@@ -6,12 +6,12 @@
  * Time: 15:59
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Team\Command;
 
 /**
  * Class RemoveParticipatingTeamHandler
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Team\Command
  */
 class RemoveParticipatingTeamHandler extends ParticipatingTeamCommandHandler
 {

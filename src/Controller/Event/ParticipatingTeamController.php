@@ -8,15 +8,15 @@
 
 namespace App\Controller\Event;
 
-use App\Application\Event\Command\AddParticipatingTeam;
-use App\Application\Event\Command\RemoveParticipatingTeam;
-use App\Application\Event\Command\UpdateParticipatingTeam;
+use App\Application\Event\Team\Command\AddParticipatingTeam;
+use App\Application\Event\Team\Command\RemoveParticipatingTeam;
+use App\Application\Event\Team\Command\UpdateParticipatingTeam;
 use App\Domain\Model\Event\Event;
-use App\Domain\Model\Event\ParticipatingTeam;
+use App\Domain\Model\Event\Team\ParticipatingTeam;
 use App\Infrastructure\Controller\CsrfSecuredHandler;
 use App\Infrastructure\Controller\FormHandler;
-use App\Infrastructure\Event\Form\AddParticipatingTeamType;
-use App\Infrastructure\Event\Form\UpdateParticipatingTeamType;
+use App\Infrastructure\Event\Team\Form\AddParticipatingTeamType;
+use App\Infrastructure\Event\Team\Form\UpdateParticipatingTeamType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -87,7 +87,7 @@ class ParticipatingTeamController extends AbstractController
      * )
      * @ParamConverter(
      *      name="team",
-     *      class="App\Domain\Model\Event\ParticipatingTeam",
+     *      class="App\Domain\Model\Event\Team\ParticipatingTeam",
      *      converter="app.event_team"
      * )
      *
@@ -114,7 +114,7 @@ class ParticipatingTeamController extends AbstractController
      * )
      * @ParamConverter(
      *      name="team",
-     *      class="App\Domain\Model\Event\ParticipatingTeam",
+     *      class="App\Domain\Model\Event\Team\ParticipatingTeam",
      *      converter="app.event_team"
      * )
      * @Security("is_granted('EVENT_EDIT', event)")
@@ -164,7 +164,7 @@ class ParticipatingTeamController extends AbstractController
      * )
      * @ParamConverter(
      *      name="team",
-     *      class="App\Domain\Model\Event\ParticipatingTeam",
+     *      class="App\Domain\Model\Event\Team\ParticipatingTeam",
      *      converter="app.event_team"
      * )
      * @Security("is_granted('EVENT_EDIT', event)")

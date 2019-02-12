@@ -6,15 +6,16 @@
  * Time: 09:12
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Team\Command;
 
 use App\Application\Common\Command\UuidAware;
 use App\Application\Common\ContactPerson;
+use App\Application\Event\Command\EventAware;
 
 /**
  * Class AddParticipatingTeam
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Team\Command
  */
 class AddParticipatingTeam
 {

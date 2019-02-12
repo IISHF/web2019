@@ -12,7 +12,7 @@ use App\Domain\Common\DateTime;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\UpdateTracking;
 use App\Domain\Model\Event\Event;
-use App\Domain\Model\Event\ParticipatingTeam;
+use App\Domain\Model\Event\Team\ParticipatingTeam;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -85,7 +85,7 @@ class Game
     private $dateTimeUtc;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Domain\Model\Event\ParticipatingTeam")
+     * @ORM\ManyToOne(targetEntity="App\Domain\Model\Event\Team\ParticipatingTeam")
      * @ORM\JoinColumn(name="home_team_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      *
      * @var ParticipatingTeam
@@ -93,7 +93,7 @@ class Game
     private $homeTeam;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Domain\Model\Event\ParticipatingTeam")
+     * @ORM\ManyToOne(targetEntity="App\Domain\Model\Event\Team\ParticipatingTeam")
      * @ORM\JoinColumn(name="away_team_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      *
      * @var ParticipatingTeam

@@ -6,7 +6,7 @@
  * Time: 07:36
  */
 
-namespace App\Domain\Model\Event;
+namespace App\Domain\Model\Event\Team;
 
 use App\Domain\Model\Common\ContactPerson;
 use App\Domain\Model\Common\CreateTracking;
@@ -18,7 +18,7 @@ use Webmozart\Assert\Assert;
 /**
  * Class ParticipatingTeamContact
  *
- * @package App\Domain\Model\Event
+ * @package App\Domain\Model\Event\Team
  *
  * @ORM\Entity()
  * @ORM\Table(name="event_team_contacts")

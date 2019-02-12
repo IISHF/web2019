@@ -6,9 +6,9 @@
  * Time: 17:21
  */
 
-namespace App\Infrastructure\Event\Form;
+namespace App\Infrastructure\Event\Team\Form;
 
-use App\Application\Event\Command\AddParticipatingTeam;
+use App\Application\Event\Team\Command\AddParticipatingTeam;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

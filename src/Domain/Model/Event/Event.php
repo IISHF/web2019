@@ -11,6 +11,7 @@ namespace App\Domain\Model\Event;
 use App\Domain\Common\AgeGroup;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\UpdateTracking;
+use App\Domain\Model\Event\Team\ParticipatingTeam;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 

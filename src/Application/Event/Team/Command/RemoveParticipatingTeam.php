@@ -6,15 +6,15 @@
  * Time: 09:12
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Team\Command;
 
 use App\Application\Common\Command\UuidAware;
-use App\Domain\Model\Event\ParticipatingTeam;
+use App\Domain\Model\Event\Team\ParticipatingTeam;
 
 /**
  * Class RemoveParticipatingTeam
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Team\Command
  */
 class RemoveParticipatingTeam
 {

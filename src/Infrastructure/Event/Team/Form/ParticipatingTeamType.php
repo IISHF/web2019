@@ -6,7 +6,7 @@
  * Time: 17:19
  */
 
-namespace App\Infrastructure\Event\Form;
+namespace App\Infrastructure\Event\Team\Form;
 
 use App\Infrastructure\Common\Form\ContactPersonType;
 use Symfony\Component\Form\AbstractType;
@@ -16,7 +16,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * Class ParticipatingTeamType
  *
- * @package App\Infrastructure\Event\Form
+ * @package App\Infrastructure\Event\Team\Form
  */
 class ParticipatingTeamType extends AbstractType
 {

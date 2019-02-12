@@ -12,8 +12,8 @@ use App\Domain\Model\Event\Event;
 use App\Domain\Model\Event\EventRepository;
 use App\Domain\Model\Event\Game\Game;
 use App\Domain\Model\Event\Game\GameRepository;
-use App\Domain\Model\Event\ParticipatingTeam;
-use App\Domain\Model\Event\ParticipatingTeamRepository;
+use App\Domain\Model\Event\Team\ParticipatingTeam;
+use App\Domain\Model\Event\Team\ParticipatingTeamRepository;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 /**

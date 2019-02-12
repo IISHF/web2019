@@ -6,16 +6,17 @@
  * Time: 15:25
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Team\Command;
 
+use App\Application\Event\Command\EventBasedCommandHandler;
 use App\Domain\Model\Event\EventRepository;
-use App\Domain\Model\Event\ParticipatingTeam;
-use App\Domain\Model\Event\ParticipatingTeamRepository;
+use App\Domain\Model\Event\Team\ParticipatingTeam;
+use App\Domain\Model\Event\Team\ParticipatingTeamRepository;
 
 /**
  * Class ParticipatingTeamCommandHandler
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Team\Command
  */
 abstract class ParticipatingTeamCommandHandler extends EventBasedCommandHandler
 {
