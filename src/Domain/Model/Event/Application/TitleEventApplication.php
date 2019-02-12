@@ -37,7 +37,7 @@ class TitleEventApplication
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="TitleEvent")
+     * @ORM\ManyToOne(targetEntity="App\Domain\Model\Event\TitleEvent")
      * @ORM\JoinColumn(name="event_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      *
      * @var TitleEvent
