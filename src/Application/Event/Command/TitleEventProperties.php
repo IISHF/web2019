@@ -99,7 +99,10 @@ trait TitleEventProperties
 
     /**
      * @Assert\Type("DateTimeZone")
-     * @Assert\NotNull()
+     * @Assert\Expression(
+     *      expression="not (this.isAnnounced() or this.isSanctioned()) ? value === null : true",
+     *      message="This value must be empty while the event is not announced yet."
+     * )
      *
      * @var \DateTimeZone
      */
