@@ -39,8 +39,7 @@ class UpdateTournament
             $tournament->getEndDate(),
             $tournament->getVenue()->getId(),
             $tournament->getTimeZone(),
-            $tournament->getTags(),
-            $tournament->getSanctionNumber()
+            $tournament->getTags()
         );
     }
 
@@ -55,7 +54,6 @@ class UpdateTournament
      * @param string             $venue
      * @param \DateTimeZone      $timeZone
      * @param string[]           $tags
-     * @param string|null        $sanctionNumber
      */
     private function __construct(
         string $id,
@@ -67,20 +65,17 @@ class UpdateTournament
         \DateTimeImmutable $endDate,
         string $venue,
         \DateTimeZone $timeZone,
-        array $tags,
-        ?string $sanctionNumber
+        array $tags
     ) {
-        $this->id             = $id;
-        $this->name           = $name;
-        $this->season         = $season;
-        $this->ageGroup       = $ageGroup;
-        $this->host           = $host;
-        $this->startDate      = $startDate;
-        $this->endDate        = $endDate;
-        $this->venue          = $venue;
-        $this->timeZone       = $timeZone;
-        $this->tags           = $tags;
-        $this->sanctionNumber = $sanctionNumber;
-        $this->sanctioned     = $sanctionNumber !== null;
+        $this->id        = $id;
+        $this->name      = $name;
+        $this->season    = $season;
+        $this->ageGroup  = $ageGroup;
+        $this->host      = $host;
+        $this->startDate = $startDate;
+        $this->endDate   = $endDate;
+        $this->venue     = $venue;
+        $this->timeZone  = $timeZone;
+        $this->tags      = $tags;
     }
 }

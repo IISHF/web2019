@@ -107,26 +107,32 @@ abstract class Event
     private $sanctionNumber;
 
     /**
-     * @ORM\Column(name="start_date", type="date_immutable", nullable=true)
+     * @ORM\Column(name="start_date", type="datetime_immutable", nullable=true)
      *
      * @var \DateTimeImmutable|null
      */
     private $startDate;
 
     /**
-     * @ORM\Column(name="end_date", type="date_immutable", nullable=true)
+     * @ORM\Column(name="start_date_utc", type="datetime_immutable", nullable=true)
+     *
+     * @var \DateTimeImmutable
+     */
+    private $startDateUtc;
+
+    /**
+     * @ORM\Column(name="end_date", type="datetime_immutable", nullable=true)
      *
      * @var \DateTimeImmutable|null
      */
     private $endDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Domain\Model\Event\Venue\EventVenue")
-     * @ORM\JoinColumn(name="venue_id", referencedColumnName="id", nullable=true)
+     * @ORM\Column(name="end_date_utc", type="datetime_immutable", nullable=true)
      *
-     * @var EventVenue|null
+     * @var \DateTimeImmutable
      */
-    private $venue;
+    private $endDateUtc;
 
     /**
      * @ORM\Column(name="time_zone", type="string", length=32, nullable=true)
@@ -139,6 +145,14 @@ abstract class Event
      * @var \DateTimeZone|null
      */
     private $timeZoneInstance;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Domain\Model\Event\Venue\EventVenue")
+     * @ORM\JoinColumn(name="venue_id", referencedColumnName="id", nullable=true)
+     *
+     * @var EventVenue|null
+     */
+    private $venue;
 
     /**
      * @ORM\Column(name="tags", type="json")
@@ -375,7 +389,21 @@ abstract class Event
         if (!$this->hasDate()) {
             throw new \BadMethodCallException('Cannot get start date. No dates set.');
         }
+        if (!DateTime::isTimeZoneEqual($this->startDate, $this->getTimeZone())) {
+            $this->startDate = DateTime::reinterpret($this->startDate, $this->getTimeZone());
+        }
         return $this->startDate;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getStartDateUtc(): \DateTimeImmutable
+    {
+        if (!DateTime::isUtc($this->startDateUtc)) {
+            $this->startDateUtc = DateTime::reinterpretAsUtc($this->startDateUtc);
+        }
+        return $this->startDateUtc;
     }
 
     /**
@@ -386,7 +414,21 @@ abstract class Event
         if (!$this->hasDate()) {
             throw new \BadMethodCallException('Cannot get end date. No dates set.');
         }
+        if (!DateTime::isTimeZoneEqual($this->endDate, $this->getTimeZone())) {
+            $this->endDate = DateTime::reinterpret($this->endDate, $this->getTimeZone());
+        }
         return $this->endDate;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getEndDateUtc(): \DateTimeImmutable
+    {
+        if (!DateTime::isUtc($this->endDateUtc)) {
+            $this->endDateUtc = DateTime::reinterpretAsUtc($this->endDateUtc);
+        }
+        return $this->endDateUtc;
     }
 
     /**
@@ -400,8 +442,12 @@ abstract class Event
         Assert::lessThanEq($startDate, $endDate);
         Assert::greaterThanEq($endDate, $startDate);
         Assert::lengthBetween($timeZone->getName(), 1, 32);
+        $startDate              = DateTime::reinterpret($startDate->setTime(0, 0, 0), $timeZone);
+        $endDate                = DateTime::reinterpret($endDate->setTime(23, 59, 59), $timeZone);
         $this->startDate        = $startDate;
+        $this->startDateUtc     = DateTime::toUtc($startDate);
         $this->endDate          = $endDate;
+        $this->endDateUtc       = DateTime::toUtc($endDate);
         $this->timeZone         = $timeZone->getName();
         $this->timeZoneInstance = $timeZone;
         return $this;
@@ -443,7 +489,9 @@ abstract class Event
     public function clearDate(): self
     {
         $this->startDate        = null;
+        $this->startDateUtc     = null;
         $this->endDate          = null;
+        $this->endDateUtc       = null;
         $this->timeZone         = null;
         $this->timeZoneInstance = null;
         return $this;

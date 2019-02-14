@@ -150,8 +150,8 @@ class EventRepository extends ServiceEntityRepository implements TagProvider
     public function save(Event $event): Event
     {
         $this->_em->persist($event);
-        if ($host = $event->getHost()) {
-            $this->_em->persist($host);
+        if ($event->hasHost()) {
+            $this->_em->persist($event->getHost());
         }
         return $event;
     }
@@ -162,8 +162,8 @@ class EventRepository extends ServiceEntityRepository implements TagProvider
     public function delete(Event $event): void
     {
         $this->_em->remove($event);
-        if ($host = $event->getHost()) {
-            $this->_em->remove($host);
+        if ($event->hasHost()) {
+            $this->_em->remove($event->getHost());
         }
     }
 

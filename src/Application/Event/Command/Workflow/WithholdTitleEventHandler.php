@@ -24,8 +24,8 @@ class WithholdTitleEventHandler extends WorkflowCommandHandler
     {
         /** @var TitleEvent $event */
         $event = $this->applyTransition($command);
-        if ($host = $event->getHost()) {
-            $this->eventRepository->deleteHost($host);
+        if ($event->hasHost()) {
+            $this->eventRepository->deleteHost($event->getHost());
         }
         $event->withholdTitleEVent();
         $this->eventRepository->save($event);
