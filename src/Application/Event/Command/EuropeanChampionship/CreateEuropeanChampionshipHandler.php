@@ -6,14 +6,15 @@
  * Time: 15:47
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Command\EuropeanChampionship;
 
+use App\Application\Event\Command\EventCommandHandler;
 use App\Domain\Model\Event\EuropeanChampionship;
 
 /**
  * Class CreateEuropeanChampionshipHandler
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Command\EuropeanChampionship
  */
 class CreateEuropeanChampionshipHandler extends EventCommandHandler
 {

@@ -142,8 +142,7 @@ class Game
         $this->event = $event;
 
         $this->setGameType($gameType)
-             ->setDateTime($dateTime)
-             ->setTimeZone($timeZone)
+             ->setDateTime($dateTime, $timeZone)
              ->setHomeTeam($homeTeam)
              ->setAwayTeam($awayTeam)
              ->setRemarks($remarks)
@@ -238,10 +237,14 @@ class Game
 
     /**
      * @param \DateTimeImmutable $dateTime
+     * @param \DateTimeZone|null $timeZone
      * @return $this
      */
-    public function setDateTime(\DateTimeImmutable $dateTime): self
+    public function setDateTime(\DateTimeImmutable $dateTime, ?\DateTimeZone $timeZone = null): self
     {
+        if ($timeZone) {
+            $this->doSetTimeZone($timeZone);
+        }
         $this->dateTimeLocal = DateTime::reinterpret($dateTime, $this->getTimeZone());
         $this->dateTimeUtc   = DateTime::toUtc($this->dateTimeLocal);
         return $this;
@@ -260,15 +263,23 @@ class Game
 
     /**
      * @param \DateTimeZone $timeZone
-     * @return $this
      */
-    public function setTimeZone(\DateTimeZone $timeZone): self
+    private function doSetTimeZone(\DateTimeZone $timeZone): void
     {
         Assert::lengthBetween($timeZone->getName(), 1, 32);
         $this->timeZone         = $timeZone->getName();
         $this->timeZoneInstance = $timeZone;
-        $this->dateTimeLocal    = DateTime::reinterpret($this->dateTimeLocal, $this->getTimeZone());
-        $this->dateTimeUtc      = DateTime::toUtc($this->dateTimeLocal);
+    }
+
+    /**
+     * @param \DateTimeZone $timeZone
+     * @return $this
+     */
+    public function setTimeZone(\DateTimeZone $timeZone): self
+    {
+        $this->doSetTimeZone($timeZone);
+        $this->dateTimeLocal = DateTime::reinterpret($this->dateTimeLocal, $this->getTimeZone());
+        $this->dateTimeUtc   = DateTime::toUtc($this->dateTimeLocal);
         return $this;
     }
 

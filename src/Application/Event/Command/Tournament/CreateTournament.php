@@ -6,19 +6,21 @@
  * Time: 10:10
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Command\Tournament;
 
 use App\Application\Common\Command\UuidAware;
+use App\Application\Event\Command\EventProperties;
+use App\Application\Event\Command\HostingProperties;
 use App\Application\Event\EventHost;
 
 /**
  * Class CreateTournament
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Command\Tournament
  */
 class CreateTournament
 {
-    use UuidAware, EventProperties, TournamentProperties;
+    use UuidAware, EventProperties, HostingProperties;
 
     /**
      * @return self

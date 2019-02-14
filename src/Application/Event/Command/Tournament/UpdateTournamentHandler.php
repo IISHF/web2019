@@ -6,7 +6,7 @@
  * Time: 16:17
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Command\Tournament;
 
 use App\Application\Event\Game\Command\UpdateScheduleTimeZone;
 use App\Domain\Model\Event\Tournament;
@@ -14,7 +14,7 @@ use App\Domain\Model\Event\Tournament;
 /**
  * Class UpdateTournamentHandler
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Command\Tournament
  */
 class UpdateTournamentHandler extends TournamentCommandHandler
 {
@@ -23,13 +23,9 @@ class UpdateTournamentHandler extends TournamentCommandHandler
      */
     public function __invoke(UpdateTournament $command): void
     {
-        $host       = $command->getHost();
-        $tournament = $this->getEvent($command->getId());
-        if (!$tournament instanceof Tournament) {
-            throw new \InvalidArgumentException('Invalid event - ' . Tournament::class . ' required.');
-        }
-        $currentTimeZone = $tournament->getTimeZone();
-        if ($currentTimeZone->getName() !== $command->getTimeZone()->getName()) {
+        /** @var Tournament $tournament */
+        $tournament = $this->getEvent($command->getId(), Tournament::class);
+        if ($tournament->getTimeZone()->getName() !== $command->getTimeZone()->getName()) {
             $this->dispatchCommand(UpdateScheduleTimeZone::update($tournament->getId(), $command->getTimeZone()));
         }
 
@@ -40,6 +36,8 @@ class UpdateTournamentHandler extends TournamentCommandHandler
                    ->setVenue($this->getVenue($command->getVenue()))
                    ->setTimeZone($command->getTimeZone())
                    ->setTags($command->getTags());
+
+        $host = $command->getHost();
         $tournament->getHost()
                    ->setClub($host->getClub())
                    ->setName($host->getName())

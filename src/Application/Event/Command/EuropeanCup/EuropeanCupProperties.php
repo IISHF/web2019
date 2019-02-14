@@ -6,14 +6,14 @@
  * Time: 12:46
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Command\EuropeanCup;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Trait EuropeanCupProperties
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Command\EuropeanCup
  */
 trait EuropeanCupProperties
 {

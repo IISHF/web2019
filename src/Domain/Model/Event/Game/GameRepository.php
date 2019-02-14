@@ -78,12 +78,12 @@ class GameRepository extends ServiceEntityRepository
             return [];
         }
         $currentGames = $this->findBy(['event' => $games[0]->getEvent()], ['dateTimeUtc' => 'ASC']);
-        foreach ($currentGames as $currentGame) {
-            /** @var Game $currentGame */
-            $newGame = null;
-            foreach ($games as $game) {
+        foreach ($games as $game) {
+            $newGame = $game;
+            foreach ($currentGames as $currentGame) {
+                /** @var Game $currentGame */
                 if ($currentGame->getId() === $game->getId()) {
-                    $newGame = $game;
+                    $newGame = null;
                     break;
                 }
             }

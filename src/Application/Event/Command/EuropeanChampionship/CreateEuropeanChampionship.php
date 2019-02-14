@@ -6,14 +6,16 @@
  * Time: 10:10
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Command\EuropeanChampionship;
 
 use App\Application\Common\Command\UuidAware;
+use App\Application\Event\Command\EventProperties;
+use App\Application\Event\Command\TitleEventProperties;
 
 /**
  * Class CreateEuropeanChampionship
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Command\EuropeanChampionship
  */
 class CreateEuropeanChampionship
 {

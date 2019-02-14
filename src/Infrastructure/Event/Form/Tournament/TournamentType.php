@@ -8,12 +8,9 @@
 
 namespace App\Infrastructure\Event\Form\Tournament;
 
-use App\Infrastructure\Event\Form\EventHostType;
 use App\Infrastructure\Event\Form\EventType;
-use App\Infrastructure\Event\Form\VenueChoiceType;
+use App\Infrastructure\Event\Form\HostingType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\TimezoneType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -30,51 +27,10 @@ class TournamentType extends AbstractType
     {
         $builder
             ->add(
-                'host',
-                EventHostType::class,
+                'hosting',
+                HostingType::class,
                 [
-                    'label'        => 'Host',
-                    'by_reference' => true,
-                ]
-            )
-            ->add(
-                'startDate',
-                DateType::class,
-                [
-                    'label'             => 'Start Date',
-                    'required'          => true,
-                    'input'             => 'datetime_immutable',
-                    'format'            => 'MMMM d, yyyy',
-                    'enable_datepicker' => true,
-                ]
-            )
-            ->add(
-                'endDate',
-                DateType::class,
-                [
-                    'label'             => 'End Date',
-                    'required'          => true,
-                    'input'             => 'datetime_immutable',
-                    'format'            => 'MMMM d, yyyy',
-                    'enable_datepicker' => true,
-                ]
-            )
-            ->add(
-                'venue',
-                VenueChoiceType::class,
-                [
-                    'label'    => 'Venue',
-                    'required' => true,
-                ]
-            )
-            ->add(
-                'timeZone',
-                TimezoneType::class,
-                [
-                    'label'          => 'Time Zone',
-                    'input'          => 'datetimezone',
-                    'required'       => true,
-                    'enable_select2' => true,
+                    'inherit_data' => true,
                 ]
             );
     }

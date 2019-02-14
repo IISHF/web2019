@@ -8,7 +8,7 @@
 
 namespace App\Infrastructure\Event\Form\EuropeanCup;
 
-use App\Application\Event\Command\CreateEuropeanCup;
+use App\Application\Event\Command\EuropeanCup\CreateEuropeanCup;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

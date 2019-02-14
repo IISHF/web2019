@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: stefan
- * Date: 2019-01-14
- * Time: 12:38
+ * Date: 2019-02-14
+ * Time: 07:13
  */
 
 namespace App\Application\Event\Command;
@@ -12,11 +12,11 @@ use App\Application\Event\EventHost;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Trait TournamentProperties
+ * Trait AnnouncedTitleEventProperties
  *
  * @package App\Application\Event\Command
  */
-trait TournamentProperties
+trait HostingProperties
 {
     /**
      * @Assert\Type("App\Application\Event\EventHost")

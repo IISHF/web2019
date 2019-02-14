@@ -8,7 +8,8 @@
 
 namespace App\Infrastructure\Event\Form\EuropeanChampionship;
 
-use App\Application\Event\Command\CreateEuropeanChampionship;
+use App\Application\Event\Command\EuropeanChampionship\CreateEuropeanChampionship;
+use App\Infrastructure\Event\Form\TitleEventType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -36,6 +37,6 @@ class CreateEuropeanChampionshipType extends AbstractType
      */
     public function getParent(): ?string
     {
-        return EuropeanChampionshipType::class;
+        return TitleEventType::class;
     }
 }

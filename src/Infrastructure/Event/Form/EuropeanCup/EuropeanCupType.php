@@ -31,7 +31,6 @@ class EuropeanCupType extends AbstractType
                 IntegerType::class,
                 [
                     'label'    => 'Planned Number of Teams',
-                    'scale'    => 0,
                     'required' => true,
                 ]
             );

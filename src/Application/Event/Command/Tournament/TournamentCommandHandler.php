@@ -6,8 +6,9 @@
  * Time: 07:26
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Command\Tournament;
 
+use App\Application\Event\Command\EventCommandHandler;
 use App\Domain\Model\Event\EventRepository;
 use App\Domain\Model\Event\Venue\EventVenue;
 use App\Domain\Model\Event\Venue\EventVenueRepository;
@@ -16,7 +17,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 /**
  * Class TournamentCommandHandler
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Command\Tournament
  */
 abstract class TournamentCommandHandler extends EventCommandHandler
 {

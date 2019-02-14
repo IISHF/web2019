@@ -3,23 +3,23 @@
  * Created by PhpStorm.
  * User: stefan
  * Date: 2019-01-14
- * Time: 19:49
+ * Time: 19:52
  */
 
-namespace App\Infrastructure\Event\Form\Workflow;
+namespace App\Infrastructure\Event\Form\EuropeanCup;
 
-use App\Application\Event\Command\Workflow\SanctionEvent;
-use App\Infrastructure\Event\Form\SanctioningType;
+use App\Application\Event\Command\EuropeanCup\UpdateAnnouncedEuropeanCup;
+use App\Infrastructure\Event\Form\HostingType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class SanctionEventType
+ * Class UpdateAnnouncedEuropeanCupType
  *
- * @package App\Infrastructure\Event\Form\Workflow
+ * @package App\Infrastructure\Event\Form\EuropeanCup
  */
-class SanctionEventType extends AbstractType
+class UpdateAnnouncedEuropeanCupType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -28,8 +28,8 @@ class SanctionEventType extends AbstractType
     {
         $builder
             ->add(
-                'sanctioning',
-                SanctioningType::class,
+                'hosting',
+                HostingType::class,
                 [
                     'inherit_data' => true,
                 ]
@@ -43,8 +43,16 @@ class SanctionEventType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => SanctionEvent::class,
+                'data_class' => UpdateAnnouncedEuropeanCup::class,
             ]
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent(): ?string
+    {
+        return EuropeanCupType::class;
     }
 }

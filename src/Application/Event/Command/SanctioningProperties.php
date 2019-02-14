@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: stefan
- * Date: 2019-01-14
- * Time: 16:55
+ * Date: 2019-02-14
+ * Time: 07:29
  */
 
 namespace App\Application\Event\Command;
@@ -11,14 +11,12 @@ namespace App\Application\Event\Command;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class SanctionEvent
+ * Trait SanctioningProperties
  *
  * @package App\Application\Event\Command
  */
-class SanctionEvent extends EventWorkflowCommand
+trait SanctioningProperties
 {
-    public const TRANSITION = 'sanction';
-
     /**
      * @Assert\Type("string")
      * @Assert\Length(max=16)
@@ -27,14 +25,6 @@ class SanctionEvent extends EventWorkflowCommand
      * @var string
      */
     private $sanctionNumber = '';
-
-    /**
-     * @param string $id
-     */
-    protected function __construct(string $id)
-    {
-        parent::__construct($id, self::TRANSITION);
-    }
 
     /**
      * @return string
@@ -53,4 +43,5 @@ class SanctionEvent extends EventWorkflowCommand
         $this->sanctionNumber = $sanctionNumber;
         return $this;
     }
+
 }

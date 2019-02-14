@@ -14,7 +14,7 @@
         {{ include('event/_games_card.html.twig', {event: event, games: games}) }}
     {% endif %}
 
-    {% if not event.announced %}
+    {% if event.openForApplications%}
         {{ include('event/_applications_card.html.twig', {event: event, applications: applications}) }}
     {% endif %}
 

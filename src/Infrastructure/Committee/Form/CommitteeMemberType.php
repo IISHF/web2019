@@ -82,7 +82,6 @@ class CommitteeMemberType extends AbstractType
                 [
                     'label'    => 'Term since',
                     'required' => false,
-                    'scale'    => 0,
                 ]
             )
             ->add(
@@ -91,7 +90,6 @@ class CommitteeMemberType extends AbstractType
                 [
                     'label'    => 'Term Duration',
                     'required' => false,
-                    'scale'    => 0,
                 ]
             );
     }

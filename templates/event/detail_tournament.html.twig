@@ -8,6 +8,10 @@
 
     {{ include('event/_teams_card.html.twig', {event: event, teams: teams}) }}
 
+    {% if event.sanctioned %}
+        {{ include('event/_games_card.html.twig', {event: event, games: games}) }}
+    {% endif %}
+
     {% embed 'event/_event_workflow_buttons.html.twig' with {event: event} %}
         {% block before_workflow %}
             {% if is_granted('EVENT_EDIT', event) %}

@@ -85,7 +85,6 @@ class GameType extends AbstractType
                 [
                     'label'    => 'Home Goals',
                     'required' => false,
-                    'scale'    => 0,
                 ]
             )
             ->add(
@@ -94,7 +93,6 @@ class GameType extends AbstractType
                 [
                     'label'    => 'Away Goals',
                     'required' => false,
-                    'scale'    => 0,
                 ]
             );
     }

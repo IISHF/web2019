@@ -8,13 +8,18 @@
 
 namespace App\Controller\Event;
 
-use App\Application\Event\Command\CreateEuropeanChampionship;
-use App\Application\Event\Command\CreateEuropeanCup;
-use App\Application\Event\Command\CreateTournament;
 use App\Application\Event\Command\DeleteEvent;
-use App\Application\Event\Command\UpdateEuropeanChampionship;
-use App\Application\Event\Command\UpdateEuropeanCup;
-use App\Application\Event\Command\UpdateTournament;
+use App\Application\Event\Command\EuropeanChampionship\CreateEuropeanChampionship;
+use App\Application\Event\Command\EuropeanChampionship\UpdateAnnouncedEuropeanChampionship;
+use App\Application\Event\Command\EuropeanChampionship\UpdateEuropeanChampionship;
+use App\Application\Event\Command\EuropeanChampionship\UpdateSanctionedEuropeanChampionship;
+use App\Application\Event\Command\EuropeanCup\CreateEuropeanCup;
+use App\Application\Event\Command\EuropeanCup\UpdateAnnouncedEuropeanCup;
+use App\Application\Event\Command\EuropeanCup\UpdateEuropeanCup;
+use App\Application\Event\Command\EuropeanCup\UpdateSanctionedEuropeanCup;
+use App\Application\Event\Command\Tournament\CreateTournament;
+use App\Application\Event\Command\Tournament\UpdateSanctionedTournament;
+use App\Application\Event\Command\Tournament\UpdateTournament;
 use App\Application\Event\Command\Workflow\EventWorkflowCommand;
 use App\Domain\Model\Event\Application\TitleEventApplicationRepository;
 use App\Domain\Model\Event\EuropeanChampionship;
@@ -28,10 +33,15 @@ use App\Domain\Model\Event\Tournament;
 use App\Infrastructure\Controller\CsrfSecuredHandler;
 use App\Infrastructure\Controller\FormHandler;
 use App\Infrastructure\Event\Form\EuropeanChampionship\CreateEuropeanChampionshipType;
+use App\Infrastructure\Event\Form\EuropeanChampionship\UpdateAnnouncedEuropeanChampionshipType;
 use App\Infrastructure\Event\Form\EuropeanChampionship\UpdateEuropeanChampionshipType;
+use App\Infrastructure\Event\Form\EuropeanChampionship\UpdateSanctionedEuropeanChampionshipType;
 use App\Infrastructure\Event\Form\EuropeanCup\CreateEuropeanCupType;
+use App\Infrastructure\Event\Form\EuropeanCup\UpdateAnnouncedEuropeanCupType;
 use App\Infrastructure\Event\Form\EuropeanCup\UpdateEuropeanCupType;
+use App\Infrastructure\Event\Form\EuropeanCup\UpdateSanctionedEuropeanCupType;
 use App\Infrastructure\Event\Form\Tournament\CreateTournamentType;
+use App\Infrastructure\Event\Form\Tournament\UpdateSanctionedTournamentType;
 use App\Infrastructure\Event\Form\Tournament\UpdateTournamentType;
 use App\Infrastructure\Workflow\WorkflowMetadata;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -246,18 +256,39 @@ class EventController extends AbstractController
     public function update(Request $request, Event $event, MessageBusInterface $commandBus): Response
     {
         if ($event instanceof EuropeanChampionship) {
-            $update         = UpdateEuropeanChampionship::update($event);
-            $formType       = UpdateEuropeanChampionshipType::class;
+            if ($event->isSanctioned()) {
+                $update   = UpdateSanctionedEuropeanChampionship::update($event);
+                $formType = UpdateSanctionedEuropeanChampionshipType::class;
+            } elseif ($event->isAnnounced()) {
+                $update   = UpdateAnnouncedEuropeanChampionship::update($event);
+                $formType = UpdateAnnouncedEuropeanChampionshipType::class;
+            } else {
+                $update   = UpdateEuropeanChampionship::update($event);
+                $formType = UpdateEuropeanChampionshipType::class;
+            }
             $template       = 'event/update_championship.html.twig';
             $successMessage = 'The European Championship has been updated.';
         } elseif ($event instanceof EuropeanCup) {
-            $update         = UpdateEuropeanCup::update($event);
-            $formType       = UpdateEuropeanCupType::class;
+            if ($event->isSanctioned()) {
+                $update   = UpdateSanctionedEuropeanCup::update($event);
+                $formType = UpdateSanctionedEuropeanCupType::class;
+            } elseif ($event->isAnnounced()) {
+                $update   = UpdateAnnouncedEuropeanCup::update($event);
+                $formType = UpdateAnnouncedEuropeanCupType::class;
+            } else {
+                $update   = UpdateEuropeanCup::update($event);
+                $formType = UpdateEuropeanCupType::class;
+            }
             $template       = 'event/update_cup.html.twig';
             $successMessage = 'The European Cup has been updated.';
         } elseif ($event instanceof Tournament) {
-            $update         = UpdateTournament::update($event);
-            $formType       = UpdateTournamentType::class;
+            if ($event->isSanctioned()) {
+                $update   = UpdateSanctionedTournament::update($event);
+                $formType = UpdateSanctionedTournamentType::class;
+            } else {
+                $update   = UpdateTournament::update($event);
+                $formType = UpdateTournamentType::class;
+            }
             $template       = 'event/update_tournament.html.twig';
             $successMessage = 'The tournament has been updated.';
         } else {

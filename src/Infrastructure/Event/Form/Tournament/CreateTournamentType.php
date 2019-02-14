@@ -8,7 +8,7 @@
 
 namespace App\Infrastructure\Event\Form\Tournament;
 
-use App\Application\Event\Command\CreateTournament;
+use App\Application\Event\Command\Tournament\CreateTournament;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

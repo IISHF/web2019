@@ -33,14 +33,18 @@ abstract class EventBasedCommandHandler implements MessageHandlerInterface
     }
 
     /**
-     * @param string $id
+     * @param string      $id
+     * @param string|null $requiredClass
      * @return Event
      */
-    protected function getEvent(string $id): Event
+    protected function getEvent(string $id, ?string $requiredClass = null): Event
     {
         $event = $this->eventRepository->findById($id);
         if (!$event) {
             throw new \OutOfBoundsException('No event found for id ' . $id);
+        }
+        if ($requiredClass !== null && !($event instanceof $requiredClass)) {
+            throw new \InvalidArgumentException('Invalid event - ' . $requiredClass . ' required.');
         }
         return $event;
     }

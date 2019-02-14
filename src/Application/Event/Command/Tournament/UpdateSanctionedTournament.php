@@ -6,20 +6,23 @@
  * Time: 10:11
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Command\Tournament;
 
 use App\Application\Common\Command\UuidAware;
+use App\Application\Event\Command\EventProperties;
+use App\Application\Event\Command\HostingProperties;
+use App\Application\Event\Command\SanctioningProperties;
 use App\Application\Event\EventHost;
 use App\Domain\Model\Event\Tournament;
 
 /**
- * Class UpdateTournament
+ * Class UpdateSanctionedTournament
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Command\Tournament
  */
-class UpdateTournament implements HasSanctionStatus
+class UpdateSanctionedTournament
 {
-    use UuidAware, EventProperties, TournamentProperties;
+    use UuidAware, EventProperties, HostingProperties, SanctioningProperties;
 
     /**
      * @param Tournament $tournament
@@ -53,7 +56,7 @@ class UpdateTournament implements HasSanctionStatus
      * @param string             $venue
      * @param \DateTimeZone      $timeZone
      * @param string[]           $tags
-     * @param string|null        $sanctionNumber
+     * @param string             $sanctionNumber
      */
     private function __construct(
         string $id,
@@ -66,7 +69,7 @@ class UpdateTournament implements HasSanctionStatus
         string $venue,
         \DateTimeZone $timeZone,
         array $tags,
-        ?string $sanctionNumber
+        string $sanctionNumber
     ) {
         $this->id             = $id;
         $this->name           = $name;
@@ -79,6 +82,5 @@ class UpdateTournament implements HasSanctionStatus
         $this->timeZone       = $timeZone;
         $this->tags           = $tags;
         $this->sanctionNumber = $sanctionNumber;
-        $this->sanctioned     = $sanctionNumber !== null;
     }
 }

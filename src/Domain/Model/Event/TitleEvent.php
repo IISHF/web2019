@@ -91,6 +91,14 @@ abstract class TitleEvent extends Event
     }
 
     /**
+     * @return bool
+     */
+    public function isOpenForApplications(): bool
+    {
+        return !$this->isSanctioned() && !$this->isAnnounced();
+    }
+
+    /**
      * @return int
      */
     public function getPlannedLength(): int

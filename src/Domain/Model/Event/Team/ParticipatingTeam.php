@@ -40,7 +40,7 @@ class ParticipatingTeam
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Domain\Model\Event\TitleEvent")
+     * @ORM\ManyToOne(targetEntity="App\Domain\Model\Event\Event")
      * @ORM\JoinColumn(name="event_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      *
      * @var Event

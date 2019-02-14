@@ -34,7 +34,6 @@ class HallOfFameEntryType extends AbstractType
                 IntegerType::class,
                 [
                     'label'    => 'Season',
-                    'scale'    => 0,
                     'required' => true,
                 ]
             )

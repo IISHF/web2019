@@ -8,12 +8,17 @@
 
 namespace App\Application\Event\Validator;
 
-use App\Application\Event\Command\CreateEuropeanChampionship;
-use App\Application\Event\Command\CreateEuropeanCup;
-use App\Application\Event\Command\CreateTournament;
-use App\Application\Event\Command\UpdateEuropeanChampionship;
-use App\Application\Event\Command\UpdateEuropeanCup;
-use App\Application\Event\Command\UpdateTournament;
+use App\Application\Event\Command\EuropeanChampionship\CreateEuropeanChampionship;
+use App\Application\Event\Command\EuropeanChampionship\UpdateAnnouncedEuropeanChampionship;
+use App\Application\Event\Command\EuropeanChampionship\UpdateEuropeanChampionship;
+use App\Application\Event\Command\EuropeanChampionship\UpdateSanctionedEuropeanChampionship;
+use App\Application\Event\Command\EuropeanCup\CreateEuropeanCup;
+use App\Application\Event\Command\EuropeanCup\UpdateAnnouncedEuropeanCup;
+use App\Application\Event\Command\EuropeanCup\UpdateEuropeanCup;
+use App\Application\Event\Command\EuropeanCup\UpdateSanctionedEuropeanCup;
+use App\Application\Event\Command\Tournament\CreateTournament;
+use App\Application\Event\Command\Tournament\UpdateSanctionedTournament;
+use App\Application\Event\Command\Tournament\UpdateTournament;
 use App\Domain\Model\Event\EventRepository;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -69,8 +74,13 @@ class UniqueEventNameValidator extends ConstraintValidator
             return;
         }
         if ($object instanceof UpdateEuropeanChampionship
+            || $object instanceof UpdateAnnouncedEuropeanChampionship
+            || $object instanceof UpdateSanctionedEuropeanChampionship
             || $object instanceof UpdateEuropeanCup
+            || $object instanceof UpdateAnnouncedEuropeanCup
+            || $object instanceof UpdateSanctionedEuropeanCup
             || $object instanceof UpdateTournament
+            || $object instanceof UpdateSanctionedTournament
         ) {
             $event = $this->eventRepository->findById($object->getId());
             if (!$event) {
@@ -95,8 +105,13 @@ class UniqueEventNameValidator extends ConstraintValidator
                     CreateEuropeanCup::class,
                     CreateTournament::class,
                     UpdateEuropeanChampionship::class,
+                    UpdateAnnouncedEuropeanChampionship::class,
+                    UpdateSanctionedEuropeanChampionship::class,
                     UpdateEuropeanCup::class,
+                    UpdateAnnouncedEuropeanCup::class,
+                    UpdateSanctionedEuropeanCup::class,
                     UpdateTournament::class,
+                    UpdateSanctionedTournament::class,
                 ]
             )
         );

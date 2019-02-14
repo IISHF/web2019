@@ -9,12 +9,17 @@ services:
     App\Domain\Model\Event\Team\ParticipatingTeamRepository:
     App\Domain\Model\Event\Application\TitleEventApplicationRepository:
 
-    App\Application\Event\Command\CreateEuropeanChampionshipHandler:
-    App\Application\Event\Command\UpdateEuropeanChampionshipHandler:
-    App\Application\Event\Command\CreateEuropeanCupHandler:
-    App\Application\Event\Command\UpdateEuropeanCupHandler:
-    App\Application\Event\Command\CreateTournamentHandler:
-    App\Application\Event\Command\UpdateTournamentHandler:
+    App\Application\Event\Command\EuropeanChampionship\CreateEuropeanChampionshipHandler:
+    App\Application\Event\Command\EuropeanChampionship\UpdateEuropeanChampionshipHandler:
+    App\Application\Event\Command\EuropeanChampionship\UpdateAnnouncedEuropeanChampionshipHandler:
+    App\Application\Event\Command\EuropeanChampionship\UpdateSanctionedEuropeanChampionshipHandler:
+    App\Application\Event\Command\EuropeanCup\CreateEuropeanCupHandler:
+    App\Application\Event\Command\EuropeanCup\UpdateEuropeanCupHandler:
+    App\Application\Event\Command\EuropeanCup\UpdateAnnouncedEuropeanCupHandler:
+    App\Application\Event\Command\EuropeanCup\UpdateSanctionedEuropeanCupHandler:
+    App\Application\Event\Command\Tournament\CreateTournamentHandler:
+    App\Application\Event\Command\Tournament\UpdateTournamentHandler:
+    App\Application\Event\Command\Tournament\UpdateSanctionedTournamentHandler:
     App\Application\Event\Command\DeleteEventHandler:
 
     App\Application\Event\Command\Workflow\TransitionEventHandler:

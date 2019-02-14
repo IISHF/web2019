@@ -6,7 +6,7 @@
  * Time: 15:55
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Command\Tournament;
 
 use App\Domain\Model\Event\EventHost;
 use App\Domain\Model\Event\Tournament;
@@ -15,7 +15,7 @@ use Ramsey\Uuid\Uuid;
 /**
  * Class CreateTournamentHandler
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Command\Tournament
  */
 class CreateTournamentHandler extends TournamentCommandHandler
 {
