@@ -6,7 +6,7 @@
  * Time: 16:58
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Command\Workflow;
 
 /**
  * Class SanctionEventHandler

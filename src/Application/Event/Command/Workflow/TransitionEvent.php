@@ -6,12 +6,12 @@
  * Time: 16:53
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Command\Workflow;
 
 /**
  * Class TransitionEvent
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Command\Workflow
  */
 class TransitionEvent extends EventWorkflowCommand
 {

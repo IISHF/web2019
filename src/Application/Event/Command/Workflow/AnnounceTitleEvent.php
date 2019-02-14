@@ -6,7 +6,7 @@
  * Time: 17:00
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Command\Workflow;
 
 use App\Domain\Model\Event\Application\TitleEventApplication;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Class AnnounceTitleEvent
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Command\Workflow
  */
 class AnnounceTitleEvent extends EventWorkflowCommand
 {

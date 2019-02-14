@@ -6,7 +6,7 @@
  * Time: 16:39
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Command\Workflow;
 
 use App\Application\Common\Command\UuidAware;
 use App\Domain\Model\Event\Event;
@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Class EventWorkflowCommand
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Command\Workflow
  */
 abstract class EventWorkflowCommand
 {

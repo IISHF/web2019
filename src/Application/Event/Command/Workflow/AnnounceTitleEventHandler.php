@@ -6,13 +6,13 @@
  * Time: 17:01
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Command\Workflow;
 
 use App\Domain\Model\Event\TitleEvent;
 use Ramsey\Uuid\Uuid;
 
 /**
- * Class AnnounceTitleEventHandler
+ * Class AnnounceTitleEventHandler\Workflow
  *
  * @package App\Application\Event\Command
  */

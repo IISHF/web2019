@@ -17,10 +17,10 @@ services:
     App\Application\Event\Command\UpdateTournamentHandler:
     App\Application\Event\Command\DeleteEventHandler:
 
-    App\Application\Event\Command\TransitionEventHandler:
-    App\Application\Event\Command\AnnounceTitleEventHandler:
-    App\Application\Event\Command\WithholdTitleEventHandler:
-    App\Application\Event\Command\SanctionEventHandler:
+    App\Application\Event\Command\Workflow\TransitionEventHandler:
+    App\Application\Event\Command\Workflow\AnnounceTitleEventHandler:
+    App\Application\Event\Command\Workflow\WithholdTitleEventHandler:
+    App\Application\Event\Command\Workflow\SanctionEventHandler:
 
     App\Application\Event\Venue\Command\CreateEventVenueHandler:
     App\Application\Event\Venue\Command\UpdateEventVenueHandler:

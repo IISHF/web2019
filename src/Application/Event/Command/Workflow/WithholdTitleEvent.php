@@ -6,12 +6,12 @@
  * Time: 07:44
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Command\Workflow;
 
 /**
  * Class WithholdTitleEvent
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Command\Workflow
  */
 class WithholdTitleEvent extends EventWorkflowCommand
 {

@@ -8,7 +8,7 @@
 
 namespace App\Infrastructure\Event\Form;
 
-use App\Application\Event\Command\AnnounceTitleEvent;
+use App\Application\Event\Command\Workflow\AnnounceTitleEvent;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;

@@ -6,8 +6,9 @@
  * Time: 16:38
  */
 
-namespace App\Application\Event\Command;
+namespace App\Application\Event\Command\Workflow;
 
+use App\Application\Event\Command\EventCommandHandler;
 use App\Domain\Model\Event\Event;
 use App\Domain\Model\Event\EventRepository;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -16,7 +17,7 @@ use Symfony\Component\Workflow\Registry;
 /**
  * Class WorkflowCommandHandler
  *
- * @package App\Application\Event\Command
+ * @package App\Application\Event\Command\Workflow
  */
 abstract class WorkflowCommandHandler extends EventCommandHandler
 {
