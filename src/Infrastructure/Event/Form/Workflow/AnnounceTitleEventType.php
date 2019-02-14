@@ -6,9 +6,10 @@
  * Time: 19:20
  */
 
-namespace App\Infrastructure\Event\Form;
+namespace App\Infrastructure\Event\Form\Workflow;
 
 use App\Application\Event\Command\Workflow\AnnounceTitleEvent;
+use App\Infrastructure\Event\Form\TitleEventApplicationChoiceType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -18,7 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Class AnnounceTitleEventType
  *
- * @package App\Infrastructure\Event\Form
+ * @package App\Infrastructure\Event\Form\Workflow
  */
 class AnnounceTitleEventType extends AbstractType
 {

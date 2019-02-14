@@ -6,7 +6,7 @@
  * Time: 19:49
  */
 
-namespace App\Infrastructure\Event\Form;
+namespace App\Infrastructure\Event\Form\Workflow;
 
 use App\Application\Event\Command\Workflow\SanctionEvent;
 use Symfony\Component\Form\AbstractType;
@@ -17,7 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Class SanctionEventType
  *
- * @package App\Infrastructure\Event\Form
+ * @package App\Infrastructure\Event\Form\Workflow
  */
 class SanctionEventType extends AbstractType
 {

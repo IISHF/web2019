@@ -94,7 +94,7 @@ framework:
                         button: Sanction
                         confirm: Do you really want to sanction the tournament?
                         confirm_btn: Sanction tournament
-                        form_type: App\Infrastructure\Event\Form\SanctionEventType
+                        form_type: App\Infrastructure\Event\Form\Workflow\SanctionEventType
                         success_message: The tournament has been sanctioned.
                 unsanction:
                     guard: 'is_granted("EVENT_SANCTION", subject)'
@@ -139,7 +139,7 @@ framework:
                         button: Announce
                         confirm: Do you really want to announce the title event?
                         confirm_btn: Announce title event
-                        form_type: App\Infrastructure\Event\Form\AnnounceTitleEventType
+                        form_type: App\Infrastructure\Event\Form\Workflow\AnnounceTitleEventType
                         success_message: The title event has been announced.
                 withhold:
                     guard: 'is_granted("EVENT_ANNOUNCE", subject)'
@@ -160,7 +160,7 @@ framework:
                         button: Sanction
                         confirm: Do you really want to sanction the title event?
                         confirm_btn: Sanction title event
-                        form_type: App\Infrastructure\Event\Form\SanctionEventType
+                        form_type: App\Infrastructure\Event\Form\Workflow\SanctionEventType
                         success_message: The title event has been sanctioned.
                 unsanction:
                     guard: 'is_granted("EVENT_SANCTION", subject)'
