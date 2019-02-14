@@ -24,7 +24,7 @@ class UpdateGameHandler extends GameCommandHandler
     {
         $game = $this->getGame($command->getId());
         $game->setGameType($command->getGameType())
-             ->setDateTime($command->getDateTime())
+             ->reschedule($command->getDateTime())
              ->setHomeTeam($this->getTeam($command->getHomeTeam()))
              ->setAwayTeam($this->getTeam($command->getAwayTeam()))
              ->setRemarks($command->getRemarks())

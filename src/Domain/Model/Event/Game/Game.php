@@ -218,7 +218,7 @@ class Game
      */
     public function getDateTimeLocal(): \DateTimeImmutable
     {
-        if ($this->dateTimeLocal->getTimezone()->getName() !== $this->getTimeZone()->getName()) {
+        if (!DateTime::isTimeZoneEqual($this->dateTimeLocal, $this->getTimeZone())) {
             $this->dateTimeLocal = DateTime::reinterpret($this->dateTimeLocal, $this->getTimeZone());
         }
         return $this->dateTimeLocal;
@@ -229,7 +229,7 @@ class Game
      */
     public function getDateTimeUtc(): \DateTimeImmutable
     {
-        if ($this->dateTimeUtc->getTimezone()->getName() !== 'UTC') {
+        if (!DateTime::isUtc($this->dateTimeUtc)) {
             $this->dateTimeUtc = DateTime::reinterpretAsUtc($this->dateTimeUtc);
         }
         return $this->dateTimeUtc;
@@ -237,14 +237,22 @@ class Game
 
     /**
      * @param \DateTimeImmutable $dateTime
-     * @param \DateTimeZone|null $timeZone
+     * @param \DateTimeZone      $timeZone
      * @return $this
      */
-    public function setDateTime(\DateTimeImmutable $dateTime, ?\DateTimeZone $timeZone = null): self
+    private function setDateTime(\DateTimeImmutable $dateTime, \DateTimeZone $timeZone): self
     {
-        if ($timeZone) {
-            $this->doSetTimeZone($timeZone);
-        }
+        $this->doSetTimeZone($timeZone);
+        $this->reschedule($dateTime);
+        return $this;
+    }
+
+    /**
+     * @param \DateTimeImmutable $dateTime
+     * @return $this
+     */
+    public function reschedule(\DateTimeImmutable $dateTime): self
+    {
         $this->dateTimeLocal = DateTime::reinterpret($dateTime, $this->getTimeZone());
         $this->dateTimeUtc   = DateTime::toUtc($this->dateTimeLocal);
         return $this;
@@ -275,11 +283,10 @@ class Game
      * @param \DateTimeZone $timeZone
      * @return $this
      */
-    public function setTimeZone(\DateTimeZone $timeZone): self
+    public function updateTimeZone(\DateTimeZone $timeZone): self
     {
         $this->doSetTimeZone($timeZone);
-        $this->dateTimeLocal = DateTime::reinterpret($this->dateTimeLocal, $this->getTimeZone());
-        $this->dateTimeUtc   = DateTime::toUtc($this->dateTimeLocal);
+        $this->reschedule($this->dateTimeLocal);
         return $this;
     }
 

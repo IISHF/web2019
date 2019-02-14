@@ -30,7 +30,7 @@ class GameType extends AbstractType
     {
         /** @var Event $event */
         $event    = $options['event'];
-        $timeZone = $event->getTimeZone() ? $event->getTimeZone()->getName() : 'UTC';
+        $timeZone = $event->getTimeZone()->getName();
         $builder
             ->add(
                 'gameType',

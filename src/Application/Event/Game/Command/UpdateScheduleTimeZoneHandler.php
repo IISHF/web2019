@@ -23,7 +23,7 @@ class UpdateScheduleTimeZoneHandler extends GameCommandHandler
         $event = $this->getEvent($command->getEventId());
         $games = $this->gameRepository->findForEvent($event);
         foreach ($games as $game) {
-            $game->setTimeZone($command->getTimeZone());
+            $game->updateTimeZone($command->getTimeZone());
         }
         $this->gameRepository->save(...$games);
     }

@@ -9,6 +9,7 @@
 namespace App\Application\Event\Command\Tournament;
 
 use App\Application\Event\Game\Command\UpdateScheduleTimeZone;
+use App\Domain\Common\DateTime;
 use App\Domain\Model\Event\Tournament;
 
 /**
@@ -25,7 +26,7 @@ class UpdateSanctionedTournamentHandler extends TournamentCommandHandler
     {
         /** @var Tournament $tournament */
         $tournament = $this->getEvent($command->getId(), Tournament::class);
-        if ($tournament->getTimeZone()->getName() !== $command->getTimeZone()->getName()) {
+        if (!DateTime::isTimeZoneEqual($tournament->getTimeZone(), $command->getTimeZone())) {
             $this->dispatchCommand(UpdateScheduleTimeZone::update($tournament->getId(), $command->getTimeZone()));
         }
 

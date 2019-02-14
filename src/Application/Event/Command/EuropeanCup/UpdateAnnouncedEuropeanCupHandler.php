@@ -10,6 +10,7 @@ namespace App\Application\Event\Command\EuropeanCup;
 
 use App\Application\Event\Command\TitleEventCommandHandler;
 use App\Application\Event\Game\Command\UpdateScheduleTimeZone;
+use App\Domain\Common\DateTime;
 use App\Domain\Model\Event\EuropeanCup;
 
 /**
@@ -33,7 +34,7 @@ class UpdateAnnouncedEuropeanCupHandler extends TitleEventCommandHandler
             ->setPlannedTeams($command->getPlannedTeams())
             ->setDescription($command->getDescription())
             ->setTags($command->getTags());
-        if ($cup->getTimeZone()->getName() !== $command->getTimeZone()->getName()) {
+        if (!DateTime::isTimeZoneEqual($cup->getTimeZone(), $command->getTimeZone())) {
             $this->dispatchCommand(UpdateScheduleTimeZone::update($cup->getId(), $command->getTimeZone()));
         }
 
