@@ -32,11 +32,27 @@
 
     <div class="btn-group" role="group">
         {% if is_granted('EVENT_GAME_EDIT', game) %}
-            <a href="{{ path('app_event_game_update', {
-                event: event.id,
-                game: game.id
-            }) }}"
-               class="btn btn-primary">Edit</a>
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Edit</button>
+                <div class="dropdown-menu">
+                    <a href="{{ path('app_event_game_recordresult', {
+                        event: event.id,
+                        game: game.id
+                    }) }}" class="dropdown-item">Record Result</a>
+                    <a href="{{ path('app_event_game_reschedule', {
+                        event: event.id,
+                        game: game.id
+                    }) }}" class="dropdown-item">Reschedule</a>
+                    <a href="{{ path('app_event_game_changefixture', {
+                        event: event.id,
+                        game: game.id
+                    }) }}" class="dropdown-item">Change Fixture</a>
+                    <a href="{{ path('app_event_game_update', {
+                        event: event.id,
+                        game: game.id
+                    }) }}" class="dropdown-item">Edit Game</a>
+                </div>
+            </div>
             {{ include('common/_delete_btn.html.twig', {
                 title: game.fixture,
                 body: 'Do you really want to delete the game?',

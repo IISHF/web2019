@@ -2,23 +2,23 @@
 /**
  * Created by PhpStorm.
  * User: stefan
- * Date: 2019-02-09
- * Time: 09:58
+ * Date: 2019-02-14
+ * Time: 12:45
  */
 
 namespace App\Infrastructure\Event\Game\Form;
 
-use App\Application\Event\Game\Command\UpdateGame;
+use App\Domain\Model\Event\Event;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class UpdateGameType
+ * Class ChangeFixtureType
  *
  * @package App\Infrastructure\Event\Game\Form
  */
-class UpdateGameType extends AbstractType
+class ChangeFixtureType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -27,11 +27,12 @@ class UpdateGameType extends AbstractType
     {
         $builder
             ->add(
-                'result',
-                ResultType::class,
+                'fixture',
+                FixtureType::class,
                 [
+                    'event'        => $options['event'],
+                    'required'     => true,
                     'inherit_data' => true,
-                    'required'     => false,
                 ]
             );
     }
@@ -41,18 +42,7 @@ class UpdateGameType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(
-            [
-                'data_class' => UpdateGame::class,
-            ]
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent(): ?string
-    {
-        return GameType::class;
+        $resolver->setRequired('event');
+        $resolver->setAllowedTypes('event', Event::class);
     }
 }

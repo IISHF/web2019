@@ -2,24 +2,23 @@
 /**
  * Created by PhpStorm.
  * User: stefan
- * Date: 2019-02-09
- * Time: 09:57
+ * Date: 2019-02-14
+ * Time: 12:46
  */
 
 namespace App\Infrastructure\Event\Game\Form;
 
 use App\Domain\Model\Event\Event;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class GameType
+ * Class RescheduleGameType
  *
  * @package App\Infrastructure\Event\Game\Form
  */
-class GameType extends AbstractType
+class RescheduleGameType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -30,37 +29,12 @@ class GameType extends AbstractType
         $event = $options['event'];
         $builder
             ->add(
-                'gameType',
-                GameTypeChoiceType::class,
-                [
-                    'label'    => 'Game Type',
-                    'required' => true,
-                ]
-            )
-            ->add(
                 'schedule',
                 ScheduleType::class,
                 [
                     'time_zone'    => $event->getTimeZone()->getName(),
                     'required'     => true,
                     'inherit_data' => true,
-                ]
-            )
-            ->add(
-                'fixture',
-                FixtureType::class,
-                [
-                    'event'        => $event,
-                    'required'     => true,
-                    'inherit_data' => true,
-                ]
-            )
-            ->add(
-                'remarks',
-                TextType::class,
-                [
-                    'label'    => 'Remarks',
-                    'required' => false,
                 ]
             );
     }

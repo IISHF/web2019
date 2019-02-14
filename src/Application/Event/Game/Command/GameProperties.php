@@ -28,70 +28,12 @@ trait GameProperties
     private $gameType;
 
     /**
-     * @Assert\Type("DateTimeImmutable")
-     * @Assert\NotNull()
-     *
-     * @var \DateTimeImmutable
-     */
-    private $dateTime;
-
-    /**
-     * @Assert\Type("string")
-     * @Assert\Uuid()
-     * @Assert\NotBlank()
-     * @Assert\NotIdenticalTo(
-     *      propertyPath="awayTeam",
-     *      message="The home team cannot be the same team as the away team."
-     * )
-     *
-     * @var string
-     */
-    private $homeTeam;
-
-    /**
-     * @Assert\Type("string")
-     * @Assert\Uuid()
-     * @Assert\NotBlank()
-     * @Assert\NotIdenticalTo(
-     *      propertyPath="homeTeam",
-     *      message="The away team cannot be the same team as the home team."
-     * )
-     *
-     * @var string
-     */
-    private $awayTeam;
-
-    /**
      * @Assert\Type("string")
      * @Assert\Length(max=255)
      *
      * @var string|null
      */
     private $remarks;
-
-    /**
-     * @Assert\Type("integer")
-     * @Assert\Range(min=0, max=99)
-     * @Assert\Expression(
-     *      expression="value === null ? this.getAwayGoals() === null : this.getAwayGoals() !== null",
-     *      message="Either both home goals and away goals must be filled in or both must be empty."
-     * )
-     *
-     * @var int|null
-     */
-    private $homeGoals;
-
-    /**
-     * @Assert\Type("integer")
-     * @Assert\Range(min=0, max=99)
-     * @Assert\Expression(
-     *      expression="value === null ? this.getHomeGoals() === null : this.getHomeGoals() !== null",
-     *      message="Either both home goals and away goals must be filled in or both must be empty."
-     * )
-     *
-     * @var int|null
-     */
-    private $awayGoals;
 
     /**
      * @return int
@@ -112,60 +54,6 @@ trait GameProperties
     }
 
     /**
-     * @return \DateTimeImmutable
-     */
-    public function getDateTime(): \DateTimeImmutable
-    {
-        return $this->dateTime;
-    }
-
-    /**
-     * @param \DateTimeImmutable $dateTime
-     * @return $this
-     */
-    public function setDateTime(\DateTimeImmutable $dateTime): self
-    {
-        $this->dateTime = $dateTime;
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getHomeTeam(): ?string
-    {
-        return $this->homeTeam;
-    }
-
-    /**
-     * @param string $homeTeam
-     * @return $this
-     */
-    public function setHomeTeam(string $homeTeam): self
-    {
-        $this->homeTeam = $homeTeam;
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getAwayTeam(): ?string
-    {
-        return $this->awayTeam;
-    }
-
-    /**
-     * @param string $awayTeam
-     * @return $this
-     */
-    public function setAwayTeam(string $awayTeam): self
-    {
-        $this->awayTeam = $awayTeam;
-        return $this;
-    }
-
-    /**
      * @return string|null
      */
     public function getRemarks(): ?string
@@ -180,42 +68,6 @@ trait GameProperties
     public function setRemarks(?string $remarks): self
     {
         $this->remarks = $remarks;
-        return $this;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getHomeGoals(): ?int
-    {
-        return $this->homeGoals;
-    }
-
-    /**
-     * @param int|null $homeGoals
-     * @return $this
-     */
-    public function setHomeGoals(?int $homeGoals): self
-    {
-        $this->homeGoals = $homeGoals;
-        return $this;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getAwayGoals(): ?int
-    {
-        return $this->awayGoals;
-    }
-
-    /**
-     * @param int|null $awayGoals
-     * @return $this
-     */
-    public function setAwayGoals(?int $awayGoals): self
-    {
-        $this->awayGoals = $awayGoals;
         return $this;
     }
 }

@@ -18,7 +18,7 @@ use App\Domain\Model\Event\Game\Game;
  */
 class UpdateGame
 {
-    use UuidAware, GameProperties;
+    use UuidAware, GameProperties, ScheduleProperties, FixtureProperties, ResultProperties;
 
     /**
      * @param Game $game

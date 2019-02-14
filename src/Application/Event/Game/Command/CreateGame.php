@@ -19,7 +19,7 @@ use App\Domain\Model\Event\Game\GameType;
  */
 class CreateGame
 {
-    use UuidAware, EventAware, GameProperties;
+    use UuidAware, EventAware, GameProperties, ScheduleProperties, FixtureProperties;
 
     /**
      * @param string $eventId

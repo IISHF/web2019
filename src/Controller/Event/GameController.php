@@ -8,14 +8,20 @@
 
 namespace App\Controller\Event;
 
+use App\Application\Event\Game\Command\ChangeFixture;
 use App\Application\Event\Game\Command\CreateGame;
 use App\Application\Event\Game\Command\DeleteGame;
+use App\Application\Event\Game\Command\RecordResult;
+use App\Application\Event\Game\Command\RescheduleGame;
 use App\Application\Event\Game\Command\UpdateGame;
 use App\Domain\Model\Event\Event;
 use App\Domain\Model\Event\Game\Game;
 use App\Infrastructure\Controller\CsrfSecuredHandler;
 use App\Infrastructure\Controller\FormHandler;
+use App\Infrastructure\Event\Game\Form\ChangeFixtureType;
 use App\Infrastructure\Event\Game\Form\CreateGameType;
+use App\Infrastructure\Event\Game\Form\RecordResultType;
+use App\Infrastructure\Event\Game\Form\RescheduleGameType;
 use App\Infrastructure\Event\Game\Form\UpdateGameType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -144,6 +150,144 @@ class GameController extends AbstractController
 
         return $this->render(
             'event/game/update.html.twig',
+            [
+                'event' => $event,
+                'game'  => $game,
+                'form'  => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @Route(
+     *      "/{game}/change-fixture",
+     *      methods={"GET", "POST"},
+     *      requirements={"game": "%routing.uuid%"}
+     * )
+     * @ParamConverter(
+     *      name="game",
+     *      class="App\Domain\Model\Event\Game\Game",
+     *      converter="app.event_game"
+     * )
+     * @Security("is_granted('EVENT_GAME_EDIT', game)")
+     *
+     * @param Request             $request
+     * @param Event               $event
+     * @param Game                $game
+     * @param MessageBusInterface $commandBus
+     * @return Response
+     */
+    public function changeFixture(Request $request, Event $event, Game $game, MessageBusInterface $commandBus): Response
+    {
+        $update = ChangeFixture::change($game);
+        $form   = $this->createForm(ChangeFixtureType::class, $update, ['event' => $event]);
+
+        if ($this->handleForm($update, $form, $request, $commandBus)) {
+            $this->addFlash('success', 'The game fixture has been updated.');
+
+            return $this->redirectToRoute(
+                'app_event_event_detail',
+                [
+                    'season' => $event->getSeason(),
+                    'event'  => $event->getSlug(),
+                ]
+            );
+        }
+
+        return $this->render(
+            'event/game/change_fixture.html.twig',
+            [
+                'event' => $event,
+                'game'  => $game,
+                'form'  => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @Route(
+     *      "/{game}/record-result",
+     *      methods={"GET", "POST"},
+     *      requirements={"game": "%routing.uuid%"}
+     * )
+     * @ParamConverter(
+     *      name="game",
+     *      class="App\Domain\Model\Event\Game\Game",
+     *      converter="app.event_game"
+     * )
+     * @Security("is_granted('EVENT_GAME_EDIT', game)")
+     *
+     * @param Request             $request
+     * @param Event               $event
+     * @param Game                $game
+     * @param MessageBusInterface $commandBus
+     * @return Response
+     */
+    public function recordResult(Request $request, Event $event, Game $game, MessageBusInterface $commandBus): Response
+    {
+        $update = RecordResult::record($game);
+        $form   = $this->createForm(RecordResultType::class, $update);
+
+        if ($this->handleForm($update, $form, $request, $commandBus)) {
+            $this->addFlash('success', 'The game result has been recorded.');
+
+            return $this->redirectToRoute(
+                'app_event_event_detail',
+                [
+                    'season' => $event->getSeason(),
+                    'event'  => $event->getSlug(),
+                ]
+            );
+        }
+
+        return $this->render(
+            'event/game/record_result.html.twig',
+            [
+                'event' => $event,
+                'game'  => $game,
+                'form'  => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @Route(
+     *      "/{game}/reschedule",
+     *      methods={"GET", "POST"},
+     *      requirements={"game": "%routing.uuid%"}
+     * )
+     * @ParamConverter(
+     *      name="game",
+     *      class="App\Domain\Model\Event\Game\Game",
+     *      converter="app.event_game"
+     * )
+     * @Security("is_granted('EVENT_GAME_EDIT', game)")
+     *
+     * @param Request             $request
+     * @param Event               $event
+     * @param Game                $game
+     * @param MessageBusInterface $commandBus
+     * @return Response
+     */
+    public function reschedule(Request $request, Event $event, Game $game, MessageBusInterface $commandBus): Response
+    {
+        $update = RescheduleGame::reschedule($game);
+        $form   = $this->createForm(RescheduleGameType::class, $update, ['event' => $event]);
+
+        if ($this->handleForm($update, $form, $request, $commandBus)) {
+            $this->addFlash('success', 'The game has been rescheduled.');
+
+            return $this->redirectToRoute(
+                'app_event_event_detail',
+                [
+                    'season' => $event->getSeason(),
+                    'event'  => $event->getSlug(),
+                ]
+            );
+        }
+
+        return $this->render(
+            'event/game/reschedule_game.html.twig',
             [
                 'event' => $event,
                 'game'  => $game,

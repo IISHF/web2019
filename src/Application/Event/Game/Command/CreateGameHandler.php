@@ -33,7 +33,7 @@ class CreateGameHandler extends GameCommandHandler
             $this->getTeam($command->getHomeTeam()),
             $this->getTeam($command->getAwayTeam()),
             $command->getRemarks(),
-            GameResult::create($command->getHomeGoals(), $command->getAwayGoals())
+            GameResult::noResult()
         );
         $this->gameRepository->save($game);
     }

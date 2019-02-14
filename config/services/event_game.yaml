@@ -9,6 +9,9 @@ services:
     App\Application\Event\Game\Command\CreateGameHandler:
     App\Application\Event\Game\Command\UpdateGameHandler:
     App\Application\Event\Game\Command\DeleteGameHandler:
+    App\Application\Event\Game\Command\ChangeFixtureHandler:
+    App\Application\Event\Game\Command\RecordResultHandler:
+    App\Application\Event\Game\Command\RescheduleGameHandler:
     App\Application\Event\Game\Command\UpdateScheduleTimeZoneHandler:
 
     App\Infrastructure\Event\Game\Security\Voter\GameVoter:
