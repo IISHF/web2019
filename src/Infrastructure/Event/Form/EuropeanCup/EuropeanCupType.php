@@ -6,8 +6,9 @@
  * Time: 19:40
  */
 
-namespace App\Infrastructure\Event\Form;
+namespace App\Infrastructure\Event\Form\EuropeanCup;
 
+use App\Infrastructure\Event\Form\TitleEventType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,7 +16,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * Class EuropeanCupType
  *
- * @package App\Infrastructure\Event\Form
+ * @package App\Infrastructure\Event\Form\EuropeanCup
  */
 class EuropeanCupType extends AbstractType
 {

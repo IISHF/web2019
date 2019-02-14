@@ -6,7 +6,7 @@
  * Time: 19:52
  */
 
-namespace App\Infrastructure\Event\Form;
+namespace App\Infrastructure\Event\Form\EuropeanCup;
 
 use App\Application\Event\Command\UpdateEuropeanCup;
 use Symfony\Component\Form\AbstractType;
@@ -15,7 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Class UpdateEuropeanCupType
  *
- * @package App\Infrastructure\Event\Form
+ * @package App\Infrastructure\Event\Form\EuropeanCup
  */
 class UpdateEuropeanCupType extends AbstractType
 {

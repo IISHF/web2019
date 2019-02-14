@@ -3,21 +3,21 @@
  * Created by PhpStorm.
  * User: stefan
  * Date: 2019-01-14
- * Time: 19:48
+ * Time: 19:54
  */
 
-namespace App\Infrastructure\Event\Form;
+namespace App\Infrastructure\Event\Form\Tournament;
 
-use App\Application\Event\Command\CreateTournament;
+use App\Application\Event\Command\UpdateTournament;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class CreateTournamentType
+ * Class UpdateTournamentType
  *
- * @package App\Infrastructure\Event\Form
+ * @package App\Infrastructure\Event\Form\Tournament
  */
-class CreateTournamentType extends AbstractType
+class UpdateTournamentType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -26,7 +26,7 @@ class CreateTournamentType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => CreateTournament::class,
+                'data_class' => UpdateTournament::class,
             ]
         );
     }

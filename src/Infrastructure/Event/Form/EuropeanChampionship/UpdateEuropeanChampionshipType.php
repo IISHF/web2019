@@ -15,7 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Class UpdateEuropeanChampionshipType
  *
- * @package App\Infrastructure\Event\Form
+ * @package App\Infrastructure\Event\Form\EuropeanChampionship
  */
 class UpdateEuropeanChampionshipType extends AbstractType
 {

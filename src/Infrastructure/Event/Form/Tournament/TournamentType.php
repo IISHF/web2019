@@ -6,8 +6,11 @@
  * Time: 19:42
  */
 
-namespace App\Infrastructure\Event\Form;
+namespace App\Infrastructure\Event\Form\Tournament;
 
+use App\Infrastructure\Event\Form\EventHostType;
+use App\Infrastructure\Event\Form\EventType;
+use App\Infrastructure\Event\Form\VenueChoiceType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TimezoneType;
@@ -16,7 +19,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * Class TournamentType
  *
- * @package App\Infrastructure\Event\Form
+ * @package App\Infrastructure\Event\Form\Tournament
  */
 class TournamentType extends AbstractType
 {
