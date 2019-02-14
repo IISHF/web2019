@@ -23,9 +23,12 @@ class UpdateTitleEventApplicationHandler extends TitleEventApplicationCommandHan
         $contact     = $command->getContact();
         $application = $this->getApplication($command->getId());
         $application->setApplicantClub($command->getApplicantClub())
-                    ->setProposedDate($command->getProposedStartDate(), $command->getProposedEndDate())
-                    ->setVenue($this->getVenue($command->getVenue()))
-                    ->setTimeZone($command->getTimeZone());
+                    ->setProposedDate(
+                        $command->getProposedStartDate(),
+                        $command->getProposedEndDate(),
+                        $command->getTimeZone()
+                    )
+                    ->setVenue($this->getVenue($command->getVenue()));
         $application->getContact()
                     ->setName($contact->getName())
                     ->setEmail($contact->getEmail())

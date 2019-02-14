@@ -120,9 +120,8 @@ class TitleEventApplication
 
         $this->setApplicantClub($applicantClub)
              ->setContact($contact)
-             ->setProposedDate($proposedStartDate, $proposedEndDate)
+             ->setProposedDate($proposedStartDate, $proposedEndDate, $timeZone)
              ->setVenue($venue)
-             ->setTimeZone($timeZone)
              ->initCreateTracking()
              ->initUpdateTracking();
     }
@@ -199,14 +198,21 @@ class TitleEventApplication
     /**
      * @param \DateTimeImmutable $proposedStartDate
      * @param \DateTimeImmutable $proposedEndDate
+     * @param \DateTimeZone      $timeZone
      * @return $this
      */
-    public function setProposedDate(\DateTimeImmutable $proposedStartDate, \DateTimeImmutable $proposedEndDate): self
-    {
+    public function setProposedDate(
+        \DateTimeImmutable $proposedStartDate,
+        \DateTimeImmutable $proposedEndDate,
+        \DateTimeZone $timeZone
+    ): self {
         Assert::lessThanEq($proposedStartDate, $proposedEndDate);
         Assert::greaterThanEq($proposedEndDate, $proposedStartDate);
+        Assert::lengthBetween($timeZone->getName(), 1, 32);
         $this->proposedStartDate = $proposedStartDate;
         $this->proposedEndDate   = $proposedEndDate;
+        $this->timeZone          = $timeZone->getName();
+        $this->timeZoneInstance  = $timeZone;
         return $this;
     }
 
@@ -245,17 +251,5 @@ class TitleEventApplication
     public function getTimeZoneName(): string
     {
         return DateTime::formatTimeZoneName($this->getTimeZone());
-    }
-
-    /**
-     * @param \DateTimeZone $timeZone
-     * @return $this
-     */
-    public function setTimeZone(\DateTimeZone $timeZone): self
-    {
-        Assert::lengthBetween($timeZone->getName(), 1, 32);
-        $this->timeZone         = $timeZone->getName();
-        $this->timeZoneInstance = $timeZone;
-        return $this;
     }
 }

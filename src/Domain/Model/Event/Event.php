@@ -300,24 +300,6 @@ abstract class Event
     }
 
     /**
-     * @return EventHost|null
-     */
-    public function getHost(): ?EventHost
-    {
-        return $this->host;
-    }
-
-    /**
-     * @param EventHost|null $host
-     * @return $this
-     */
-    public function setHost(?EventHost $host): self
-    {
-        $this->host = $host;
-        return $this;
-    }
-
-    /**
      * @return bool
      */
     public function hasHost(): bool
@@ -326,49 +308,55 @@ abstract class Event
     }
 
     /**
-     * @return string|null
+     * @return EventHost
      */
-    public function getHostingClub(): ?string
+    public function getHost(): EventHost
     {
-        if ($this->host) {
-            return $this->host->getClub();
+        if (!$this->host) {
+            throw new \BadMethodCallException('Cannot get host. No host set.');
         }
-        return null;
+        return $this->host;
     }
 
     /**
-     * @return string|null
-     */
-    public function getSanctionNumber(): ?string
-    {
-        return $this->sanctionNumber;
-    }
-
-    /**
-     * @param string|null $sanctionNumber
+     * @param EventHost $host
      * @return $this
      */
-    public function setSanctionNumber(?string $sanctionNumber): self
+    public function setHost(EventHost $host): self
     {
-        Assert::nullOrLengthBetween($sanctionNumber, 1, 16);
-        $this->sanctionNumber = $sanctionNumber;
+        $this->host = $host;
         return $this;
     }
 
     /**
-     * @return \DateTimeImmutable|null
+     * @return $this
      */
-    public function getStartDate(): ?\DateTimeImmutable
+    public function clearHost(): self
     {
-        return $this->startDate;
+        $this->host = null;
+        return $this;
     }
 
     /**
-     * @return \DateTimeImmutable|null
+     * @return string
      */
-    public function getEndDate(): ?\DateTimeImmutable
+    public function getSanctionNumber(): string
     {
-        return $this->endDate;
+        if (!$this->isSanctioned()) {
+            throw new \BadMethodCallException('Cannot get sanction number. Event is not sanctioned.');
+        }
+        return $this->sanctionNumber;
+    }
+
+    /**
+     * @param string $sanctionNumber
+     * @return $this
+     */
+    public function setSanctionNumber(string $sanctionNumber): self
+    {
+        Assert::lengthBetween($sanctionNumber, 1, 16);
+        $this->sanctionNumber = $sanctionNumber;
+        return $this;
     }
 
     /**
@@ -377,6 +365,28 @@ abstract class Event
     public function hasDate(): bool
     {
         return $this->startDate !== null && $this->endDate !== null;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getStartDate(): \DateTimeImmutable
+    {
+        if (!$this->hasDate()) {
+            throw new \BadMethodCallException('Cannot get start date. No dates set.');
+        }
+        return $this->startDate;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getEndDate(): \DateTimeImmutable
+    {
+        if (!$this->hasDate()) {
+            throw new \BadMethodCallException('Cannot get end date. No dates set.');
+        }
+        return $this->endDate;
     }
 
     /**
@@ -398,6 +408,36 @@ abstract class Event
     }
 
     /**
+     * @return bool
+     */
+    public function hasTimeZone(): bool
+    {
+        return $this->timeZone !== null;
+    }
+
+    /**
+     * @return \DateTimeZone
+     */
+    public function getTimeZone(): \DateTimeZone
+    {
+        if (!$this->timeZone) {
+            throw new \BadMethodCallException('Cannot get time zone. No time zone set.');
+        }
+        if (!$this->timeZoneInstance) {
+            $this->timeZoneInstance = new \DateTimeZone($this->timeZone);
+        }
+        return $this->timeZoneInstance;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTimeZoneName(): string
+    {
+        return DateTime::formatTimeZoneName($this->getTimeZone());
+    }
+
+    /**
      * @return $this
      */
     public function clearDate(): self
@@ -410,24 +450,6 @@ abstract class Event
     }
 
     /**
-     * @return EventVenue|null
-     */
-    public function getVenue(): ?EventVenue
-    {
-        return $this->venue;
-    }
-
-    /**
-     * @param EventVenue|null $venue
-     * @return $this
-     */
-    public function setVenue(?EventVenue $venue): self
-    {
-        $this->venue = $venue;
-        return $this;
-    }
-
-    /**
      * @return bool
      */
     public function hasVenue(): bool
@@ -436,34 +458,33 @@ abstract class Event
     }
 
     /**
-     * @return \DateTimeZone|null
+     * @return EventVenue
      */
-    public function getTimeZone(): ?\DateTimeZone
+    public function getVenue(): EventVenue
     {
-        if (!$this->timeZoneInstance && $this->timeZone) {
-            $this->timeZoneInstance = new \DateTimeZone($this->timeZone);
+        if (!$this->venue) {
+            throw new \BadMethodCallException('Cannot get venue. No venue set.');
         }
-        return $this->timeZoneInstance;
+        return $this->venue;
     }
 
     /**
-     * @return string|null
+     * @param EventVenue $venue
+     * @return $this
      */
-    public function getTimeZoneName(): ?string
+    public function setVenue(EventVenue $venue): self
     {
-        $timeZone = $this->getTimeZone();
-        if (!$timeZone) {
-            return null;
-        }
-        return DateTime::formatTimeZoneName($timeZone);
+        $this->venue = $venue;
+        return $this;
     }
 
     /**
-     * @return bool
+     * @return $this
      */
-    public function hasTimeZone(): bool
+    public function clearVenue(): self
     {
-        return $this->timeZone !== null;
+        $this->venue = null;
+        return $this;
     }
 
     /**
