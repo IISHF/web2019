@@ -37,6 +37,7 @@ class UpdateAnnouncedEuropeanChampionshipHandler extends TitleEventCommandHandle
         }
 
         $championship->setVenue($this->getVenue($command->getVenue()))
+                     ->setDate($command->getStartDate(), $command->getEndDate())
                      ->setTimeZone($command->getTimeZone());
         $host = $command->getHost();
         $championship->getHost()
