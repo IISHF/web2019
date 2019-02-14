@@ -6,7 +6,7 @@
 
     {{ include('event/_championship_detail.html.twig', {event: event}) }}
 
-    {% if event.announced %}
+    {% if event.announced or event.sanctioned %}
         {{ include('event/_teams_card.html.twig', {event: event, teams: teams}) }}
     {% endif %}
 
