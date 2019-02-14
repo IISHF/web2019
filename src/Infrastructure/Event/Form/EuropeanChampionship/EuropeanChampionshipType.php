@@ -6,14 +6,15 @@
  * Time: 19:38
  */
 
-namespace App\Infrastructure\Event\Form;
+namespace App\Infrastructure\Event\Form\EuropeanChampionship;
 
+use App\Infrastructure\Event\Form\TitleEventType;
 use Symfony\Component\Form\AbstractType;
 
 /**
  * Class EuropeanChampionshipType
  *
- * @package App\Infrastructure\Event\Form
+ * @package App\Infrastructure\Event\Form\EuropeanChampionship
  */
 class EuropeanChampionshipType extends AbstractType
 {

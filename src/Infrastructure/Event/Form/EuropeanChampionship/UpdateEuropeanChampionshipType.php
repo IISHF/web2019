@@ -3,21 +3,21 @@
  * Created by PhpStorm.
  * User: stefan
  * Date: 2019-01-14
- * Time: 19:39
+ * Time: 19:51
  */
 
-namespace App\Infrastructure\Event\Form;
+namespace App\Infrastructure\Event\Form\EuropeanChampionship;
 
-use App\Application\Event\Command\CreateEuropeanChampionship;
+use App\Application\Event\Command\UpdateEuropeanChampionship;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class CreateEuropeanChampionshipType
+ * Class UpdateEuropeanChampionshipType
  *
  * @package App\Infrastructure\Event\Form
  */
-class CreateEuropeanChampionshipType extends AbstractType
+class UpdateEuropeanChampionshipType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -26,7 +26,7 @@ class CreateEuropeanChampionshipType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => CreateEuropeanChampionship::class,
+                'data_class' => UpdateEuropeanChampionship::class,
             ]
         );
     }
