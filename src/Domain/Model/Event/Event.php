@@ -9,6 +9,7 @@
 namespace App\Domain\Model\Event;
 
 use App\Domain\Common\AgeGroup;
+use App\Domain\Common\DateTime;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\UpdateTracking;
 use App\Domain\Model\Event\Team\ParticipatingTeam;
@@ -381,14 +382,18 @@ abstract class Event
     /**
      * @param \DateTimeImmutable $startDate
      * @param \DateTimeImmutable $endDate
+     * @param \DateTimeZone      $timeZone
      * @return $this
      */
-    public function setDate(\DateTimeImmutable $startDate, \DateTimeImmutable $endDate): self
+    public function setDate(\DateTimeImmutable $startDate, \DateTimeImmutable $endDate, \DateTimeZone $timeZone): self
     {
         Assert::lessThanEq($startDate, $endDate);
         Assert::greaterThanEq($endDate, $startDate);
-        $this->startDate = $startDate;
-        $this->endDate   = $endDate;
+        Assert::lengthBetween($timeZone->getName(), 1, 32);
+        $this->startDate        = $startDate;
+        $this->endDate          = $endDate;
+        $this->timeZone         = $timeZone->getName();
+        $this->timeZoneInstance = $timeZone;
         return $this;
     }
 
@@ -397,8 +402,10 @@ abstract class Event
      */
     public function clearDate(): self
     {
-        $this->startDate = null;
-        $this->endDate   = null;
+        $this->startDate        = null;
+        $this->endDate          = null;
+        $this->timeZone         = null;
+        $this->timeZoneInstance = null;
         return $this;
     }
 
@@ -440,19 +447,15 @@ abstract class Event
     }
 
     /**
-     * @param \DateTimeZone|null $timeZone
-     * @return $this
+     * @return string|null
      */
-    public function setTimeZone(?\DateTimeZone $timeZone): self
+    public function getTimeZoneName(): ?string
     {
-        if ($timeZone) {
-            Assert::lengthBetween($timeZone->getName(), 1, 32);
-            $this->timeZone = $timeZone->getName();
-        } else {
-            $this->timeZone = null;
+        $timeZone = $this->getTimeZone();
+        if (!$timeZone) {
+            return null;
         }
-        $this->timeZoneInstance = $timeZone;
-        return $this;
+        return DateTime::formatTimeZoneName($timeZone);
     }
 
     /**

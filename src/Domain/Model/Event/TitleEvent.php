@@ -187,9 +187,12 @@ abstract class TitleEvent extends Event
                 $contact->getPhoneNumber()
             )
         )
-             ->setDate($application->getProposedStartDate(), $application->getProposedEndDate())
-             ->setVenue($application->getVenue())
-             ->setTimeZone($application->getTimeZone());
+             ->setDate(
+                 $application->getProposedStartDate(),
+                 $application->getProposedEndDate(),
+                 $application->getTimeZone()
+             )
+             ->setVenue($application->getVenue());
 
         return $this;
     }
@@ -201,7 +204,6 @@ abstract class TitleEvent extends Event
     {
         return $this->setHost(null)
                     ->clearDate()
-                    ->setVenue(null)
-                    ->setTimeZone(null);
+                    ->setVenue(null);
     }
 }

@@ -8,6 +8,7 @@
 
 namespace App\Domain\Model\Event\Application;
 
+use App\Domain\Common\DateTime;
 use App\Domain\Model\Common\ContactPerson;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\UpdateTracking;
@@ -228,14 +229,22 @@ class TitleEventApplication
     }
 
     /**
-     * @return \DateTimeZone|null
+     * @return \DateTimeZone
      */
-    public function getTimeZone(): ?\DateTimeZone
+    public function getTimeZone(): \DateTimeZone
     {
         if (!$this->timeZoneInstance) {
             $this->timeZoneInstance = new \DateTimeZone($this->timeZone);
         }
         return $this->timeZoneInstance;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTimeZoneName(): string
+    {
+        return DateTime::formatTimeZoneName($this->getTimeZone());
     }
 
     /**

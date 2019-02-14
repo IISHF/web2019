@@ -76,4 +76,38 @@ final class DateTime
     {
         return new \DateTimeImmutable($dateTime->format('Y-m-d H:i:s.u'), self::utc());
     }
+
+    /**
+     * @see \Symfony\Component\Form\Extension\Core\Type\TimezoneType::getTimezones()
+     *
+     * @param \DateTimeZone $timeZone
+     * @return string
+     */
+    public static function formatTimeZoneName(\DateTimeZone $timeZone): string
+    {
+        [$region, $name] = self::getTimeZoneParts($timeZone);
+        return $region . '/' . str_replace('_', ' ', $name);
+    }
+
+    /**
+     * @see \Symfony\Component\Form\Extension\Core\Type\TimezoneType::getTimezones()
+     *
+     * @param \DateTimeZone $timeZone
+     * @return string[]
+     */
+    public static function getTimeZoneParts(\DateTimeZone $timeZone): array
+    {
+        $parts = explode('/', $timeZone->getName());
+        if (\count($parts) > 2) {
+            $region = $parts[0];
+            $name   = $parts[1] . ' - ' . $parts[2];
+        } elseif (\count($parts) > 1) {
+            [$region, $name] = $parts;
+        } else {
+            $region = 'Other';
+            $name   = $parts[0];
+        }
+
+        return [$region, str_replace('_', ' ', $name)];
+    }
 }

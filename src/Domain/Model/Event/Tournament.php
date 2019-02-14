@@ -10,7 +10,6 @@ namespace App\Domain\Model\Event;
 
 use App\Domain\Model\Event\Venue\EventVenue;
 use Doctrine\ORM\Mapping as ORM;
-use Webmozart\Assert\Assert;
 
 /**
  * Class Tournament
@@ -50,75 +49,7 @@ class Tournament extends Event
         parent::__construct($id, $name, $slug, $season, $ageGroup, $tags);
 
         $this->setHost($host)
-             ->setDate($startDate, $endDate)
-             ->setVenue($venue)
-             ->setTimeZone($timeZone);
-    }
-
-    /**
-     * @return EventHost
-     */
-    public function getHost(): EventHost
-    {
-        return parent::getHost();
-    }
-
-    /**
-     * {@inheritdoc)
-     */
-    public function setHost(?EventHost $host): Event
-    {
-        Assert::notNull($host);
-        return parent::setHost($host);
-    }
-
-    /**
-     * @return \DateTimeImmutable
-     */
-    public function getStartDate(): \DateTimeImmutable
-    {
-        return parent::getStartDate();
-    }
-
-    /**
-     * @return \DateTimeImmutable
-     */
-    public function getEndDate(): \DateTimeImmutable
-    {
-        return parent::getEndDate();
-    }
-
-    /**
-     * @return EventVenue
-     */
-    public function getVenue(): EventVenue
-    {
-        return parent::getVenue();
-    }
-
-    /**
-     * {@inheritdoc)
-     */
-    public function setVenue(?EventVenue $venue): Event
-    {
-        Assert::notNull($venue);
-        return parent::setVenue($venue);
-    }
-
-    /**
-     * @return \DateTimeZone
-     */
-    public function getTimeZone(): \DateTimeZone
-    {
-        return parent::getTimeZone();
-    }
-
-    /**
-     * {@inheritdoc)
-     */
-    public function setTimeZone(?\DateTimeZone $timeZone): Event
-    {
-        Assert::notNull($timeZone);
-        return parent::setTimeZone($timeZone);
+             ->setDate($startDate, $endDate, $timeZone)
+             ->setVenue($venue);
     }
 }
