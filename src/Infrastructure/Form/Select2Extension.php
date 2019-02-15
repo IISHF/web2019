@@ -57,7 +57,27 @@ class Select2Extension extends AbstractTypeExtension
             return;
         }
 
+        $select2Options = $options['select2_options'];
+        if (!empty($options['placeholder']) && !$options['required']) {
+            $select2Options = array_merge(
+                [
+                    'placeholder' => $options['placeholder'],
+                ],
+                $select2Options
+            );
+        }
+        /* This does not work (JavaScript errors and bad alignment)
+        if (!$options['required']) {
+            $select2Options = array_merge(
+                [
+                    'allowClear' => true,
+                ],
+                $select2Options
+            );
+        }
+        */
+
         $view->vars['enable_select2']  = true;
-        $view->vars['select2_options'] = $options['select2_options'];
+        $view->vars['select2_options'] = $select2Options;
     }
 }
