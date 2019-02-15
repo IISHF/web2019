@@ -64,8 +64,8 @@ class GameRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('g')
                     ->addSelect('e', 'h', 'a')
                     ->innerJoin('g.event', 'e')
-                    ->innerJoin('g.homeTeam', 'h')
-                    ->innerJoin('g.awayTeam', 'a');
+                    ->leftJoin('g.homeTeam', 'h')
+                    ->leftJoin('g.awayTeam', 'a');
     }
 
     /**

@@ -129,6 +129,42 @@ class Game
     private $result;
 
     /**
+     * @param string                   $id
+     * @param Event                    $event
+     * @param int                      $gameType
+     * @param \DateTimeImmutable       $dateTime
+     * @param \DateTimeZone            $timeZone
+     * @param ParticipatingTeam|string $homeTeam
+     * @param ParticipatingTeam|string $awayTeam
+     * @param string|null              $remarks
+     * @return Game
+     */
+    public static function create(
+        string $id,
+        Event $event,
+        int $gameType,
+        \DateTimeImmutable $dateTime,
+        \DateTimeZone $timeZone,
+        $homeTeam,
+        $awayTeam,
+        ?string $remarks
+    ): self {
+        return new self(
+            $id,
+            $event,
+            $gameType,
+            $dateTime,
+            $timeZone,
+            $homeTeam instanceof ParticipatingTeam ? $homeTeam : null,
+            $homeTeam instanceof ParticipatingTeam ? null : $homeTeam,
+            $awayTeam instanceof ParticipatingTeam ? $awayTeam : null,
+            $awayTeam instanceof ParticipatingTeam ? null : $awayTeam,
+            $remarks,
+            GameResult::noResult()
+        );
+    }
+
+    /**
      * @param string             $id
      * @param Event              $event
      * @param int                $gameType
@@ -393,7 +429,7 @@ class Game
      */
     public function isHomeTeamProvisional(): bool
     {
-        return $this->awayTeamProvisional !== null;
+        return $this->homeTeamProvisional !== null;
     }
 
     /**

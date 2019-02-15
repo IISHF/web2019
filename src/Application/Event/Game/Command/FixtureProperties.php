@@ -36,6 +36,10 @@ trait FixtureProperties
      *      propertyPath="awayTeamProvisional",
      *      message="The home team cannot be the same team as the away team."
      * )
+     * @Assert\Expression(
+     *      expression="this.getHomeTeamIsProvisional() ? true : value !== null",
+     *      message="The team must not be empty when the team is not provisional."
+     * )
      *
      * @var string|null
      */
@@ -51,6 +55,10 @@ trait FixtureProperties
      * @Assert\NotIdenticalTo(
      *      propertyPath="awayTeamProvisional",
      *      message="The home team cannot be the same team as the away team."
+     * )
+     * @Assert\Expression(
+     *      expression="this.getHomeTeamIsProvisional() ? value !== null : true",
+     *      message="The team must not be empty when the team is provisional."
      * )
      *
      * @var string|null
@@ -76,6 +84,10 @@ trait FixtureProperties
      *      propertyPath="homeTeamProvisional",
      *      message="The away team cannot be the same team as the home team."
      * )
+     * @Assert\Expression(
+     *      expression="this.getAwayTeamIsProvisional() ? true : value !== null",
+     *      message="The team must not be empty when the team is not provisional."
+     * )
      *
      * @var string|null
      */
@@ -91,6 +103,10 @@ trait FixtureProperties
      * @Assert\NotIdenticalTo(
      *      propertyPath="homeTeamProvisional",
      *      message="The away team cannot be the same team as the home team."
+     * )
+     * @Assert\Expression(
+     *      expression="this.getAwayTeamIsProvisional() ? value !== null : true",
+     *      message="The team must not be empty when the team is provisional."
      * )
      *
      * @var string|null

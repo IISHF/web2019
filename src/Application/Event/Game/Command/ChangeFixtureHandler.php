@@ -20,9 +20,15 @@ class ChangeFixtureHandler extends GameCommandHandler
      */
     public function __invoke(ChangeFixture $command): void
     {
-        $game = $this->getGame($command->getId());
-        $game->setHomeTeam($this->getTeam($command->getHomeTeam()))
-             ->setAwayTeam($this->getTeam($command->getAwayTeam()));
+        $game     = $this->getGame($command->getId());
+        $homeTeam = $command->getHomeTeamIsProvisional()
+            ? $command->getHomeTeamProvisional()
+            : $this->getTeam($command->getHomeTeam());
+        $awayTeam = $command->getAwayTeamIsProvisional()
+            ? $command->getAwayTeamProvisional()
+            : $this->getTeam($command->getAwayTeam());
+        $game->setHomeTeam($homeTeam)
+             ->setAwayTeam($awayTeam);
         $this->gameRepository->save($game);
     }
 }

@@ -22,11 +22,17 @@ class UpdateGameHandler extends GameCommandHandler
      */
     public function __invoke(UpdateGame $command): void
     {
-        $game = $this->getGame($command->getId());
+        $game     = $this->getGame($command->getId());
+        $homeTeam = $command->getHomeTeamIsProvisional()
+            ? $command->getHomeTeamProvisional()
+            : $this->getTeam($command->getHomeTeam());
+        $awayTeam = $command->getAwayTeamIsProvisional()
+            ? $command->getAwayTeamProvisional()
+            : $this->getTeam($command->getAwayTeam());
         $game->setGameType($command->getGameType())
              ->reschedule($command->getDateTime())
-             ->setHomeTeam($this->getTeam($command->getHomeTeam()))
-             ->setAwayTeam($this->getTeam($command->getAwayTeam()))
+             ->setHomeTeam($homeTeam)
+             ->setAwayTeam($awayTeam)
              ->setRemarks($command->getRemarks())
              ->setResult(GameResult::create($command->getHomeGoals(), $command->getAwayGoals()));
         $this->gameRepository->save($game);

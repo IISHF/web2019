@@ -22,15 +22,22 @@ class CreateGameHandler extends GameCommandHandler
      */
     public function __invoke(CreateGame $command): void
     {
-        $event = $this->getEvent($command->getEventId());
-        $game  = Game::createWithFixture(
+        $event    = $this->getEvent($command->getEventId());
+        $homeTeam = $command->getHomeTeamIsProvisional()
+            ? $command->getHomeTeamProvisional()
+            : $this->getTeam($command->getHomeTeam());
+        $awayTeam = $command->getAwayTeamIsProvisional()
+            ? $command->getAwayTeamProvisional()
+            : $this->getTeam($command->getAwayTeam());
+
+        $game = Game::create(
             $command->getId(),
             $event,
             $command->getGameType(),
             $command->getDateTime(),
             $event->getTimeZone(),
-            $this->getTeam($command->getHomeTeam()),
-            $this->getTeam($command->getAwayTeam()),
+            $homeTeam,
+            $awayTeam,
             $command->getRemarks()
         );
         $this->gameRepository->save($game);

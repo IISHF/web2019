@@ -10,6 +10,8 @@ namespace App\Infrastructure\Event\Game\Form;
 
 use App\Domain\Model\Event\Event;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -27,12 +29,48 @@ class FixtureType extends AbstractType
     {
         $builder
             ->add(
+                'homeTeamIsProvisional',
+                ChoiceType::class,
+                [
+                    'label'    => 'Home Team',
+                    'choices'  => [
+                        'Team'             => false,
+                        'Provisional Team' => true,
+                    ],
+                    'required' => true,
+                    'expanded' => true,
+                    'multiple' => false,
+                ]
+            )
+            ->add(
                 'homeTeam',
                 TeamChoiceType::class,
                 [
                     'label'    => 'Home Team',
-                    'required' => $options['required'],
+                    'required' => false,
                     'event'    => $options['event'],
+                ]
+            )
+            ->add(
+                'homeTeamProvisional',
+                TextType::class,
+                [
+                    'label'    => 'Provisional Home Team',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'awayTeamIsProvisional',
+                ChoiceType::class,
+                [
+                    'label'    => 'Away Team',
+                    'choices'  => [
+                        'Team'             => false,
+                        'Provisional Team' => true,
+                    ],
+                    'required' => true,
+                    'expanded' => true,
+                    'multiple' => false,
                 ]
             )
             ->add(
@@ -40,8 +78,16 @@ class FixtureType extends AbstractType
                 TeamChoiceType::class,
                 [
                     'label'    => 'Away Team',
-                    'required' => $options['required'],
+                    'required' => false,
                     'event'    => $options['event'],
+                ]
+            )
+            ->add(
+                'awayTeamProvisional',
+                TextType::class,
+                [
+                    'label'    => 'Provisional Away Team',
+                    'required' => false,
                 ]
             );
     }
