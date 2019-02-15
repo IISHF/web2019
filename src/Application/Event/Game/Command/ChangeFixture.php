@@ -28,20 +28,28 @@ class ChangeFixture
     {
         return new self(
             $game->getId(),
-            $game->getHomeTeamIdentifier(),
-            $game->getAwayTeamIdentifier()
+            $game->isHomeTeamProvisional() ? null : $game->getHomeTeamIdentifier(),
+            $game->isHomeTeamProvisional() ? $game->getHomeTeamIdentifier() : null,
+            $game->isAwayTeamProvisional() ? null : $game->getAwayTeamIdentifier(),
+            $game->isAwayTeamProvisional() ? $game->getAwayTeamIdentifier() : null
         );
     }
 
     /**
-     * @param string $id
-     * @param string $homeTeam
-     * @param string $awayTeam
+     * @param string      $id
+     * @param string|null $homeTeam
+     * @param string|null $homeTeamProvisional
+     * @param string|null $awayTeam
+     * @param string|null $awayTeamProvisional
      */
-    private function __construct(string $id, string $homeTeam, string $awayTeam)
-    {
-        $this->id       = $id;
-        $this->homeTeam = $homeTeam;
-        $this->awayTeam = $awayTeam;
+    private function __construct(
+        string $id,
+        ?string $homeTeam,
+        ?string $homeTeamProvisional,
+        ?string $awayTeam,
+        ?string $awayTeamProvisional
+    ) {
+        $this->id = $id;
+        $this->initFixture($homeTeam, $homeTeamProvisional, $awayTeam, $awayTeamProvisional);
     }
 }

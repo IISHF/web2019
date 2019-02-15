@@ -30,8 +30,10 @@ class UpdateGame
             $game->getId(),
             $game->getGameType(),
             $game->getDateTimeLocal(),
-            $game->getHomeTeamIdentifier(),
-            $game->getAwayTeamIdentifier(),
+            $game->isHomeTeamProvisional() ? null : $game->getHomeTeamIdentifier(),
+            $game->isHomeTeamProvisional() ? $game->getHomeTeamIdentifier() : null,
+            $game->isAwayTeamProvisional() ? null : $game->getAwayTeamIdentifier(),
+            $game->isAwayTeamProvisional() ? $game->getAwayTeamIdentifier() : null,
             $game->getRemarks(),
             $game->getResult()->getHomeGoals(),
             $game->getResult()->getAwayGoals()
@@ -42,8 +44,10 @@ class UpdateGame
      * @param string             $id
      * @param int                $gameType
      * @param \DateTimeImmutable $dateTime
-     * @param string             $homeTeam
-     * @param string             $awayTeam
+     * @param string|null        $homeTeam
+     * @param string|null        $homeTeamProvisional
+     * @param string|null        $awayTeam
+     * @param string|null        $awayTeamProvisional
      * @param string|null        $remarks
      * @param int|null           $homeGoals
      * @param int|null           $awayGoals
@@ -52,8 +56,10 @@ class UpdateGame
         string $id,
         int $gameType,
         \DateTimeImmutable $dateTime,
-        string $homeTeam,
-        string $awayTeam,
+        ?string $homeTeam,
+        ?string $homeTeamProvisional,
+        ?string $awayTeam,
+        ?string $awayTeamProvisional,
         ?string $remarks,
         ?int $homeGoals,
         ?int $awayGoals
@@ -61,10 +67,9 @@ class UpdateGame
         $this->id        = $id;
         $this->gameType  = $gameType;
         $this->dateTime  = $dateTime;
-        $this->homeTeam  = $homeTeam;
-        $this->awayTeam  = $awayTeam;
         $this->remarks   = $remarks;
         $this->homeGoals = $homeGoals;
         $this->awayGoals = $awayGoals;
+        $this->initFixture($homeTeam, $homeTeamProvisional, $awayTeam, $awayTeamProvisional);
     }
 }
