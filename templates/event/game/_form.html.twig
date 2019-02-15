@@ -2,11 +2,19 @@
 
 {{ form_rest(form) }}
 
+{% if game is defined %}
+    {% set cancelPath = path('app_event_game_detail', {
+        event: game.event.id,
+        game: game.id
+    }) %}
+{% else %}
+    {% set cancelPath = path('app_event_event_detail', {season: event.season, event: event.slug}) %}
+{% endif %}
+
 <div class="btn-group" role="group">
     <button type="submit" class="btn btn-{{ submitBtnType|default('primary') }}">
         {{ submitBtnText|default('Update') }}</button>
-    <a href="{{ path('app_event_event_detail', {season: event.season, event: event.slug}) }}"
-       class="btn btn-light">Cancel</a>
+    <a href="{{ cancelPath }}" class="btn btn-light">Cancel</a>
 </div>
 
 {{ form_end(form) }}

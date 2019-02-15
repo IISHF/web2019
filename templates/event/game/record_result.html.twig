@@ -3,5 +3,5 @@
 {% block content %}
     <h1>Record result for Game {{ game.fixture }}</h1>
 
-    {% include 'event/game/_form.html.twig' with {event: event, form: form} %}
+    {% include 'event/game/_form.html.twig' with {game: game, form: form} %}
 {% endblock %}
