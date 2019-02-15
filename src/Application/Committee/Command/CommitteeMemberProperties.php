@@ -58,7 +58,7 @@ trait CommitteeMemberProperties
 
     /**
      * @Assert\Type("integer")
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @ValidTermType()
      *
      * @var int
@@ -83,7 +83,7 @@ trait CommitteeMemberProperties
 
     /**
      * @Assert\Type("integer")
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @ValidMemberType()
      *
      * @var int

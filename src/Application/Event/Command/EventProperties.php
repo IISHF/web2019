@@ -33,7 +33,7 @@ trait EventProperties
     /**
      * @Assert\Type("integer")
      * @Assert\Range(min=2000, max=9999)
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      *
      * @var int
      */

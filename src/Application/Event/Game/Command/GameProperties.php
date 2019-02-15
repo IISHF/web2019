@@ -20,7 +20,7 @@ trait GameProperties
 {
     /**
      * @Assert\Type("integer")
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @ValidGameType()
      *
      * @var int

@@ -20,7 +20,7 @@ trait EuropeanCupProperties
     /**
      * @Assert\Type("integer")
      * @Assert\Range(min=2, max=99)
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      *
      * @var int
      */

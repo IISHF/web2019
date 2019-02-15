@@ -20,7 +20,7 @@ trait TitleEventProperties
     /**
      * @Assert\Type("integer")
      * @Assert\Range(min=1, max=31)
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      *
      * @var int
      */
