@@ -30,8 +30,8 @@ class UpdateGame
             $game->getId(),
             $game->getGameType(),
             $game->getDateTimeLocal(),
-            $game->getHomeTeam()->getId(),
-            $game->getAwayTeam()->getId(),
+            $game->getHomeTeamIdentifier(),
+            $game->getAwayTeamIdentifier(),
             $game->getRemarks(),
             $game->getResult()->getHomeGoals(),
             $game->getResult()->getAwayGoals()

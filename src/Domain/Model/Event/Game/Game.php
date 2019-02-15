@@ -86,19 +86,33 @@ class Game
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Domain\Model\Event\Team\ParticipatingTeam")
-     * @ORM\JoinColumn(name="home_team_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     * @ORM\JoinColumn(name="home_team_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      *
-     * @var ParticipatingTeam
+     * @var ParticipatingTeam|null
      */
     private $homeTeam;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Domain\Model\Event\Team\ParticipatingTeam")
-     * @ORM\JoinColumn(name="away_team_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     * @ORM\Column(name="home_team_provisional", type="string", length=64, nullable=true)
      *
-     * @var ParticipatingTeam
+     * @var string|null
+     */
+    private $homeTeamProvisional;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Domain\Model\Event\Team\ParticipatingTeam")
+     * @ORM\JoinColumn(name="away_team_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+     *
+     * @var ParticipatingTeam|null
      */
     private $awayTeam;
+
+    /**
+     * @ORM\Column(name="away_team_provisional", type="string", length=64, nullable=true)
+     *
+     * @var string|null
+     */
+    private $awayTeamProvisional;
 
     /**
      * @ORM\Column(name="remarks", type="string", length=255, nullable=true)
@@ -123,9 +137,9 @@ class Game
      * @param ParticipatingTeam  $homeTeam
      * @param ParticipatingTeam  $awayTeam
      * @param string|null        $remarks
-     * @param GameResult         $result
+     * @return Game
      */
-    public function __construct(
+    public static function createWithFixture(
         string $id,
         Event $event,
         int $gameType,
@@ -133,6 +147,82 @@ class Game
         \DateTimeZone $timeZone,
         ParticipatingTeam $homeTeam,
         ParticipatingTeam $awayTeam,
+        ?string $remarks
+    ): self {
+        return new self(
+            $id,
+            $event,
+            $gameType,
+            $dateTime,
+            $timeZone,
+            $homeTeam,
+            null,
+            $awayTeam,
+            null,
+            $remarks,
+            GameResult::noResult()
+        );
+    }
+
+    /**
+     * @param string             $id
+     * @param Event              $event
+     * @param int                $gameType
+     * @param \DateTimeImmutable $dateTime
+     * @param \DateTimeZone      $timeZone
+     * @param string             $homeTeam
+     * @param string             $awayTeam
+     * @param string|null        $remarks
+     * @return Game
+     */
+    public static function createWithProvisionalFixture(
+        string $id,
+        Event $event,
+        int $gameType,
+        \DateTimeImmutable $dateTime,
+        \DateTimeZone $timeZone,
+        string $homeTeam,
+        string $awayTeam,
+        ?string $remarks
+    ): self {
+        return new self(
+            $id,
+            $event,
+            $gameType,
+            $dateTime,
+            $timeZone,
+            null,
+            $homeTeam,
+            null,
+            $awayTeam,
+            $remarks,
+            GameResult::noResult()
+        );
+    }
+
+    /**
+     * @param string             $id
+     * @param Event              $event
+     * @param int                $gameType
+     * @param \DateTimeImmutable $dateTime
+     * @param \DateTimeZone      $timeZone
+     * @param ParticipatingTeam  $homeTeam
+     * @param string|null        $homeTeamProvisional
+     * @param ParticipatingTeam  $awayTeam
+     * @param string|null        $awayTeamProvisional
+     * @param string|null        $remarks
+     * @param GameResult         $result
+     */
+    private function __construct(
+        string $id,
+        Event $event,
+        int $gameType,
+        \DateTimeImmutable $dateTime,
+        \DateTimeZone $timeZone,
+        ?ParticipatingTeam $homeTeam,
+        ?string $homeTeamProvisional,
+        ?ParticipatingTeam $awayTeam,
+        ?string $awayTeamProvisional,
         ?string $remarks,
         GameResult $result
     ) {
@@ -143,8 +233,8 @@ class Game
 
         $this->setGameType($gameType)
              ->setDateTime($dateTime, $timeZone)
-             ->setHomeTeam($homeTeam)
-             ->setAwayTeam($awayTeam)
+             ->setHomeTeam($homeTeam ?: $homeTeamProvisional)
+             ->setAwayTeam($awayTeam ?: $awayTeamProvisional)
              ->setRemarks($remarks)
              ->setResult($result)
              ->initCreateTracking()
@@ -291,49 +381,118 @@ class Game
     }
 
     /**
-     * @return ParticipatingTeam
+     * @return string
      */
-    public function getHomeTeam(): ParticipatingTeam
+    public function getHomeTeamIdentifier(): string
+    {
+        return $this->homeTeam ? $this->homeTeam->getId() : $this->homeTeamProvisional;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isHomeTeamProvisional(): bool
+    {
+        return $this->awayTeamProvisional !== null;
+    }
+
+    /**
+     * @return ParticipatingTeam|null
+     */
+    public function getHomeTeam(): ?ParticipatingTeam
     {
         return $this->homeTeam;
     }
 
     /**
-     * @param ParticipatingTeam $homeTeam
-     * @return $this
+     * @return string|null
      */
-    public function setHomeTeam(ParticipatingTeam $homeTeam): self
+    public function getHomeTeamProvisional(): ?string
     {
-        Assert::same($this->event, $homeTeam->getEvent());
-        $this->homeTeam = $homeTeam;
-        return $this;
+        return $this->homeTeamProvisional;
     }
 
     /**
-     * @return ParticipatingTeam
-     */
-    public function getAwayTeam(): ParticipatingTeam
-    {
-        return $this->awayTeam;
-    }
-
-    /**
-     * @param ParticipatingTeam $awayTeam
+     * @param ParticipatingTeam|string $homeTeam
      * @return $this
      */
-    public function setAwayTeam(ParticipatingTeam $awayTeam): self
+    public function setHomeTeam($homeTeam): self
     {
-        Assert::same($this->event, $awayTeam->getEvent());
-        $this->awayTeam = $awayTeam;
+        Assert::notNull($homeTeam);
+        if ($homeTeam instanceof ParticipatingTeam) {
+            Assert::same($this->event, $homeTeam->getEvent());
+            $this->homeTeam            = $homeTeam;
+            $this->homeTeamProvisional = null;
+        } else {
+            Assert::string($homeTeam);
+            Assert::lengthBetween($homeTeam, 1, 64);
+            $this->homeTeamProvisional = $homeTeam;
+            $this->homeTeam            = null;
+        }
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getFixture(): string
+    public function getAwayTeamIdentifier(): string
     {
-        return $this->homeTeam->getName() . ' vs. ' . $this->awayTeam->getName();
+        return $this->awayTeam ? $this->awayTeam->getId() : $this->awayTeamProvisional;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAwayTeamProvisional(): bool
+    {
+        return $this->awayTeamProvisional !== null;
+    }
+
+    /**
+     * @return ParticipatingTeam|null
+     */
+    public function getAwayTeam(): ?ParticipatingTeam
+    {
+        return $this->awayTeam;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAwayTeamProvisional(): ?string
+    {
+        return $this->awayTeamProvisional;
+    }
+
+    /**
+     * @param ParticipatingTeam|string $awayTeam
+     * @return $this
+     */
+    public function setAwayTeam($awayTeam): self
+    {
+        Assert::notNull($awayTeam);
+        if ($awayTeam instanceof ParticipatingTeam) {
+            Assert::same($this->event, $awayTeam->getEvent());
+            $this->awayTeam            = $awayTeam;
+            $this->awayTeamProvisional = null;
+        } else {
+            Assert::string($awayTeam);
+            Assert::lengthBetween($awayTeam, 1, 64);
+            $this->awayTeamProvisional = $awayTeam;
+            $this->awayTeam            = null;
+        }
+        return $this;
+    }
+
+    /**
+     * @param string $glue
+     * @return string
+     */
+    public function getFixture(string $glue = ' vs. '): string
+    {
+        $home = $this->isHomeTeamProvisional() ? $this->homeTeamProvisional : $this->homeTeam->getName();
+        $away = $this->isAwayTeamProvisional() ? $this->awayTeamProvisional : $this->awayTeam->getName();
+        return $home . $glue . $away;
     }
 
     /**

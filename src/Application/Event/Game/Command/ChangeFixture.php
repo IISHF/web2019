@@ -28,8 +28,8 @@ class ChangeFixture
     {
         return new self(
             $game->getId(),
-            $game->getHomeTeam()->getId(),
-            $game->getAwayTeam()->getId()
+            $game->getHomeTeamIdentifier(),
+            $game->getAwayTeamIdentifier()
         );
     }
 

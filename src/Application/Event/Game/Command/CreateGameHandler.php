@@ -9,7 +9,6 @@
 namespace App\Application\Event\Game\Command;
 
 use App\Domain\Model\Event\Game\Game;
-use App\Domain\Model\Event\Game\GameResult;
 
 /**
  * Class CreateGameHandler
@@ -24,7 +23,7 @@ class CreateGameHandler extends GameCommandHandler
     public function __invoke(CreateGame $command): void
     {
         $event = $this->getEvent($command->getEventId());
-        $game  = new Game(
+        $game  = Game::createWithFixture(
             $command->getId(),
             $event,
             $command->getGameType(),
@@ -32,8 +31,7 @@ class CreateGameHandler extends GameCommandHandler
             $event->getTimeZone(),
             $this->getTeam($command->getHomeTeam()),
             $this->getTeam($command->getAwayTeam()),
-            $command->getRemarks(),
-            GameResult::noResult()
+            $command->getRemarks()
         );
         $this->gameRepository->save($game);
     }
