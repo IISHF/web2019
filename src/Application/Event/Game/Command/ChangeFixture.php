@@ -28,10 +28,10 @@ class ChangeFixture
     {
         return new self(
             $game->getId(),
-            $game->isHomeTeamProvisional() ? null : $game->getHomeTeamIdentifier(),
-            $game->isHomeTeamProvisional() ? $game->getHomeTeamIdentifier() : null,
-            $game->isAwayTeamProvisional() ? null : $game->getAwayTeamIdentifier(),
-            $game->isAwayTeamProvisional() ? $game->getAwayTeamIdentifier() : null
+            $game->isHomeTeamProvisional() ? null : $game->getHomeTeam()->getId(),
+            $game->isHomeTeamProvisional() ? $game->getHomeTeamProvisional() : null,
+            $game->isAwayTeamProvisional() ? null : $game->getAwayTeam()->getId(),
+            $game->isAwayTeamProvisional() ? $game->getAwayTeamProvisional() : null
         );
     }
 

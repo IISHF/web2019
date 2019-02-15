@@ -396,6 +396,14 @@ class Game
     }
 
     /**
+     * @return string
+     */
+    public function getTimeZoneName(): string
+    {
+        return DateTime::formatTimeZoneName($this->getTimeZone());
+    }
+
+    /**
      * @param \DateTimeZone $timeZone
      */
     private function doSetTimeZone(\DateTimeZone $timeZone): void
@@ -419,9 +427,9 @@ class Game
     /**
      * @return string
      */
-    public function getHomeTeamIdentifier(): string
+    public function getHomeTeamName(): string
     {
-        return $this->homeTeam ? $this->homeTeam->getId() : $this->homeTeamProvisional;
+        return $this->homeTeam ? $this->homeTeam->getName() : $this->homeTeamProvisional;
     }
 
     /**
@@ -471,9 +479,9 @@ class Game
     /**
      * @return string
      */
-    public function getAwayTeamIdentifier(): string
+    public function getAwayTeamName(): string
     {
-        return $this->awayTeam ? $this->awayTeam->getId() : $this->awayTeamProvisional;
+        return $this->awayTeam ? $this->awayTeam->getName() : $this->awayTeamProvisional;
     }
 
     /**
