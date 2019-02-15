@@ -11,6 +11,7 @@ namespace App\Controller\Event;
 use App\Application\Event\Application\Command\ApplyForTitleEvent;
 use App\Application\Event\Application\Command\UpdateTitleEventApplication;
 use App\Application\Event\Application\Command\WithdrawTitleEventApplication;
+use App\Domain\Model\Event\Application\TitleEventApplication;
 use App\Domain\Model\Event\Event;
 use App\Domain\Model\Event\TitleEvent;
 use App\Infrastructure\Controller\CsrfSecuredHandler;
@@ -91,15 +92,15 @@ class TitleEventApplicationController extends AbstractController
      * )
      * @ParamConverter(
      *      name="application",
-     *      class="App\Domain\Model\Event\TitleEventApplication",
+     *      class="App\Domain\Model\Event\Application\TitleEventApplication",
      *      converter="app.event_application"
      * )
      *
-     * @param Event                                                     $event
-     * @param \App\Domain\Model\Event\Application\TitleEventApplication $application
+     * @param Event                 $event
+     * @param TitleEventApplication $application
      * @return Response
      */
-    public function detail(Event $event, \App\Domain\Model\Event\Application\TitleEventApplication $application): Response
+    public function detail(Event $event, TitleEventApplication $application): Response
     {
         if (!$event instanceof TitleEvent) {
             throw $this->createNotFoundException();
@@ -122,21 +123,21 @@ class TitleEventApplicationController extends AbstractController
      * )
      * @ParamConverter(
      *      name="application",
-     *      class="App\Domain\Model\Event\TitleEventApplication",
+     *      class="App\Domain\Model\Event\Application\TitleEventApplication",
      *      converter="app.event_application"
      * )
      * @Security("is_granted('EVENT_EDIT', event)")
      *
-     * @param Request                                                   $request
-     * @param Event                                                     $event
-     * @param \App\Domain\Model\Event\Application\TitleEventApplication $application
-     * @param MessageBusInterface                                       $commandBus
+     * @param Request               $request
+     * @param Event                 $event
+     * @param TitleEventApplication $application
+     * @param MessageBusInterface   $commandBus
      * @return Response
      */
     public function update(
         Request $request,
         Event $event,
-        \App\Domain\Model\Event\Application\TitleEventApplication $application,
+        TitleEventApplication $application,
         MessageBusInterface $commandBus
     ): Response {
         if (!$event instanceof TitleEvent) {
@@ -176,21 +177,21 @@ class TitleEventApplicationController extends AbstractController
      * )
      * @ParamConverter(
      *      name="application",
-     *      class="App\Domain\Model\Event\TitleEventApplication",
+     *      class="App\Domain\Model\Event\Application\TitleEventApplication",
      *      converter="app.event_application"
      * )
      * @Security("is_granted('EVENT_EDIT', event)")
      *
-     * @param Request                                                   $request
-     * @param Event                                                     $event
-     * @param \App\Domain\Model\Event\Application\TitleEventApplication $application
-     * @param MessageBusInterface                                       $commandBus
+     * @param Request               $request
+     * @param Event                 $event
+     * @param TitleEventApplication $application
+     * @param MessageBusInterface   $commandBus
      * @return Response
      */
     public function withdraw(
         Request $request,
         Event $event,
-        \App\Domain\Model\Event\Application\TitleEventApplication $application,
+        TitleEventApplication $application,
         MessageBusInterface $commandBus
     ): Response {
         if (!$event instanceof TitleEvent) {
