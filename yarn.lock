@@ -698,6 +698,16 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.7.2.tgz#1498c3eb78ee7c78c5488418707de90aaf58d5d7"
   integrity sha512-Ha4HshKdCVKgu4TVCtG8XyPPYdzTzNW4/fvPnn+LT7AosRABryhlRv4cc4+o84dgpvVJN9reN7jo/c+nYujFug==
 
+"@hot-loader/react-dom@^16.8.2":
+  version "16.8.2"
+  resolved "https://registry.yarnpkg.com/@hot-loader/react-dom/-/react-dom-16.8.2.tgz#710e713c5b28b49e0dd9fbd1643f1c0f5d7b244d"
+  integrity sha512-bUcSxfAZtt20S8+w5JNsXEc9ksccJLcP/sQWzC+5VT/FxtIE64nikQ+JEXhP+mXr9VOPw+2Mj0t+3FqkLiK32A==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+    scheduler "^0.13.2"
+
 "@react-bootstrap/react-popper@1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@react-bootstrap/react-popper/-/react-popper-1.2.1.tgz#4edf4851d5b4dcf2eb6b264ebbed1a7b7654177b"
@@ -6216,7 +6226,7 @@ sax@^1.2.4, sax@~1.2.4:
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
 
-scheduler@^0.13.3:
+scheduler@^0.13.2, scheduler@^0.13.3:
   version "0.13.3"
   resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.13.3.tgz#bed3c5850f62ea9c716a4d781f9daeb9b2a58896"
   integrity sha512-UxN5QRYWtpR1egNWzJcVLk8jlegxAugswQc984lD3kU7NuobsO37/sRfbpTdBjtnD5TBNFA2Q2oLV5+UmPSmEQ==

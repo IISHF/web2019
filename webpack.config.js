@@ -23,4 +23,7 @@ Encore
     .enableBuildNotifications()
 ;
 
-module.exports = Encore.getWebpackConfig();
+let config = Encore.getWebpackConfig();
+config.resolve.alias['react-dom'] = '@hot-loader/react-dom';
+
+module.exports = config;
