@@ -23,6 +23,14 @@ class Kernel extends BaseKernel
     /**
      * {@inheritdoc}
      */
+    public function getProjectDir(): string
+    {
+        return dirname(__DIR__);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getCacheDir()
     {
         if (getenv('IS_VIRTUAL_ENV') === '1') {
@@ -45,11 +53,11 @@ class Kernel extends BaseKernel
     /**
      * {@inheritdoc}
      */
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         $contents = require $this->getProjectDir() . '/config/bundles.php';
         foreach ($contents as $class => $envs) {
-            if (isset($envs['all']) || isset($envs[$this->environment])) {
+            if ($envs[$this->environment] ?? $envs['all'] ?? false) {
                 yield new $class();
             }
         }
@@ -77,8 +85,8 @@ class Kernel extends BaseKernel
     {
         $confDir = $this->getProjectDir() . '/config';
 
-        $routes->import($confDir . '/{routes}/*' . self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir . '/{routes}/' . $this->environment . '/**/*' . self::CONFIG_EXTS, '/', 'glob');
+        $routes->import($confDir . '/{routes}/*' . self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir . '/{routes}' . self::CONFIG_EXTS, '/', 'glob');
     }
 }
