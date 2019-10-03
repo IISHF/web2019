@@ -21,6 +21,8 @@
             - php-apcu
             - php-zip
             - php-mysql
+    notify:
+        - restart php
 
 -   name: change php fpm user, group, listen.owner and listen.group to vagrant
     lineinfile:
@@ -51,6 +53,8 @@
         owner=root
         group=root
         mode=0644
+    notify:
+        - restart php
 
 -   name: enable new php.ini
     file:
