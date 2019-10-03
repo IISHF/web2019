@@ -8,6 +8,7 @@
 
 namespace App\Domain\Model\Event\Team;
 
+use App\Domain\Model\Common\AssociationOne;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
@@ -30,7 +31,7 @@ use Webmozart\Assert\Assert;
  */
 class ParticipatingTeam
 {
-    use HasId, CreateTracking, UpdateTracking;
+    use HasId, CreateTracking, UpdateTracking, AssociationOne;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Domain\Model\Event\Event")
@@ -63,10 +64,10 @@ class ParticipatingTeam
     public function __construct(string $id, Event $event, string $name)
     {
         $this->setId($id)
+             ->setEvent($event)
              ->setName($name)
              ->initCreateTracking()
              ->initUpdateTracking();
-        $this->event = $event;
     }
 
     /**
@@ -74,7 +75,18 @@ class ParticipatingTeam
      */
     public function getEvent(): Event
     {
-        return $this->event;
+        /** @var Event $event */
+        $event = $this->getRelatedEntity($this->event, 'Participating team is not attached to an event.');
+        return $event;
+    }
+
+    /**
+     * @param Event $event
+     * @return $this
+     */
+    private function setEvent(Event $event): self
+    {
+        return $this->setRelatedEntity($this->event, $event);
     }
 
     /**
@@ -110,7 +122,6 @@ class ParticipatingTeam
      */
     public function setContact(?ParticipatingTeamContact $contact): self
     {
-        $this->contact = $contact;
-        return $this;
+        return $this->setRelatedEntity($this->contact, $contact);
     }
 }

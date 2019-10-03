@@ -8,6 +8,7 @@
 
 namespace App\Domain\Model\Article;
 
+use App\Domain\Model\Common\AssociationOne;
 use App\Domain\Model\Common\HasId;
 use App\Domain\Model\File\File;
 use Doctrine\ORM\Mapping as ORM;
@@ -26,7 +27,7 @@ use Webmozart\Assert\Assert;
  */
 abstract class ArticleAttachment
 {
-    use HasId;
+    use HasId, AssociationOne;
 
     /**
      * @ORM\ManyToOne(targetEntity="Article")
@@ -51,11 +52,9 @@ abstract class ArticleAttachment
      */
     protected function __construct(string $id, Article $article, File $file)
     {
-        Assert::true($article->isLegacyFormat());
-
-        $this->setId($id);
-        $this->article = $article;
-        $this->file    = $file;
+        $this->setId($id)
+             ->setArticle($article)
+             ->setFile($file);
     }
 
     /**
@@ -63,7 +62,19 @@ abstract class ArticleAttachment
      */
     public function getArticle(): Article
     {
-        return $this->article;
+        /** @var Article $article */
+        $article = $this->getRelatedEntity($this->article, 'Attachment is not attached to an article.');
+        return $article;
+    }
+
+    /**
+     * @param Article $article
+     * @return $this
+     */
+    private function setArticle(Article $article): self
+    {
+        Assert::true($article->isLegacyFormat());
+        return $this->setRelatedEntity($this->article, $article);
     }
 
     /**
@@ -71,7 +82,18 @@ abstract class ArticleAttachment
      */
     public function getFile(): File
     {
-        return $this->file;
+        /** @var File $file */
+        $file = $this->getRelatedEntity($this->file, 'Attachment is not attached to a file.');
+        return $file;
+    }
+
+    /**
+     * @param File $file
+     * @return $this
+     */
+    private function setFile(File $file): self
+    {
+        return $this->setRelatedEntity($this->file, $file);
     }
 
     /**

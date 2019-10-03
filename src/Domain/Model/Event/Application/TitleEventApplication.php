@@ -9,6 +9,7 @@
 namespace App\Domain\Model\Event\Application;
 
 use App\Domain\Common\Timezone;
+use App\Domain\Model\Common\AssociationOne;
 use App\Domain\Model\Common\ContactPerson;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;
@@ -28,7 +29,7 @@ use Webmozart\Assert\Assert;
  */
 class TitleEventApplication
 {
-    use HasId, CreateTracking, UpdateTracking;
+    use HasId, CreateTracking, UpdateTracking, AssociationOne;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Domain\Model\Event\TitleEvent")
@@ -107,13 +108,13 @@ class TitleEventApplication
         \DateTimeZone $timeZone
     ) {
         $this->setId($id)
+             ->setTitleEvent($titleEvent)
              ->setApplicantClub($applicantClub)
              ->setContact($contact)
              ->setProposedDate($proposedStartDate, $proposedEndDate, $timeZone)
              ->setVenue($venue)
              ->initCreateTracking()
              ->initUpdateTracking();
-        $this->titleEvent = $titleEvent;
     }
 
     /**
@@ -121,7 +122,18 @@ class TitleEventApplication
      */
     public function getTitleEvent(): TitleEvent
     {
-        return $this->titleEvent;
+        /** @var TitleEvent $titleEvent */
+        $titleEvent = $this->getRelatedEntity($this->titleEvent, 'Event application is not attached to a title event.');
+        return $titleEvent;
+    }
+
+    /**
+     * @param TitleEvent $titleEvent
+     * @return $this
+     */
+    private function setTitleEvent(TitleEvent $titleEvent): self
+    {
+        return $this->setRelatedEntity($this->titleEvent, $titleEvent);
     }
 
     /**
@@ -203,7 +215,9 @@ class TitleEventApplication
      */
     public function getVenue(): EventVenue
     {
-        return $this->venue;
+        /** @var EventVenue $venue */
+        $venue = $this->getRelatedEntity($this->venue, 'Event application is not attached to a venue.');
+        return $venue;
     }
 
     /**
@@ -212,8 +226,7 @@ class TitleEventApplication
      */
     public function setVenue(EventVenue $venue): self
     {
-        $this->venue = $venue;
-        return $this;
+        return $this->setRelatedEntity($this->venue, $venue);
     }
 
     /**

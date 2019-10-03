@@ -10,6 +10,7 @@ namespace App\Domain\Model\Event\Game;
 
 use App\Domain\Common\DateTime;
 use App\Domain\Common\Timezone;
+use App\Domain\Model\Common\AssociationOne;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
@@ -28,7 +29,7 @@ use Webmozart\Assert\Assert;
  */
 class Game
 {
-    use HasId, CreateTracking, UpdateTracking;
+    use HasId, CreateTracking, UpdateTracking, AssociationOne;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Domain\Model\Event\Event")
@@ -257,6 +258,7 @@ class Game
         GameResult $result
     ) {
         $this->setId($id)
+             ->setEvent($event)
              ->setGameType($gameType)
              ->setDateTime($dateTime, $timeZone)
              ->setHomeTeam($homeTeam ?: $homeTeamProvisional)
@@ -265,7 +267,6 @@ class Game
              ->setResult($result)
              ->initCreateTracking()
              ->initUpdateTracking();
-        $this->event = $event;
     }
 
     /**
@@ -273,7 +274,18 @@ class Game
      */
     public function getEvent(): Event
     {
-        return $this->event;
+        /** @var Event $event */
+        $event = $this->getRelatedEntity($this->event, 'Game is not attached to an event.');
+        return $event;
+    }
+
+    /**
+     * @param Event $event
+     * @return $this
+     */
+    private function setEvent(Event $event): self
+    {
+        return $this->setRelatedEntity($this->event, $event);
     }
 
     /**
@@ -448,13 +460,13 @@ class Game
         Assert::notNull($homeTeam);
         if ($homeTeam instanceof ParticipatingTeam) {
             Assert::same($this->event, $homeTeam->getEvent());
-            $this->homeTeam            = $homeTeam;
+            $this->setRelatedEntity($this->homeTeam, $homeTeam);
             $this->homeTeamProvisional = null;
         } else {
             Assert::string($homeTeam);
             Assert::lengthBetween($homeTeam, 1, 64);
             $this->homeTeamProvisional = $homeTeam;
-            $this->homeTeam            = null;
+            $this->setRelatedEntity($this->homeTeam, null);
         }
         return $this;
     }
@@ -500,13 +512,13 @@ class Game
         Assert::notNull($awayTeam);
         if ($awayTeam instanceof ParticipatingTeam) {
             Assert::same($this->event, $awayTeam->getEvent());
-            $this->awayTeam            = $awayTeam;
+            $this->setRelatedEntity($this->awayTeam, $awayTeam);
             $this->awayTeamProvisional = null;
         } else {
             Assert::string($awayTeam);
             Assert::lengthBetween($awayTeam, 1, 64);
             $this->awayTeamProvisional = $awayTeam;
-            $this->awayTeam            = null;
+            $this->setRelatedEntity($this->awayTeam, null);
         }
         return $this;
     }

@@ -8,11 +8,13 @@
 
 namespace App\Domain\Model\Document;
 
+use App\Domain\Model\Common\AssociationMany;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
 use App\Domain\Model\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -32,7 +34,7 @@ use Webmozart\Assert\Assert;
  */
 class Document
 {
-    use HasId, CreateTracking, UpdateTracking;
+    use HasId, CreateTracking, UpdateTracking, AssociationMany;
 
     /**
      * @ORM\Column(name="title", type="string", length=128)
@@ -58,7 +60,7 @@ class Document
     /**
      * @ORM\OneToMany(targetEntity="DocumentVersion", mappedBy="document")
      *
-     * @var DocumentVersion[]|ArrayCollection
+     * @var DocumentVersion[]|Collection
      */
     private $versions;
 
@@ -143,7 +145,7 @@ class Document
      */
     public function getVersions(): array
     {
-        return $this->versions->toArray();
+        return $this->getRelatedEntities($this->versions);
     }
 
     /**
@@ -203,33 +205,33 @@ class Document
      * @param DocumentVersion $version
      * @return $this
      * @internal
-     *
      */
     public function addVersion(DocumentVersion $version): self
     {
-        if ($this->versions->contains($version)) {
-            return $this;
-        }
-        $this->versions->add($version);
-        $version->setDocument($this);
-        $this->initUpdateTracking();
-        return $this;
+        return $this->addRelatedEntity(
+            $this->versions,
+            $version,
+            static function (self $me, DocumentVersion $other) {
+                $other->setDocument($me);
+                $me->initUpdateTracking();
+            }
+        );
     }
 
     /**
      * @param DocumentVersion $version
      * @return $this
      * @internal
-     *
      */
     public function removeVersion(DocumentVersion $version): self
     {
-        if (!$this->versions->contains($version)) {
-            return $this;
-        }
-        $this->versions->removeElement($version);
-        $version->setDocument(null);
-        $this->initUpdateTracking();
-        return $this;
+        return $this->removeRelatedEntity(
+            $this->versions,
+            $version,
+            static function (self $me, DocumentVersion $other) {
+                $other->setDocument(null);
+                $me->initUpdateTracking();
+            }
+        );
     }
 }

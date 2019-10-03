@@ -50,17 +50,15 @@ class FileBinary
     }
 
     /**
-     * @param string          $hash
-     * @param string|resource $data
+     * @param string $hash
+     * @param string $data
      */
     private function __construct(string $hash, $data)
     {
-        Assert::length($hash, 40);
-        Assert::lengthBetween($hash, 1, 4294967295);
-
-        $this->hash = $hash;
         $this->data = $data;
-        $this->initCreateTracking();
+        $this->setHash($hash)
+             ->setData($data)
+             ->initCreateTracking();
     }
 
     /**
@@ -72,10 +70,32 @@ class FileBinary
     }
 
     /**
+     * @param string $hash
+     * @return $this
+     */
+    private function setHash(string $hash): self
+    {
+        Assert::length($hash, 40);
+        $this->hash = $hash;
+        return $this;
+    }
+
+    /**
      * @return resource|string
      */
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * @param resource|string $data
+     * @return $this
+     */
+    private function setData($data): self
+    {
+        Assert::lengthBetween($data, 1, 4294967295);
+        $this->data = $data;
+        return $this;
     }
 }

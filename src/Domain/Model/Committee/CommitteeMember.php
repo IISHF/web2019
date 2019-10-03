@@ -9,6 +9,8 @@
 namespace App\Domain\Model\Committee;
 
 use App\Domain\Common\Country;
+use App\Domain\Entity\Team\Team;
+use App\Domain\Model\Common\AssociationOne;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
@@ -25,7 +27,7 @@ use Webmozart\Assert\Assert;
  */
 class CommitteeMember
 {
-    use HasId, CreateTracking, UpdateTracking;
+    use HasId, CreateTracking, UpdateTracking, AssociationOne;
 
     /**
      * @ORM\ManyToOne(targetEntity="Committee", inversedBy="members")
@@ -132,34 +134,28 @@ class CommitteeMember
      */
     public function getCommittee(): Committee
     {
-        if (!$this->committee) {
-            throw new \BadMethodCallException('Committee member is not attached to a committee.');
-        }
-        return $this->committee;
+        /** @var Committee $committee */
+        $committee = $this->getRelatedEntity($this->committee, 'Committee member is not attached to a committee.');
+        return $committee;
     }
 
     /**
      * @param Committee|null $committee
      * @return $this
      * @internal
-     *
      */
     public function setCommittee(?Committee $committee): self
     {
-        if ($committee === $this->committee) {
-            return $this;
-        }
-
-        if ($this->committee) {
-            $previousCommittee = $this->committee;
-            $this->committee   = null;
-            $previousCommittee->removeMember($this);
-        }
-        if ($committee) {
-            $this->committee = $committee;
-            $committee->addMember($this);
-        }
-        return $this;
+        return $this->setRelatedEntity(
+            $this->committee,
+            $committee,
+            static function (Committee $other, self $me) {
+                $other->addMember($me);
+            },
+            static function (Committee $other, self $me) {
+                $other->removeMember($me);
+            }
+        );
     }
 
     /**

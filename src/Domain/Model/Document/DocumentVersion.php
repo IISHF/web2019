@@ -8,6 +8,7 @@
 
 namespace App\Domain\Model\Document;
 
+use App\Domain\Model\Common\AssociationOne;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
@@ -31,7 +32,7 @@ use Webmozart\Assert\Assert;
  */
 class DocumentVersion
 {
-    use HasId, CreateTracking, UpdateTracking;
+    use HasId, CreateTracking, UpdateTracking, AssociationOne;
 
     public const FILE_ORIGIN = 'com.iishf.document';
 
@@ -98,13 +99,13 @@ class DocumentVersion
         ?\DateTimeImmutable $validUntil
     ) {
         $this->setId($id)
+             ->setFile($file)
              ->setDocument($document)
              ->setVersion($version)
              ->setSlug($slug)
              ->setValidity($validFrom, $validUntil)
              ->initCreateTracking()
              ->initUpdateTracking();
-        $this->file = $file;
     }
 
     /**
@@ -112,34 +113,28 @@ class DocumentVersion
      */
     public function getDocument(): Document
     {
-        if (!$this->document) {
-            throw new \BadMethodCallException('Document version is not attached to a document.');
-        }
-        return $this->document;
+        /** @var Document $document */
+        $document = $this->getRelatedEntity($this->document, 'Document version is not attached to a document.');
+        return $document;
     }
 
     /**
      * @param Document|null $document
      * @return $this
      * @internal
-     *
      */
     public function setDocument(?Document $document): self
     {
-        if ($document === $this->document) {
-            return $this;
-        }
-
-        if ($this->document) {
-            $previousDocument = $this->document;
-            $this->document   = null;
-            $previousDocument->removeVersion($this);
-        }
-        if ($document) {
-            $this->document = $document;
-            $document->addVersion($this);
-        }
-        return $this;
+        return $this->setRelatedEntity(
+            $this->document,
+            $document,
+            static function (Document $other, self $me) {
+                $other->addVersion($me);
+            },
+            static function (Document $other, self $me) {
+                $other->removeVersion($me);
+            }
+        );
     }
 
     /**
@@ -155,7 +150,18 @@ class DocumentVersion
      */
     public function getFile(): File
     {
-        return $this->file;
+        /** @var File $file */
+        $file = $this->getRelatedEntity($this->file, 'Document version is not attached to a file.');
+        return $file;
+    }
+
+    /**
+     * @param File $file
+     * @return $this
+     */
+    private function setFile(File $file): self
+    {
+        return $this->setRelatedEntity($this->file, $file);
     }
 
     /**

@@ -8,10 +8,13 @@
 
 namespace App\Domain\Model\Committee;
 
+use App\Domain\Entity\Team\TeamMember;
+use App\Domain\Model\Common\AssociationMany;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -31,7 +34,7 @@ use Webmozart\Assert\Assert;
  */
 class Committee
 {
-    use HasId, CreateTracking, UpdateTracking;
+    use HasId, CreateTracking, UpdateTracking, AssociationMany;
 
     /**
      * @ORM\Column(name="title", type="string", length=128)
@@ -57,7 +60,7 @@ class Committee
     /**
      * @ORM\OneToMany(targetEntity="CommitteeMember", mappedBy="committee")
      *
-     * @var CommitteeMember[]|ArrayCollection
+     * @var CommitteeMember[]|Collection
      */
     private $members;
 
@@ -141,7 +144,7 @@ class Committee
      */
     public function getMembers(): array
     {
-        return $this->members->toArray();
+        return $this->getRelatedEntities($this->members);
     }
 
     /**
@@ -190,13 +193,14 @@ class Committee
      */
     public function addMember(CommitteeMember $member): self
     {
-        if ($this->members->contains($member)) {
-            return $this;
-        }
-        $this->members->add($member);
-        $member->setCommittee($this);
-        $this->initUpdateTracking();
-        return $this;
+        return $this->addRelatedEntity(
+            $this->members,
+            $member,
+            static function (self $me, CommitteeMember $other) {
+                $other->setCommittee($me);
+                $me->initUpdateTracking();
+            }
+        );
     }
 
     /**
@@ -206,12 +210,13 @@ class Committee
      */
     public function removeMember(CommitteeMember $member): self
     {
-        if (!$this->members->contains($member)) {
-            return $this;
-        }
-        $this->members->removeElement($member);
-        $member->setCommittee(null);
-        $this->initUpdateTracking();
-        return $this;
+        return $this->removeRelatedEntity(
+            $this->members,
+            $member,
+            static function (self $me, CommitteeMember $other) {
+                $other->setCommittee(null);
+                $me->initUpdateTracking();
+            }
+        );
     }
 }

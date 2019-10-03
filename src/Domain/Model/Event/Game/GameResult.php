@@ -63,23 +63,19 @@ class GameResult
     }
 
     /**
-     * GameResult constructor.
-     *
      * @param int|null $homeGoals
      * @param int|null $awayGoals
      */
     private function __construct(?int $homeGoals, ?int $awayGoals)
     {
         if ($homeGoals !== null) {
-            Assert::notNull($homeGoals);
+            Assert::notNull($awayGoals);
         }
         if ($awayGoals !== null) {
             Assert::notNull($homeGoals);
         }
-        Assert::nullOrRange($homeGoals, 0, 99);
-        Assert::nullOrRange($awayGoals, 0, 99);
-        $this->homeGoals = $homeGoals;
-        $this->awayGoals = $awayGoals;
+        $this->setHomeGoals($homeGoals)
+             ->setAwayGoals($awayGoals);
     }
 
     /**
@@ -91,11 +87,33 @@ class GameResult
     }
 
     /**
+     * @param int|null $homeGoals
+     * @return $this
+     */
+    private function setHomeGoals(?int $homeGoals): self
+    {
+        Assert::nullOrRange($homeGoals, 0, 99);
+        $this->homeGoals = $homeGoals;
+        return $this;
+    }
+
+    /**
      * @return int|null
      */
     public function getAwayGoals(): ?int
     {
         return $this->awayGoals;
+    }
+
+    /**
+     * @param int|null $awayGoals
+     * @return $this
+     */
+    private function setAwayGoals(?int $awayGoals): self
+    {
+        Assert::nullOrRange($awayGoals, 0, 99);
+        $this->awayGoals = $awayGoals;
+        return $this;
     }
 
     /**

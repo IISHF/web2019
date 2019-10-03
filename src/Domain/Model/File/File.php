@@ -9,6 +9,7 @@
 namespace App\Domain\Model\File;
 
 use App\Domain\Common\Urlizer;
+use App\Domain\Model\Common\AssociationOne;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;
 use Doctrine\ORM\Mapping as ORM;
@@ -32,7 +33,7 @@ use Webmozart\Assert\Assert;
  */
 class File implements FileInterface
 {
-    use HasId, CreateTracking;
+    use HasId, CreateTracking, AssociationOne;
 
     /**
      * @ORM\Column(name="name", type="string", length=64)
@@ -95,20 +96,14 @@ class File implements FileInterface
         ?string $origin,
         FileBinary $binary
     ) {
-        Assert::lengthBetween($name, 1, 64);
-        Assert::nullOrLengthBetween($originalName, 0, 128);
-        Assert::greaterThanEq($size, 0);
-        Assert::lengthBetween($mimeType, 1, 64);
-        Assert::nullOrLengthBetween($origin, 0, 128);
-
-        $this->setId($id);
-        $this->name         = $name;
-        $this->originalName = $originalName;
-        $this->size         = $size;
-        $this->mimeType     = $mimeType;
-        $this->origin       = $origin;
-        $this->binary       = $binary;
-        $this->initCreateTracking();
+        $this->setId($id)
+             ->setName($name)
+             ->setOriginalName($originalName)
+             ->setSize($size)
+             ->setMimeType($mimeType)
+             ->setOrigin($origin)
+             ->setBinary($binary)
+             ->initCreateTracking();
     }
 
     /**
@@ -120,11 +115,33 @@ class File implements FileInterface
     }
 
     /**
+     * @param string $name
+     * @return $this
+     */
+    private function setName(string $name): self
+    {
+        Assert::lengthBetween($name, 1, 64);
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getOriginalName(): ?string
     {
         return $this->originalName;
+    }
+
+    /**
+     * @param string|null $originalName
+     * @return $this
+     */
+    private function setOriginalName(?string $originalName): self
+    {
+        Assert::nullOrLengthBetween($originalName, 0, 128);
+        $this->originalName = $originalName;
+        return $this;
     }
 
     /**
@@ -153,11 +170,33 @@ class File implements FileInterface
     }
 
     /**
+     * @param int $size
+     * @return $this
+     */
+    private function setSize(int $size): self
+    {
+        Assert::greaterThanEq($size, 0);
+        $this->size = $size;
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getMimeType(): string
     {
         return $this->mimeType;
+    }
+
+    /**
+     * @param string $mimeType
+     * @return $this
+     */
+    private function setMimeType(string $mimeType): self
+    {
+        Assert::lengthBetween($mimeType, 1, 64);
+        $this->mimeType = $mimeType;
+        return $this;
     }
 
     /**
@@ -185,11 +224,33 @@ class File implements FileInterface
     }
 
     /**
+     * @param string $origin
+     * @return $this
+     */
+    private function setOrigin(string $origin): self
+    {
+        Assert::nullOrLengthBetween($origin, 0, 128);
+        $this->origin = $origin;
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getBinary(): FileBinary
     {
-        return $this->binary;
+        /** @var FileBinary $binary */
+        $binary = $this->getRelatedEntity($this->binary, 'File it not attached to a binary.');
+        return $binary;
+    }
+
+    /**
+     * @param FileBinary $binary
+     * @return $this
+     */
+    private function setBinary(FileBinary $binary): self
+    {
+        return $this->setRelatedEntity($this->binary, $binary);
     }
 
     /**

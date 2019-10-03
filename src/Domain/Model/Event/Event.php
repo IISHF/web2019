@@ -11,6 +11,7 @@ namespace App\Domain\Model\Event;
 use App\Domain\Common\AgeGroup;
 use App\Domain\Common\DateTime;
 use App\Domain\Common\Timezone;
+use App\Domain\Model\Common\AssociationOne;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
@@ -45,7 +46,7 @@ use Webmozart\Assert\Assert;
  */
 abstract class Event
 {
-    use HasId, CreateTracking, UpdateTracking;
+    use HasId, CreateTracking, UpdateTracking, AssociationOne;
 
     public const STATE_PLANNED    = 'planned';
     public const STATE_SANCTIONED = 'sanctioned';
@@ -310,10 +311,9 @@ abstract class Event
      */
     public function getHost(): EventHost
     {
-        if (!$this->host) {
-            throw new \BadMethodCallException('Cannot get host. No host set.');
-        }
-        return $this->host;
+        /** @var EventHost $host */
+        $host = $this->getRelatedEntity($this->host, 'Cannot get host. No host set.');
+        return $host;
     }
 
     /**
@@ -322,8 +322,7 @@ abstract class Event
      */
     public function setHost(EventHost $host): self
     {
-        $this->host = $host;
-        return $this;
+        return $this->setRelatedEntity($this->host, $host);
     }
 
     /**
@@ -494,10 +493,9 @@ abstract class Event
      */
     public function getVenue(): EventVenue
     {
-        if (!$this->venue) {
-            throw new \BadMethodCallException('Cannot get venue. No venue set.');
-        }
-        return $this->venue;
+        /** @var EventVenue $venue */
+        $venue = $this->getRelatedEntity($this->venue, 'Cannot get venue. No venue set.');
+        return $venue;
     }
 
     /**
@@ -506,8 +504,7 @@ abstract class Event
      */
     public function setVenue(EventVenue $venue): self
     {
-        $this->venue = $venue;
-        return $this;
+        return $this->setRelatedEntity($this->venue, $venue);
     }
 
     /**
