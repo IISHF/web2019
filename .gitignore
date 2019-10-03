@@ -17,15 +17,15 @@
 /vagrant/roles/webserver/files/iishf_test.*
 /vagrant/__legacy/
 
-# Composer PHAR
-/composer.phar
-
 /bin/*
 !/bin/console
+!/bin/phpunit
 
 ###> symfony/framework-bundle ###
 /.env.local
+/.env.local.php
 /.env.*.local
+/public/bundles/
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
