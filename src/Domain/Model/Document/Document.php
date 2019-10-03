@@ -9,6 +9,7 @@
 namespace App\Domain\Model\Document;
 
 use App\Domain\Model\Common\CreateTracking;
+use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
 use App\Domain\Model\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -31,15 +32,7 @@ use Webmozart\Assert\Assert;
  */
 class Document
 {
-    use CreateTracking, UpdateTracking;
-
-    /**
-     * @ORM\Column(name="id", type="guid")
-     * @ORM\Id
-     *
-     * @var string
-     */
-    private $id;
+    use HasId, CreateTracking, UpdateTracking;
 
     /**
      * @ORM\Column(name="title", type="string", length=128)
@@ -77,23 +70,13 @@ class Document
      */
     public function __construct(string $id, string $title, string $slug, array $tags)
     {
-        Assert::uuid($id);
-
-        $this->id       = $id;
-        $this->versions = new ArrayCollection();
-        $this->setTitle($title)
+        $this->setId($id)
+             ->setTitle($title)
              ->setSlug($slug)
              ->setTags($tags)
              ->initCreateTracking()
              ->initUpdateTracking();
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
+        $this->versions = new ArrayCollection();
     }
 
     /**
@@ -217,10 +200,10 @@ class Document
     }
 
     /**
-     * @internal
-     *
      * @param DocumentVersion $version
      * @return $this
+     * @internal
+     *
      */
     public function addVersion(DocumentVersion $version): self
     {
@@ -234,10 +217,10 @@ class Document
     }
 
     /**
-     * @internal
-     *
      * @param DocumentVersion $version
      * @return $this
+     * @internal
+     *
      */
     public function removeVersion(DocumentVersion $version): self
     {

@@ -1,10 +1,9 @@
 <?php
 /**
- * CommandHandler
- *
- * @author    Stefan Gehrig <gehrig@teqneers.de>
- * @package   App\Application\Common\Command
- * @copyright Copyright (C) 2019 TEQneers GmbH & Co. KG. All rights reserved.
+ * Created by PhpStorm.
+ * User: stefan
+ * Date: 2019-01-04
+ * Time: 09:13
  */
 
 namespace App\Application\Common\Command;

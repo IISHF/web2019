@@ -11,6 +11,7 @@ namespace App\Domain\Model\Event\Application;
 use App\Domain\Common\DateTime;
 use App\Domain\Model\Common\ContactPerson;
 use App\Domain\Model\Common\CreateTracking;
+use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
 use App\Domain\Model\Event\TitleEvent;
 use App\Domain\Model\Event\Venue\EventVenue;
@@ -27,15 +28,7 @@ use Webmozart\Assert\Assert;
  */
 class TitleEventApplication
 {
-    use CreateTracking, UpdateTracking;
-
-    /**
-     * @ORM\Column(name="id", type="guid")
-     * @ORM\Id
-     *
-     * @var string
-     */
-    private $id;
+    use HasId, CreateTracking, UpdateTracking;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Domain\Model\Event\TitleEvent")
@@ -113,25 +106,14 @@ class TitleEventApplication
         EventVenue $venue,
         \DateTimeZone $timeZone
     ) {
-        Assert::uuid($id);
-
-        $this->id         = $id;
-        $this->titleEvent = $titleEvent;
-
-        $this->setApplicantClub($applicantClub)
+        $this->setId($id)
+             ->setApplicantClub($applicantClub)
              ->setContact($contact)
              ->setProposedDate($proposedStartDate, $proposedEndDate, $timeZone)
              ->setVenue($venue)
              ->initCreateTracking()
              ->initUpdateTracking();
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
+        $this->titleEvent = $titleEvent;
     }
 
     /**

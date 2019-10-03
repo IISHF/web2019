@@ -8,8 +8,9 @@
 
 namespace App\Domain\Model\Event;
 
-use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\ContactPerson;
+use App\Domain\Model\Common\CreateTracking;
+use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
@@ -25,15 +26,7 @@ use Webmozart\Assert\Assert;
  */
 class EventHost extends ContactPerson
 {
-    use CreateTracking, UpdateTracking;
-
-    /**
-     * @ORM\Column(name="id", type="guid")
-     * @ORM\Id
-     *
-     * @var string
-     */
-    private $id;
+    use HasId, CreateTracking, UpdateTracking;
 
     /**
      * @ORM\Column(name="club", type="string", length=128)
@@ -53,21 +46,10 @@ class EventHost extends ContactPerson
     {
         parent::__construct($name, $email, $phoneNumber);
 
-        Assert::uuid($id);
-
-        $this->id = $id;
-
-        $this->setClub($club)
+        $this->setId($id)
+             ->setClub($club)
              ->initCreateTracking()
              ->initUpdateTracking();
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
     }
 
     /**

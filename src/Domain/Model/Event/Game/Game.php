@@ -10,6 +10,7 @@ namespace App\Domain\Model\Event\Game;
 
 use App\Domain\Common\DateTime;
 use App\Domain\Model\Common\CreateTracking;
+use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
 use App\Domain\Model\Event\Event;
 use App\Domain\Model\Event\Team\ParticipatingTeam;
@@ -26,15 +27,7 @@ use Webmozart\Assert\Assert;
  */
 class Game
 {
-    use CreateTracking, UpdateTracking;
-
-    /**
-     * @ORM\Column(name="id", type="guid")
-     * @ORM\Id
-     *
-     * @var string
-     */
-    private $id;
+    use HasId, CreateTracking, UpdateTracking;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Domain\Model\Event\Event")
@@ -262,12 +255,8 @@ class Game
         ?string $remarks,
         GameResult $result
     ) {
-        Assert::uuid($id);
-
-        $this->id    = $id;
-        $this->event = $event;
-
-        $this->setGameType($gameType)
+        $this->setId($id)
+             ->setGameType($gameType)
              ->setDateTime($dateTime, $timeZone)
              ->setHomeTeam($homeTeam ?: $homeTeamProvisional)
              ->setAwayTeam($awayTeam ?: $awayTeamProvisional)
@@ -275,14 +264,7 @@ class Game
              ->setResult($result)
              ->initCreateTracking()
              ->initUpdateTracking();
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
+        $this->event = $event;
     }
 
     /**

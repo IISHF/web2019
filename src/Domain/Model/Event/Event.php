@@ -11,6 +11,7 @@ namespace App\Domain\Model\Event;
 use App\Domain\Common\AgeGroup;
 use App\Domain\Common\DateTime;
 use App\Domain\Model\Common\CreateTracking;
+use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
 use App\Domain\Model\Event\Team\ParticipatingTeam;
 use App\Domain\Model\Event\Venue\EventVenue;
@@ -43,18 +44,10 @@ use Webmozart\Assert\Assert;
  */
 abstract class Event
 {
-    use CreateTracking, UpdateTracking;
+    use HasId, CreateTracking, UpdateTracking;
 
     public const STATE_PLANNED    = 'planned';
     public const STATE_SANCTIONED = 'sanctioned';
-
-    /**
-     * @ORM\Column(name="id", type="guid")
-     * @ORM\Id
-     *
-     * @var string
-     */
-    private $id;
 
     /**
      * @ORM\Column(name="name", type="string", length=64)
@@ -177,25 +170,15 @@ abstract class Event
         string $ageGroup,
         array $tags
     ) {
-        Assert::uuid($id);
-
-        $this->id           = $id;
-        $this->currentState = self::STATE_PLANNED;
-        $this->setName($name)
+        $this->setId($id)
+             ->setName($name)
              ->setSlug($slug)
              ->setSeason($season)
              ->setAgeGroup($ageGroup)
              ->setTags($tags)
              ->initCreateTracking()
              ->initUpdateTracking();
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
+        $this->currentState = self::STATE_PLANNED;
     }
 
     /**

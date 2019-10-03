@@ -11,6 +11,7 @@ namespace App\Domain\Model\HallOfFame;
 use App\Domain\Common\AgeGroup;
 use App\Domain\Common\Country;
 use App\Domain\Model\Common\CreateTracking;
+use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
@@ -31,15 +32,7 @@ use Webmozart\Assert\Assert;
  */
 class HallOfFameEntry
 {
-    use CreateTracking, UpdateTracking;
-
-    /**
-     * @ORM\Column(name="id", type="guid")
-     * @ORM\Id
-     *
-     * @var string
-     */
-    private $id;
+    use HasId, CreateTracking, UpdateTracking;
 
     /**
      * @ORM\Column(name="season", type="smallint", options={"unsigned": true})
@@ -128,11 +121,8 @@ class HallOfFameEntry
         ?string $hostClub,
         ?string $hostCountry
     ) {
-        Assert::uuid($id);
-
-        $this->id = $id;
-
-        $this->setSeason($season)
+        $this->setId($id)
+             ->setSeason($season)
              ->setAgeGroup($ageGroup)
              ->setEvent($event)
              ->setEventDate($eventDate)
@@ -143,14 +133,6 @@ class HallOfFameEntry
              ->setHostCountry($hostCountry)
              ->initCreateTracking()
              ->initUpdateTracking();
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
     }
 
     /**

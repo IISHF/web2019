@@ -9,6 +9,7 @@
 namespace App\Domain\Model\User;
 
 use App\Domain\Model\Common\CreateTracking;
+use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
 use App\Utils\Text;
 use Doctrine\ORM\Mapping as ORM;
@@ -29,17 +30,9 @@ use Webmozart\Assert\Assert;
  */
 class User implements UserInterface
 {
-    use CreateTracking, UpdateTracking;
+    use HasId, CreateTracking, UpdateTracking;
 
     private const NO_PASSWORD = '<<no password>>';
-
-    /**
-     * @ORM\Column(name="id", type="guid")
-     * @ORM\Id
-     *
-     * @var string
-     */
-    private $id;
 
     /**
      * @ORM\Column(name="first_name", type="string", length=128)
@@ -218,25 +211,14 @@ class User implements UserInterface
         string $email,
         array $roles
     ) {
-        Assert::uuid($id);
-
-        $this->id = $id;
-        $this->setFirstName($firstName)
+        $this->setId($id)
+             ->setFirstName($firstName)
              ->setLastName($lastName)
              ->setEmail($email)
              ->setRoles($roles)
              ->initCreateTracking()
              ->initUpdateTracking();
-
         $this->password = self::NO_PASSWORD;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getId(): string
-    {
-        return $this->id;
     }
 
     /**

@@ -11,6 +11,7 @@ namespace App\Domain\Model\NationalGoverningBody;
 use App\Domain\Common\Country;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasEmail;
+use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\MayHavePhoneNumber;
 use App\Domain\Model\Common\UpdateTracking;
 use Doctrine\ORM\Mapping as ORM;
@@ -36,15 +37,7 @@ use Webmozart\Assert\Assert;
  */
 class NationalGoverningBody
 {
-    use CreateTracking, UpdateTracking, HasEmail, MayHavePhoneNumber;
-
-    /**
-     * @ORM\Column(name="id", type="guid")
-     * @ORM\Id
-     *
-     * @var string
-     */
-    private $id;
+    use HasId, CreateTracking, UpdateTracking, HasEmail, MayHavePhoneNumber;
 
     /**
      * @ORM\Column(name="name", type="string", length=64)
@@ -137,10 +130,8 @@ class NationalGoverningBody
         ?string $twitterProfile = null,
         ?string $instagramProfile = null
     ) {
-        Assert::uuid($id);
-
-        $this->id = $id;
-        $this->setName($name)
+        $this->setId($id)
+             ->setName($name)
              ->setAcronym($acronym)
              ->setSlug($slug)
              ->setIocCode($iocCode)
@@ -153,14 +144,6 @@ class NationalGoverningBody
              ->setInstagramProfile($instagramProfile)
              ->initCreateTracking()
              ->initUpdateTracking();
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
     }
 
     /**

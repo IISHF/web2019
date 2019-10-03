@@ -9,6 +9,7 @@
 namespace App\Domain\Model\Document;
 
 use App\Domain\Model\Common\CreateTracking;
+use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
 use App\Domain\Model\File\File;
 use Doctrine\ORM\Mapping as ORM;
@@ -30,17 +31,9 @@ use Webmozart\Assert\Assert;
  */
 class DocumentVersion
 {
-    use CreateTracking, UpdateTracking;
+    use HasId, CreateTracking, UpdateTracking;
 
     public const FILE_ORIGIN = 'com.iishf.document';
-
-    /**
-     * @ORM\Column(name="id", type="guid")
-     * @ORM\Id
-     *
-     * @var string
-     */
-    private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="Document", inversedBy="versions")
@@ -104,24 +97,14 @@ class DocumentVersion
         ?\DateTimeImmutable $validFrom,
         ?\DateTimeImmutable $validUntil
     ) {
-        Assert::uuid($id);
-
-        $this->id   = $id;
-        $this->file = $file;
-        $this->setDocument($document)
+        $this->setId($id)
+             ->setDocument($document)
              ->setVersion($version)
              ->setSlug($slug)
              ->setValidity($validFrom, $validUntil)
              ->initCreateTracking()
              ->initUpdateTracking();
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
+        $this->file = $file;
     }
 
     /**
@@ -136,10 +119,10 @@ class DocumentVersion
     }
 
     /**
-     * @internal
-     *
      * @param Document|null $document
      * @return $this
+     * @internal
+     *
      */
     public function setDocument(?Document $document): self
     {

@@ -9,6 +9,7 @@
 namespace App\Domain\Model\Staff;
 
 use App\Domain\Model\Common\CreateTracking;
+use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
@@ -23,15 +24,7 @@ use Webmozart\Assert\Assert;
  */
 class StaffMember
 {
-    use CreateTracking, UpdateTracking;
-
-    /**
-     * @ORM\Column(name="id", type="guid")
-     * @ORM\Id
-     *
-     * @var string
-     */
-    private $id;
+    use HasId, CreateTracking, UpdateTracking;
 
     /**
      * @ORM\Column(name="first_name", type="string", length=128)
@@ -84,25 +77,14 @@ class StaffMember
         string $title,
         array $roles
     ) {
-        Assert::uuid($id);
-
-        $this->id = $id;
-
-        $this->setFirstName($firstName)
+        $this->setId($id)
+             ->setFirstName($firstName)
              ->setLastName($lastName)
              ->setEmail($email)
              ->setTitle($title)
              ->setRoles($roles)
              ->initCreateTracking()
              ->initUpdateTracking();
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
     }
 
     /**

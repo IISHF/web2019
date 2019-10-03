@@ -9,6 +9,7 @@
 namespace App\Domain\Model\Committee;
 
 use App\Domain\Model\Common\CreateTracking;
+use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -30,15 +31,7 @@ use Webmozart\Assert\Assert;
  */
 class Committee
 {
-    use CreateTracking, UpdateTracking;
-
-    /**
-     * @ORM\Column(name="id", type="guid")
-     * @ORM\Id
-     *
-     * @var string
-     */
-    private $id;
+    use HasId, CreateTracking, UpdateTracking;
 
     /**
      * @ORM\Column(name="title", type="string", length=128)
@@ -76,23 +69,13 @@ class Committee
      */
     public function __construct(string $id, string $title, string $slug, ?string $description)
     {
-        Assert::uuid($id);
-
-        $this->id      = $id;
-        $this->members = new ArrayCollection();
-        $this->setTitle($title)
+        $this->setId($id)
+             ->setTitle($title)
              ->setSlug($slug)
              ->setDescription($description)
              ->initCreateTracking()
              ->initUpdateTracking();
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
+        $this->members = new ArrayCollection();
     }
 
     /**
@@ -201,10 +184,9 @@ class Committee
     }
 
     /**
-     * @internal
-     *
      * @param CommitteeMember $member
      * @return $this
+     * @internal
      */
     public function addMember(CommitteeMember $member): self
     {
@@ -218,10 +200,9 @@ class Committee
     }
 
     /**
-     * @internal
-     *
      * @param CommitteeMember $member
      * @return $this
+     * @internal
      */
     public function removeMember(CommitteeMember $member): self
     {

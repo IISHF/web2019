@@ -10,6 +10,7 @@ namespace App\Domain\Model\Committee;
 
 use App\Domain\Common\Country;
 use App\Domain\Model\Common\CreateTracking;
+use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
@@ -24,15 +25,7 @@ use Webmozart\Assert\Assert;
  */
 class CommitteeMember
 {
-    use CreateTracking, UpdateTracking;
-
-    /**
-     * @ORM\Column(name="id", type="guid")
-     * @ORM\Id
-     *
-     * @var string
-     */
-    private $id;
+    use HasId, CreateTracking, UpdateTracking;
 
     /**
      * @ORM\ManyToOne(targetEntity="Committee", inversedBy="members")
@@ -122,10 +115,8 @@ class CommitteeMember
         ?int $termDuration,
         int $memberType
     ) {
-        Assert::uuid($id);
-
-        $this->id = $id;
-        $this->setCommittee($committee)
+        $this->setId($id)
+             ->setCommittee($committee)
              ->setFirstName($firstName)
              ->setLastName($lastName)
              ->setCountry($country)
@@ -134,15 +125,6 @@ class CommitteeMember
              ->setMemberType($memberType)
              ->initCreateTracking()
              ->initUpdateTracking();
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
     }
 
     /**
@@ -157,10 +139,10 @@ class CommitteeMember
     }
 
     /**
-     * @internal
-     *
      * @param Committee|null $committee
      * @return $this
+     * @internal
+     *
      */
     public function setCommittee(?Committee $committee): self
     {

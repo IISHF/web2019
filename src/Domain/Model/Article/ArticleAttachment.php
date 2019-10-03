@@ -8,6 +8,7 @@
 
 namespace App\Domain\Model\Article;
 
+use App\Domain\Model\Common\HasId;
 use App\Domain\Model\File\File;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
@@ -25,13 +26,7 @@ use Webmozart\Assert\Assert;
  */
 abstract class ArticleAttachment
 {
-    /**
-     * @ORM\Column(name="id", type="guid")
-     * @ORM\Id
-     *
-     * @var string
-     */
-    private $id;
+    use HasId;
 
     /**
      * @ORM\ManyToOne(targetEntity="Article")
@@ -56,20 +51,11 @@ abstract class ArticleAttachment
      */
     protected function __construct(string $id, Article $article, File $file)
     {
-        Assert::uuid($id);
         Assert::true($article->isLegacyFormat());
 
-        $this->id      = $id;
+        $this->setId($id);
         $this->article = $article;
         $this->file    = $file;
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
     }
 
     /**

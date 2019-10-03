@@ -9,6 +9,7 @@
 namespace App\Domain\Model\Event\Team;
 
 use App\Domain\Model\Common\CreateTracking;
+use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
 use App\Domain\Model\Event\Event;
 use Doctrine\ORM\Mapping as ORM;
@@ -29,15 +30,7 @@ use Webmozart\Assert\Assert;
  */
 class ParticipatingTeam
 {
-    use CreateTracking, UpdateTracking;
-
-    /**
-     * @ORM\Column(name="id", type="guid")
-     * @ORM\Id
-     *
-     * @var string
-     */
-    private $id;
+    use HasId, CreateTracking, UpdateTracking;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Domain\Model\Event\Event")
@@ -69,22 +62,11 @@ class ParticipatingTeam
      */
     public function __construct(string $id, Event $event, string $name)
     {
-        Assert::uuid($id);
-
-        $this->id    = $id;
-        $this->event = $event;
-
-        $this->setName($name)
+        $this->setId($id)
+             ->setName($name)
              ->initCreateTracking()
              ->initUpdateTracking();
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
+        $this->event = $event;
     }
 
     /**

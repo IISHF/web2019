@@ -10,6 +10,7 @@ namespace App\Domain\Model\File;
 
 use App\Domain\Common\Urlizer;
 use App\Domain\Model\Common\CreateTracking;
+use App\Domain\Model\Common\HasId;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -31,15 +32,7 @@ use Webmozart\Assert\Assert;
  */
 class File implements FileInterface
 {
-    use CreateTracking;
-
-    /**
-     * @ORM\Column(name="id", type="guid")
-     * @ORM\Id
-     *
-     * @var string
-     */
-    private $id;
+    use HasId, CreateTracking;
 
     /**
      * @ORM\Column(name="name", type="string", length=64)
@@ -102,14 +95,13 @@ class File implements FileInterface
         ?string $origin,
         FileBinary $binary
     ) {
-        Assert::uuid($id);
         Assert::lengthBetween($name, 1, 64);
         Assert::nullOrLengthBetween($originalName, 0, 128);
         Assert::greaterThanEq($size, 0);
         Assert::lengthBetween($mimeType, 1, 64);
         Assert::nullOrLengthBetween($origin, 0, 128);
 
-        $this->id           = $id;
+        $this->setId($id);
         $this->name         = $name;
         $this->originalName = $originalName;
         $this->size         = $size;
@@ -117,14 +109,6 @@ class File implements FileInterface
         $this->origin       = $origin;
         $this->binary       = $binary;
         $this->initCreateTracking();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getId(): string
-    {
-        return $this->id;
     }
 
     /**

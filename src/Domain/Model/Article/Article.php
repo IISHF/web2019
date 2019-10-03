@@ -9,6 +9,7 @@
 namespace App\Domain\Model\Article;
 
 use App\Domain\Model\Common\CreateTracking;
+use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\SoftDeleteableEntity;
 use App\Domain\Model\Common\UpdateTracking;
 use Doctrine\ORM\Mapping as ORM;
@@ -35,20 +36,12 @@ use Webmozart\Assert\Assert;
  */
 class Article
 {
-    use CreateTracking, UpdateTracking, SoftDeleteableEntity;
+    use HasId, CreateTracking, UpdateTracking, SoftDeleteableEntity;
 
     public const FILE_ORIGIN = 'com.iishf.article';
 
     public const STATE_DRAFT     = 'draft';
     public const STATE_PUBLISHED = 'published';
-
-    /**
-     * @ORM\Column(name="id", type="guid")
-     * @ORM\Id
-     *
-     * @var string
-     */
-    private $id;
 
     /**
      * @ORM\Column(name="legacy_format", type="boolean")
@@ -186,11 +179,8 @@ class Article
         array $tags,
         string $author
     ) {
-        Assert::uuid($id);
-
-        $this->id           = $id;
-        $this->currentState = self::STATE_DRAFT;
-        $this->setSlug($slug)
+        $this->setId($id)
+             ->setSlug($slug)
              ->setTitle($title)
              ->setSubtitle($subtitle)
              ->setBody($body)
@@ -198,14 +188,7 @@ class Article
              ->setAuthor($author)
              ->initCreateTracking()
              ->initUpdateTracking();
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
+        $this->currentState = self::STATE_DRAFT;
     }
 
     /**
