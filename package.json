@@ -19,7 +19,7 @@
     "license": "UNLICENSED",
     "private": true,
     "scripts": {
-        "dev-server": "encore dev-server --hot --https --port 9010 --host iishf.local --key ./vagrant/roles/webserver/files/iishf-test.key --cert ./vagrant/roles/webserver/files/iishf-test.crt",
+        "dev-server": "encore dev-server --hot --https --port 9010 --host iishf.test --key ./vagrant/roles/webserver/files/iishf_test.key --cert ./vagrant/roles/webserver/files/iishf_test.crt",
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production"
@@ -28,29 +28,13 @@
         "last 2 versions",
         "ios >= 8"
     ],
-    "babel": {
-        "presets": [
-            [
-                "@babel/preset-env",
-                {
-                    "modules": false
-                }
-            ],
-            "@babel/preset-react"
-        ],
-        "plugins": [
-            "react-hot-loader/babel",
-            "@babel/plugin-syntax-dynamic-import",
-            "@babel/plugin-proposal-class-properties",
-            "@babel/plugin-transform-runtime"
-        ]
-    },
     "dependencies": {
         "@babel/runtime": "^7.6.2",
         "@fortawesome/fontawesome-free": "^5.11.2",
         "@ungap/custom-elements-builtin": "^0.2.7",
         "@webcomponents/webcomponentsjs": "^2.3.0",
         "bootstrap": "^4.3.1",
+        "core-js": "^3.2.1",
         "file-selector": "^0.1.12",
         "filesize": "^5.0.1",
         "jquery": "^3.4.1",
