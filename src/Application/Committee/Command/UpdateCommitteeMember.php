@@ -8,7 +8,7 @@
 
 namespace App\Application\Committee\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Domain\Model\Committee\CommitteeMember;
 
 /**
@@ -18,7 +18,7 @@ use App\Domain\Model\Committee\CommitteeMember;
  */
 class UpdateCommitteeMember
 {
-    use UuidAware, CommitteeMemberProperties;
+    use IdAware, CommitteeMemberProperties;
 
     /**
      * @param CommitteeMember $member

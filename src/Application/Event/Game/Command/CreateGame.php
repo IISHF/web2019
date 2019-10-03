@@ -8,7 +8,7 @@
 
 namespace App\Application\Event\Game\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Application\Event\Command\EventAware;
 use App\Domain\Model\Event\Game\GameType;
 
@@ -19,7 +19,7 @@ use App\Domain\Model\Event\Game\GameType;
  */
 class CreateGame
 {
-    use UuidAware, EventAware, GameProperties, ScheduleProperties, FixtureProperties;
+    use IdAware, EventAware, GameProperties, ScheduleProperties, FixtureProperties;
 
     /**
      * @param string $eventId

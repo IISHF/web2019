@@ -8,7 +8,7 @@
 
 namespace App\Application\Document\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Domain\Model\Document\DocumentVersion;
 
 /**
@@ -18,7 +18,7 @@ use App\Domain\Model\Document\DocumentVersion;
  */
 class UpdateDocumentVersion
 {
-    use UuidAware, DocumentVersionProperties;
+    use IdAware, DocumentVersionProperties;
 
     /**
      * @param DocumentVersion $documentVersion

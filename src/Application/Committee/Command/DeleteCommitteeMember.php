@@ -8,7 +8,7 @@
 
 namespace App\Application\Committee\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Domain\Model\Committee\CommitteeMember;
 
 /**
@@ -18,7 +18,7 @@ use App\Domain\Model\Committee\CommitteeMember;
  */
 class DeleteCommitteeMember
 {
-    use UuidAware;
+    use IdAware;
 
     /**
      * @param CommitteeMember $member
@@ -27,13 +27,5 @@ class DeleteCommitteeMember
     public static function delete(CommitteeMember $member): self
     {
         return new self($member->getId());
-    }
-
-    /**
-     * @param string $id
-     */
-    private function __construct(string $id)
-    {
-        $this->id = $id;
     }
 }

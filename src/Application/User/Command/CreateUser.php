@@ -8,7 +8,7 @@
 
 namespace App\Application\User\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 
 /**
  * Class CreateUser
@@ -17,7 +17,7 @@ use App\Application\Common\Command\UuidAware;
  */
 class CreateUser
 {
-    use UuidAware, UserProperties;
+    use IdAware, UserProperties;
 
     /**
      * @var string

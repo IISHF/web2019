@@ -8,7 +8,7 @@
 
 namespace App\Application\HallOfFame\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 
 /**
  * Class CreateHallOfFameEntry
@@ -17,7 +17,7 @@ use App\Application\Common\Command\UuidAware;
  */
 class CreateHallOfFameEntry
 {
-    use UuidAware, HallOfFameEntryProperties;
+    use IdAware, HallOfFameEntryProperties;
 
     private const EVENT_EUROPEAN_CHAMPIONSHIP    = 'European Championship';
     private const EVENT_EUROPEAN_CUP             = 'European Cup';
@@ -65,14 +65,5 @@ class CreateHallOfFameEntry
     public static function create(): self
     {
         return new self(self::createUuid());
-    }
-
-    /**
-     * @param string $id
-     */
-    private function __construct(string $id)
-    {
-        $this->id     = $id;
-        $this->season = idate('Y');
     }
 }

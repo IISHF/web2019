@@ -8,7 +8,7 @@
 
 namespace App\Application\NationalGoverningBody\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBody;
 
 /**
@@ -18,7 +18,7 @@ use App\Domain\Model\NationalGoverningBody\NationalGoverningBody;
  */
 class DeleteNationalGoverningBody
 {
-    use UuidAware;
+    use IdAware;
 
     /**
      * @param NationalGoverningBody $nationalGoverningBody
@@ -27,13 +27,5 @@ class DeleteNationalGoverningBody
     public static function delete(NationalGoverningBody $nationalGoverningBody): self
     {
         return new self($nationalGoverningBody->getId());
-    }
-
-    /**
-     * @param string $id
-     */
-    private function __construct(string $id)
-    {
-        $this->id = $id;
     }
 }

@@ -8,7 +8,7 @@
 
 namespace App\Application\HallOfFame\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Domain\Model\HallOfFame\HallOfFameEntry;
 
 /**
@@ -18,7 +18,7 @@ use App\Domain\Model\HallOfFame\HallOfFameEntry;
  */
 class UpdateHallOfFameEntry
 {
-    use UuidAware, HallOfFameEntryProperties;
+    use IdAware, HallOfFameEntryProperties;
 
     /**
      * @param HallOfFameEntry $entry

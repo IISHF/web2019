@@ -8,7 +8,7 @@
 
 namespace App\Application\Event\Team\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Application\Common\ContactPerson;
 use App\Domain\Model\Event\Team\ParticipatingTeam;
 
@@ -19,7 +19,7 @@ use App\Domain\Model\Event\Team\ParticipatingTeam;
  */
 class UpdateParticipatingTeam
 {
-    use UuidAware, ParticipatingTeamProperties;
+    use IdAware, ParticipatingTeamProperties;
 
     /**
      * @param ParticipatingTeam $team

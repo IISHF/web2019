@@ -12,11 +12,11 @@ use Ramsey\Uuid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Trait UuidAware
+ * Trait IdAware
  *
  * @package App\Application\Common\Command
  */
-trait UuidAware
+trait IdAware
 {
     /**
      * @Assert\Type("string")
@@ -36,10 +36,28 @@ trait UuidAware
     }
 
     /**
+     * @param string $id
+     */
+    private function __construct(string $id)
+    {
+        $this->id = $id;
+    }
+
+    /**
      * @return string
      */
     public function getId(): string
     {
         return $this->id;
+    }
+
+    /**
+     * @param string $id
+     * @return $this
+     */
+    public function setId(?string $id = null): self
+    {
+        $this->id = $id ?: self::createUuid();
+        return $this;
     }
 }

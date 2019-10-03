@@ -8,7 +8,7 @@
 
 namespace App\Application\Document\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 
 /**
  * Class CreateDocument
@@ -17,7 +17,7 @@ use App\Application\Common\Command\UuidAware;
  */
 class CreateDocument
 {
-    use UuidAware, DocumentProperties, DocumentVersionProperties, DocumentVersionFile;
+    use IdAware, DocumentProperties, DocumentVersionProperties, DocumentVersionFile;
     /**
      * @var string
      */

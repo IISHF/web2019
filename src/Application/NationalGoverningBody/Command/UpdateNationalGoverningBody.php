@@ -8,7 +8,7 @@
 
 namespace App\Application\NationalGoverningBody\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Application\NationalGoverningBody\Validator\UniqueNationalGoverningBody;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBody;
 use libphonenumber\PhoneNumber;
@@ -22,7 +22,7 @@ use libphonenumber\PhoneNumber;
  */
 class UpdateNationalGoverningBody implements IdentifiesNationalGoverningBody
 {
-    use UuidAware, NationalGoverningBodyProperties;
+    use IdAware, NationalGoverningBodyProperties;
 
     /**
      * @param NationalGoverningBody $nationalGoverningBody

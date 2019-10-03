@@ -8,7 +8,7 @@
 
 namespace App\Application\Event\Team\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Domain\Model\Event\Team\ParticipatingTeam;
 
 /**
@@ -18,7 +18,7 @@ use App\Domain\Model\Event\Team\ParticipatingTeam;
  */
 class RemoveParticipatingTeam
 {
-    use UuidAware;
+    use IdAware;
 
     /**
      * @param ParticipatingTeam $team
@@ -27,13 +27,5 @@ class RemoveParticipatingTeam
     public static function remove(ParticipatingTeam $team): self
     {
         return new self($team->getId());
-    }
-
-    /**
-     * @param string $id
-     */
-    private function __construct(string $id)
-    {
-        $this->id = $id;
     }
 }

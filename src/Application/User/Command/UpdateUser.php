@@ -8,7 +8,7 @@
 
 namespace App\Application\User\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Domain\Model\User\User;
 
 /**
@@ -18,7 +18,7 @@ use App\Domain\Model\User\User;
  */
 class UpdateUser
 {
-    use UuidAware, UserProperties;
+    use IdAware, UserProperties;
 
     /**
      * @param User $user

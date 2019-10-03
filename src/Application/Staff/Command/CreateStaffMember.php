@@ -8,7 +8,7 @@
 
 namespace App\Application\Staff\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 
 /**
  * Class CreateStaffMember
@@ -17,7 +17,7 @@ use App\Application\Common\Command\UuidAware;
  */
 class CreateStaffMember
 {
-    use UuidAware, StaffMemberProperties;
+    use IdAware, StaffMemberProperties;
 
     /**
      * @return self
@@ -25,13 +25,5 @@ class CreateStaffMember
     public static function create(): self
     {
         return new self(self::createUuid());
-    }
-
-    /**
-     * @param string $id
-     */
-    private function __construct(string $id)
-    {
-        $this->id = $id;
     }
 }

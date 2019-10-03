@@ -8,7 +8,7 @@
 
 namespace App\Application\Event\Command\Tournament;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Application\Event\Command\EventProperties;
 use App\Application\Event\Command\HostingProperties;
 use App\Application\Event\Command\SanctioningProperties;
@@ -22,7 +22,7 @@ use App\Domain\Model\Event\Tournament;
  */
 class UpdateSanctionedTournament
 {
-    use UuidAware, EventProperties, HostingProperties, SanctioningProperties;
+    use IdAware, EventProperties, HostingProperties, SanctioningProperties;
 
     /**
      * @param Tournament $tournament

@@ -8,7 +8,7 @@
 
 namespace App\Application\Event\Command\EuropeanCup;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Application\Event\Command\EventProperties;
 use App\Application\Event\Command\TitleEventProperties;
 
@@ -19,7 +19,7 @@ use App\Application\Event\Command\TitleEventProperties;
  */
 class CreateEuropeanCup
 {
-    use UuidAware, EventProperties, TitleEventProperties, EuropeanCupProperties;
+    use IdAware, EventProperties, TitleEventProperties, EuropeanCupProperties;
 
     /**
      * @return self

@@ -8,7 +8,7 @@
 
 namespace App\Application\Staff\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Domain\Model\Staff\StaffMember;
 
 /**
@@ -18,7 +18,7 @@ use App\Domain\Model\Staff\StaffMember;
  */
 class UpdateStaffMember
 {
-    use UuidAware, StaffMemberProperties;
+    use IdAware, StaffMemberProperties;
 
     /**
      * @param StaffMember $member

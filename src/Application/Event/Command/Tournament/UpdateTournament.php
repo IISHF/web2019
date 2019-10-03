@@ -8,7 +8,7 @@
 
 namespace App\Application\Event\Command\Tournament;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Application\Event\Command\EventProperties;
 use App\Application\Event\Command\HostingProperties;
 use App\Application\Event\EventHost;
@@ -21,7 +21,7 @@ use App\Domain\Model\Event\Tournament;
  */
 class UpdateTournament
 {
-    use UuidAware, EventProperties, HostingProperties;
+    use IdAware, EventProperties, HostingProperties;
 
     /**
      * @param Tournament $tournament

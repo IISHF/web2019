@@ -8,7 +8,7 @@
 
 namespace App\Application\User\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 
 /**
  * Class CreateConfirmedUser
@@ -17,7 +17,7 @@ use App\Application\Common\Command\UuidAware;
  */
 class CreateConfirmedUser
 {
-    use UuidAware, PasswordAware, UserProperties;
+    use IdAware, PasswordAware, UserProperties;
 
     /**
      * @return self
@@ -25,13 +25,5 @@ class CreateConfirmedUser
     public static function create(): self
     {
         return new self(self::createUuid());
-    }
-
-    /**
-     * @param string $id
-     */
-    private function __construct(string $id)
-    {
-        $this->id = $id;
     }
 }

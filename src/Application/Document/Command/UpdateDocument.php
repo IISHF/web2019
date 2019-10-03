@@ -8,7 +8,7 @@
 
 namespace App\Application\Document\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Domain\Model\Document\Document;
 
 /**
@@ -18,7 +18,7 @@ use App\Domain\Model\Document\Document;
  */
 class UpdateDocument
 {
-    use UuidAware, DocumentProperties;
+    use IdAware, DocumentProperties;
 
     /**
      * @param Document $document

@@ -8,7 +8,7 @@
 
 namespace App\Application\File\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Domain\Model\File\File;
 
 /**
@@ -18,7 +18,7 @@ use App\Domain\Model\File\File;
  */
 class RemoveFile
 {
-    use UuidAware;
+    use IdAware;
 
     /**
      * @param File $file
@@ -27,13 +27,5 @@ class RemoveFile
     public static function remove(File $file): self
     {
         return new self($file->getId());
-    }
-
-    /**
-     * @param string $id
-     */
-    private function __construct(string $id)
-    {
-        $this->id = $id;
     }
 }

@@ -9,7 +9,7 @@
 namespace App\Application\Event\Venue\Command;
 
 use App\Application\Common\Address;
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Domain\Model\Event\Venue\EventVenue;
 
 /**
@@ -19,7 +19,7 @@ use App\Domain\Model\Event\Venue\EventVenue;
  */
 class UpdateEventVenue
 {
-    use UuidAware, EventVenueProperties;
+    use IdAware, EventVenueProperties;
 
     /**
      * @param EventVenue $venue

@@ -8,7 +8,7 @@
 
 namespace App\Application\Event\Command\EuropeanCup;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Application\Event\Command\EventProperties;
 use App\Application\Event\Command\HostingProperties;
 use App\Application\Event\Command\SanctioningProperties;
@@ -23,7 +23,7 @@ use App\Domain\Model\Event\EuropeanCup;
  */
 class UpdateSanctionedEuropeanCup
 {
-    use UuidAware, EventProperties, TitleEventProperties, EuropeanCupProperties, HostingProperties, SanctioningProperties;
+    use IdAware, EventProperties, TitleEventProperties, EuropeanCupProperties, HostingProperties, SanctioningProperties;
 
     /**
      * @param EuropeanCup $cup

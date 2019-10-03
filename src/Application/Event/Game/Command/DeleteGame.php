@@ -8,7 +8,7 @@
 
 namespace App\Application\Event\Game\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Domain\Model\Event\Game\Game;
 
 /**
@@ -18,7 +18,7 @@ use App\Domain\Model\Event\Game\Game;
  */
 class DeleteGame
 {
-    use UuidAware;
+    use IdAware;
 
     /**
      * @param Game $game
@@ -27,13 +27,5 @@ class DeleteGame
     public static function delete(Game $game): self
     {
         return new self($game->getId());
-    }
-
-    /**
-     * @param string $id
-     */
-    private function __construct(string $id)
-    {
-        $this->id = $id;
     }
 }

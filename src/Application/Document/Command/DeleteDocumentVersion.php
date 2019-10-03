@@ -8,7 +8,7 @@
 
 namespace App\Application\Document\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Domain\Model\Document\DocumentVersion;
 
 /**
@@ -18,7 +18,7 @@ use App\Domain\Model\Document\DocumentVersion;
  */
 class DeleteDocumentVersion
 {
-    use UuidAware;
+    use IdAware;
 
     /**
      * @param DocumentVersion $documentVersion
@@ -27,13 +27,5 @@ class DeleteDocumentVersion
     public static function delete(DocumentVersion $documentVersion): self
     {
         return new self($documentVersion->getId());
-    }
-
-    /**
-     * @param string $id
-     */
-    private function __construct(string $id)
-    {
-        $this->id = $id;
     }
 }

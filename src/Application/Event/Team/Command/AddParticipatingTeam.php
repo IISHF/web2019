@@ -8,7 +8,7 @@
 
 namespace App\Application\Event\Team\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Application\Common\ContactPerson;
 use App\Application\Event\Command\EventAware;
 
@@ -19,7 +19,7 @@ use App\Application\Event\Command\EventAware;
  */
 class AddParticipatingTeam
 {
-    use UuidAware, EventAware, ParticipatingTeamProperties;
+    use IdAware, EventAware, ParticipatingTeamProperties;
 
     /**
      * @param string $eventId

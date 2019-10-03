@@ -8,7 +8,7 @@
 
 namespace App\Application\Document\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class CreateDocumentVersion
 {
-    use UuidAware, DocumentVersionProperties, DocumentVersionFile;
+    use IdAware, DocumentVersionProperties, DocumentVersionFile;
 
     /**
      * @Assert\Type("string")

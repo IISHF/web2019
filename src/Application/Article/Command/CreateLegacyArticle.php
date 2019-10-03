@@ -8,7 +8,7 @@
 
 namespace App\Application\Article\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 
 /**
  * Class CreateLegacyArticle
@@ -17,7 +17,7 @@ use App\Application\Common\Command\UuidAware;
  */
 class CreateLegacyArticle
 {
-    use UuidAware, ArticleAuthor, ArticlePublishedDate, ArticleProperties;
+    use IdAware, ArticleAuthor, ArticlePublishedDate, ArticleProperties;
 
     /**
      * @param string $author

@@ -8,7 +8,7 @@
 
 namespace App\Application\HallOfFame\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Domain\Model\HallOfFame\HallOfFameEntry;
 
 /**
@@ -18,7 +18,7 @@ use App\Domain\Model\HallOfFame\HallOfFameEntry;
  */
 class DeleteHallOfFameEntry
 {
-    use UuidAware;
+    use IdAware;
 
     /**
      * @param HallOfFameEntry $entry
@@ -27,13 +27,5 @@ class DeleteHallOfFameEntry
     public static function delete(HallOfFameEntry $entry): self
     {
         return new self($entry->getId());
-    }
-
-    /**
-     * @param string $id
-     */
-    private function __construct(string $id)
-    {
-        $this->id = $id;
     }
 }

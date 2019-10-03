@@ -8,7 +8,7 @@
 
 namespace App\Application\Event\Venue\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Domain\Model\Event\Venue\EventVenue;
 
 /**
@@ -18,7 +18,7 @@ use App\Domain\Model\Event\Venue\EventVenue;
  */
 class DeleteEventVenue
 {
-    use UuidAware;
+    use IdAware;
 
     /**
      * @param EventVenue $venue
@@ -27,13 +27,5 @@ class DeleteEventVenue
     public static function delete(EventVenue $venue): self
     {
         return new self($venue->getId());
-    }
-
-    /**
-     * @param string $id
-     */
-    private function __construct(string $id)
-    {
-        $this->id = $id;
     }
 }

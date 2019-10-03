@@ -8,7 +8,7 @@
 
 namespace App\Application\Staff\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Domain\Model\Staff\StaffMember;
 
 /**
@@ -18,7 +18,7 @@ use App\Domain\Model\Staff\StaffMember;
  */
 class DeleteStaffMember
 {
-    use UuidAware;
+    use IdAware;
 
     /**
      * @param StaffMember $member
@@ -27,13 +27,5 @@ class DeleteStaffMember
     public static function delete(StaffMember $member): self
     {
         return new self($member->getId());
-    }
-
-    /**
-     * @param string $id
-     */
-    private function __construct(string $id)
-    {
-        $this->id = $id;
     }
 }

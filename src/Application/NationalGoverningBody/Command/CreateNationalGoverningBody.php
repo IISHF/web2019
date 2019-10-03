@@ -8,7 +8,7 @@
 
 namespace App\Application\NationalGoverningBody\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Application\NationalGoverningBody\Validator\UniqueNationalGoverningBody;
 
 /**
@@ -20,7 +20,7 @@ use App\Application\NationalGoverningBody\Validator\UniqueNationalGoverningBody;
  */
 class CreateNationalGoverningBody implements IdentifiesNationalGoverningBody
 {
-    use UuidAware, NationalGoverningBodyProperties;
+    use IdAware, NationalGoverningBodyProperties;
 
     /**
      * @return self
@@ -28,13 +28,5 @@ class CreateNationalGoverningBody implements IdentifiesNationalGoverningBody
     public static function create(): self
     {
         return new self(self::createUuid());
-    }
-
-    /**
-     * @param string $id
-     */
-    private function __construct(string $id)
-    {
-        $this->id = $id;
     }
 }

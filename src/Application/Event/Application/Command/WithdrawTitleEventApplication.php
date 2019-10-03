@@ -8,7 +8,7 @@
 
 namespace App\Application\Event\Application\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Domain\Model\Event\Application\TitleEventApplication;
 
 /**
@@ -18,7 +18,7 @@ use App\Domain\Model\Event\Application\TitleEventApplication;
  */
 class WithdrawTitleEventApplication
 {
-    use UuidAware;
+    use IdAware;
 
     /**
      * @param TitleEventApplication $application
@@ -27,13 +27,5 @@ class WithdrawTitleEventApplication
     public static function withdraw(TitleEventApplication $application): self
     {
         return new self($application->getId());
-    }
-
-    /**
-     * @param string $id
-     */
-    private function __construct(string $id)
-    {
-        $this->id = $id;
     }
 }

@@ -8,7 +8,7 @@
 
 namespace App\Application\Document\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Domain\Model\Document\Document;
 
 /**
@@ -18,7 +18,7 @@ use App\Domain\Model\Document\Document;
  */
 class DeleteDocument
 {
-    use UuidAware;
+    use IdAware;
 
     /**
      * @param Document $document
@@ -27,13 +27,5 @@ class DeleteDocument
     public static function delete(Document $document): self
     {
         return new self($document->getId());
-    }
-
-    /**
-     * @param string $id
-     */
-    private function __construct(string $id)
-    {
-        $this->id = $id;
     }
 }

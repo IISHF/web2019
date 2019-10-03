@@ -8,7 +8,7 @@
 
 namespace App\Application\Event\Command\Workflow;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Domain\Model\Event\Event;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 abstract class EventWorkflowCommand
 {
-    use UuidAware;
+    use IdAware;
 
     /**
      * @Assert\Type("string")

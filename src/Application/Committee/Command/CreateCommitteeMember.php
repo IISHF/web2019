@@ -8,7 +8,7 @@
 
 namespace App\Application\Committee\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class CreateCommitteeMember
 {
-    use UuidAware, CommitteeMemberProperties;
+    use IdAware, CommitteeMemberProperties;
 
     /**
      * @Assert\Type("string")

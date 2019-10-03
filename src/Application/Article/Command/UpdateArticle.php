@@ -8,7 +8,7 @@
 
 namespace App\Application\Article\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Domain\Model\Article\Article;
 
 /**
@@ -18,7 +18,7 @@ use App\Domain\Model\Article\Article;
  */
 class UpdateArticle
 {
-    use UuidAware, ArticlePublishedDate, ArticleProperties;
+    use IdAware, ArticlePublishedDate, ArticleProperties;
 
     /**
      * @param Article $article

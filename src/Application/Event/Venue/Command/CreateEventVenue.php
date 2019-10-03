@@ -9,7 +9,7 @@
 namespace App\Application\Event\Venue\Command;
 
 use App\Application\Common\Address;
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 
 /**
  * Class CreateEventVenue
@@ -18,7 +18,7 @@ use App\Application\Common\Command\UuidAware;
  */
 class CreateEventVenue
 {
-    use UuidAware, EventVenueProperties;
+    use IdAware, EventVenueProperties;
 
     /**
      * @return self

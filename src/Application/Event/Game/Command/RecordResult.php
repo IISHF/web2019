@@ -8,7 +8,7 @@
 
 namespace App\Application\Event\Game\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Domain\Model\Event\Game\Game;
 
 /**
@@ -18,7 +18,7 @@ use App\Domain\Model\Event\Game\Game;
  */
 class RecordResult
 {
-    use UuidAware, ResultProperties;
+    use IdAware, ResultProperties;
 
     /**
      * @param Game $game

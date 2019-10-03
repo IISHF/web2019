@@ -8,7 +8,7 @@
 
 namespace App\Application\Event\Command\Tournament;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Application\Event\Command\EventProperties;
 use App\Application\Event\Command\HostingProperties;
 use App\Application\Event\EventHost;
@@ -20,7 +20,7 @@ use App\Application\Event\EventHost;
  */
 class CreateTournament
 {
-    use UuidAware, EventProperties, HostingProperties;
+    use IdAware, EventProperties, HostingProperties;
 
     /**
      * @return self

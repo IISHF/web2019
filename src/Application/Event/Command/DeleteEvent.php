@@ -8,7 +8,7 @@
 
 namespace App\Application\Event\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 use App\Domain\Model\Event\Event;
 
 /**
@@ -18,7 +18,7 @@ use App\Domain\Model\Event\Event;
  */
 class DeleteEvent
 {
-    use UuidAware;
+    use IdAware;
 
     /**
      * @param Event $event
@@ -27,13 +27,5 @@ class DeleteEvent
     public static function delete(Event $event): self
     {
         return new self($event->getId());
-    }
-
-    /**
-     * @param string $id
-     */
-    private function __construct(string $id)
-    {
-        $this->id = $id;
     }
 }

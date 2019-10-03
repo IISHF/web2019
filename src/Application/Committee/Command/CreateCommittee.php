@@ -8,7 +8,7 @@
 
 namespace App\Application\Committee\Command;
 
-use App\Application\Common\Command\UuidAware;
+use App\Application\Common\Command\IdAware;
 
 /**
  * Class CreateCommittee
@@ -17,7 +17,7 @@ use App\Application\Common\Command\UuidAware;
  */
 class CreateCommittee
 {
-    use UuidAware, CommitteeProperties;
+    use IdAware, CommitteeProperties;
 
     /**
      * @return self
@@ -25,13 +25,5 @@ class CreateCommittee
     public static function create(): self
     {
         return new self(self::createUuid());
-    }
-
-    /**
-     * @param string $id
-     */
-    private function __construct(string $id)
-    {
-        $this->id = $id;
     }
 }
