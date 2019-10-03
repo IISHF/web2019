@@ -12,8 +12,8 @@ The Nginx webserver running on the virtual machine is configured to
 use HTTP/2 and therefore requires SSL certificates. **Before running 
 the Vagrant box for the first time ensure that the appropriate 
 certificates have been created.** The *Common Name* for the 
-certificate must be set to `iishf.local`. The script 
-`./vagrant/roles/webserver/files/cert.sh` can be used to create an
+certificate must be set to `iishf.test`. The script 
+`./vagrant/roles/webserver/files/mkcert.sh` can be used to create an
 appropriate key/certificate pair.
 
 The virtual machine exposes HTTPS on port `4430` and the MySQL 

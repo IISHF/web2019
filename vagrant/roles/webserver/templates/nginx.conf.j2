@@ -6,8 +6,8 @@ server {
     server_name {{ ansible_fqdn }} {{ ansible_hostname }} {{ inventory_hostname }};
     root /var/www/iishf/public;
 
-    ssl_certificate /etc/ssl/certs/iishf-test.crt;
-    ssl_certificate_key /etc/ssl/private/iishf-test.key;
+    ssl_certificate /etc/ssl/certs/iishf.crt;
+    ssl_certificate_key /etc/ssl/private/iishf.key;
 
     error_log /var/log/nginx/iishf.error.log;
     access_log /var/log/nginx/iishf.access.log;

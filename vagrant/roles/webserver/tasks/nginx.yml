@@ -16,12 +16,12 @@
         - restart nginx
 
 -   name: copy ssl key
-    copy: src=iishf-test.key dest=/etc/ssl/private/iishf-test.key owner=root group=root mode=0640
+    copy: src=iishf_test.key dest=/etc/ssl/private/iishf.key owner=root group=root mode=0640
     notify:
         - restart nginx
 
 -   name: copy ssl certificate
-    copy: src=iishf-test.crt dest=/etc/ssl/certs/iishf-test.crt owner=root group=root mode=0644
+    copy: src=iishf_test.crt dest=/etc/ssl/certs/iishf.crt owner=root group=root mode=0644
     notify:
         - restart nginx
 

@@ -2,7 +2,7 @@ ENV["VAGRANT_DEFAULT_PROVIDER"] = "virtualbox"
 
 Vagrant.configure("2") do |config|
 	config.vm.box = "bento/ubuntu-18.04"
-	config.vm.hostname = "iishf.local"
+	config.vm.hostname = "iishf.test"
 
 	config.vm.network :forwarded_port, host: 4430, guest: 443
 	config.vm.network :forwarded_port, host: 33060, guest: 3306
