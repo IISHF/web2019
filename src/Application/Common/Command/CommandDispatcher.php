@@ -8,6 +8,7 @@
 
 namespace App\Application\Common\Command;
 
+use BadMethodCallException;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
@@ -21,6 +22,15 @@ trait CommandDispatcher
      * @var MessageBusInterface
      */
     private $commandBus;
+
+    /**
+     * @param MessageBusInterface $commandBus
+     * @internal
+     */
+    public function setCommandBus(MessageBusInterface $commandBus): void
+    {
+        $this->commandBus = $commandBus;
+    }
 
     /**
      * @param object[] $commands
@@ -37,6 +47,9 @@ trait CommandDispatcher
      */
     protected function dispatchCommand(object $command): void
     {
+        if (!$this->commandBus) {
+            throw new BadMethodCallException('No command bus available.');
+        }
         $this->commandBus->dispatch($command);
     }
 }

@@ -10,14 +10,13 @@ namespace App\Application\Event\Command;
 
 use App\Domain\Model\Event\Event;
 use App\Domain\Model\Event\EventRepository;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 /**
  * Class EventBasedCommandHandler
  *
  * @package App\Application\Event\Command
  */
-abstract class EventBasedCommandHandler implements MessageHandlerInterface
+abstract class EventBasedCommandHandler
 {
     /**
      * @var EventRepository

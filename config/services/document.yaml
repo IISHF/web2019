@@ -6,13 +6,11 @@ services:
 
     App\Domain\Model\Document\DocumentRepository:
 
-    App\Application\Document\Command\CreateDocumentHandler:
-    App\Application\Document\Command\UpdateDocumentHandler:
-    App\Application\Document\Command\DeleteDocumentHandler:
-
-    App\Application\Document\Command\CreateDocumentVersionHandler:
-    App\Application\Document\Command\UpdateDocumentVersionHandler:
-    App\Application\Document\Command\DeleteDocumentVersionHandler:
+    command_handlers:
+        namespace: App\Application\Document\Command\
+        resource: '%kernel.project_dir%/src/Application/Document/Command/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.commands }
 
     App\Infrastructure\Document\Security\Voter\DocumentVoter:
     App\Infrastructure\Document\Security\Voter\DocumentVersionVoter:

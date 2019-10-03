@@ -6,9 +6,11 @@ services:
 
     App\Domain\Model\Staff\StaffMemberRepository:
 
-    App\Application\Staff\Command\CreateStaffMemberHandler:
-    App\Application\Staff\Command\UpdateStaffMemberHandler:
-    App\Application\Staff\Command\DeleteStaffMemberHandler:
+    command_handlers:
+        namespace: App\Application\Staff\Command\
+        resource: '%kernel.project_dir%/src/Application/Staff/Command/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.commands }
 
     App\Infrastructure\Staff\Security\Voter\StaffMemberVoter:
 

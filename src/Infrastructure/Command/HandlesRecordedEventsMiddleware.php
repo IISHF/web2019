@@ -9,6 +9,7 @@
 namespace App\Infrastructure\Command;
 
 use App\Application\Common\Command\EventRecorderInterface;
+use Exception;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
@@ -48,7 +49,7 @@ class HandlesRecordedEventsMiddleware implements MiddlewareInterface
     {
         try {
             $envelope = $stack->next()->handle($envelope, $stack);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->eventRecorder->clearEvents();
             throw $exception;
         }

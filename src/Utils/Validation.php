@@ -31,7 +31,7 @@ final class Validation
     public static function getViolations(ValidationFailedException $e): array
     {
         return array_map(
-            function (ConstraintViolationInterface $violation) {
+            static function (ConstraintViolationInterface $violation) {
                 return $violation->getPropertyPath() . ': ' . $violation->getMessage();
             },
             iterator_to_array($e->getViolations())

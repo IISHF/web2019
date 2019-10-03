@@ -12,14 +12,13 @@ use App\Domain\Common\Urlizer;
 use App\Domain\Model\Committee\Committee;
 use App\Domain\Model\Committee\CommitteeMember;
 use App\Domain\Model\Committee\CommitteeRepository;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 /**
  * Class CommitteeCommandHandler
  *
  * @package App\Application\Committee\Command
  */
-abstract class CommitteeCommandHandler implements MessageHandlerInterface
+abstract class CommitteeCommandHandler
 {
     /**
      * @var CommitteeRepository

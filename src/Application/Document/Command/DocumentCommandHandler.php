@@ -14,14 +14,13 @@ use App\Domain\Model\Document\Document;
 use App\Domain\Model\Document\DocumentRepository;
 use App\Domain\Model\Document\DocumentVersion;
 use App\Domain\Model\File\File;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 /**
  * Class DocumentCommandHandler
  *
  * @package App\Application\Document\Command
  */
-abstract class DocumentCommandHandler implements MessageHandlerInterface
+abstract class DocumentCommandHandler
 {
     /**
      * @var DocumentRepository

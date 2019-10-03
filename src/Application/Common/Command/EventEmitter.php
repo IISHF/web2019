@@ -8,6 +8,8 @@
 
 namespace App\Application\Common\Command;
 
+use BadMethodCallException;
+
 /**
  * Trait EventEmitter
  *
@@ -19,6 +21,15 @@ trait EventEmitter
      * @var RecordsEvents
      */
     private $eventRecorder;
+
+    /**
+     * @param RecordsEvents $eventRecorder
+     * @internal
+     */
+    public function setEventRecorder(RecordsEvents $eventRecorder): void
+    {
+        $this->eventRecorder = $eventRecorder;
+    }
 
     /**
      * @param object[] $events
@@ -35,6 +46,9 @@ trait EventEmitter
      */
     protected function emitEvent(object $event): void
     {
+        if (!$this->eventRecorder) {
+            throw new BadMethodCallException('No event recorder available.');
+        }
         $this->eventRecorder->recordEvent($event);
     }
 }

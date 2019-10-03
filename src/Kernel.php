@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Application\Common\Command;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -88,5 +89,19 @@ class Kernel extends BaseKernel
         $routes->import($confDir . '/{routes}/' . $this->environment . '/**/*' . self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir . '/{routes}/*' . self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir . '/{routes}' . self::CONFIG_EXTS, '/', 'glob');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function build(ContainerBuilder $container): void
+    {
+        parent::build($container);
+
+        $container->registerForAutoconfiguration(Command\CommandDispatchingHandler::class)
+                  ->addTag('app.command_handler.command_dispatching');
+        $container->registerForAutoconfiguration(Command\EventEmittingHandler::class)
+                  ->addTag('app.command_handler.event_emitting');
+        $container->addCompilerPass(new DependencyInjection\Compiler\MessageHandlerPass());
     }
 }

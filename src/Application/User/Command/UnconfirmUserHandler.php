@@ -9,27 +9,16 @@
 namespace App\Application\User\Command;
 
 use App\Application\Common\Command\EventEmitter;
-use App\Application\Common\Command\RecordsEvents;
-use App\Domain\Model\User\UserRepository;
+use App\Application\Common\Command\EventEmittingHandler;
 
 /**
  * Class UnconfirmUserHandler
  *
  * @package App\Application\User\Command
  */
-class UnconfirmUserHandler extends UserCommandHandler
+class UnconfirmUserHandler extends UserCommandHandler implements EventEmittingHandler
 {
     use EventEmitter;
-
-    /**
-     * @param UserRepository $userRepository
-     * @param RecordsEvents  $eventRecorder
-     */
-    public function __construct(UserRepository $userRepository, RecordsEvents $eventRecorder)
-    {
-        parent::__construct($userRepository);
-        $this->eventRecorder = $eventRecorder;
-    }
 
     /**
      * @param UnconfirmUser $command

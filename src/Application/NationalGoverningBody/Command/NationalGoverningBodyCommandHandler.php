@@ -11,14 +11,13 @@ namespace App\Application\NationalGoverningBody\Command;
 use App\Domain\Common\Urlizer;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBody;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBodyRepository;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 /**
  * Class NationalGoverningBodyCommandHandler
  *
  * @package App\Application\NationalGoverningBody\Command
  */
-abstract class NationalGoverningBodyCommandHandler implements MessageHandlerInterface
+abstract class NationalGoverningBodyCommandHandler
 {
     /**
      * @var NationalGoverningBodyRepository

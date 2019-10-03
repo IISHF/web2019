@@ -5,22 +5,13 @@ services:
         public: false
 
     App\Domain\Model\Article\ArticleRepository:
-
     App\Domain\Model\Article\ArticleVersionRepository:
-        factory: 'doctrine.orm.entity_manager:getRepository'
-        arguments: ['App\Domain\Model\Article\ArticleVersion']
 
-    App\Application\Article\Command\CreateArticleHandler:
-    App\Application\Article\Command\CreateLegacyArticleHandler:
-    App\Application\Article\Command\UpdateArticleHandler:
-    App\Application\Article\Command\DeleteArticleHandler:
-
-    App\Application\Article\Command\TransitionArticleHandler:
-    App\Application\Article\Command\PublishArticleHandler:
-
-    App\Application\Article\Command\AddAttachmentsHandler:
-    App\Application\Article\Command\AddDocumentHandler:
-    App\Application\Article\Command\AddImageHandler:
+    command_handlers:
+        namespace: App\Application\Article\Command\
+        resource: '%kernel.project_dir%/src/Application/Article/Command/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.commands }
 
     App\Infrastructure\Article\Security\Voter\ArticleVoter:
 

@@ -6,9 +6,11 @@ services:
 
     App\Domain\Model\NationalGoverningBody\NationalGoverningBodyRepository:
 
-    App\Application\NationalGoverningBody\Command\CreateNationalGoverningBodyHandler:
-    App\Application\NationalGoverningBody\Command\UpdateNationalGoverningBodyHandler:
-    App\Application\NationalGoverningBody\Command\DeleteNationalGoverningBodyHandler:
+    command_handlers:
+        namespace: App\Application\NationalGoverningBody\Command\
+        resource: '%kernel.project_dir%/src/Application/NationalGoverningBody/Command/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.commands }
 
     App\Infrastructure\NationalGoverningBody\Security\Voter\NationalGoverningBodyVoter:
 

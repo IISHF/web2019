@@ -10,14 +10,13 @@ namespace App\Application\User\Command;
 
 use App\Domain\Model\User\User;
 use App\Domain\Model\User\UserRepository;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 /**
  * Class UserCommandHandler
  *
  * @package App\Application\User\Command
  */
-abstract class UserCommandHandler implements MessageHandlerInterface
+abstract class UserCommandHandler
 {
     /**
      * @var UserRepository

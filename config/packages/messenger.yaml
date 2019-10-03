@@ -32,3 +32,8 @@ services:
     App\Application\Common\Command\EventRecorder:
     App\Application\Common\Command\EventRecorderInterface: '@App\Application\Common\Command\EventRecorder'
     App\Application\Common\Command\RecordsEvents: '@App\Application\Common\Command\EventRecorder'
+
+    App\Application\Common\Command\CompositeCommandHandler:
+        autoconfigure: false
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.commands }

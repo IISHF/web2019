@@ -10,14 +10,13 @@ namespace App\Application\Event\Venue\Command;
 
 use App\Domain\Model\Event\Venue\EventVenue;
 use App\Domain\Model\Event\Venue\EventVenueRepository;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 /**
  * Class EventVenueCommandHandler
  *
  * @package App\Application\Event\Venue\Command
  */
-abstract class EventVenueCommandHandler implements MessageHandlerInterface
+abstract class EventVenueCommandHandler
 {
     /**
      * @var EventVenueRepository

@@ -11,7 +11,6 @@ namespace App\Application\Event\Command\Workflow;
 use App\Application\Event\Command\EventCommandHandler;
 use App\Domain\Model\Event\Event;
 use App\Domain\Model\Event\EventRepository;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Workflow\Registry;
 
 /**
@@ -27,16 +26,12 @@ abstract class WorkflowCommandHandler extends EventCommandHandler
     private $workflowRegistry;
 
     /**
-     * @param EventRepository     $eventRepository
-     * @param Registry            $workflowRegistry
-     * @param MessageBusInterface $commandBus
+     * @param EventRepository $eventRepository
+     * @param Registry        $workflowRegistry
      */
-    public function __construct(
-        EventRepository $eventRepository,
-        Registry $workflowRegistry,
-        MessageBusInterface $commandBus
-    ) {
-        parent::__construct($eventRepository, $commandBus);
+    public function __construct(EventRepository $eventRepository, Registry $workflowRegistry)
+    {
+        parent::__construct($eventRepository);
         $this->workflowRegistry = $workflowRegistry;
     }
 

@@ -6,13 +6,11 @@ services:
 
     App\Domain\Model\Committee\CommitteeRepository:
 
-    App\Application\Committee\Command\CreateCommitteeHandler:
-    App\Application\Committee\Command\UpdateCommitteeHandler:
-    App\Application\Committee\Command\DeleteCommitteeHandler:
-
-    App\Application\Committee\Command\CreateCommitteeMemberHandler:
-    App\Application\Committee\Command\UpdateCommitteeMemberHandler:
-    App\Application\Committee\Command\DeleteCommitteeMemberHandler:
+    command_handlers:
+        namespace: App\Application\Committee\Command\
+        resource: '%kernel.project_dir%/src/Application/Committee/Command/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.commands }
 
     App\Infrastructure\Committee\Security\Voter\CommitteeVoter:
     App\Infrastructure\Committee\Security\Voter\CommitteeMemberVoter:

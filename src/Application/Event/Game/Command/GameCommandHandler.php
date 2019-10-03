@@ -14,14 +14,13 @@ use App\Domain\Model\Event\Game\Game;
 use App\Domain\Model\Event\Game\GameRepository;
 use App\Domain\Model\Event\Team\ParticipatingTeam;
 use App\Domain\Model\Event\Team\ParticipatingTeamRepository;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 /**
  * Class GameCommandHandler
  *
  * @package App\Application\Event\Game\Command
  */
-abstract class GameCommandHandler implements MessageHandlerInterface
+abstract class GameCommandHandler
 {
     /**
      * @var GameRepository

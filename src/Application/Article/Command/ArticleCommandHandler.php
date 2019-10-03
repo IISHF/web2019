@@ -12,14 +12,13 @@ use App\Domain\Common\Urlizer;
 use App\Domain\Model\Article\Article;
 use App\Domain\Model\Article\ArticleRepository;
 use App\Utils\Text;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 /**
  * Class ArticleCommandHandler
  *
  * @package App\Application\Article\Command
  */
-abstract class ArticleCommandHandler implements MessageHandlerInterface
+abstract class ArticleCommandHandler
 {
     /**
      * @var ArticleRepository

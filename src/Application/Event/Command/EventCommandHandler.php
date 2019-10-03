@@ -9,28 +9,17 @@
 namespace App\Application\Event\Command;
 
 use App\Application\Common\Command\CommandDispatcher;
+use App\Application\Common\Command\CommandDispatchingHandler;
 use App\Domain\Common\Urlizer;
-use App\Domain\Model\Event\EventRepository;
-use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
  * Class EventCommandHandler
  *
  * @package App\Application\Event\Command
  */
-abstract class EventCommandHandler extends EventBasedCommandHandler
+abstract class EventCommandHandler extends EventBasedCommandHandler implements CommandDispatchingHandler
 {
     use CommandDispatcher;
-
-    /**
-     * @param EventRepository     $eventRepository
-     * @param MessageBusInterface $commandBus
-     */
-    public function __construct(EventRepository $eventRepository, MessageBusInterface $commandBus)
-    {
-        parent::__construct($eventRepository);
-        $this->commandBus = $commandBus;
-    }
 
     /**
      * @param int         $season

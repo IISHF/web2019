@@ -10,7 +10,6 @@ namespace App\Infrastructure\User\Event;
 
 use App\Application\User\Command\UserCreated;
 use App\Infrastructure\Messaging\MailService;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -18,7 +17,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  *
  * @package App\Infrastructure\User\Event
  */
-class UserCreatedNotifySubscriber implements MessageHandlerInterface
+class UserCreatedNotifySubscriber
 {
     /**
      * @var UrlGeneratorInterface

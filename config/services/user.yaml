@@ -6,21 +6,17 @@ services:
 
     App\Domain\Model\User\UserRepository:
 
-    App\Application\User\Command\CreateUserHandler:
-    App\Application\User\Command\CreateConfirmedUserHandler:
-    App\Application\User\Command\UpdateUserHandler:
-    App\Application\User\Command\DeleteUserHandler:
+    command_handlers:
+        namespace: App\Application\User\Command\
+        resource: '%kernel.project_dir%/src/Application/User/Command/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.commands }
 
-    App\Application\User\Command\ConfirmUserHandler:
-    App\Application\User\Command\UnconfirmUserHandler:
-    App\Application\User\Command\ChangePasswordHandler:
-    App\Application\User\Command\RequestPasswordResetHandler:
-    App\Application\User\Command\ResetPasswordHandler:
-    App\Application\User\Command\SetPasswordHandler:
-
-    App\Infrastructure\User\Event\UserCreatedNotifySubscriber:
-    App\Infrastructure\User\Event\PasswordResetRequestedNotifySubscriber:
-    App\Infrastructure\User\Event\UserUnconfirmedNotifySubscriber:
+    event_subscribers:
+        namespace: App\Infrastructure\User\Event\
+        resource: '%kernel.project_dir%/src/Infrastructure/User/Event/*Subscriber.php'
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.events }
 
     App\Application\User\PasswordService:
         arguments:

@@ -9,35 +9,29 @@ services:
     App\Domain\Model\Event\Team\ParticipatingTeamRepository:
     App\Domain\Model\Event\Application\TitleEventApplicationRepository:
 
-    App\Application\Event\Command\EuropeanChampionship\CreateEuropeanChampionshipHandler:
-    App\Application\Event\Command\EuropeanChampionship\UpdateEuropeanChampionshipHandler:
-    App\Application\Event\Command\EuropeanChampionship\UpdateAnnouncedEuropeanChampionshipHandler:
-    App\Application\Event\Command\EuropeanChampionship\UpdateSanctionedEuropeanChampionshipHandler:
-    App\Application\Event\Command\EuropeanCup\CreateEuropeanCupHandler:
-    App\Application\Event\Command\EuropeanCup\UpdateEuropeanCupHandler:
-    App\Application\Event\Command\EuropeanCup\UpdateAnnouncedEuropeanCupHandler:
-    App\Application\Event\Command\EuropeanCup\UpdateSanctionedEuropeanCupHandler:
-    App\Application\Event\Command\Tournament\CreateTournamentHandler:
-    App\Application\Event\Command\Tournament\UpdateTournamentHandler:
-    App\Application\Event\Command\Tournament\UpdateSanctionedTournamentHandler:
-    App\Application\Event\Command\DeleteEventHandler:
+    command_handlers:
+        namespace: App\Application\Event\Command\
+        resource: '%kernel.project_dir%/src/Application/Event/Command/**/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.commands }
 
-    App\Application\Event\Command\Workflow\TransitionEventHandler:
-    App\Application\Event\Command\Workflow\AnnounceTitleEventHandler:
-    App\Application\Event\Command\Workflow\WithholdTitleEventHandler:
-    App\Application\Event\Command\Workflow\SanctionEventHandler:
+    application_command_handlers:
+        namespace: App\Application\Event\Application\Command\
+        resource: '%kernel.project_dir%/src/Application/Event/Application/Command/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.commands }
 
-    App\Application\Event\Venue\Command\CreateEventVenueHandler:
-    App\Application\Event\Venue\Command\UpdateEventVenueHandler:
-    App\Application\Event\Venue\Command\DeleteEventVenueHandler:
+    team_command_handlers:
+        namespace: App\Application\Event\Team\Command\
+        resource: '%kernel.project_dir%/src/Application/Event/Team/Command/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.commands }
 
-    App\Application\Event\Team\Command\AddParticipatingTeamHandler:
-    App\Application\Event\Team\Command\UpdateParticipatingTeamHandler:
-    App\Application\Event\Team\Command\RemoveParticipatingTeamHandler:
-
-    App\Application\Event\Application\Command\ApplyForTitleEventHandler:
-    App\Application\Event\Application\Command\UpdateTitleEventApplicationHandler:
-    App\Application\Event\Application\Command\WithdrawTitleEventApplicationHandler:
+    venue_command_handlers:
+        namespace: App\Application\Event\Venue\Command\
+        resource: '%kernel.project_dir%/src/Application/Event/Venue/Command/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.commands }
 
     App\Infrastructure\Event\Security\Voter\EventVoter:
     App\Infrastructure\Event\Security\Voter\TitleEventVoter:

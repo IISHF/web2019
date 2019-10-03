@@ -11,14 +11,13 @@ namespace App\Application\File\Command;
 use App\Application\File\FileFactory;
 use App\Domain\Model\File\File;
 use App\Domain\Model\File\FileRepository;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 /**
  * Class FileCommandHandler
  *
  * @package App\Application\File\Command
  */
-abstract class FileCommandHandler implements MessageHandlerInterface
+abstract class FileCommandHandler
 {
     /**
      * @var FileFactory

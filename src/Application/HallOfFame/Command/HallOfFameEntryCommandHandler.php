@@ -10,14 +10,13 @@ namespace App\Application\HallOfFame\Command;
 
 use App\Domain\Model\HallOfFame\HallOfFameEntry;
 use App\Domain\Model\HallOfFame\HallOfFameRepository;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 /**
  * Class HallOfFameEntryCommandHandler
  *
  * @package App\Application\HallOfFame\Command
  */
-abstract class HallOfFameEntryCommandHandler implements MessageHandlerInterface
+abstract class HallOfFameEntryCommandHandler
 {
     /**
      * @var HallOfFameRepository

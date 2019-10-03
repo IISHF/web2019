@@ -10,14 +10,13 @@ namespace App\Application\Staff\Command;
 
 use App\Domain\Model\Staff\StaffMember;
 use App\Domain\Model\Staff\StaffMemberRepository;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 /**
  * Class StaffMemberCommandHandler
  *
  * @package App\Application\Staff\Command
  */
-abstract class StaffMemberCommandHandler implements MessageHandlerInterface
+abstract class StaffMemberCommandHandler
 {
     /**
      * @var StaffMemberRepository
