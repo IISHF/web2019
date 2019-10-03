@@ -8,7 +8,7 @@
 
 namespace App\Domain\Model\Event\Application;
 
-use App\Domain\Common\DateTime;
+use App\Domain\Common\Timezone;
 use App\Domain\Model\Common\ContactPerson;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;
@@ -232,6 +232,6 @@ class TitleEventApplication
      */
     public function getTimeZoneName(): string
     {
-        return DateTime::formatTimeZoneName($this->getTimeZone());
+        return Timezone::getName($this->getTimeZone());
     }
 }

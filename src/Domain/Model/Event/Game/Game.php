@@ -9,6 +9,7 @@
 namespace App\Domain\Model\Event\Game;
 
 use App\Domain\Common\DateTime;
+use App\Domain\Common\Timezone;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
@@ -382,7 +383,7 @@ class Game
      */
     public function getTimeZoneName(): string
     {
-        return DateTime::formatTimeZoneName($this->getTimeZone());
+        return Timezone::getName($this->getTimeZone());
     }
 
     /**

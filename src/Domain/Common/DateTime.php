@@ -15,12 +15,6 @@ namespace App\Domain\Common;
  */
 final class DateTime
 {
-
-    /**
-     * @var \DateTimeZone|null
-     */
-    private static $utc;
-
     /**
      */
     private function __construct()
@@ -29,23 +23,12 @@ final class DateTime
     }
 
     /**
-     * @return \DateTimeZone
-     */
-    public static function utc(): \DateTimeZone
-    {
-        if (!self::$utc) {
-            self::$utc = new \DateTimeZone('UTC');
-        }
-        return self::$utc;
-    }
-
-    /**
      * @param \DateTimeImmutable $dateTime
      * @return \DateTimeImmutable
      */
     public static function toUtc(\DateTimeImmutable $dateTime): \DateTimeImmutable
     {
-        return self::toTimeZone($dateTime, self::utc());
+        return self::toTimeZone($dateTime, Timezone::getUtc());
     }
 
     /**
@@ -74,41 +57,7 @@ final class DateTime
      */
     public static function reinterpretAsUtc(\DateTimeInterface $dateTime): \DateTimeImmutable
     {
-        return new \DateTimeImmutable($dateTime->format('Y-m-d H:i:s.u'), self::utc());
-    }
-
-    /**
-     * @see \Symfony\Component\Form\Extension\Core\Type\TimezoneType::getTimezones()
-     *
-     * @param \DateTimeZone $timeZone
-     * @return string
-     */
-    public static function formatTimeZoneName(\DateTimeZone $timeZone): string
-    {
-        [$region, $name] = self::getTimeZoneParts($timeZone);
-        return $region . '/' . str_replace('_', ' ', $name);
-    }
-
-    /**
-     * @see \Symfony\Component\Form\Extension\Core\Type\TimezoneType::getTimezones()
-     *
-     * @param \DateTimeZone $timeZone
-     * @return string[]
-     */
-    public static function getTimeZoneParts(\DateTimeZone $timeZone): array
-    {
-        $parts = explode('/', $timeZone->getName());
-        if (\count($parts) > 2) {
-            $region = $parts[0];
-            $name   = $parts[1] . ' - ' . $parts[2];
-        } elseif (\count($parts) > 1) {
-            [$region, $name] = $parts;
-        } else {
-            $region = 'Other';
-            $name   = $parts[0];
-        }
-
-        return [$region, str_replace('_', ' ', $name)];
+        return new \DateTimeImmutable($dateTime->format('Y-m-d H:i:s.u'), Timezone::getUtc());
     }
 
     /**

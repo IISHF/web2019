@@ -10,6 +10,7 @@ namespace App\Domain\Model\Event;
 
 use App\Domain\Common\AgeGroup;
 use App\Domain\Common\DateTime;
+use App\Domain\Common\Timezone;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
@@ -463,7 +464,7 @@ abstract class Event
      */
     public function getTimeZoneName(): string
     {
-        return DateTime::formatTimeZoneName($this->getTimeZone());
+        return Timezone::getName($this->getTimeZone());
     }
 
     /**

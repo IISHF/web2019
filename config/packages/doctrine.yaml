@@ -16,6 +16,13 @@ doctrine:
             collate: utf8mb4_unicode_ci
 
         url: '%env(resolve:DATABASE_URL)%'
+        schema_filter: /^(?!rememberme_token|login_tokens)/
+        types:
+            datetime_utc: App\Doctrine\DBAL\Types\UtcDateTimeType
+            timezone: App\Doctrine\DBAL\Types\TimezoneType
+        mapping_types:
+            datetime_utc: datetime
+            timezone: string
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
