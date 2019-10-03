@@ -1,10 +1,9 @@
 security:
     encoders:
         App\Domain\Model\User\UserInterface:
-            algorithm: argon2i
+            algorithm: auto
             memory_cost: 16384
-            time_cost: 2
-            threads: 4
+            time_cost: 3
 
     role_hierarchy:
         ROLE_ADMIN: [ROLE_USER, ROLE_ALLOWED_TO_SWITCH]

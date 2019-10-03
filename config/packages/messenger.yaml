@@ -13,8 +13,8 @@ framework:
             messenger.bus.commands:
                 middleware:
                     - messenger.middleware.validation
-                    - messenger.middleware.doctrine_transaction
                     - App\Infrastructure\Command\HandlesRecordedEventsMiddleware
+                    - messenger.middleware.doctrine_transaction
             messenger.bus.events:
                 default_middleware: allow_no_handlers
                 middleware:

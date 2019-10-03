@@ -1,17 +1,16 @@
 framework:
     workflows:
         article_publishing:
-            type: 'workflow'
+            type: 'state_machine'
             audit_trail: true
             marking_store:
-                type: 'single_state'
-                arguments:
-                    - 'currentState'
+                type: 'method'
+                property: 'currentState'
             supports:
                 - App\Domain\Model\Article\Article
             metadata:
                 title: Article Publishing Workflow
-            initial_place: draft
+            initial_marking: draft
             places:
                 draft:
                     metadata:
@@ -66,17 +65,16 @@ framework:
                         success_message: The article has been unpublished.
 
         tournament_sanctioning:
-            type: 'workflow'
+            type: 'state_machine'
             audit_trail: true
             marking_store:
-                type: 'single_state'
-                arguments:
-                    - 'currentState'
+                type: 'method'
+                property: 'currentState'
             supports:
                 - App\Domain\Model\Event\Tournament
             metadata:
                 title: Tournament Sanctioning Workflow
-            initial_place: planned
+            initial_marking: planned
             places:
                 planned:
                     metadata:
@@ -108,17 +106,16 @@ framework:
                         success_message: The tournament has been unsanctioned.
 
         title_event_sanctioning:
-            type: 'workflow'
+            type: 'state_machine'
             audit_trail: true
             marking_store:
-                type: 'single_state'
-                arguments:
-                    - 'currentState'
+                type: 'method'
+                property: 'currentState'
             supports:
                 - App\Domain\Model\Event\TitleEvent
             metadata:
                 title: Title Event Sanctioning Workflow
-            initial_place: planned
+            initial_marking: planned
             places:
                 planned:
                     metadata:
