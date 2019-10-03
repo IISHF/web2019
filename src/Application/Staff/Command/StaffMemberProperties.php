@@ -37,7 +37,7 @@ trait StaffMemberProperties
 
     /**
      * @Assert\Type("string")
-     * @Assert\Email(mode="strict", checkMX=true, checkHost=true)
+     * @Assert\Email(mode="strict")
      * @Assert\Length(max=128)
      * @Assert\NotBlank()
      *

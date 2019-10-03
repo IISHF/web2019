@@ -8,7 +8,7 @@
 
 namespace App\Domain\Common;
 
-use Symfony\Component\Intl\Intl;
+use Symfony\Component\Intl\Countries;
 use Webmozart\Assert\Assert;
 
 /**
@@ -56,8 +56,7 @@ final class Country
     public static function getCountries(): array
     {
         if (!self::$countries) {
-            self::$countries = Intl::getRegionBundle()
-                                   ->getCountryNames();
+            self::$countries = Countries::getNames();
         }
         return self::$countries;
     }
