@@ -9,8 +9,6 @@ services:
     command_handlers:
         namespace: App\Application\Document\Command\
         resource: '%kernel.project_dir%/src/Application/Document/Command/*Handler.php'
-        tags:
-            - { name: messenger.message_handler, bus: messenger.bus.commands }
 
     App\Infrastructure\Document\Security\Voter\DocumentVoter:
     App\Infrastructure\Document\Security\Voter\DocumentVersionVoter:

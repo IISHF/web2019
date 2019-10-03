@@ -8,6 +8,7 @@
 
 namespace App\Application\File\Command;
 
+use App\Application\Common\Command\CommandHandler;
 use App\Application\File\FileFactory;
 use App\Domain\Model\File\File;
 use App\Domain\Model\File\FileRepository;
@@ -17,7 +18,7 @@ use App\Domain\Model\File\FileRepository;
  *
  * @package App\Application\File\Command
  */
-abstract class FileCommandHandler
+abstract class FileCommandHandler implements CommandHandler
 {
     /**
      * @var FileFactory

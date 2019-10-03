@@ -8,6 +8,7 @@
 
 namespace App\Application\Staff\Command;
 
+use App\Application\Common\Command\CommandHandler;
 use App\Domain\Model\Staff\StaffMember;
 use App\Domain\Model\Staff\StaffMemberRepository;
 
@@ -16,7 +17,7 @@ use App\Domain\Model\Staff\StaffMemberRepository;
  *
  * @package App\Application\Staff\Command
  */
-abstract class StaffMemberCommandHandler
+abstract class StaffMemberCommandHandler implements CommandHandler
 {
     /**
      * @var StaffMemberRepository

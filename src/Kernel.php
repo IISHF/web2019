@@ -98,10 +98,16 @@ class Kernel extends BaseKernel
     {
         parent::build($container);
 
+        $container->registerForAutoconfiguration(Command\CommandHandler::class)
+                  ->addTag('messenger.message_handler', ['bus' => 'messenger.bus.commands']);
+        $container->registerForAutoconfiguration(Command\EventSubscriber::class)
+                  ->addTag('messenger.message_handler', ['bus' => 'messenger.bus.events']);
+
         $container->registerForAutoconfiguration(Command\CommandDispatchingHandler::class)
                   ->addTag('app.command_handler.command_dispatching');
         $container->registerForAutoconfiguration(Command\EventEmittingHandler::class)
                   ->addTag('app.command_handler.event_emitting');
+
         $container->addCompilerPass(new DependencyInjection\Compiler\MessageHandlerPass());
     }
 }

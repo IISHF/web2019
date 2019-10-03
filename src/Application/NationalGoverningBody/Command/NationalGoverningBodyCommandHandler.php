@@ -8,6 +8,7 @@
 
 namespace App\Application\NationalGoverningBody\Command;
 
+use App\Application\Common\Command\CommandHandler;
 use App\Domain\Common\Urlizer;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBody;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBodyRepository;
@@ -17,7 +18,7 @@ use App\Domain\Model\NationalGoverningBody\NationalGoverningBodyRepository;
  *
  * @package App\Application\NationalGoverningBody\Command
  */
-abstract class NationalGoverningBodyCommandHandler
+abstract class NationalGoverningBodyCommandHandler implements CommandHandler
 {
     /**
      * @var NationalGoverningBodyRepository

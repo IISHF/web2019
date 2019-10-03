@@ -8,6 +8,7 @@
 
 namespace App\Application\User\Command;
 
+use App\Application\Common\Command\CommandHandler;
 use App\Domain\Model\User\User;
 use App\Domain\Model\User\UserRepository;
 
@@ -16,7 +17,7 @@ use App\Domain\Model\User\UserRepository;
  *
  * @package App\Application\User\Command
  */
-abstract class UserCommandHandler
+abstract class UserCommandHandler implements CommandHandler
 {
     /**
      * @var UserRepository

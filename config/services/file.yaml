@@ -11,8 +11,6 @@ services:
     command_handlers:
         namespace: App\Application\File\Command\
         resource: '%kernel.project_dir%/src/Application/File/Command/*Handler.php'
-        tags:
-            - { name: messenger.message_handler, bus: messenger.bus.commands }
 
     App\Application\File\ImagickResizer:
     App\Application\File\CachedResizer:

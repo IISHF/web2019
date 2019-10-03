@@ -8,6 +8,7 @@
 
 namespace App\Application\Event\Command;
 
+use App\Application\Common\Command\CommandHandler;
 use App\Domain\Model\Event\Event;
 use App\Domain\Model\Event\EventRepository;
 
@@ -16,7 +17,7 @@ use App\Domain\Model\Event\EventRepository;
  *
  * @package App\Application\Event\Command
  */
-abstract class EventBasedCommandHandler
+abstract class EventBasedCommandHandler implements CommandHandler
 {
     /**
      * @var EventRepository

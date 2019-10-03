@@ -10,13 +10,14 @@ namespace App\Application\Article\Command;
 
 use App\Application\Common\Command\CommandDispatcher;
 use App\Application\Common\Command\CommandDispatchingHandler;
+use App\Application\Common\Command\CommandHandler;
 
 /**
  * Class AddAttachmentsHandler
  *
  * @package App\Application\Article\Command
  */
-class AddAttachmentsHandler implements CommandDispatchingHandler
+class AddAttachmentsHandler implements CommandHandler, CommandDispatchingHandler
 {
     use CommandDispatcher;
 
