@@ -11,15 +11,17 @@ namespace App\Infrastructure\Security\User;
 use App\Domain\Model\User\UserRepository;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Throwable;
 
 /**
  * Class UserProvider
  *
  * @package App\Infrastructure\Security\User
  */
-class UserProvider implements UserProviderInterface
+class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
 {
     /**
      * @var UserRepository
@@ -73,5 +75,26 @@ class UserProvider implements UserProviderInterface
     public function supportsClass($class): bool
     {
         return $class === User::class;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
+    {
+        if (!$user instanceof User) {
+            return;
+        }
+        $appUser = $this->userRepository->findById($user->getId());
+        if (!$appUser) {
+            return;
+        }
+
+        try {
+            $appUser->changePassword($newEncodedPassword);
+            $this->userRepository->save($appUser);
+        } catch (Throwable $e) {
+            return;
+        }
     }
 }
