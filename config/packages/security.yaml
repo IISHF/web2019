@@ -23,7 +23,7 @@ security:
         main:
             pattern:   ^/
             provider: all
-            anonymous: true
+            anonymous: lazy
             switch_user: true
             user_checker: App\Infrastructure\Security\UserChecker
             remember_me:
