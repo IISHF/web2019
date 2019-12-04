@@ -10,13 +10,16 @@ namespace App\Infrastructure\File\Twig;
 
 use App\Utils\Number;
 use App\Utils\Text;
+use Twig\Environment;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
 /**
  * Class FileExtension
  *
  * @package App\Infrastructure\File\Twig
  */
-class FileExtension extends \Twig_Extension
+class FileExtension extends AbstractExtension
 {
     /**
      * {@inheritdoc}
@@ -24,29 +27,29 @@ class FileExtension extends \Twig_Extension
     public function getFilters(): array
     {
         return [
-            new \Twig_SimpleFilter('file_size', [$this, 'formatFileSize'], ['needs_environment' => true]),
-            new \Twig_SimpleFilter('file_hash', [$this, 'formatFileHash'], ['needs_environment' => true]),
+            new TwigFilter('file_size', [$this, 'formatFileSize'], ['needs_environment' => true]),
+            new TwigFilter('file_hash', [$this, 'formatFileHash'], ['needs_environment' => true]),
         ];
     }
 
     /**
-     * @param \Twig_Environment $env
-     * @param int               $bytes
-     * @param bool              $si
+     * @param Environment $env
+     * @param int         $bytes
+     * @param bool        $si
      * @return string
      */
-    public function formatFileSize(\Twig_Environment $env, int $bytes, bool $si = true): string
+    public function formatFileSize(Environment $env, int $bytes, bool $si = true): string
     {
         [$size, $unit] = Number::fileSize($bytes, $si);
         return \twig_number_format_filter($env, $size, 1) . ' ' . $unit;
     }
 
     /**
-     * @param \Twig_Environment $env
-     * @param string            $hash
+     * @param Environment $env
+     * @param string      $hash
      * @return string
      */
-    public function formatFileHash(\Twig_Environment $env, string $hash): string
+    public function formatFileHash(Environment $env, string $hash): string
     {
         return Text::shorten($hash, 20, '…', $env->getCharset());
     }

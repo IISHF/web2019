@@ -11,6 +11,7 @@ namespace App\Infrastructure\Article\Twig;
 use App\Domain\Model\User\UserRepository;
 use App\Infrastructure\Twig\EmailRuntime;
 use App\Utils\Text;
+use Twig\Environment;
 
 /**
  * Class ArticleRuntime
@@ -33,7 +34,7 @@ class ArticleRuntime
                     \]                                                        # an IPv6 address
                 )
                 (:[0-9]+)?                                                    # a port (optional)
-            ) 
+            )
             (?P<address>
                 (?:/ (?:[\pL\pN\-._\~!$&\'()*+,;=:@]|%%[0-9A-Fa-f]{2})* )*    # a path
                 (?:\? (?:[\pL\pN\-._\~!$&\'()*+,;=:@/?]|%%[0-9A-Fa-f]{2})* )? # a query (optional)
@@ -62,11 +63,11 @@ class ArticleRuntime
     }
 
     /**
-     * @param \Twig_Environment $env
-     * @param string            $author
+     * @param Environment $env
+     * @param string      $author
      * @return string
      */
-    public function renderArticleAuthor(\Twig_Environment $env, string $author): string
+    public function renderArticleAuthor(Environment $env, string $author): string
     {
         $renderedAuthor = $this->emailRuntime->formatSafeEmail($env, $author);
         if ($user = $this->userRepository->findByEmail($author)) {
@@ -78,11 +79,11 @@ class ArticleRuntime
     }
 
     /**
-     * @param \Twig_Environment $env
-     * @param string            $body
+     * @param Environment $env
+     * @param string      $body
      * @return string
      */
-    public function formatLegacyBody(\Twig_Environment $env, string $body): string
+    public function formatLegacyBody(Environment $env, string $body): string
     {
         $body = str_replace("\r", '', $body);
 

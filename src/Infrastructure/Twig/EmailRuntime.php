@@ -8,6 +8,8 @@
 
 namespace App\Infrastructure\Twig;
 
+use Twig\Environment;
+
 /**
  * Class EmailRuntime
  *
@@ -16,11 +18,11 @@ namespace App\Infrastructure\Twig;
 class EmailRuntime
 {
     /**
-     * @param \Twig_Environment $env
-     * @param string            $email
+     * @param Environment $env
+     * @param string      $email
      * @return string
      */
-    public function formatSafeEmail(\Twig_Environment $env, string $email): string
+    public function formatSafeEmail(Environment $env, string $email): string
     {
         return sprintf(
             '<a email="%s" is="safe-email">email</a>',

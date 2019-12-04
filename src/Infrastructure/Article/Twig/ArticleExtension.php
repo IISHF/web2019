@@ -8,12 +8,16 @@
 
 namespace App\Infrastructure\Article\Twig;
 
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
+
 /**
  * Class ArticleExtension
  *
  * @package App\Infrastructure\Article\Twig
  */
-class ArticleExtension extends \Twig_Extension
+class ArticleExtension extends AbstractExtension
 {
     /**
      * {@inheritdoc}
@@ -21,7 +25,7 @@ class ArticleExtension extends \Twig_Extension
     public function getFunctions(): array
     {
         return [
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'article_author',
                 [ArticleRuntime::class, 'renderArticleAuthor'],
                 ['is_safe' => ['html'], 'needs_environment' => true]
@@ -35,7 +39,7 @@ class ArticleExtension extends \Twig_Extension
     public function getFilters(): array
     {
         return [
-            new \Twig_SimpleFilter(
+            new TwigFilter(
                 'article_legacy_body',
                 [ArticleRuntime::class, 'formatLegacyBody'],
                 ['is_safe' => ['html'], 'needs_environment' => true]

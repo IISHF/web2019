@@ -8,12 +8,16 @@
 
 namespace App\Infrastructure\Twig;
 
+use Twig\Environment;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+
 /**
  * Class DateExtension
  *
  * @package App\Infrastructure\Twig
  */
-class DateExtension extends \Twig_Extension
+class DateExtension extends AbstractExtension
 {
     /**
      * {@inheritdoc}
@@ -21,13 +25,11 @@ class DateExtension extends \Twig_Extension
     public function getFilters(): array
     {
         return [
-            new \Twig_SimpleFilter('relative_time', [$this, 'formatRelativeTime'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFilter('time_until', [$this, 'formatTimeUntil'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFilter('time_ago', [$this, 'formatTimeAgo'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFilter(
-                'local_time',
-                [$this, 'formatLocalTime'],
-                ['is_safe' => ['html'], 'needs_environment' => true]
+            new TwigFilter('relative_time', [$this, 'formatRelativeTime'], ['is_safe' => ['html']]),
+            new TwigFilter('time_until', [$this, 'formatTimeUntil'], ['is_safe' => ['html']]),
+            new TwigFilter('time_ago', [$this, 'formatTimeAgo'], ['is_safe' => ['html']]),
+            new TwigFilter(
+                'local_time', [$this, 'formatLocalTime'], ['is_safe' => ['html'], 'needs_environment' => true]
             ),
         ];
     }
@@ -82,12 +84,12 @@ HTML;
     }
 
     /**
-     * @param \Twig_Environment  $env
+     * @param Environment        $env
      * @param \DateTimeInterface $dateTime
      * @param array              $options
      * @return string
      */
-    public function formatLocalTime(\Twig_Environment $env, \DateTimeInterface $dateTime, array $options = []): string
+    public function formatLocalTime(Environment $env, \DateTimeInterface $dateTime, array $options = []): string
     {
         $defaultOptions = [
             'year'           => 'numeric',
