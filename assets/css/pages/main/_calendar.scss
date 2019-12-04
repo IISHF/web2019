@@ -1,40 +1,45 @@
 .m-calendar {
-  margin-top: 22rem;
-  overflow: hidden;
-  @include media-breakpoint-down(sm) {
-    margin-top: 5rem;
-  }
-  &__bg {
-    background-repeat: no-repeat;
-    &--left {
-      background-image: url("../../../img/main/calendar-left__bg.png");
-      background-position: left 30%;
-      background-size: 32rem;
-      @include media-breakpoint-down(sm) {
-        background: none;
-      }
-    }
-    &--right {
-      background-image: url("../../../img/main/calendar-right__bg.png");
-      background-position: right center;
-      background-size: contain;
-      @include media-breakpoint-down(sm) {
-        background: none;
-      }
-    }
-  }
-  &__content {
-    max-width: 140rem;
-    margin: 9rem auto 19rem;
+    margin-top: 22rem;
+    overflow: hidden;
     @include media-breakpoint-down(sm) {
-      margin-top: 5rem;
-      margin-bottom: 5rem;
+        margin-top: 5rem;
     }
-  }
-  .nav-pills .nav-link {
-    @include media-breakpoint-down(sm) {
-      font-size: 8px;
-      padding: 1.3rem 2rem;
+
+    &__bg {
+        background-repeat: no-repeat;
+
+        &--left {
+            background-image: url("../../../img/main/calendar-left__bg.png");
+            background-position: left 30%;
+            background-size: 32rem;
+            @include media-breakpoint-down(sm) {
+                background: none;
+            }
+        }
+
+        &--right {
+            background-image: url("../../../img/main/calendar-right__bg.png");
+            background-position: right center;
+            background-size: contain;
+            @include media-breakpoint-down(sm) {
+                background: none;
+            }
+        }
     }
-  }
+
+    &__content {
+        max-width: 140rem;
+        margin: 9rem auto 19rem;
+        @include media-breakpoint-down(sm) {
+            margin-top: 5rem;
+            margin-bottom: 5rem;
+        }
+    }
+
+    .nav-pills .nav-link {
+        @include media-breakpoint-down(sm) {
+            font-size: 8px;
+            padding: 1.3rem 2rem;
+        }
+    }
 }

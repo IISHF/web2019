@@ -1,56 +1,63 @@
 .m-photo {
-  &__bg {
-    background-repeat: no-repeat;
-    &--right {
-      background-image: url("../../../img/main/news__bg--bottom.png");
-      background-position: right top;
-      background-size: 30%;
-      @include media-breakpoint-down(sm) {
-        background: none;
-      }
+    &__bg {
+        background-repeat: no-repeat;
+
+        &--right {
+            background-image: url("../../../img/main/news__bg--bottom.png");
+            background-position: right top;
+            background-size: 30%;
+            @include media-breakpoint-down(sm) {
+                background: none;
+            }
+        }
+
+        &--left {
+            background-image: url("../../../img/main/photo__bg--1.png");
+            background-position: left bottom;
+            background-size: 24%;
+            padding-bottom: 18rem;
+            @include media-breakpoint-down(sm) {
+                background: none;
+                padding-bottom: 5rem;
+            }
+        }
     }
-    &--left {
-      background-image: url("../../../img/main/photo__bg--1.png");
-      background-position: left bottom;
-      background-size: 24%;
-      padding-bottom: 18rem;
-      @include media-breakpoint-down(sm) {
-        background: none;
-        padding-bottom: 5rem;
-      }
+
+    &__slider {
+        padding-top: 8rem;
+        padding-bottom: 50px;
+        @include media-breakpoint-down(sm) {
+            padding: 5rem 15px 0;
+            img, video {
+                margin: 0 auto;
+            }
+        }
     }
-  }
-  &__slider {
-    padding-top: 8rem;
-    padding-bottom: 50px;
-    @include media-breakpoint-down(sm) {
-      padding: 5rem 15px 0;
-      img, video {
-        margin: 0 auto;
-      }
+
+    .slick-center {
+        img, video {
+            transition: all 0.3s;
+            transform: scale(1.2);
+        }
     }
-  }
-  .slick-center {
-    img, video {
-      transition: all 0.3s;
-      transform: scale(1.2);
+
+    .slick-list {
+        padding-top: 6rem !important;
+        padding-bottom: 6rem !important;
+        @include media-breakpoint-down(sm) {
+            padding-top: 0 !important;
+            padding-bottom: 3rem !important;
+        }
     }
-  }
-  .slick-list {
-    padding-top: 6rem!important;
-    padding-bottom: 6rem!important;
-    @include media-breakpoint-down(sm) {
-      padding-top: 0!important;
-      padding-bottom: 3rem!important;
+
+    .slick-track {
+        margin-left: -18rem;
+        @include media-breakpoint-down(sm) {
+            margin-left: 0;
+        }
     }
-  }
-  .slick-track {
-    margin-left: -18rem;
-    @include media-breakpoint-down(sm) {
-      margin-left: 0;
+
+    .slick-dots {
+        left: 0;
     }
-  }
-  .slick-dots {
-    left: 0;
-  }
 }

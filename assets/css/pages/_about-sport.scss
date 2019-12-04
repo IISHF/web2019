@@ -1,14 +1,17 @@
 .about-sport {
-  max-width: 140rem;
-  margin: 7rem auto 0;
-  font-family: "Montserat", sans-serif;
-  &__row {
-    margin-bottom: 6rem;
-  }
-  &__text {
-    font-size: 2.4rem;
-  }
-  &__bg--right-bottom {
-    background-size: 18%;
-  }
+    max-width: 140rem;
+    margin: 7rem auto 0;
+    font-family: "Montserat", sans-serif;
+
+    &__row {
+        margin-bottom: 6rem;
+    }
+
+    &__text {
+        font-size: 2.4rem;
+    }
+
+    &__bg--right-bottom {
+        background-size: 18%;
+    }
 }

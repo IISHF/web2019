@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const calendarTodayEl = document.getElementById('calendarToday');
     const calendarOtherEl = document.getElementById('calendarOther');
 
-    if (calendarTournamentEl) {
-        const calendarToday = new Calendar(calendarTournamentEl, {
+    if (calendarTodayEl) {
+        const calendarToday = new Calendar(calendarTodayEl, {
             plugins: [dayGridPlugin, bootstrapPlugin],
             themeSystem: 'bootstrap',
             header: {
@@ -19,8 +19,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         calendarToday.render();
     }
-    if (calendarTodayEl) {
-        const calendarTournament = new Calendar(calendarTodayEl, {
+    if (calendarTournamentEl) {
+        const calendarTournament = new Calendar(calendarTournamentEl, {
             plugins: [dayGridPlugin, bootstrapPlugin],
             themeSystem: 'bootstrap',
             header: {

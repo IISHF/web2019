@@ -1,0 +1,16 @@
+{% set before = before|default(false) %}
+<div class="d-flex align-items-center {{ before ? '' : 'justify-content-end' }}">
+    {% if not before %}
+        <h2 class="section-title">{{ title }}</h2>
+    {% endif %}
+    <ul class="list-unstyled title-decoration title-decoration--blue title-decoration--{{ before ? 'before' : 'after' }}">
+        <li class="title-decoration__item"></li>
+        <li class="title-decoration__item"></li>
+        <li class="title-decoration__item"></li>
+        <li class="title-decoration__item"></li>
+        <li class="title-decoration__item"></li>
+    </ul>
+    {% if before %}
+        <h2 class="section-title">{{ title }}</h2>
+    {% endif %}
+</div>
