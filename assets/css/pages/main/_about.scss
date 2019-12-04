@@ -1,0 +1,62 @@
+.m-about {
+  margin-top: 11.5rem;
+  font-weight: 600;
+  @include media-breakpoint-down(sm) {
+    margin-top: 0;
+  }
+  &__bg {
+    background-image: url("../../../img/main/about-sport__bg.png");
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-size: 34rem;
+    @include media-breakpoint-down(sm) {
+      background: none;
+    }
+  }
+  &__text {
+    font-size: 2.9rem;
+    padding-top: 9rem;
+    padding-left: 66rem;
+    font-weight: 100;
+    @include media-breakpoint-down(sm) {
+      padding-top: 5rem;
+      padding-left: 0;
+    }
+    &-container {
+      position: relative;
+      max-width: 144rem;
+      margin: 0 auto;
+      height: 79rem;
+      @include media-breakpoint-down(sm) {
+        display: flex;
+        height: auto;
+      }
+    }
+  }
+  &__img {
+    position: absolute;
+    top: -12%;
+    left: -30px;
+    height: 118%;
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+    @include media-breakpoint-only(xs) {
+      display: none;
+    }
+  }
+  &__btn {
+    margin-top: 7rem;
+    @include media-breakpoint-down(sm) {
+      display: inline-flex;
+      margin-top: 3rem;
+    }
+    button {
+      font-size: 2.2rem;
+      padding: 1.4rem 5rem;
+    }
+    .custom-btn__decoration-item {
+      width: 1.2rem;
+    }
+  }
+}

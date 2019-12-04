@@ -1,0 +1,27 @@
+.m-members {
+  &__bg {
+    background-image: url("../../../img/main/social__bg--bottom.png");
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-size: 30%;
+    padding-bottom: 22rem;
+    @include media-breakpoint-down(sm) {
+      background: none;
+      padding-bottom: 5rem;
+    }
+  }
+  &__carousel {
+    margin: 0 auto;
+    margin-top: 10rem;
+    margin-bottom: 20px!important;
+    max-width: 140rem;
+    @include media-breakpoint-down(sm) {
+      padding-top: 5rem;
+      padding-bottom: 5rem;
+    }
+    .slick-track {
+      display: flex;
+      align-items: center;
+    }
+  }
+}

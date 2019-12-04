@@ -1,0 +1,15 @@
+.footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding-top: 5rem;
+  padding-bottom: 7rem;
+  color: #333;
+  font-family: "Montserrat", sans-serif;
+  font-size: 2rem;
+  &__container {
+    max-width: 140rem;
+    margin: 0 auto;
+  }
+}

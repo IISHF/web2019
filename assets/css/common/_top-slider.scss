@@ -1,0 +1,101 @@
+.m-top-slider {
+  &__container {
+    max-width: 73%;
+    margin: 0 auto;
+    @include media-breakpoint-down(lg) {
+      max-width: 100%;
+    }
+  }
+  &__slide {
+    position: relative;
+    min-height: calc(100vh - 75px);
+    @include media-breakpoint-down(sm) {
+      font-size: 24px;
+      padding-bottom: 15px;
+      text-align: center;
+      min-height: auto;
+    }
+    &-title {
+      font-family: "Lato", sans-serif;
+      font-weight: bold;
+      font-style: italic;
+      font-size: 7rem;
+      letter-spacing: 1px;
+      line-height: 1.25;
+      text-transform: uppercase;
+      padding: 21rem 50rem 21rem 12rem;
+      @media (max-width: 1400px) {
+        font-size: 9rem;
+      }
+      @include media-breakpoint-down(sm) {
+        padding: 21rem 12rem;
+      }
+      @include media-breakpoint-down(sm) {
+        font-size: 24px;
+        padding: 18rem 15px 15px;
+        text-align: center;
+      }
+    }
+    img {
+      position: absolute;
+      top: 2.5rem;
+      right: 8rem;
+      height: 100%;
+      max-height: 90%;
+      @include media-breakpoint-down(lg) {
+        height: auto;
+        max-width: 78rem;
+      }
+      @include media-breakpoint-down(sm) {
+        position: relative;
+        margin: 0 auto;
+        width: 80%;
+        left: auto;
+        right: auto;
+      }
+    }
+  }
+}
+
+.vertical-dots {
+  right: 5px;
+  list-style: none;
+  display: block;
+  position: absolute;
+  top: 40%;
+  margin-top: -10px;
+  text-align: right;
+  li {
+    position: relative;
+    cursor: pointer;
+    margin-bottom: 10px;
+    text-align: center;
+    &.slick-active {
+      margin-bottom: 2rem;
+      button {
+        width: 20px;
+        height: 20px;
+        background-color: #fff;
+        border: 1px solid #266d94;
+        &::before {
+          display: none;
+        }
+      }
+    }
+    button {
+      width: 10px;
+      height: 10px;
+      box-shadow: none;
+      border: none;
+      border-radius: 50%;
+      color: transparent;
+      background-color: #266d94;
+      &:active {
+        outline: none;
+      }
+    }
+    &:active {
+      outline: none;
+    }
+  }
+}

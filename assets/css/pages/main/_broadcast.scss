@@ -1,0 +1,22 @@
+.m-broadcast {
+  padding-bottom: 18rem;
+  @include media-breakpoint-down(sm) {
+    padding-bottom: 5rem;
+  }
+  &__bg {
+    background-image: url("../../../img/main/broadcast__bg.png");
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    @include media-breakpoint-down(sm) {
+      background: none;
+    }
+  }
+  &__video-container {
+    margin: 10rem auto 0;
+    max-width: 140rem;
+    @include media-breakpoint-down(sm) {
+      margin-top: 5rem;
+    }
+  }
+}

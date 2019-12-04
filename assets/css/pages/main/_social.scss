@@ -1,0 +1,36 @@
+.m-social {
+  &__bg {
+    background-repeat: no-repeat;
+    &--left {
+      background-image: url("../../../img/main/photo__bg--2.png");
+      background-position: left top;
+      background-size: 24%;
+      @include media-breakpoint-down(sm) {
+        background: none;
+      }
+    }
+    &--right {
+      background-image: url("../../../img/main/social__bg--top.png");
+      background-position: right bottom;
+      background-size: 30%;
+      @include media-breakpoint-down(sm) {
+        background: none;
+      }
+    }
+  }
+  &__container {
+    padding-top: 9rem;
+    padding-bottom: 20rem;
+    max-width: 140rem;
+    margin: 0 auto;
+    @include media-breakpoint-down(sm) {
+      padding-bottom: 5rem;
+    }
+    img {
+      @include media-breakpoint-down(sm) {
+        max-width: 300px;
+        margin-bottom: 3.5rem;
+      }
+    }
+  }
+}

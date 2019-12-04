@@ -1,0 +1,37 @@
+.m-partners {
+  &__bg {
+    background-repeat: no-repeat;
+    &--left {
+      background-image: url("../../../img/main/partners-left__bg.png");
+      background-position: left bottom;
+      background-size: 33%;
+      @include media-breakpoint-down(sm) {
+        background: none;
+      }
+    }
+    &--right {
+      background-image: url("../../../img/main/partners-right__bg.png");
+      background-position: right bottom;
+      background-size: 10%;
+      padding-bottom: 38rem;
+      @include media-breakpoint-down(sm) {
+        background: none;
+      }
+    }
+  }
+  &__carousel {
+    max-width: 140rem;
+    padding-bottom: 20px;
+    margin: 0 auto;
+    margin-top: 10rem!important;
+    margin-bottom: 50px!important;
+    @include media-breakpoint-down(sm) {
+      padding-top: 5rem;
+      padding-bottom: 5rem;
+    }
+    .slick-track {
+      display: flex;
+      align-items: center;
+    }
+  }
+}

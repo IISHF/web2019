@@ -1,0 +1,40 @@
+@import "variables";
+
+$font-family-base: "Open Sans", sans-serif;
+$navbar-padding-x: 0;
+//color overrides
+$link-color: #000000;
+$navbar-light-color: #000000;
+$navbar-light-hover-color:  #000;
+$primary: #0B2C43;
+$info: #000;
+//buttons
+$btn-border-radius: 0;
+$btn-font-size: 1.4rem;
+$btn-padding-x: 1.3rem;
+$btn-padding-y: .7rem;
+$btn-font-weight: 600;
+//inputs
+$input-border-radius: 0;
+$input-font-size: 1.4rem;
+$input-padding-y: .8rem;
+$input-color: #000000;
+$input-focus-color: #000000;
+$input-placeholder-color: #000000;
+//breadcrumbs
+$breadcrumb-bg: transparent;
+$breadcrumb-padding-x: 0;
+$breadcrumb-divider: '›';
+$breadcrumb-divider-color: #000;
+$breadcrumb-active-color: #000;
+$breadcrumb-margin-bottom: 3.5rem;
+$breadcrumb-item-padding: 1rem;
+//cards
+$card-cap-bg: #246d96;
+$card-cap-color: #fff;
+//dropdown menu
+$dropdown-bg: $card-cap-bg;
+$dropdown-link-color: #fff;
+$dropdown-font-size: 26px;
+$dropdown-padding-y: 5px;
+$dropdown-min-width: 100%;
