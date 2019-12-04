@@ -1,6 +1,6 @@
 import '@webcomponents/webcomponentsjs';
 import '@ungap/custom-elements-builtin';
-import 'time-elements';
+import '@github/time-elements';
 import './web_components/safe_email';
 import $ from 'jquery';
 import moment from 'moment';
