@@ -37,7 +37,7 @@ class HallOfFameCommand extends CommandWithFilesystem
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title('Migrate hall of fame rom legacy database');
 

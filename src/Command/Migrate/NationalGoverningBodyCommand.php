@@ -56,7 +56,7 @@ class NationalGoverningBodyCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title('Migrate national governing bodies rom legacy database');
 

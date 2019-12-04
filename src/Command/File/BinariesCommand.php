@@ -53,7 +53,7 @@ class BinariesCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $onlyUnused   = $input->getOption('only-unused');
         $removeUnused = $input->getOption('remove-unused');

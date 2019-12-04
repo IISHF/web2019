@@ -38,7 +38,7 @@ class ArticleCommand extends CommandWithFilesystem
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title('Migrate news articles rom legacy database');
 
