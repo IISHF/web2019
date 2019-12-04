@@ -3,10 +3,16 @@ $primary: darken(#428bca, 20%);
 @import "bootstrap-overwrites";
 @import "~bootstrap/scss/bootstrap";
 
-@import "slick";
-@import "fullcalendar";
+@import '~@fortawesome/fontawesome-free/css/all.css';
 
 @import "select2";
+
+@import "~slick-carousel/slick/slick.scss";
+@import "~slick-carousel/slick/slick-theme.scss";
+
+@import "~@fullcalendar/core/main.css";
+@import "~@fullcalendar/daygrid/main.css";
+@import "~@fullcalendar/bootstrap/main.css";
 
 @import "~tempusdominus-bootstrap-4/src/sass/tempusdominus-bootstrap-4-build";
 
@@ -16,48 +22,50 @@ $primary: darken(#428bca, 20%);
 @import "helpers";
 
 .main {
-  overflow: hidden;
-  &--bg {
-    background-image: url("../img/main/main-page__bg.png");
-    background-repeat: no-repeat;
-    background-size: 87.5%;
-  }
-  &__iishf {
-    .navbar {
-      .nav-link {
-        color: #fff!important;
-      }
+    overflow: hidden;
+
+    &--bg {
+        background-image: url("../img/main/main-page__bg.png");
+        background-repeat: no-repeat;
+        background-size: 87.5%;
     }
-  }
+
+    &__iishf {
+        .navbar {
+            .nav-link {
+                color: #fff !important;
+            }
+        }
+    }
 }
 
 html {
-  font-size: 10px;
+    font-size: 10px;
 }
 
 body {
-  font-family: "Lato", sans-serif;
-  font-size: 1.6rem;
-  color: #333333;
-  position: relative;
+    font-family: "Lato", sans-serif;
+    font-size: 1.6rem;
+    color: #333333;
+    position: relative;
 }
 
 @media (max-width: 1600px) {
-  html {
-    font-size: 8px;
-  }
+    html {
+        font-size: 8px;
+    }
 }
 
 @media (max-width: 1400px) {
-  html {
-    font-size: 6px;
-  }
+    html {
+        font-size: 6px;
+    }
 }
 
 @media (max-width: 1300px) {
-  html {
-    font-size: 6px;
-  }
+    html {
+        font-size: 6px;
+    }
 }
 
 @import "common/index";

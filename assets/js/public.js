@@ -9,13 +9,15 @@ import ReactDOM from 'react-dom';
 import {Lazy} from './components/Loading';
 
 import '../css/public.scss';
-import '@fortawesome/fontawesome-free/css/all.css';
-import 'trix/dist/trix.css';
 
 global.$ = global.jQuery = $;
 global.moment = moment;
 
 require('bootstrap');
+
+require('slick-carousel');
+
+require('./fullcalendar');
 
 require('select2');
 $.fn.select2.defaults.set('theme', 'bootstrap4');
@@ -83,4 +85,6 @@ $(document).ready(function () {
             label.addClass("selected").html(fileName);
         }
     });
+
+    require('./slick-carousel');
 });
