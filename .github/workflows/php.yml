@@ -48,4 +48,4 @@ jobs:
         run: vendor/bin/phpunit -c phpunit.xml.dist --coverage-text
         env:
           DATABASE_URL: mysql://iishf:iishf@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/iishf
-          MAILER_URL: null://localhost
+          MAILER_DSN: null://null
