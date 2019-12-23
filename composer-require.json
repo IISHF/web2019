@@ -1,0 +1,6 @@
+{
+    "scan-files": [
+        "bin/console",
+        "public/index.php"
+    ]
+}
