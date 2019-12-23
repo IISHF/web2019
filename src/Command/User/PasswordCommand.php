@@ -53,8 +53,8 @@ class PasswordCommand extends Command
     {
         $this
             ->setName('app:user:password')
-            ->setDescription('Confirms a user.')
-            ->setHelp('This command allows you to confirm a user.')
+            ->setDescription('Sets a user password.')
+            ->setHelp('This command allows you to set a user password.')
             ->addArgument('email', InputArgument::REQUIRED, 'E-mail')
             ->addOption('password', 'p', InputOption::VALUE_REQUIRED, 'Password');
     }

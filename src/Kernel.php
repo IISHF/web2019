@@ -46,7 +46,7 @@ class Kernel extends BaseKernel
     public function getLogDir()
     {
         if (getenv('IS_VIRTUAL_ENV') === '1') {
-            return '/dev/shm/iishf/logs';
+            return '/dev/shm/iishf/log';
         }
         return $this->getProjectDir() . '/var/log';
     }
