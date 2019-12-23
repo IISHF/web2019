@@ -30,7 +30,7 @@ class AnnounceTitleEventType extends AbstractType
     {
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) {
+            static function (FormEvent $event) {
                 /** @var AnnounceTitleEvent $announceTitleEvent */
                 $announceTitleEvent = $event->getData();
                 $titleEventId       = $announceTitleEvent->getId();

@@ -82,7 +82,7 @@ class CreateCommand extends Command
             $rolesQuestion->setMultiselect(true);
             $roles = array_filter(
                 $this->io->askQuestion($rolesQuestion),
-                function (string $r) {
+                static function (string $r) {
                     return $r !== 'none';
                 }
             );

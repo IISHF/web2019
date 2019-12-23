@@ -48,6 +48,9 @@ class AccountController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
 
         $user = $this->getUser();
+        if (!$user) {
+            throw $this->createAccessDeniedException();
+        }
 
         $changePassword = ChangePassword::change($user, $request);
         $form           = $this->createForm(ChangePasswordType::class, $changePassword);

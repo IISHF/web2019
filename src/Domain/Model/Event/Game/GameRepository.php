@@ -94,7 +94,7 @@ class GameRepository extends ServiceEntityRepository
         }
         usort(
             $currentGames,
-            function (Game $a, Game $b) {
+            static function (Game $a, Game $b) {
                 return $a->getDateTimeUtc() <=> $b->getDateTimeUtc();
             }
         );

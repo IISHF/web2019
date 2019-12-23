@@ -61,7 +61,7 @@ class HallOfFameRepository extends ServiceEntityRepository
                  ->orderBy('h.season', 'DESC')
                  ->addOrderBy('h.championship', 'DESC')
                  ->addOrderBy('h.ageGroup', 'ASC'),
-            function (HallOfFameEntry $entry) {
+            static function (HallOfFameEntry $entry) {
                 return $entry->getSeason();
             }
         );
@@ -77,7 +77,7 @@ class HallOfFameRepository extends ServiceEntityRepository
                  ->orderBy('h.ageGroup', 'ASC')
                  ->addOrderBy('h.season', 'DESC')
                  ->addOrderBy('h.championship', 'DESC'),
-            function (HallOfFameEntry $entry) {
+            static function (HallOfFameEntry $entry) {
                 return $entry->getAgeGroupName();
             }
         );

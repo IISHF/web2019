@@ -118,7 +118,7 @@ class DocumentCommand extends CommandWithFilesystem
 
         array_walk(
             $documents,
-            function (array &$d) {
+            static function (array &$d) {
                 ksort($d, SORT_NUMERIC);
             }
         );

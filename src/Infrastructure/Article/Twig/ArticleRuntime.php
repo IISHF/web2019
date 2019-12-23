@@ -90,7 +90,7 @@ class ArticleRuntime
 
         $body = preg_replace_callback(
             self::REGEX_URL,
-            function (array $matches): string {
+            static function (array $matches): string {
                 if (empty($matches['protocol'])) {
                     $matches['protocol'] = 'http';
                 }
@@ -104,7 +104,7 @@ class ArticleRuntime
         );
         $body = preg_replace_callback(
             self::REGEX_EMAIL,
-            function (array $matches): string {
+            static function (array $matches): string {
                 $email = $matches[1];
                 return "\x1E" . base64_encode($email) . "\x1E";
             },
@@ -112,7 +112,7 @@ class ArticleRuntime
         );
 
 
-        $escape = function (string $text, string $strategy = 'html') use ($env): string {
+        $escape = static function (string $text, string $strategy = 'html') use ($env): string {
             return twig_escape_filter($env, $text, $strategy);
         };
 
@@ -127,7 +127,7 @@ class ArticleRuntime
         );
         $body = preg_replace_callback(
             '/\x1F([a-z0-9+\/=]+)\x1F([a-z0-9+\/=]+)\x1F/i',
-            function (array $matches) use ($escape): string {
+            static function (array $matches) use ($escape): string {
                 [, $href, $text] = $matches;
                 $text = $escape(Text::shorten(base64_decode($text), 32));
                 $href = $escape(base64_decode($href), 'html_attr');

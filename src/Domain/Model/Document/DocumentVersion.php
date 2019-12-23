@@ -82,11 +82,11 @@ class DocumentVersion
     private $validUntil;
 
     /**
-     * @param string                  $id
-     * @param Document                $document
-     * @param File                    $file
-     * @param string                  $version
-     * @param string                  $slug
+     * @param string                 $id
+     * @param Document               $document
+     * @param File                   $file
+     * @param string                 $version
+     * @param string                 $slug
      * @param DateTimeImmutable|null $validFrom
      * @param DateTimeImmutable|null $validUntil
      */
@@ -322,10 +322,7 @@ class DocumentVersion
     public function isFuture(?DateTimeImmutable $date = null): bool
     {
         $date = $date ?? new DateTimeImmutable('now');
-        if ($this->validFrom !== null && $date < $this->validFrom) {
-            return true;
-        }
-        return false;
+        return $this->validFrom !== null && $date < $this->validFrom;
     }
 
     /**
@@ -335,9 +332,6 @@ class DocumentVersion
     public function isOutdated(?DateTimeImmutable $date = null): bool
     {
         $date = $date ?? new DateTimeImmutable('now');
-        if ($this->validUntil !== null && $date >= $this->validUntil->modify('+1 day')) {
-            return true;
-        }
-        return false;
+        return $this->validUntil !== null && $date >= $this->validUntil->modify('+1 day');
     }
 }

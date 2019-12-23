@@ -54,10 +54,10 @@ class DatePickerExtension extends AbstractTypeExtension
             [
                 'enable_datepicker'  => false,
                 'datepicker_options' => [],
-                'widget'             => function (Options $options, $previousValue) {
+                'widget'             => static function (Options $options, $previousValue) {
                     return $options['enable_datepicker'] ? 'single_text' : $previousValue;
                 },
-                'html5'              => function (Options $options, $previousValue) {
+                'html5'              => static function (Options $options, $previousValue) {
                     return $options['enable_datepicker'] ? false : $previousValue;
                 },
             ]

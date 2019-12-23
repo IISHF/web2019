@@ -39,7 +39,7 @@ class Select2Extension extends AbstractTypeExtension
             [
                 'enable_select2'  => false,
                 'select2_options' => [],
-                'expanded'        => function (Options $options, $previousValue) {
+                'expanded'        => static function (Options $options, $previousValue) {
                     return $options['enable_select2'] ? false : $previousValue;
                 },
             ]

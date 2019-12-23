@@ -168,7 +168,7 @@ class FileController extends AbstractController
 
         if ($resizeImage) {
             $response = $this->createStreamedResponse(
-                function () use ($file, $width, $height, $imageResizer) {
+                static function () use ($file, $width, $height, $imageResizer) {
                     echo $imageResizer->resizeImage($file, $width, $height);
                 },
                 $file,
@@ -176,7 +176,7 @@ class FileController extends AbstractController
             );
         } elseif ($pdfPreview) {
             $response = $this->createStreamedResponse(
-                function () use ($file, $width, $height, $imageResizer) {
+                static function () use ($file, $width, $height, $imageResizer) {
                     echo $imageResizer->resizePdf($file, $width, $height);
                 },
                 $file,

@@ -61,7 +61,7 @@ class TagType extends AbstractType implements DataTransformerInterface
         $tagProvider    = $options['tag_provider'];
         $choiceListView = new ChoiceListView(
             array_map(
-                function (string $tag) {
+                static function (string $tag) {
                     return new ChoiceView($tag, $tag, $tag);
                 },
                 array_unique(array_merge($tagProvider->findAvailableTags(), $form->getData() ?? []))
@@ -81,7 +81,7 @@ class TagType extends AbstractType implements DataTransformerInterface
         );
 
         $view->vars['full_name']       .= '[]';
-        $view->vars['is_selected']     = function ($choice, array $values) {
+        $view->vars['is_selected']     = static function ($choice, array $values) {
             return in_array($choice, $values, true);
         };
         $view->vars['select2_options'] = [
