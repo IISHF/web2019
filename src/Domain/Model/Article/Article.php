@@ -314,6 +314,9 @@ class Article
      */
     public function getAttachments(bool $returnUrl = true): array
     {
+        if ($this->isLegacyFormat()) {
+            return [];
+        }
         return self::findAttachments($this->body, $returnUrl);
     }
 
