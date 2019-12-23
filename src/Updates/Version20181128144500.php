@@ -17,11 +17,11 @@ final class Version20181128144500 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $table = $schema->createTable('rememberme_token');
-        $table->addColumn('series', Type::STRING, ['length' => 88, 'fixed' => true]);
-        $table->addColumn('value', Type::STRING, ['length' => 88, 'fixed' => true]);
-        $table->addColumn('lastUsed', Type::DATETIME);
-        $table->addColumn('class', Type::STRING, ['length' => 100]);
-        $table->addColumn('username', Type::STRING, ['length' => 200]);
+        $table->addColumn('series', 'string', ['length' => 88, 'fixed' => true]);
+        $table->addColumn('value', 'string', ['length' => 88, 'fixed' => true]);
+        $table->addColumn('lastUsed', 'datetime');
+        $table->addColumn('class', 'string', ['length' => 100]);
+        $table->addColumn('username', 'string', ['length' => 200]);
         $table->setPrimaryKey(['series']);
 
     }

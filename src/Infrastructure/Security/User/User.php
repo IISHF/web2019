@@ -9,7 +9,6 @@
 namespace App\Infrastructure\Security\User;
 
 use App\Domain\Model\User\UserInterface as DomainUser;
-use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -40,7 +39,7 @@ class User implements UserInterface, DomainUser
     private $confirmed;
 
     /**
-     * @var Role[]|string[]
+     * @var string[]
      */
     private $roles;
 

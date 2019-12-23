@@ -11,7 +11,6 @@ namespace App\Domain\Model\File;
 use App\Domain\Common\Repository\DoctrinePaging;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
@@ -165,7 +164,7 @@ class FileRepository extends ServiceEntityRepository
                                     ],
                                     0,
                                     [
-                                        'hash' => Type::STRING,
+                                        'hash' => 'string',
                                     ]
                                 );
         if ($usageCount < 2) {
@@ -250,7 +249,7 @@ SQL
             ],
             0,
             [
-                'hash' => Type::STRING,
+                'hash' => 'string',
             ]
         );
 

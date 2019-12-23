@@ -11,7 +11,6 @@ namespace App\Infrastructure\Security\MagicLink;
 use App\Utils\Text;
 use DateTimeImmutable;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Types\Type;
 use Exception;
 
 /**
@@ -35,9 +34,9 @@ class TokenStorage
     }
 
     /**
-     * @param string             $username
-     * @param string             $userIp
-     * @param string             $userAgent
+     * @param string            $username
+     * @param string            $userIp
+     * @param string            $userAgent
      * @param DateTimeImmutable $created
      * @return array
      */
@@ -56,7 +55,7 @@ class TokenStorage
                     'username' => $username,
                 ],
                 [
-                    'now' => Type::DATETIME_IMMUTABLE,
+                    'now' => 'datetime_immutable',
                 ]
             );
 
@@ -72,8 +71,8 @@ class TokenStorage
                     'created'    => $created,
                 ],
                 [
-                    'ttl'     => Type::DATETIME_IMMUTABLE,
-                    'created' => Type::DATETIME_IMMUTABLE,
+                    'ttl'     => 'datetime_immutable',
+                    'created' => 'datetime_immutable',
                 ]
             );
 
@@ -112,7 +111,7 @@ class TokenStorage
                     'token' => $token,
                 ],
                 [
-                    'now' => Type::DATETIME_IMMUTABLE,
+                    'now' => 'datetime_immutable',
                 ]
             );
 

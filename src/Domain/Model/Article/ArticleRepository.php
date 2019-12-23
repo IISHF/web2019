@@ -14,7 +14,6 @@ use App\Domain\Model\File\FileRepository;
 use App\Utils\Tags;
 use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Pagerfanta;
@@ -81,8 +80,8 @@ class ArticleRepository extends ServiceEntityRepository implements TagProvider
     }
 
     /**
-     * @param int                     $page
-     * @param int                     $limit
+     * @param int                    $page
+     * @param int                    $limit
      * @param DateTimeImmutable|null $date
      * @return iterable|Pagerfanta|Article[]
      */
@@ -93,7 +92,7 @@ class ArticleRepository extends ServiceEntityRepository implements TagProvider
     }
 
     /**
-     * @param int                     $limit
+     * @param int                    $limit
      * @param DateTimeImmutable|null $date
      * @return Article[]
      */
@@ -117,7 +116,7 @@ class ArticleRepository extends ServiceEntityRepository implements TagProvider
                     ->andWhere('a.publishedAt IS NOT NULL')
                     ->andWhere('a.publishedAt <= :date')
                     ->setParameter('state', Article::STATE_PUBLISHED)
-                    ->setParameter('date', $date, Type::DATETIME_IMMUTABLE)
+                    ->setParameter('date', $date, 'datetime_immutable')
                     ->addOrderBy('a.publishedAt', 'DESC');
     }
 

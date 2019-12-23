@@ -13,8 +13,7 @@ use App\Domain\Model\File\FileBinary;
 use App\Domain\Model\File\FileRepository;
 use Ramsey\Uuid\Uuid;
 use SplFileInfo;
-use Symfony\Component\HttpFoundation\File\MimeType\ExtensionGuesser;
-use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
+use Symfony\Component\Mime\MimeTypes;
 
 /**
  * Class FileFactory
@@ -38,8 +37,8 @@ class FileFactory
 
     /**
      * @param SplFileInfo $file
-     * @param string       $origin
-     * @param string|null  $originalName
+     * @param string      $origin
+     * @param string|null $originalName
      * @return File
      */
     public function createFile(SplFileInfo $file, string $origin, ?string $originalName = null): File
@@ -48,10 +47,10 @@ class FileFactory
     }
 
     /**
-     * @param string|null  $id
+     * @param string|null $id
      * @param SplFileInfo $file
-     * @param string|null  $origin
-     * @param string|null  $originalName
+     * @param string|null $origin
+     * @param string|null $originalName
      * @return File
      */
     public function createFileWithId(
@@ -60,9 +59,15 @@ class FileFactory
         string $origin,
         ?string $originalName = null
     ): File {
-        $mimeType  = self::guessMimeType($file);
-        $extension = self::guessExtension($mimeType);
-        $name      = $id . '.' . $extension;
+        $mimeTypes  = MimeTypes::getDefault();
+        $mimeType   = $mimeTypes->guessMimeType($file->getPathname()) ?? 'application/octet-stream';
+        $extensions = $mimeTypes->getExtensions($mimeType);
+        if (empty($extensions)) {
+            $extension = 'bin';
+        } else {
+            $extension = reset($extensions);
+        }
+        $name = $id . '.' . $extension;
 
         if ($originalName !== null && !pathinfo($originalName, PATHINFO_EXTENSION)) {
             $originalName .= '.' . $extension;
@@ -91,25 +96,5 @@ class FileFactory
             $binary = FileBinary::fromString($hash, file_get_contents($file->getPathname()));
         }
         return $binary;
-    }
-
-    /**
-     * @param SplFileInfo $file
-     * @param string       $default
-     * @return string
-     */
-    private static function guessMimeType(SplFileInfo $file, string $default = 'application/octet-stream'): string
-    {
-        return MimeTypeGuesser::getInstance()->guess($file->getPathname()) ?? $default;
-    }
-
-    /**
-     * @param string $mimeType
-     * @param string $default
-     * @return string
-     */
-    private static function guessExtension(string $mimeType, string $default = 'bin'): string
-    {
-        return ExtensionGuesser::getInstance()->guess($mimeType) ?? $default;
     }
 }
