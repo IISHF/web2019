@@ -25,7 +25,20 @@ jobs:
       - name: Install required dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install php-imagick php-bcmath php-gmp
+          sudo apt-get install \
+            php-curl \
+            php-xdebug \
+            php-sqlite3 \
+            php-json \
+            php-intl \
+            php-mbstring \
+            php-iconv \
+            php-imagick \
+            php-bcmath \
+            php-gmp \
+            php-apcu \
+            php-zip \
+            php-mysql
 
       - name: Get composer cache directory
         id: composer-cache
