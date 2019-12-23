@@ -12,7 +12,15 @@ use Doctrine\Migrations\AbstractMigration;
 final class Version20181128144500 extends AbstractMigration
 {
     /**
-     * @param Schema $schema
+     * {@inheritDoc}
+     */
+    public function getDescription(): string
+    {
+        return 'Creates the remember me tokens table';
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public function up(Schema $schema): void
     {
@@ -27,7 +35,7 @@ final class Version20181128144500 extends AbstractMigration
     }
 
     /**
-     * @param Schema $schema
+     * {@inheritDoc}
      */
     public function down(Schema $schema): void
     {

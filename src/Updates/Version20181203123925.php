@@ -11,7 +11,15 @@ use Doctrine\Migrations\AbstractMigration;
 final class Version20181203123925 extends AbstractMigration
 {
     /**
-     * @param Schema $schema
+     * {@inheritDoc}
+     */
+    public function getDescription(): string
+    {
+        return 'Creates the login tokens table for the magic login system';
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public function up(Schema $schema): void
     {
@@ -28,7 +36,7 @@ final class Version20181203123925 extends AbstractMigration
     }
 
     /**
-     * @param Schema $schema
+     * {@inheritDoc}
      */
     public function down(Schema $schema): void
     {
