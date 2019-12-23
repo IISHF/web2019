@@ -79,11 +79,13 @@ class MailService
         }
 
         $senders = [];
-        foreach ($from as $address => $name) {
-            if (is_string($address)) {
-                $senders[] = new Address($address, $name . ' via iishf.com');
-            } else {
-                $senders[] = new Address($name, $name . ' via iishf.com');
+        if ($from !== null) {
+            foreach ($from as $address => $name) {
+                if (is_string($address)) {
+                    $senders[] = new Address($address, $name . ' via iishf.com');
+                } else {
+                    $senders[] = new Address($name, $name . ' via iishf.com');
+                }
             }
         }
         if (empty($senders)) {
