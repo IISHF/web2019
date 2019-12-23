@@ -1,4 +1,6 @@
 {
+    "name": "iishf/web2019",
+    "description": "This is the IISHF Website Project",
     "type": "project",
     "license": "proprietary",
     "require": {
