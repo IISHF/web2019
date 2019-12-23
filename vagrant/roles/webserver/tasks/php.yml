@@ -87,15 +87,15 @@
             command: mv /tmp/composer.phar /usr/local/bin/composer
             args:
                 creates: /usr/local/bin/composer
+        -   name: install global packages
+            command: /usr/local/bin/composer global require {{ item }} --no-progress
+            become: yes
+            become_user: vagrant
+            with_items:
+                - pyrech/composer-changelogs
+                - icanhazstring/composer-unused
+                - maglnet/composer-require-checker
     when: not composer_bin.stat.exists
-
--   name: install global packages
-    command: /usr/local/bin/composer global require {{ item }} --no-progress
-    become: yes
-    become_user: vagrant
-    with_items:
-        - hirak/prestissimo
-        - pyrech/composer-changelogs
 
 -   name: fix ImageMagick policy for PDF
     lineinfile:
