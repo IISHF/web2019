@@ -34,6 +34,7 @@
         "@fullcalendar/bootstrap": "^4.3.0",
         "@fullcalendar/core": "^4.3.1",
         "@fullcalendar/daygrid": "^4.3.0",
+        "@github/time-elements": "^3.0.10",
         "@ungap/custom-elements-builtin": "^0.2.7",
         "@webcomponents/webcomponentsjs": "^2.3.0",
         "bootstrap": "^4.4.1",
@@ -55,7 +56,6 @@
         "slick-carousel": "^1.8.1",
         "tempusdominus-bootstrap-4": "^5.1.2",
         "tempusdominus-core": "^5.0.3",
-        "@github/time-elements": "^3.0.10",
         "trix": "^1.2.2"
     }
 }
