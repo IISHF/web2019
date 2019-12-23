@@ -5,7 +5,7 @@ on: [push]
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     services:
       mysql:
@@ -24,22 +24,12 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Install required dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install \
-            php-curl \
-            php-xdebug \
-            php-sqlite3 \
-            php-json \
-            php-intl \
-            php-mbstring \
-            php-imagick \
-            php-bcmath \
-            php-gmp \
-            php-apcu \
-            php-zip \
-            php-mysql
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: 7.2
+          extensions: curl, xdebug, sqlite3, json, intl, mbstring, imagick, bcmath, gmp, apcu, zip, mysql
+          coverage: xdebug
 
       - name: Get composer cache directory
         id: composer-cache
