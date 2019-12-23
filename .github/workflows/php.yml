@@ -17,10 +17,6 @@ jobs:
           MYSQL_PASSWORD: iishf
         ports:
           - 3306
-        command:
-          - "--character-set-server=utf8mb4"
-          - "--collation-server=utf8mb4_general_ci"
-          - "--sql-mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
