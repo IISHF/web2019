@@ -8,6 +8,7 @@
 
 namespace App\Infrastructure\Security\MagicLink;
 
+use App\Domain\Common\Token;
 use App\Utils\Text;
 use DateTimeImmutable;
 use Doctrine\DBAL\Connection;
@@ -43,8 +44,8 @@ class TokenStorage
     public function createToken(string $username, string $userIp, string $userAgent, DateTimeImmutable $created): array
     {
         $ttl          = $created->modify('+ 15 minutes');
-        $token        = random_bytes(32);
-        $signatureKey = random_bytes(16);
+        $token        = Token::random(32, true);
+        $signatureKey = Token::random(16, true);
 
         $this->db->beginTransaction();
         try {
@@ -62,9 +63,9 @@ class TokenStorage
             $this->db->insert(
                 'login_tokens',
                 [
-                    'token'      => hash('sha256', $token),
+                    'token'      => Token::hash($token, true),
                     'username'   => $username,
-                    'sig_key'    => bin2hex($signatureKey),
+                    'sig_key'    => Token::hex($signatureKey),
                     'user_ip'    => $userIp,
                     'user_agent' => Text::shorten($userAgent, 255),
                     'ttl'        => $ttl,
@@ -78,7 +79,7 @@ class TokenStorage
 
             $this->db->commit();
 
-            return [bin2hex($token), $signatureKey, $ttl];
+            return [Token::hex($token), $signatureKey, $ttl];
         } catch (Exception $e) {
             $this->db->rollBack();
             throw $e;
@@ -92,7 +93,7 @@ class TokenStorage
      */
     public function fetchTokenData(string $token, string $username): ?array
     {
-        $token = hash('sha256', @hex2bin($token));
+        $token = Token::hash($token);
 
         $this->db->beginTransaction();
         try {
@@ -122,7 +123,7 @@ class TokenStorage
             }
             [$signatureKey, $ttl] = $tokenData;
 
-            return [@hex2bin($signatureKey), new DateTimeImmutable($ttl)];
+            return [Token::binary($signatureKey), new DateTimeImmutable($ttl)];
 
         } catch (Exception $e) {
             $this->db->rollBack();

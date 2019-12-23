@@ -8,6 +8,7 @@
 
 namespace App\Domain\Model\User;
 
+use App\Domain\Common\Token;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
@@ -350,7 +351,7 @@ class User implements UserInterface
     public function markUserAsUnconfirmed(string $confirmToken): self
     {
         $this->password           = self::NO_PASSWORD;
-        $this->confirmToken       = hash('sha256', @hex2bin($confirmToken));
+        $this->confirmToken       = Token::hash($confirmToken);
         $this->resetPasswordToken = null;
         $this->resetPasswordUntil = null;
         return $this;
@@ -371,7 +372,7 @@ class User implements UserInterface
      */
     public function resetPassword(string $resetPasswordToken, string $until = '+ 15 minutes'): self
     {
-        $this->resetPasswordToken = hash('sha256', @hex2bin($resetPasswordToken));
+        $this->resetPasswordToken = Token::hash($resetPasswordToken);
         $this->resetPasswordUntil = new DateTimeImmutable($until);
         return $this;
     }

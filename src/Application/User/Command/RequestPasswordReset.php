@@ -8,6 +8,7 @@
 
 namespace App\Application\User\Command;
 
+use App\Domain\Common\Token;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -40,7 +41,7 @@ class RequestPasswordReset
      */
     public static function request(?Request $request = null, ?string $modifier = null): self
     {
-        return new self(bin2hex(random_bytes(32)), $request, $modifier);
+        return new self(Token::random(32), $request, $modifier);
     }
 
     /**

@@ -8,6 +8,8 @@
 
 namespace App\Application\User\Command;
 
+use App\Domain\Common\Token;
+
 /**
  * Class UnconfirmUser
  *
@@ -31,7 +33,7 @@ class UnconfirmUser
      */
     public static function unconfirm(string $email): self
     {
-        return new self($email, bin2hex(random_bytes(32)));
+        return new self($email, Token::random(32));
     }
 
     /**

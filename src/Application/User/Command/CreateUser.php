@@ -9,6 +9,7 @@
 namespace App\Application\User\Command;
 
 use App\Application\Common\Command\IdAware;
+use App\Domain\Common\Token;
 
 /**
  * Class CreateUser
@@ -29,7 +30,7 @@ class CreateUser
      */
     public static function create(): self
     {
-        return new self(self::createUuid(), bin2hex(random_bytes(32)));
+        return new self(self::createUuid(), Token::random(32));
     }
 
     /**

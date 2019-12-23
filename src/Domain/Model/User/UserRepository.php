@@ -9,6 +9,7 @@
 namespace App\Domain\Model\User;
 
 use App\Domain\Common\Repository\DoctrinePaging;
+use App\Domain\Common\Token;
 use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
@@ -62,7 +63,7 @@ class UserRepository extends ServiceEntityRepository
     public function findByConfirmToken(string $confirmToken): ?User
     {
         /** @var User|null $user */
-        $user = $this->findOneBy(['confirmToken' => hash('sha256', @hex2bin($confirmToken))]);
+        $user = $this->findOneBy(['confirmToken' => Token::hash($confirmToken)]);
         return $user;
     }
 
@@ -75,7 +76,7 @@ class UserRepository extends ServiceEntityRepository
     {
         $expr     = Criteria::expr();
         $criteria = Criteria::create();
-        $criteria->where($expr->eq('resetPasswordToken', hash('sha256', @hex2bin($resetPasswordToken))))
+        $criteria->where($expr->eq('resetPasswordToken', Token::hash($resetPasswordToken)))
                  ->andWhere($expr->gte('resetPasswordUntil', new DateTimeImmutable($until)))
                  ->andWhere($expr->isNull('confirmToken'));
 
