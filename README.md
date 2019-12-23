@@ -34,17 +34,18 @@ account (use your own user details and email instead of the generic ones
 used below).
 
 ```
-$ vargant ssh
+host$ cd vagrant
+host$ vargant ssh
 Welcome to Ubuntu 18.04.3 LTS (GNU/Linux 4.15.0-20-generic x86_64)
 [...]
-$ cd /var/www/iishf
+vagrant$ cd /var/www/iishf
 ```
 
 The first step is to create a local configuration file and provide the 
 required configuration values. 
 
 ```
-$ cp .env .env.local
+vagrant$ cp .env .env.local
 ```
 
 The `DATABASE_URL` should already by OK and match the virtual box setup.
@@ -155,6 +156,7 @@ CSS. Exit the virtual machine and continue on the host machine.
 vagrant$ exit
 logout
 Connection to 127.0.0.1 closed.
+host$ cd ..
 host$ yarn install
 yarn install v1.21.1
 [1/4] 🔍  Resolving packages...
