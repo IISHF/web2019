@@ -9,7 +9,6 @@
 namespace App\Domain\Model\Committee;
 
 use App\Domain\Common\Country;
-use App\Domain\Entity\Team\Team;
 use App\Domain\Model\Common\AssociationOne;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;

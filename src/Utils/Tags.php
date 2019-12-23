@@ -37,7 +37,7 @@ final class Tags
         $list = array_keys(
             array_reduce(
                 $tagRows,
-                function (array $carry, array $tags) {
+                static function (array $carry, array $tags) {
                     foreach ($tags as $tag) {
                         $carry[$tag] = true;
                     }

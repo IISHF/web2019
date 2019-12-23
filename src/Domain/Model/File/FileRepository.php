@@ -254,7 +254,9 @@ SQL
         );
 
         if ($hash === $hasHash) {
-            return $this->_em->getReference(FileBinary::class, $hash);
+            /** @var FileBinary $reference */
+            $reference = $this->_em->getReference(FileBinary::class, $hash);
+            return $reference;
         }
         return null;
     }

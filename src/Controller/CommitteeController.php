@@ -45,11 +45,10 @@ class CommitteeController extends AbstractController
     /**
      * @Route("", methods={"GET"})
      *
-     * @param Request             $request
      * @param CommitteeRepository $committeeRepository
      * @return Response
      */
-    public function list(Request $request, CommitteeRepository $committeeRepository): Response
+    public function list(CommitteeRepository $committeeRepository): Response
     {
         return $this->render(
             'committee/list.html.twig',

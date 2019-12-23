@@ -8,7 +8,6 @@
 
 namespace App\Domain\Model\Committee;
 
-use App\Domain\Entity\Team\TeamMember;
 use App\Domain\Model\Common\AssociationMany;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;
