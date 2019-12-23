@@ -8,7 +8,6 @@
 
 namespace App\Infrastructure\User\Event;
 
-use App\Application\Common\Command\EventSubscriber;
 use App\Application\User\Command\UserUnconfirmed;
 use App\Infrastructure\Messaging\MailService;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -18,7 +17,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  *
  * @package App\Infrastructure\User\Event
  */
-class UserUnconfirmedNotifySubscriber implements EventSubscriber
+class UserUnconfirmedNotifySubscriber
 {
     /**
      * @var UrlGeneratorInterface

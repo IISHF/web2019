@@ -8,7 +8,6 @@
 
 namespace App\Application\Document\Command;
 
-use App\Application\Common\Command\CommandHandler;
 use App\Application\File\FileFactory;
 use App\Domain\Common\Urlizer;
 use App\Domain\Model\Document\Document;
@@ -21,7 +20,7 @@ use App\Domain\Model\File\File;
  *
  * @package App\Application\Document\Command
  */
-abstract class DocumentCommandHandler implements CommandHandler
+abstract class DocumentCommandHandler
 {
     /**
      * @var DocumentRepository

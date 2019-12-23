@@ -8,7 +8,6 @@
 
 namespace App\Application\HallOfFame\Command;
 
-use App\Application\Common\Command\CommandHandler;
 use App\Domain\Model\HallOfFame\HallOfFameEntry;
 use App\Domain\Model\HallOfFame\HallOfFameRepository;
 
@@ -17,7 +16,7 @@ use App\Domain\Model\HallOfFame\HallOfFameRepository;
  *
  * @package App\Application\HallOfFame\Command
  */
-abstract class HallOfFameEntryCommandHandler implements CommandHandler
+abstract class HallOfFameEntryCommandHandler
 {
     /**
      * @var HallOfFameRepository

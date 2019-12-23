@@ -9,6 +9,8 @@ services:
     command_handlers:
         namespace: App\Application\HallOfFame\Command\
         resource: '%kernel.project_dir%/src/Application/HallOfFame/Command/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.commands }
 
     App\Infrastructure\HallOfFame\Security\Voter\HallOfFameEntryVoter:
 

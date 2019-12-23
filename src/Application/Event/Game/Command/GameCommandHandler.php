@@ -8,7 +8,6 @@
 
 namespace App\Application\Event\Game\Command;
 
-use App\Application\Common\Command\CommandHandler;
 use App\Domain\Model\Event\Event;
 use App\Domain\Model\Event\EventRepository;
 use App\Domain\Model\Event\Game\Game;
@@ -21,7 +20,7 @@ use App\Domain\Model\Event\Team\ParticipatingTeamRepository;
  *
  * @package App\Application\Event\Game\Command
  */
-abstract class GameCommandHandler implements CommandHandler
+abstract class GameCommandHandler
 {
     /**
      * @var GameRepository

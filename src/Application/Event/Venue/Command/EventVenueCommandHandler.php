@@ -8,7 +8,6 @@
 
 namespace App\Application\Event\Venue\Command;
 
-use App\Application\Common\Command\CommandHandler;
 use App\Domain\Model\Event\Venue\EventVenue;
 use App\Domain\Model\Event\Venue\EventVenueRepository;
 
@@ -17,7 +16,7 @@ use App\Domain\Model\Event\Venue\EventVenueRepository;
  *
  * @package App\Application\Event\Venue\Command
  */
-abstract class EventVenueCommandHandler implements CommandHandler
+abstract class EventVenueCommandHandler
 {
     /**
      * @var EventVenueRepository

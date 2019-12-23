@@ -9,10 +9,14 @@ services:
     command_handlers:
         namespace: App\Application\User\Command\
         resource: '%kernel.project_dir%/src/Application/User/Command/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.commands }
 
     event_subscribers:
         namespace: App\Infrastructure\User\Event\
         resource: '%kernel.project_dir%/src/Infrastructure/User/Event/*Subscriber.php'
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.events }
 
     App\Application\User\PasswordService:
         arguments:

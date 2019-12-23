@@ -12,18 +12,26 @@ services:
     command_handlers:
         namespace: App\Application\Event\Command\
         resource: '%kernel.project_dir%/src/Application/Event/Command/**/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.commands }
 
     application_command_handlers:
         namespace: App\Application\Event\Application\Command\
         resource: '%kernel.project_dir%/src/Application/Event/Application/Command/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.commands }
 
     team_command_handlers:
         namespace: App\Application\Event\Team\Command\
         resource: '%kernel.project_dir%/src/Application/Event/Team/Command/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.commands }
 
     venue_command_handlers:
         namespace: App\Application\Event\Venue\Command\
         resource: '%kernel.project_dir%/src/Application/Event/Venue/Command/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.commands }
 
     App\Infrastructure\Event\Security\Voter\EventVoter:
     App\Infrastructure\Event\Security\Voter\TitleEventVoter:

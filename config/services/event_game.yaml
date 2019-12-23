@@ -9,6 +9,8 @@ services:
     command_handlers:
         namespace: App\Application\Event\Game\Command\
         resource: '%kernel.project_dir%/src/Application/Event/Game/Command/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.commands }
 
     App\Infrastructure\Event\Game\Security\Voter\GameVoter:
 

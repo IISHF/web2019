@@ -8,7 +8,6 @@
 
 namespace App\Application\Article\Command;
 
-use App\Application\Common\Command\CommandHandler;
 use App\Domain\Common\Urlizer;
 use App\Domain\Model\Article\Article;
 use App\Domain\Model\Article\ArticleRepository;
@@ -19,7 +18,7 @@ use App\Utils\Text;
  *
  * @package App\Application\Article\Command
  */
-abstract class ArticleCommandHandler implements CommandHandler
+abstract class ArticleCommandHandler
 {
     /**
      * @var ArticleRepository

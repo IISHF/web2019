@@ -8,7 +8,6 @@
 
 namespace App\Application\Committee\Command;
 
-use App\Application\Common\Command\CommandHandler;
 use App\Domain\Common\Urlizer;
 use App\Domain\Model\Committee\Committee;
 use App\Domain\Model\Committee\CommitteeMember;
@@ -19,7 +18,7 @@ use App\Domain\Model\Committee\CommitteeRepository;
  *
  * @package App\Application\Committee\Command
  */
-abstract class CommitteeCommandHandler implements CommandHandler
+abstract class CommitteeCommandHandler
 {
     /**
      * @var CommitteeRepository
