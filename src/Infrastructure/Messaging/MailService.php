@@ -8,8 +8,11 @@
 
 namespace App\Infrastructure\Messaging;
 
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\RequestContext;
-use Twig\Environment;
 
 /**
  * Class MailService
@@ -24,14 +27,9 @@ class MailService
     private $defaultSender;
 
     /**
-     * @var \Swift_Mailer
+     * @var MailerInterface
      */
     private $mailer;
-
-    /**
-     * @var Environment
-     */
-    private $templating;
 
     /**
      * @var RequestContext
@@ -39,131 +37,119 @@ class MailService
     private $requestContext;
 
     /**
-     * @param array          $defaultSender
-     * @param \Swift_Mailer  $mailer
-     * @param Environment    $templating
-     * @param RequestContext $requestContext
+     * @param array           $defaultSender
+     * @param MailerInterface $mailer
+     * @param RequestContext  $requestContext
      */
-    public function __construct(
-        array $defaultSender,
-        \Swift_Mailer $mailer,
-        Environment $templating,
-        RequestContext $requestContext
-    ) {
+    public function __construct(array $defaultSender, MailerInterface $mailer, RequestContext $requestContext)
+    {
         $this->defaultSender  = $defaultSender;
         $this->mailer         = $mailer;
-        $this->templating     = $templating;
         $this->requestContext = $requestContext;
     }
 
     /**
      * @param array             $to
      * @param string|null       $subject
-     * @param array|null        $sender
+     * @param array|null        $from
      * @param string|array|null $template #Template
      * @param array             $parameters
      */
     public function send(
         array $to,
         ?string $subject,
-        array $sender = null,
+        array $from = null,
         $template = null,
         array $parameters = []
     ): void {
-        $message = $this->createMessage($subject, $template, $parameters);
-        $message->setTo($to);
-        $this->sendMessage($message, $sender);
-    }
-
-    /**
-     * @param \Swift_Message $message
-     * @param array|null     $sender
-     */
-    public function sendMessage(\Swift_Message $message, array $sender = null): void
-    {
-        $this->mailer->send($this->prepareMessage($message, $sender));
-    }
-
-    /**
-     * @param \Swift_Message $message
-     * @param array|null     $sender
-     * @return \Swift_Message
-     */
-    private function prepareMessage(\Swift_Message $message, array $sender = null): \Swift_Message
-    {
-        $mailFrom = $message->getFrom();
-        if ($mailFrom) {
-            $fromName    = reset($mailFrom);
-            $fromAddress = key($mailFrom);
-            if ($fromName === null) {
-                $fromName = $fromAddress . ' via iishf.com';
+        $message    = $this->createMessage($subject, $template, $parameters);
+        $recipients = [];
+        foreach ($to as $address => $name) {
+            if (is_string($address)) {
+                $recipients[] = new Address($address, $name);
             } else {
-                $fromName .= ' via iishf.com';
+                $recipients[] = new Address($name);
             }
-            $message->setFrom([$fromAddress => $fromName]);
-
-            if (!$sender) {
-                $sender = $this->defaultSender;
-            }
-            $message->setSender($sender);
-        } else {
-            $message->setFrom($this->defaultSender);
         }
-        return $message;
+        $message->to(...$recipients);
+
+        $defaultSender = [];
+        foreach ($this->defaultSender as $address => $name) {
+            $defaultSender[] = new Address($address, $name);
+        }
+
+        $senders = [];
+        foreach ($from as $address => $name) {
+            if (is_string($address)) {
+                $senders[] = new Address($address, $name . ' via iishf.com');
+            } else {
+                $senders[] = new Address($name, $name . ' via iishf.com');
+            }
+        }
+        if (empty($senders)) {
+            $senders = $defaultSender;
+        }
+        $message->from(...$senders);
+
+        $sender = reset($defaultSender);
+        $message->sender($sender);
+
+        $this->mailer->send($message);
     }
 
     /**
      * @param string|null       $subject
      * @param string|array|null $template #Template
      * @param array             $parameters
-     * @return \Swift_Message
+     * @return Email
      */
-    public function createMessage(?string $subject, $template = null, array $parameters = []): \Swift_Message
+    private function createMessage(?string $subject, $template = null, array $parameters = []): Email
     {
-        $message = new \Swift_Message($subject);
         if ($template !== null) {
             return $this->addTemplatesToMessage(
-                $message,
+                (new TemplatedEmail())->subject($subject),
                 $template,
                 $parameters
             );
         }
-        return $message;
+        return (new Email())->subject($subject);
     }
 
     /**
-     * @param \Swift_Message    $message
+     * @param TemplatedEmail    $message
      * @param string|array|null $template
      * @param array             $parameters
-     * @return \Swift_Message
+     * @return TemplatedEmail
      */
-    public function addTemplatesToMessage(\Swift_Message $message, $template, array $parameters = []): \Swift_Message
+    private function addTemplatesToMessage(TemplatedEmail $message, $template, array $parameters = []): TemplatedEmail
     {
-        if (!\is_array($template)) {
-            $template = ['text/html' => $template];
-        }
-        $isFirst = true;
-        foreach ($template as $contentType => $name) {
-            $body = $this->templating->render(
-                $name,
-                array_merge(
-                    $parameters,
-                    [
-                        'subject' => $message->getSubject(),
-                        'baseUrl' => $this->getBaseUrl(),
-                    ]
-                )
-            );
-
-            if ($isFirst) {
-                $message->setBody($body, $contentType);
-            } else {
-                $message->addPart($body, $contentType);
-                $isFirst = false;
+        $htmlTemplate = null;
+        $textTemplate = null;
+        if (is_array($template)) {
+            if (count($template) > 1) {
+                [$htmlTemplate, $textTemplate] = $template;
+            } elseif (count($template) > 0) {
+                [$htmlTemplate] = $template;
             }
+        } else {
+            $htmlTemplate = $template;
         }
 
-        return $message;
+        if ($htmlTemplate) {
+            $message->htmlTemplate($htmlTemplate);
+        }
+        if ($textTemplate) {
+            $message->textTemplate($textTemplate);
+        }
+        return $message->context(
+            array_merge(
+                $parameters,
+                [
+                    'subject' => $message->getSubject(),
+                    'baseUrl' => $this->getBaseUrl(),
+                ]
+            )
+        );
     }
 
     /**
