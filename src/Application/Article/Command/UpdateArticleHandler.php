@@ -8,7 +8,7 @@
 
 namespace App\Application\Article\Command;
 
-use App\Application\Article\ArticleBody;
+use App\Domain\Model\Article\Article;
 use App\Domain\Model\Article\ArticleRepository;
 use App\Domain\Model\File\FileRepository;
 
@@ -44,9 +44,9 @@ class UpdateArticleHandler extends ArticleCommandHandler
             throw new \InvalidArgumentException('Legacy news articles cannot be edited');
         }
 
-        $oldAttachments    = ArticleBody::findAttachments($article->getBody());
+        $oldAttachments    = $article->getAttachments(false);
         $body              = $command->getBody();
-        $newAttachments    = ArticleBody::findAttachments($body);
+        $newAttachments    = Article::findAttachments($body, false);
         $removeAttachments = array_diff($oldAttachments, $newAttachments);
         if (!empty($removeAttachments)) {
             $this->fileRepository->deleteById(...$removeAttachments);
