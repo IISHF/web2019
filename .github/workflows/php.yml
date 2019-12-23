@@ -48,7 +48,7 @@ jobs:
         run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
 
       - name: Run test suite
-        run: vendor/bin/phpunit -c phpunit.xml.dist bin/phpunit --coverage-text
+        run: vendor/bin/phpunit -c phpunit.xml.dist --coverage-text
         env:
           DATABASE_URL: mysql://iishf:iishf@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/iishf
           MAILER_URL: null://localhost
