@@ -11,6 +11,7 @@ namespace App\Infrastructure\Security;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -40,15 +41,15 @@ class ReCaptchaClient
     private $logger;
 
     /**
-     * @param string          $reCaptchaSecret
-     * @param bool            $debug
-     * @param LoggerInterface $logger
+     * @param string               $reCaptchaSecret
+     * @param bool                 $debug
+     * @param LoggerInterface|null $logger
      */
-    public function __construct($reCaptchaSecret, bool $debug, LoggerInterface $logger)
+    public function __construct($reCaptchaSecret, bool $debug = false, ?LoggerInterface $logger = null)
     {
         $this->reCaptchaSecret = $reCaptchaSecret;
         $this->debug           = $debug;
-        $this->logger          = $logger;
+        $this->logger          = $logger ?? new NullLogger();
     }
 
     /**
@@ -58,7 +59,7 @@ class ReCaptchaClient
     public function validateRequest(Request $request): bool
     {
         return $this->validate(
-            $request->request->get(self::RESPONSE_FIELD),
+            $request->request->get(self::RESPONSE_FIELD, ''),
             $request->getClientIp()
         );
     }
@@ -70,6 +71,11 @@ class ReCaptchaClient
      */
     public function validate(string $response, ?string $clientIp = null): bool
     {
+        if ($this->debug) {
+            $this->logger->notice('Google reCAPTCHA bypassed in debug mode');
+            return true;
+        }
+
         $this->logger->debug(sprintf('Google reCAPTCHA response: %s', $response));
 
         $postData = http_build_query(
@@ -110,17 +116,14 @@ class ReCaptchaClient
             return false;
 
         } catch (ConnectException $e) {
-            if ($this->debug) {
-                $this->logger->notice(
-                    sprintf(
-                        'Google reCAPTCHA bypassed in debug mode - error [%s]: %s',
-                        get_class($e),
-                        $e->getMessage()
-                    )
-                );
-                return true;
-            }
-            throw $e;
+            $this->logger->error(
+                sprintf(
+                    'Google reCAPTCHA failed with an error [%s]: %s',
+                    get_class($e),
+                    $e->getMessage()
+                )
+            );
+            return false;
         }
     }
 }

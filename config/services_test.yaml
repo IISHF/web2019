@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        public: false
+        autowire: true
+        autoconfigure: true
+
+    App\Infrastructure\Security\ReCaptchaClient:
+        arguments:
+            $reCaptchaSecret: 'testing-secret'
+            $debug: true
+        tags:
+            - { name: monolog.logger, channel: app.security }
