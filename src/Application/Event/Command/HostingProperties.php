@@ -9,6 +9,8 @@
 namespace App\Application\Event\Command;
 
 use App\Application\Event\EventHost;
+use DateTimeImmutable;
+use DateTimeZone;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -35,7 +37,7 @@ trait HostingProperties
      *      message="This value should be less than or equal to the end date."
      * )
      *
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      */
     private $startDate;
 
@@ -47,7 +49,7 @@ trait HostingProperties
      *      message="This value should be greater than or equal to the start date."
      * )
      *
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      */
     private $endDate;
 
@@ -64,7 +66,7 @@ trait HostingProperties
      * @Assert\Type("DateTimeZone")
      * @Assert\NotNull()
      *
-     * @var \DateTimeZone
+     * @var DateTimeZone
      */
     private $timeZone;
 
@@ -77,36 +79,36 @@ trait HostingProperties
     }
 
     /**
-     * @return \DateTimeImmutable
+     * @return DateTimeImmutable
      */
-    public function getStartDate(): \DateTimeImmutable
+    public function getStartDate(): DateTimeImmutable
     {
         return $this->startDate;
     }
 
     /**
-     * @param \DateTimeImmutable $startDate
+     * @param DateTimeImmutable $startDate
      * @return $this
      */
-    public function setStartDate(\DateTimeImmutable $startDate): self
+    public function setStartDate(DateTimeImmutable $startDate): self
     {
         $this->startDate = $startDate;
         return $this;
     }
 
     /**
-     * @return \DateTimeImmutable
+     * @return DateTimeImmutable
      */
-    public function getEndDate(): \DateTimeImmutable
+    public function getEndDate(): DateTimeImmutable
     {
         return $this->endDate;
     }
 
     /**
-     * @param \DateTimeImmutable $endDate
+     * @param DateTimeImmutable $endDate
      * @return $this
      */
-    public function setEndDate(\DateTimeImmutable $endDate): self
+    public function setEndDate(DateTimeImmutable $endDate): self
     {
         $this->endDate = $endDate;
         return $this;
@@ -131,18 +133,18 @@ trait HostingProperties
     }
 
     /**
-     * @return \DateTimeZone|null
+     * @return DateTimeZone|null
      */
-    public function getTimeZone(): ?\DateTimeZone
+    public function getTimeZone(): ?DateTimeZone
     {
         return $this->timeZone;
     }
 
     /**
-     * @param \DateTimeZone $timeZone
+     * @param DateTimeZone $timeZone
      * @return $this
      */
-    public function setTimeZone(\DateTimeZone $timeZone): self
+    public function setTimeZone(DateTimeZone $timeZone): self
     {
         $this->timeZone = $timeZone;
         return $this;

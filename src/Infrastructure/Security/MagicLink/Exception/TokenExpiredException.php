@@ -8,6 +8,8 @@
 
 namespace App\Infrastructure\Security\MagicLink\Exception;
 
+use DateTimeImmutable;
+use Exception;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
@@ -19,30 +21,30 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 class TokenExpiredException extends AuthenticationException
 {
     /**
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      */
     private $ttl;
 
     /**
-     * @param \DateTimeImmutable $ttl
+     * @param DateTimeImmutable $ttl
      * @param string             $message
      * @param int                $code
-     * @param \Exception|null    $previous
+     * @param Exception|null    $previous
      */
     public function __construct(
-        \DateTimeImmutable $ttl,
+        DateTimeImmutable $ttl,
         string $message = 'The token has expired.',
         int $code = 0,
-        \Exception $previous = null
+        Exception $previous = null
     ) {
         parent::__construct($message, $code, $previous);
         $this->ttl = $ttl;
     }
 
     /**
-     * @return \DateTimeImmutable
+     * @return DateTimeImmutable
      */
-    public function getTtl(): \DateTimeImmutable
+    public function getTtl(): DateTimeImmutable
     {
         return $this->ttl;
     }

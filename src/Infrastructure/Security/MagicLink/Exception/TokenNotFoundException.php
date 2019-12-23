@@ -8,6 +8,7 @@
 
 namespace App\Infrastructure\Security\MagicLink\Exception;
 
+use Exception;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 /**
@@ -23,7 +24,7 @@ class TokenNotFoundException extends AuthenticationException
     public function __construct(
         string $message = 'The token does not exist.',
         int $code = 0,
-        \Exception $previous = null
+        Exception $previous = null
     ) {
         parent::__construct($message, $code, $previous);
     }

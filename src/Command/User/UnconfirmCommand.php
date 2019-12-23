@@ -15,6 +15,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Throwable;
 
 /**
  * Class UnconfirmCommand
@@ -94,7 +95,7 @@ class UnconfirmCommand extends Command
 
         try {
             $this->commandBus->dispatch($confirmUser);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->io->error($e->getMessage());
             return 1;
         }

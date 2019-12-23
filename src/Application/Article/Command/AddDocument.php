@@ -9,6 +9,7 @@
 namespace App\Application\Article\Command;
 
 use App\Application\Common\Command\IdAware;
+use SplFileInfo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -40,7 +41,7 @@ class AddDocument
      * @Assert\Type("SplFileInfo")
      * @Assert\NotNull()
      *
-     * @var \SplFileInfo
+     * @var SplFileInfo
      */
     private $file;
 
@@ -54,11 +55,11 @@ class AddDocument
 
     /**
      * @param string       $articleId
-     * @param \SplFileInfo $document
+     * @param SplFileInfo $document
      * @param string|null  $title
      * @return AddDocument
      */
-    public static function add(string $articleId, \SplFileInfo $document, ?string $title): self
+    public static function add(string $articleId, SplFileInfo $document, ?string $title): self
     {
         return new self(self::createUuid(), $articleId, $document, $title);
     }
@@ -66,10 +67,10 @@ class AddDocument
     /**
      * @param string       $id
      * @param string       $articleId
-     * @param \SplFileInfo $document
+     * @param SplFileInfo $document
      * @param string|null  $title
      */
-    private function __construct(string $id, string $articleId, \SplFileInfo $document, ?string $title)
+    private function __construct(string $id, string $articleId, SplFileInfo $document, ?string $title)
     {
         $this->id        = $id;
         $this->articleId = $articleId;

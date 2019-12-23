@@ -11,6 +11,7 @@ namespace App\Domain\Model\Event;
 use App\Domain\Model\Common\TagProvider;
 use App\Utils\Tags;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -122,9 +123,9 @@ class EventRepository extends ServiceEntityRepository implements TagProvider
     }
 
     /**
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
-    private function createQueryBuilderWithAssociations(): \Doctrine\ORM\QueryBuilder
+    private function createQueryBuilderWithAssociations(): QueryBuilder
     {
         return $this->createQueryBuilder('e')
                     ->addSelect('h', 'v')
@@ -134,9 +135,9 @@ class EventRepository extends ServiceEntityRepository implements TagProvider
 
     /**
      * @param string $class
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
-    private function createQueryBuilderWithEventType(string $class): \Doctrine\ORM\QueryBuilder
+    private function createQueryBuilderWithEventType(string $class): QueryBuilder
     {
         return $this->createQueryBuilderWithAssociations()
                     ->where('e INSTANCE OF :type')

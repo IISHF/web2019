@@ -8,12 +8,16 @@
 
 namespace App\Domain\Model\Article;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+
 /**
  * Class ArticleAttachments
  *
  * @package App\Domain\Model\Article
  */
-abstract class ArticleAttachments implements \Countable, \IteratorAggregate
+abstract class ArticleAttachments implements Countable, IteratorAggregate
 {
     /**
      * @var ArticleAttachment[]
@@ -41,7 +45,7 @@ abstract class ArticleAttachments implements \Countable, \IteratorAggregate
      */
     public function getIterator()
     {
-        return new \ArrayIterator($this->attachments);
+        return new ArrayIterator($this->attachments);
     }
 
     /**

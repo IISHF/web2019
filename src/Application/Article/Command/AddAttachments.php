@@ -8,6 +8,10 @@
 
 namespace App\Application\Article\Command;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use SplFileInfo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -15,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @package App\Application\Article\Command
  */
-class AddAttachments implements \IteratorAggregate, \Countable
+class AddAttachments implements IteratorAggregate, Countable
 {
     /**
      * @Assert\Type("string")
@@ -50,42 +54,42 @@ class AddAttachments implements \IteratorAggregate, \Countable
 
     /**
      * @param bool         $primaryImage
-     * @param \SplFileInfo $image
+     * @param SplFileInfo $image
      * @param string|null  $caption
      * @return $this
      */
-    public function addImage(bool $primaryImage, \SplFileInfo $image, ?string $caption): self
+    public function addImage(bool $primaryImage, SplFileInfo $image, ?string $caption): self
     {
         $this->attachments[] = AddImage::add($primaryImage, $this->articleId, $image, $caption);
         return $this;
     }
 
     /**
-     * @param \SplFileInfo $image
+     * @param SplFileInfo $image
      * @param string|null  $caption
      * @return $this
      */
-    public function addPrimaryImage(\SplFileInfo $image, ?string $caption): self
+    public function addPrimaryImage(SplFileInfo $image, ?string $caption): self
     {
         return $this->addImage(true, $image, $caption);
     }
 
     /**
-     * @param \SplFileInfo $image
+     * @param SplFileInfo $image
      * @param string|null  $caption
      * @return $this
      */
-    public function addSecondaryImage(\SplFileInfo $image, ?string $caption): self
+    public function addSecondaryImage(SplFileInfo $image, ?string $caption): self
     {
         return $this->addImage(false, $image, $caption);
     }
 
     /**
-     * @param \SplFileInfo $document
+     * @param SplFileInfo $document
      * @param string|null  $title
      * @return $this
      */
-    public function addDocument(\SplFileInfo $document, ?string $title): self
+    public function addDocument(SplFileInfo $document, ?string $title): self
     {
         $this->attachments[] = AddDocument::add($this->articleId, $document, $title);
         return $this;
@@ -104,7 +108,7 @@ class AddAttachments implements \IteratorAggregate, \Countable
      */
     public function getIterator()
     {
-        return new \ArrayIterator($this->attachments);
+        return new ArrayIterator($this->attachments);
     }
 
     /**

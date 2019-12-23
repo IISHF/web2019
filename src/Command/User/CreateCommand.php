@@ -18,6 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Messenger\Exception\ValidationFailedException;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Throwable;
 
 /**
  * Class CreateCommand
@@ -130,7 +131,7 @@ class CreateCommand extends Command
         } catch (ValidationFailedException $e) {
             $this->io->error(array_merge(['Validation failed.'], Validation::getViolations($e)));
             return 1;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->io->error($e->getMessage());
             return 1;
         }

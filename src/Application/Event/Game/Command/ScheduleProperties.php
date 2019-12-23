@@ -8,6 +8,7 @@
 
 namespace App\Application\Event\Game\Command;
 
+use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -22,23 +23,23 @@ trait ScheduleProperties
      * @Assert\Type("DateTimeImmutable")
      * @Assert\NotNull()
      *
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      */
     private $dateTime;
 
     /**
-     * @return \DateTimeImmutable
+     * @return DateTimeImmutable
      */
-    public function getDateTime(): \DateTimeImmutable
+    public function getDateTime(): DateTimeImmutable
     {
         return $this->dateTime;
     }
 
     /**
-     * @param \DateTimeImmutable $dateTime
+     * @param DateTimeImmutable $dateTime
      * @return $this
      */
-    public function setDateTime(\DateTimeImmutable $dateTime): self
+    public function setDateTime(DateTimeImmutable $dateTime): self
     {
         $this->dateTime = $dateTime;
         return $this;

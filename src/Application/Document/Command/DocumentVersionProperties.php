@@ -9,6 +9,7 @@
 namespace App\Application\Document\Command;
 
 use App\Application\Document\Validator\UniqueDocumentVersion;
+use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -40,7 +41,7 @@ trait DocumentVersionProperties
      *      message="This value should be less than or equal to valid until."
      * )
      *
-     * @var \DateTimeImmutable|null
+     * @var DateTimeImmutable|null
      */
     private $validFrom;
 
@@ -56,7 +57,7 @@ trait DocumentVersionProperties
      *      message="This value should be greater than or equal to valid from."
      * )
      *
-     * @var \DateTimeImmutable|null
+     * @var DateTimeImmutable|null
      */
     private $validUntil;
 
@@ -79,36 +80,36 @@ trait DocumentVersionProperties
     }
 
     /**
-     * @return \DateTimeImmutable|null
+     * @return DateTimeImmutable|null
      */
-    public function getValidFrom(): ?\DateTimeImmutable
+    public function getValidFrom(): ?DateTimeImmutable
     {
         return $this->validFrom;
     }
 
     /**
-     * @param \DateTimeImmutable|null $validFrom
+     * @param DateTimeImmutable|null $validFrom
      * @return $this
      */
-    public function setValidFrom(?\DateTimeImmutable $validFrom): self
+    public function setValidFrom(?DateTimeImmutable $validFrom): self
     {
         $this->validFrom = $validFrom;
         return $this;
     }
 
     /**
-     * @return \DateTimeImmutable|null
+     * @return DateTimeImmutable|null
      */
-    public function getValidUntil(): ?\DateTimeImmutable
+    public function getValidUntil(): ?DateTimeImmutable
     {
         return $this->validUntil;
     }
 
     /**
-     * @param \DateTimeImmutable|null $validUntil
+     * @param DateTimeImmutable|null $validUntil
      * @return $this
      */
-    public function setValidUntil(?\DateTimeImmutable $validUntil): self
+    public function setValidUntil(?DateTimeImmutable $validUntil): self
     {
         $this->validUntil = $validUntil;
         return $this;

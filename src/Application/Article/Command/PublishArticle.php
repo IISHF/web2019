@@ -8,6 +8,7 @@
 
 namespace App\Application\Article\Command;
 
+use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -32,7 +33,7 @@ class PublishArticle extends ArticleWorkflowCommand
      * @Assert\Type("DateTimeImmutable")
      * @Assert\NotNull()
      *
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      */
     private $publishAt;
 
@@ -42,7 +43,7 @@ class PublishArticle extends ArticleWorkflowCommand
     protected function __construct(string $id)
     {
         parent::__construct($id, self::TRANSITION);
-        $this->publishAt = new \DateTimeImmutable('+ 15 minutes');
+        $this->publishAt = new DateTimeImmutable('+ 15 minutes');
     }
 
     /**
@@ -64,18 +65,18 @@ class PublishArticle extends ArticleWorkflowCommand
     }
 
     /**
-     * @return \DateTimeImmutable
+     * @return DateTimeImmutable
      */
-    public function getPublishAt(): \DateTimeImmutable
+    public function getPublishAt(): DateTimeImmutable
     {
         return $this->publishAt;
     }
 
     /**
-     * @param \DateTimeImmutable $publishAt
+     * @param DateTimeImmutable $publishAt
      * @return $this
      */
-    public function setPublishAt(\DateTimeImmutable $publishAt): self
+    public function setPublishAt(DateTimeImmutable $publishAt): self
     {
         $this->publishAt = $publishAt;
         return $this;
@@ -90,7 +91,7 @@ class PublishArticle extends ArticleWorkflowCommand
     public function validate(ExecutionContextInterface $context, $payload): void
     {
         if ($this->publishNow === false) {
-            $now = new \DateTimeImmutable('now');
+            $now = new DateTimeImmutable('now');
             if ($this->publishAt < $now) {
                 $context->buildViolation('This value should not be in the past.')
                         ->atPath('publishAt')

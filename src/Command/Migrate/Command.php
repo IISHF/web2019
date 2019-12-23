@@ -9,6 +9,8 @@
 namespace App\Command\Migrate;
 
 use App\Command\Command as BaseCommand;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -33,7 +35,7 @@ abstract class Command extends BaseCommand
     private $em;
 
     /**
-     * @var \Doctrine\DBAL\Connection
+     * @var Connection
      */
     protected $db;
 
@@ -115,7 +117,7 @@ abstract class Command extends BaseCommand
         parent::initialize($input, $output);
 
         $dbUri    = $input->getOption('db');
-        $this->db = \Doctrine\DBAL\DriverManager::getConnection(['url' => $dbUri]);
+        $this->db = DriverManager::getConnection(['url' => $dbUri]);
     }
 
     /**

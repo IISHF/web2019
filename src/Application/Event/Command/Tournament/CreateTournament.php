@@ -12,6 +12,8 @@ use App\Application\Common\Command\IdAware;
 use App\Application\Event\Command\EventProperties;
 use App\Application\Event\Command\HostingProperties;
 use App\Application\Event\EventHost;
+use DateTimeImmutable;
+use DateTimeZone;
 
 /**
  * Class CreateTournament
@@ -38,8 +40,8 @@ class CreateTournament
         $this->id        = $id;
         $this->season    = idate('Y');
         $this->host      = new EventHost();
-        $this->startDate = new \DateTimeImmutable('next Saturday');
+        $this->startDate = new DateTimeImmutable('next Saturday');
         $this->endDate   = $this->startDate->modify('+ 1 day');
-        $this->timeZone  = new \DateTimeZone('Europe/Berlin');
+        $this->timeZone  = new DateTimeZone('Europe/Berlin');
     }
 }

@@ -8,6 +8,8 @@
 
 namespace App\Application\File;
 
+use Imagick;
+
 /**
  * Class ImagickResizedImage
  *
@@ -16,14 +18,14 @@ namespace App\Application\File;
 class ImagickResizedImage implements ResizedImage
 {
     /**
-     * @var \Imagick
+     * @var Imagick
      */
     private $im;
 
     /**
-     * @param \Imagick $im
+     * @param Imagick $im
      */
-    public function __construct(\Imagick $im)
+    public function __construct(Imagick $im)
     {
         $this->im = $im;
     }

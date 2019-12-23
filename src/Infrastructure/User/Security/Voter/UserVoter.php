@@ -11,6 +11,7 @@ namespace App\Infrastructure\User\Security\Voter;
 use App\Domain\Model\User\User;
 use App\Infrastructure\Security\Voter\DelegatingVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use function in_array;
 
 /**
  * Class UserVoter
@@ -28,7 +29,7 @@ class UserVoter extends DelegatingVoter
             return false;
         }
 
-        return \in_array($attribute, ['USER_EDIT', 'USER_DELETE']);
+        return in_array($attribute, ['USER_EDIT', 'USER_DELETE']);
     }
 
     /**

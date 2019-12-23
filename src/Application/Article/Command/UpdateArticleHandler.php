@@ -11,6 +11,8 @@ namespace App\Application\Article\Command;
 use App\Domain\Model\Article\Article;
 use App\Domain\Model\Article\ArticleRepository;
 use App\Domain\Model\File\FileRepository;
+use DateTimeImmutable;
+use InvalidArgumentException;
 
 /**
  * Class UpdateArticleHandler
@@ -41,7 +43,7 @@ class UpdateArticleHandler extends ArticleCommandHandler
     {
         $article = $this->getArticle($command->getId());
         if ($article->isLegacyFormat()) {
-            throw new \InvalidArgumentException('Legacy news articles cannot be edited');
+            throw new InvalidArgumentException('Legacy news articles cannot be edited');
         }
 
         $oldAttachments    = $article->getAttachments(false);
@@ -59,7 +61,7 @@ class UpdateArticleHandler extends ArticleCommandHandler
         }
 
         $slug = $this->findSuitableSlug(
-            $publishedAt ?? new \DateTimeImmutable('now'),
+            $publishedAt ?? new DateTimeImmutable('now'),
             $command->getTitle(),
             $article->getId()
         );

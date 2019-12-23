@@ -14,6 +14,8 @@ use App\Domain\Model\Document\Document;
 use App\Domain\Model\Document\DocumentRepository;
 use App\Domain\Model\Document\DocumentVersion;
 use App\Domain\Model\File\File;
+use OutOfBoundsException;
+use SplFileInfo;
 
 /**
  * Class DocumentCommandHandler
@@ -50,7 +52,7 @@ abstract class DocumentCommandHandler
     {
         $document = $this->documentRepository->findById($id);
         if (!$document) {
-            throw new \OutOfBoundsException('No document found for id ' . $id);
+            throw new OutOfBoundsException('No document found for id ' . $id);
         }
         return $document;
     }
@@ -63,7 +65,7 @@ abstract class DocumentCommandHandler
     {
         $version = $this->documentRepository->findVersionById($id);
         if (!$version) {
-            throw new \OutOfBoundsException('No document version found for id ' . $id);
+            throw new OutOfBoundsException('No document version found for id ' . $id);
         }
         return $version;
     }
@@ -102,11 +104,11 @@ abstract class DocumentCommandHandler
     }
 
     /**
-     * @param \SplFileInfo $file
+     * @param SplFileInfo $file
      * @param string       $originalName
      * @return File
      */
-    protected function createFile(\SplFileInfo $file, string $originalName): File
+    protected function createFile(SplFileInfo $file, string $originalName): File
     {
         return $this->fileFactory->createFile($file, DocumentVersion::FILE_ORIGIN, $originalName);
     }

@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
+use function is_string;
 
 /**
  * Class UniqueDocumentTitleValidator
@@ -46,7 +47,7 @@ class UniqueDocumentTitleValidator extends ConstraintValidator
         if ($value === null || $value === '') {
             return;
         }
-        if (!\is_string($value)) {
+        if (!is_string($value)) {
             throw new UnexpectedValueException($value, 'string');
         }
 

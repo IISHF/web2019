@@ -9,10 +9,12 @@
 namespace App\Domain\Model\User;
 
 use App\Domain\Common\Repository\DoctrinePaging;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Pagerfanta;
+use function count;
 
 /**
  * Class UserRepository
@@ -74,11 +76,11 @@ class UserRepository extends ServiceEntityRepository
         $expr     = Criteria::expr();
         $criteria = Criteria::create();
         $criteria->where($expr->eq('resetPasswordToken', hash('sha256', @hex2bin($resetPasswordToken))))
-                 ->andWhere($expr->gte('resetPasswordUntil', new \DateTimeImmutable($until)))
+                 ->andWhere($expr->gte('resetPasswordUntil', new DateTimeImmutable($until)))
                  ->andWhere($expr->isNull('confirmToken'));
 
         $users = $this->matching($criteria);
-        if (\count($users) === 1) {
+        if (count($users) === 1) {
             /** @var User $user */
             $user = $users->first();
             return $user;

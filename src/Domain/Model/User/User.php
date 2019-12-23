@@ -12,6 +12,8 @@ use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
 use App\Utils\Text;
+use Collator;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -72,7 +74,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(name="password_changed", type="datetime_immutable", nullable=true)
      *
-     * @var \DateTimeImmutable|null
+     * @var DateTimeImmutable|null
      */
     private $passwordChanged;
 
@@ -93,14 +95,14 @@ class User implements UserInterface
     /**
      * @ORM\Column(name="reset_password_until", type="datetime_immutable", nullable=true)
      *
-     * @var \DateTimeImmutable|null
+     * @var DateTimeImmutable|null
      */
     private $resetPasswordUntil;
 
     /**
      * @ORM\Column(name="last_login", type="datetime_immutable", nullable=true)
      *
-     * @var \DateTimeImmutable|null
+     * @var DateTimeImmutable|null
      */
     private $lastLogin;
 
@@ -121,14 +123,14 @@ class User implements UserInterface
     /**
      * @ORM\Column(name="last_logout", type="datetime_immutable", nullable=true)
      *
-     * @var \DateTimeImmutable|null
+     * @var DateTimeImmutable|null
      */
     private $lastLogout;
 
     /**
      * @ORM\Column(name="last_login_failure", type="datetime_immutable", nullable=true)
      *
-     * @var \DateTimeImmutable|null
+     * @var DateTimeImmutable|null
      */
     private $lastLoginFailure;
 
@@ -319,14 +321,14 @@ class User implements UserInterface
     public function changePassword(string $password): self
     {
         $this->setPassword($password);
-        $this->passwordChanged = new \DateTimeImmutable('now');
+        $this->passwordChanged = new DateTimeImmutable('now');
         return $this;
     }
 
     /**
-     * @return \DateTimeImmutable|null
+     * @return DateTimeImmutable|null
      */
-    public function getPasswordChanged(): ?\DateTimeImmutable
+    public function getPasswordChanged(): ?DateTimeImmutable
     {
         return $this->passwordChanged;
     }
@@ -370,7 +372,7 @@ class User implements UserInterface
     public function resetPassword(string $resetPasswordToken, string $until = '+ 15 minutes'): self
     {
         $this->resetPasswordToken = hash('sha256', @hex2bin($resetPasswordToken));
-        $this->resetPasswordUntil = new \DateTimeImmutable($until);
+        $this->resetPasswordUntil = new DateTimeImmutable($until);
         return $this;
     }
 
@@ -384,7 +386,7 @@ class User implements UserInterface
     {
         $this->resetPasswordToken = null;
         $this->resetPasswordUntil = null;
-        $this->lastLogin          = new \DateTimeImmutable($login);
+        $this->lastLogin          = new DateTimeImmutable($login);
         $this->lastLoginIp        = $ip;
         $this->lastLoginUserAgent = Text::shorten($userAgent, 255);
         $this->loginFailures      = 0;
@@ -392,9 +394,9 @@ class User implements UserInterface
     }
 
     /**
-     * @return \DateTimeImmutable|null
+     * @return DateTimeImmutable|null
      */
-    public function getLastLogin(): ?\DateTimeImmutable
+    public function getLastLogin(): ?DateTimeImmutable
     {
         return $this->lastLogin;
     }
@@ -421,14 +423,14 @@ class User implements UserInterface
      */
     public function registerLogout(string $logout = 'now'): self
     {
-        $this->lastLogout = new \DateTimeImmutable($logout);
+        $this->lastLogout = new DateTimeImmutable($logout);
         return $this;
     }
 
     /**
-     * @return \DateTimeImmutable|null
+     * @return DateTimeImmutable|null
      */
-    public function getLastLogout(): ?\DateTimeImmutable
+    public function getLastLogout(): ?DateTimeImmutable
     {
         return $this->lastLogout;
     }
@@ -441,7 +443,7 @@ class User implements UserInterface
      */
     public function registerLoginFailure(string $ip, string $userAgent, string $failure = 'now'): self
     {
-        $this->lastLoginFailure          = new \DateTimeImmutable($failure);
+        $this->lastLoginFailure          = new DateTimeImmutable($failure);
         $this->lastLoginFailureIp        = $ip;
         $this->lastLoginFailureUserAgent = Text::shorten($userAgent, 255);
         $this->loginFailures++;
@@ -449,9 +451,9 @@ class User implements UserInterface
     }
 
     /**
-     * @return \DateTimeImmutable|null
+     * @return DateTimeImmutable|null
      */
-    public function getLastLoginFailure(): ?\DateTimeImmutable
+    public function getLastLoginFailure(): ?DateTimeImmutable
     {
         return $this->lastLoginFailure;
     }
@@ -494,7 +496,7 @@ class User implements UserInterface
      */
     public function setRoles(array $roles): self
     {
-        $collator = \Collator::create('en-US');
+        $collator = Collator::create('en-US');
         $collator->sort($roles);
         $this->roles = array_unique($roles);
         return $this;

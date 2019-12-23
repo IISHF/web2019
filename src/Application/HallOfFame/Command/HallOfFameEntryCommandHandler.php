@@ -10,6 +10,7 @@ namespace App\Application\HallOfFame\Command;
 
 use App\Domain\Model\HallOfFame\HallOfFameEntry;
 use App\Domain\Model\HallOfFame\HallOfFameRepository;
+use OutOfBoundsException;
 
 /**
  * Class HallOfFameEntryCommandHandler
@@ -39,7 +40,7 @@ abstract class HallOfFameEntryCommandHandler
     {
         $entry = $this->hallOfFameRepository->findById($id);
         if (!$entry) {
-            throw new \OutOfBoundsException('No hall of fame entry found for id ' . $id);
+            throw new OutOfBoundsException('No hall of fame entry found for id ' . $id);
         }
         return $entry;
     }

@@ -14,6 +14,8 @@ use App\Application\Event\Command\HostingProperties;
 use App\Application\Event\Command\SanctioningProperties;
 use App\Application\Event\EventHost;
 use App\Domain\Model\Event\Tournament;
+use DateTimeImmutable;
+use DateTimeZone;
 
 /**
  * Class UpdateSanctionedTournament
@@ -51,10 +53,10 @@ class UpdateSanctionedTournament
      * @param int                $season
      * @param string             $ageGroup
      * @param EventHost          $host
-     * @param \DateTimeImmutable $startDate
-     * @param \DateTimeImmutable $endDate
+     * @param DateTimeImmutable $startDate
+     * @param DateTimeImmutable $endDate
      * @param string             $venue
-     * @param \DateTimeZone      $timeZone
+     * @param DateTimeZone      $timeZone
      * @param string[]           $tags
      * @param string             $sanctionNumber
      */
@@ -64,10 +66,10 @@ class UpdateSanctionedTournament
         int $season,
         string $ageGroup,
         EventHost $host,
-        \DateTimeImmutable $startDate,
-        \DateTimeImmutable $endDate,
+        DateTimeImmutable $startDate,
+        DateTimeImmutable $endDate,
         string $venue,
-        \DateTimeZone $timeZone,
+        DateTimeZone $timeZone,
         array $tags,
         string $sanctionNumber
     ) {

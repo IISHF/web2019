@@ -12,8 +12,10 @@ use App\Domain\Common\Repository\DoctrinePaging;
 use App\Domain\Model\Common\TagProvider;
 use App\Domain\Model\File\FileRepository;
 use App\Utils\Tags;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Type;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Pagerfanta;
 
@@ -81,10 +83,10 @@ class ArticleRepository extends ServiceEntityRepository implements TagProvider
     /**
      * @param int                     $page
      * @param int                     $limit
-     * @param \DateTimeImmutable|null $date
+     * @param DateTimeImmutable|null $date
      * @return iterable|Pagerfanta|Article[]
      */
-    public function findPublishedPaged(int $page = 1, int $limit = 30, ?\DateTimeImmutable $date = null): iterable
+    public function findPublishedPaged(int $page = 1, int $limit = 30, ?DateTimeImmutable $date = null): iterable
     {
         $queryBuilder = $this->createPublishedQueryBuilder($date);
         return $this->createPager($queryBuilder, $page, $limit);
@@ -92,10 +94,10 @@ class ArticleRepository extends ServiceEntityRepository implements TagProvider
 
     /**
      * @param int                     $limit
-     * @param \DateTimeImmutable|null $date
+     * @param DateTimeImmutable|null $date
      * @return Article[]
      */
-    public function findMostRecent(int $limit = 10, ?\DateTimeImmutable $date = null): iterable
+    public function findMostRecent(int $limit = 10, ?DateTimeImmutable $date = null): iterable
     {
         return $this->createPublishedQueryBuilder($date)
                     ->setMaxResults($limit)
@@ -104,12 +106,12 @@ class ArticleRepository extends ServiceEntityRepository implements TagProvider
     }
 
     /**
-     * @param \DateTimeImmutable|null $date
-     * @return \Doctrine\ORM\QueryBuilder
+     * @param DateTimeImmutable|null $date
+     * @return QueryBuilder
      */
-    private function createPublishedQueryBuilder(?\DateTimeImmutable $date = null): \Doctrine\ORM\QueryBuilder
+    private function createPublishedQueryBuilder(?DateTimeImmutable $date = null): QueryBuilder
     {
-        $date = $date ?? new \DateTimeImmutable('now');
+        $date = $date ?? new DateTimeImmutable('now');
         return $this->createQueryBuilder('a')
                     ->where('a.currentState = :state')
                     ->andWhere('a.publishedAt IS NOT NULL')
@@ -185,9 +187,9 @@ class ArticleRepository extends ServiceEntityRepository implements TagProvider
     /**
      * @param Article $article
      * @param string  $entityClass
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
-    private function createAttachmentsQueryBuilder(Article $article, string $entityClass): \Doctrine\ORM\QueryBuilder
+    private function createAttachmentsQueryBuilder(Article $article, string $entityClass): QueryBuilder
     {
         return $this->_em->createQueryBuilder()
                          ->select('a', 'f', 'fb')

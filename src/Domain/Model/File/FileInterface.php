@@ -9,6 +9,8 @@
 namespace App\Domain\Model\File;
 
 
+use DateTimeImmutable;
+
 /**
  * Class File
  *
@@ -60,7 +62,7 @@ interface FileInterface
     public function getBinary(): FileBinary;
 
     /**
-     * @return \DateTimeImmutable
+     * @return DateTimeImmutable
      */
-    public function getCreatedAt(): \DateTimeImmutable;
+    public function getCreatedAt(): DateTimeImmutable;
 }

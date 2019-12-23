@@ -12,6 +12,7 @@ use App\Application\Event\Command\EventCommandHandler;
 use App\Domain\Model\Event\EventRepository;
 use App\Domain\Model\Event\Venue\EventVenue;
 use App\Domain\Model\Event\Venue\EventVenueRepository;
+use OutOfBoundsException;
 
 /**
  * Class TournamentCommandHandler
@@ -43,7 +44,7 @@ abstract class TournamentCommandHandler extends EventCommandHandler
     {
         $venue = $this->venueRepository->findById($id);
         if (!$venue) {
-            throw new \OutOfBoundsException('No event venue found for id ' . $id);
+            throw new OutOfBoundsException('No event venue found for id ' . $id);
         }
         return $venue;
     }

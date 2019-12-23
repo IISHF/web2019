@@ -11,6 +11,7 @@ namespace App\Infrastructure\HallOfFame\Security\Voter;
 use App\Domain\Model\HallOfFame\HallOfFameEntry;
 use App\Infrastructure\Security\Voter\DelegatingVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use function in_array;
 
 /**
  * Class HallOfFameEntryVoter
@@ -28,7 +29,7 @@ class HallOfFameEntryVoter extends DelegatingVoter
             return false;
         }
 
-        return \in_array($attribute, ['HALL_OF_FAME_ENTRY_EDIT', 'HALL_OF_FAME_ENTRY_DELETE']);
+        return in_array($attribute, ['HALL_OF_FAME_ENTRY_EDIT', 'HALL_OF_FAME_ENTRY_DELETE']);
     }
 
     /**

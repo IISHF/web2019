@@ -12,9 +12,13 @@ use App\Application\Article\Command\AddAttachments;
 use App\Application\Article\Command\CreateLegacyArticle;
 use App\Utils\Text;
 use App\Utils\Validation;
+use DateTimeImmutable;
+use Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\Exception\ValidationFailedException;
+use Throwable;
+use function count;
 
 /**
  * Class ArticleCommand
@@ -59,7 +63,7 @@ class ArticleCommand extends CommandWithFilesystem
         $fileList  = $this->createAttachmentMap('SELECT nid, filename, title, mime FROM news_files');
 
         $articles = $this->db->fetchAll('SELECT id, uid, title, cat1, cat2, subtitle, contents, edited FROM news');
-        $this->io->progressStart(\count($articles));
+        $this->io->progressStart(count($articles));
         $results = [];
         $this->beginTransaction();
         try {
@@ -77,7 +81,7 @@ class ArticleCommand extends CommandWithFilesystem
                                                     ->setSubtitle($article['subtitle'])
                                                     ->setBody($article['contents'])
                                                     ->setTags($tags)
-                                                    ->setPublishedAt(new \DateTimeImmutable($article['edited']));
+                                                    ->setPublishedAt(new DateTimeImmutable($article['edited']));
 
                 $thisArticlePath = $articlePath . '/article' . $article['id'];
 
@@ -109,7 +113,7 @@ class ArticleCommand extends CommandWithFilesystem
                     $result = '';
                 } catch (ValidationFailedException $e) {
                     $result = implode(PHP_EOL, Validation::getViolations($e));
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                     $result = $e->getMessage();
                 }
 
@@ -126,7 +130,7 @@ class ArticleCommand extends CommandWithFilesystem
                 $this->clearEntityManager();
             }
             $this->commitTransaction();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->rollbackTransaction();
             throw $e;
         }

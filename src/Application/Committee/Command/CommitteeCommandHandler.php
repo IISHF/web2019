@@ -12,6 +12,7 @@ use App\Domain\Common\Urlizer;
 use App\Domain\Model\Committee\Committee;
 use App\Domain\Model\Committee\CommitteeMember;
 use App\Domain\Model\Committee\CommitteeRepository;
+use OutOfBoundsException;
 
 /**
  * Class CommitteeCommandHandler
@@ -41,7 +42,7 @@ abstract class CommitteeCommandHandler
     {
         $committee = $this->committeeRepository->findById($id);
         if (!$committee) {
-            throw new \OutOfBoundsException('No committee found for id ' . $id);
+            throw new OutOfBoundsException('No committee found for id ' . $id);
         }
         return $committee;
     }
@@ -54,7 +55,7 @@ abstract class CommitteeCommandHandler
     {
         $member = $this->committeeRepository->findMemberById($id);
         if (!$member) {
-            throw new \OutOfBoundsException('No committee member found for id ' . $id);
+            throw new OutOfBoundsException('No committee member found for id ' . $id);
         }
         return $member;
     }

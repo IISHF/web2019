@@ -13,6 +13,7 @@ use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
 use App\Domain\Model\File\File;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -69,14 +70,14 @@ class DocumentVersion
     /**
      * @ORM\Column(name="valid_from", type="date_immutable", nullable=true)
      *
-     * @var \DateTimeImmutable|null
+     * @var DateTimeImmutable|null
      */
     private $validFrom;
 
     /**
      * @ORM\Column(name="valid_until", type="date_immutable", nullable=true)
      *
-     * @var \DateTimeImmutable|null
+     * @var DateTimeImmutable|null
      */
     private $validUntil;
 
@@ -86,8 +87,8 @@ class DocumentVersion
      * @param File                    $file
      * @param string                  $version
      * @param string                  $slug
-     * @param \DateTimeImmutable|null $validFrom
-     * @param \DateTimeImmutable|null $validUntil
+     * @param DateTimeImmutable|null $validFrom
+     * @param DateTimeImmutable|null $validUntil
      */
     public function __construct(
         string $id,
@@ -95,8 +96,8 @@ class DocumentVersion
         File $file,
         string $version,
         string $slug,
-        ?\DateTimeImmutable $validFrom,
-        ?\DateTimeImmutable $validUntil
+        ?DateTimeImmutable $validFrom,
+        ?DateTimeImmutable $validUntil
     ) {
         $this->setId($id)
              ->setFile($file)
@@ -244,37 +245,37 @@ class DocumentVersion
     }
 
     /**
-     * @return \DateTimeImmutable|null
+     * @return DateTimeImmutable|null
      */
-    public function getValidFrom(): ?\DateTimeImmutable
+    public function getValidFrom(): ?DateTimeImmutable
     {
         return $this->validFrom;
     }
 
     /**
-     * @param \DateTimeImmutable|null $validFrom
+     * @param DateTimeImmutable|null $validFrom
      * @return $this
      */
-    public function setValidFrom(?\DateTimeImmutable $validFrom): self
+    public function setValidFrom(?DateTimeImmutable $validFrom): self
     {
         $this->validFrom = $validFrom;
         return $this;
     }
 
     /**
-     * @return \DateTimeImmutable|null
+     * @return DateTimeImmutable|null
      */
-    public function getValidUntil(): ?\DateTimeImmutable
+    public function getValidUntil(): ?DateTimeImmutable
     {
         return $this->validUntil;
     }
 
     /**
-     * @param \DateTimeImmutable|null $validFrom
-     * @param \DateTimeImmutable|null $validUntil
+     * @param DateTimeImmutable|null $validFrom
+     * @param DateTimeImmutable|null $validUntil
      * @return $this
      */
-    public function setValidity(?\DateTimeImmutable $validFrom, ?\DateTimeImmutable $validUntil): self
+    public function setValidity(?DateTimeImmutable $validFrom, ?DateTimeImmutable $validUntil): self
     {
         if ($validUntil !== null) {
             Assert::nullOrLessThanEq($validFrom, $validUntil);
@@ -296,15 +297,15 @@ class DocumentVersion
     }
 
     /**
-     * @param \DateTimeImmutable|null $date
+     * @param DateTimeImmutable|null $date
      * @return bool
      */
-    public function isValid(?\DateTimeImmutable $date = null): bool
+    public function isValid(?DateTimeImmutable $date = null): bool
     {
         if (!$this->hasValidity()) {
             return true;
         }
-        $date = $date ?? new \DateTimeImmutable('now');
+        $date = $date ?? new DateTimeImmutable('now');
         if ($this->validFrom !== null && $date < $this->validFrom) {
             return false;
         }
@@ -315,12 +316,12 @@ class DocumentVersion
     }
 
     /**
-     * @param \DateTimeImmutable|null $date
+     * @param DateTimeImmutable|null $date
      * @return bool
      */
-    public function isFuture(?\DateTimeImmutable $date = null): bool
+    public function isFuture(?DateTimeImmutable $date = null): bool
     {
-        $date = $date ?? new \DateTimeImmutable('now');
+        $date = $date ?? new DateTimeImmutable('now');
         if ($this->validFrom !== null && $date < $this->validFrom) {
             return true;
         }
@@ -328,12 +329,12 @@ class DocumentVersion
     }
 
     /**
-     * @param \DateTimeImmutable|null $date
+     * @param DateTimeImmutable|null $date
      * @return bool
      */
-    public function isOutdated(?\DateTimeImmutable $date = null): bool
+    public function isOutdated(?DateTimeImmutable $date = null): bool
     {
-        $date = $date ?? new \DateTimeImmutable('now');
+        $date = $date ?? new DateTimeImmutable('now');
         if ($this->validUntil !== null && $date >= $this->validUntil->modify('+1 day')) {
             return true;
         }

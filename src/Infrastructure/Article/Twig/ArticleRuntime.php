@@ -12,6 +12,7 @@ use App\Domain\Model\User\UserRepository;
 use App\Infrastructure\Twig\EmailRuntime;
 use App\Utils\Text;
 use Twig\Environment;
+use function twig_escape_filter;
 
 /**
  * Class ArticleRuntime
@@ -71,7 +72,7 @@ class ArticleRuntime
     {
         $renderedAuthor = $this->emailRuntime->formatSafeEmail($env, $author);
         if ($user = $this->userRepository->findByEmail($author)) {
-            $renderedAuthor = \twig_escape_filter($env, $user->getName(), 'html')
+            $renderedAuthor = twig_escape_filter($env, $user->getName(), 'html')
                 . ' <small>' . $renderedAuthor . '</small>';
         }
 
@@ -112,7 +113,7 @@ class ArticleRuntime
 
 
         $escape = function (string $text, string $strategy = 'html') use ($env): string {
-            return \twig_escape_filter($env, $text, $strategy);
+            return twig_escape_filter($env, $text, $strategy);
         };
 
         $body = $escape($body);

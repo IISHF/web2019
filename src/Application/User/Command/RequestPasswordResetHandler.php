@@ -10,6 +10,7 @@ namespace App\Application\User\Command;
 
 use App\Application\Common\Command\EventEmitter;
 use App\Application\Common\Command\EventEmittingHandler;
+use InvalidArgumentException;
 
 /**
  * Class RequestPasswordResetHandler
@@ -27,7 +28,7 @@ class RequestPasswordResetHandler extends UserCommandHandler implements EventEmi
     {
         $user = $this->getUserByEmail($command->getEmail());
         if (!$user->isConfirmed()) {
-            throw new \InvalidArgumentException('User has not been confirmed yet.');
+            throw new InvalidArgumentException('User has not been confirmed yet.');
         }
         $user->resetPassword($command->getResetPasswordToken());
         $this->userRepository->save($user);

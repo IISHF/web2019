@@ -11,6 +11,8 @@ namespace App\Application\Event\Application\Command;
 use App\Application\Common\Command\IdAware;
 use App\Application\Common\ContactPerson;
 use App\Domain\Model\Event\Application\TitleEventApplication;
+use DateTimeImmutable;
+use DateTimeZone;
 
 /**
  * Class UpdateTitleEventApplication
@@ -43,19 +45,19 @@ class UpdateTitleEventApplication
      * @param string             $id
      * @param string             $applicantClub
      * @param ContactPerson      $contact
-     * @param \DateTimeImmutable $proposedStartDate
-     * @param \DateTimeImmutable $proposedEndDate
+     * @param DateTimeImmutable $proposedStartDate
+     * @param DateTimeImmutable $proposedEndDate
      * @param string             $venue
-     * @param \DateTimeZone      $timeZone
+     * @param DateTimeZone      $timeZone
      */
     private function __construct(
         string $id,
         string $applicantClub,
         ContactPerson $contact,
-        \DateTimeImmutable $proposedStartDate,
-        \DateTimeImmutable $proposedEndDate,
+        DateTimeImmutable $proposedStartDate,
+        DateTimeImmutable $proposedEndDate,
         string $venue,
-        \DateTimeZone $timeZone
+        DateTimeZone $timeZone
     ) {
         $this->id                = $id;
         $this->applicantClub     = $applicantClub;

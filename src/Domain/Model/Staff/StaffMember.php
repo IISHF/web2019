@@ -11,6 +11,7 @@ namespace App\Domain\Model\Staff;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
+use Collator;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -191,7 +192,7 @@ class StaffMember
      */
     public function setRoles(array $roles): self
     {
-        $collator = \Collator::create('en-US');
+        $collator = Collator::create('en-US');
         $collator->sort($roles);
         $this->roles = array_unique($roles);
         return $this;

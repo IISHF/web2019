@@ -8,6 +8,8 @@
 
 namespace App\Utils;
 
+use Collator;
+
 /**
  * Class Tags
  *
@@ -45,8 +47,8 @@ final class Tags
             )
         );
 
-        $collator = new \Collator('en_GB');
-        $collator->sort($list, \Collator::SORT_STRING);
+        $collator = new Collator('en_GB');
+        $collator->sort($list, Collator::SORT_STRING);
 
         return $list;
     }

@@ -10,6 +10,7 @@ namespace App\Domain\Model\Event\Game;
 
 use App\Domain\Model\Event\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -57,9 +58,9 @@ class GameRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
-    private function createQueryBuilderWithAssociations(): \Doctrine\ORM\QueryBuilder
+    private function createQueryBuilderWithAssociations(): QueryBuilder
     {
         return $this->createQueryBuilder('g')
                     ->addSelect('e', 'h', 'a')

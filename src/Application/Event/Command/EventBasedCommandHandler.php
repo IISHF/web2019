@@ -10,6 +10,8 @@ namespace App\Application\Event\Command;
 
 use App\Domain\Model\Event\Event;
 use App\Domain\Model\Event\EventRepository;
+use InvalidArgumentException;
+use OutOfBoundsException;
 
 /**
  * Class EventBasedCommandHandler
@@ -40,10 +42,10 @@ abstract class EventBasedCommandHandler
     {
         $event = $this->eventRepository->findById($id);
         if (!$event) {
-            throw new \OutOfBoundsException('No event found for id ' . $id);
+            throw new OutOfBoundsException('No event found for id ' . $id);
         }
         if ($requiredClass !== null && !($event instanceof $requiredClass)) {
-            throw new \InvalidArgumentException('Invalid event - ' . $requiredClass . ' required.');
+            throw new InvalidArgumentException('Invalid event - ' . $requiredClass . ' required.');
         }
         return $event;
     }

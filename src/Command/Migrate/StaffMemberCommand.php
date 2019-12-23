@@ -10,9 +10,12 @@ namespace App\Command\Migrate;
 
 use App\Application\Staff\Command\CreateStaffMember;
 use App\Utils\Validation;
+use Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\Exception\ValidationFailedException;
+use Throwable;
+use function count;
 
 /**
  * Class StaffMemberCommand
@@ -43,7 +46,7 @@ class StaffMemberCommand extends Command
         $titles = $this->createLookupMap('SELECT mid, description FROM iishf_chart', 'mid', 'description');
 
         $staffMembers = $this->db->fetchAll('SELECT id, name, surname, email FROM iishf_staff');
-        $this->io->progressStart(\count($staffMembers));
+        $this->io->progressStart(count($staffMembers));
         $results = [];
         $this->beginTransaction();
         try {
@@ -59,7 +62,7 @@ class StaffMemberCommand extends Command
                     $result = '';
                 } catch (ValidationFailedException $e) {
                     $result = implode(PHP_EOL, Validation::getViolations($e));
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                     $result = $e->getMessage();
                 }
 
@@ -76,7 +79,7 @@ class StaffMemberCommand extends Command
                 $this->clearEntityManager();
             }
             $this->commitTransaction();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->rollbackTransaction();
             throw $e;
         }

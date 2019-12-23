@@ -11,6 +11,7 @@ namespace App\Infrastructure\Document\Security\Voter;
 use App\Domain\Model\Document\Document;
 use App\Infrastructure\Security\Voter\DelegatingVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use function in_array;
 
 /**
  * Class DocumentVoter
@@ -28,7 +29,7 @@ class DocumentVoter extends DelegatingVoter
             return false;
         }
 
-        return \in_array($attribute, ['DOCUMENT_EDIT', 'DOCUMENT_DELETE']);
+        return in_array($attribute, ['DOCUMENT_EDIT', 'DOCUMENT_DELETE']);
     }
 
     /**

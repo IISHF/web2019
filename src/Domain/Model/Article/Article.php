@@ -12,6 +12,8 @@ use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\SoftDeleteableEntity;
 use App\Domain\Model\Common\UpdateTracking;
+use Collator;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Webmozart\Assert\Assert;
@@ -108,7 +110,7 @@ class Article
     /**
      * @ORM\Column(name="published_at", type="datetime_immutable", nullable=true)
      *
-     * @var \DateTimeImmutable|null
+     * @var DateTimeImmutable|null
      */
     private $publishedAt;
 
@@ -142,7 +144,7 @@ class Article
      * @param string             $body
      * @param array              $tags
      * @param string             $author
-     * @param \DateTimeImmutable $publishedAt
+     * @param DateTimeImmutable $publishedAt
      * @return Article
      */
     public static function createLegacy(
@@ -153,7 +155,7 @@ class Article
         string $body,
         array $tags,
         string $author,
-        \DateTimeImmutable $publishedAt
+        DateTimeImmutable $publishedAt
     ): self {
         $article               = new self($id, $slug, $title, $subtitle, $body, $tags, $author);
         $article->legacyFormat = true;
@@ -371,7 +373,7 @@ class Article
      */
     public function setTags(array $tags): self
     {
-        $collator = \Collator::create('en-US');
+        $collator = Collator::create('en-US');
         $collator->sort($tags);
         $this->tags = array_unique($tags);
         return $this;
@@ -397,21 +399,21 @@ class Article
     }
 
     /**
-     * @return \DateTimeImmutable|null
+     * @return DateTimeImmutable|null
      */
-    public function getPublishedAt(): ?\DateTimeImmutable
+    public function getPublishedAt(): ?DateTimeImmutable
     {
         if ($this->publishedAt === null && $this->isPublished()) {
-            return new \DateTimeImmutable('now');
+            return new DateTimeImmutable('now');
         }
         return $this->publishedAt;
     }
 
     /**
-     * @param \DateTimeImmutable $publishedAt
+     * @param DateTimeImmutable $publishedAt
      * @return $this
      */
-    public function setPublishedAt(\DateTimeImmutable $publishedAt): self
+    public function setPublishedAt(DateTimeImmutable $publishedAt): self
     {
         $this->publishedAt = $publishedAt;
         return $this;

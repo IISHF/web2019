@@ -9,6 +9,7 @@
 namespace App\Application\File\Command;
 
 use App\Application\Common\Command\IdAware;
+use SplFileInfo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -38,7 +39,7 @@ class AddFile
      *      }
      * )
      *
-     * @var \SplFileInfo
+     * @var SplFileInfo
      */
     private $file;
 
@@ -59,25 +60,25 @@ class AddFile
     private $originalName;
 
     /**
-     * @param \SplFileInfo $file
+     * @param SplFileInfo $file
      * @param string       $origin
      * @param string|null  $originalName
      * @return self
      */
-    public static function add(\SplFileInfo $file, string $origin, ?string $originalName = null): self
+    public static function add(SplFileInfo $file, string $origin, ?string $originalName = null): self
     {
         return new self(self::createUuid(), $file, $origin, $originalName);
     }
 
     /**
      * @param string       $id
-     * @param \SplFileInfo $file
+     * @param SplFileInfo $file
      * @param string       $origin
      * @param string|null  $originalName
      */
     private function __construct(
         string $id,
-        \SplFileInfo $file,
+        SplFileInfo $file,
         string $origin,
         ?string $originalName = null
     ) {
@@ -88,9 +89,9 @@ class AddFile
     }
 
     /**
-     * @return \SplFileInfo
+     * @return SplFileInfo
      */
-    public function getFile(): \SplFileInfo
+    public function getFile(): SplFileInfo
     {
         return $this->file;
     }

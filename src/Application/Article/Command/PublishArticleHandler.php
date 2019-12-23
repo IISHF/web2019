@@ -8,6 +8,8 @@
 
 namespace App\Application\Article\Command;
 
+use DateTimeImmutable;
+
 /**
  * Class PublishArticleHandler
  *
@@ -22,7 +24,7 @@ class PublishArticleHandler extends WorkflowCommandHandler
     {
         $article = $this->applyTransition($command);
         if ($command->isPublishNow()) {
-            $article->setPublishedAt(new \DateTimeImmutable('now'));
+            $article->setPublishedAt(new DateTimeImmutable('now'));
         } else {
             $article->setPublishedAt($command->getPublishAt());
         }

@@ -16,6 +16,8 @@ use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
 use App\Domain\Model\Event\TitleEvent;
 use App\Domain\Model\Event\Venue\EventVenue;
+use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -56,14 +58,14 @@ class TitleEventApplication
     /**
      * @ORM\Column(name="proposed_start_date", type="date_immutable")
      *
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      */
     private $proposedStartDate;
 
     /**
      * @ORM\Column(name="proposed_end_date", type="date_immutable")
      *
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      */
     private $proposedEndDate;
 
@@ -83,7 +85,7 @@ class TitleEventApplication
     private $timeZone;
 
     /**
-     * @var \DateTimeZone|null
+     * @var DateTimeZone|null
      */
     private $timeZoneInstance;
 
@@ -92,20 +94,20 @@ class TitleEventApplication
      * @param TitleEvent         $titleEvent
      * @param string             $applicantClub
      * @param ContactPerson      $contact
-     * @param \DateTimeImmutable $proposedStartDate
-     * @param \DateTimeImmutable $proposedEndDate
+     * @param DateTimeImmutable $proposedStartDate
+     * @param DateTimeImmutable $proposedEndDate
      * @param EventVenue         $venue
-     * @param \DateTimeZone      $timeZone
+     * @param DateTimeZone      $timeZone
      */
     public function __construct(
         string $id,
         TitleEvent $titleEvent,
         string $applicantClub,
         ContactPerson $contact,
-        \DateTimeImmutable $proposedStartDate,
-        \DateTimeImmutable $proposedEndDate,
+        DateTimeImmutable $proposedStartDate,
+        DateTimeImmutable $proposedEndDate,
         EventVenue $venue,
-        \DateTimeZone $timeZone
+        DateTimeZone $timeZone
     ) {
         $this->setId($id)
              ->setTitleEvent($titleEvent)
@@ -174,31 +176,31 @@ class TitleEventApplication
     }
 
     /**
-     * @return \DateTimeImmutable
+     * @return DateTimeImmutable
      */
-    public function getProposedStartDate(): \DateTimeImmutable
+    public function getProposedStartDate(): DateTimeImmutable
     {
         return $this->proposedStartDate;
     }
 
     /**
-     * @return \DateTimeImmutable
+     * @return DateTimeImmutable
      */
-    public function getProposedEndDate(): \DateTimeImmutable
+    public function getProposedEndDate(): DateTimeImmutable
     {
         return $this->proposedEndDate;
     }
 
     /**
-     * @param \DateTimeImmutable $proposedStartDate
-     * @param \DateTimeImmutable $proposedEndDate
-     * @param \DateTimeZone      $timeZone
+     * @param DateTimeImmutable $proposedStartDate
+     * @param DateTimeImmutable $proposedEndDate
+     * @param DateTimeZone      $timeZone
      * @return $this
      */
     public function setProposedDate(
-        \DateTimeImmutable $proposedStartDate,
-        \DateTimeImmutable $proposedEndDate,
-        \DateTimeZone $timeZone
+        DateTimeImmutable $proposedStartDate,
+        DateTimeImmutable $proposedEndDate,
+        DateTimeZone $timeZone
     ): self {
         Assert::lessThanEq($proposedStartDate, $proposedEndDate);
         Assert::greaterThanEq($proposedEndDate, $proposedStartDate);
@@ -230,12 +232,12 @@ class TitleEventApplication
     }
 
     /**
-     * @return \DateTimeZone
+     * @return DateTimeZone
      */
-    public function getTimeZone(): \DateTimeZone
+    public function getTimeZone(): DateTimeZone
     {
         if (!$this->timeZoneInstance) {
-            $this->timeZoneInstance = new \DateTimeZone($this->timeZone);
+            $this->timeZoneInstance = new DateTimeZone($this->timeZone);
         }
         return $this->timeZoneInstance;
     }

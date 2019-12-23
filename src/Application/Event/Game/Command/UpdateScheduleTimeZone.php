@@ -9,6 +9,7 @@
 namespace App\Application\Event\Game\Command;
 
 use App\Application\Event\Command\EventAware;
+use DateTimeZone;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -24,16 +25,16 @@ class UpdateScheduleTimeZone
      * @Assert\Type("DateTimeZone")
      * @Assert\NotNull()
      *
-     * @var \DateTimeZone
+     * @var DateTimeZone
      */
     private $timeZone;
 
     /**
      * @param string        $eventId
-     * @param \DateTimeZone $timeZone
+     * @param DateTimeZone $timeZone
      * @return self
      */
-    public static function update(string $eventId, \DateTimeZone $timeZone): self
+    public static function update(string $eventId, DateTimeZone $timeZone): self
     {
         return new self($eventId, $timeZone);
     }
@@ -42,18 +43,18 @@ class UpdateScheduleTimeZone
      * UpdateScheduleTimeZone constructor.
      *
      * @param string        $eventId
-     * @param \DateTimeZone $timeZone
+     * @param DateTimeZone $timeZone
      */
-    private function __construct(string $eventId, \DateTimeZone $timeZone)
+    private function __construct(string $eventId, DateTimeZone $timeZone)
     {
         $this->eventId  = $eventId;
         $this->timeZone = $timeZone;
     }
 
     /**
-     * @return \DateTimeZone
+     * @return DateTimeZone
      */
-    public function getTimeZone(): \DateTimeZone
+    public function getTimeZone(): DateTimeZone
     {
         return $this->timeZone;
     }

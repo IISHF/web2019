@@ -11,9 +11,13 @@ namespace App\Command\Migrate;
 use App\Application\HallOfFame\Command\CreateHallOfFameEntry;
 use App\Domain\Common\AgeGroup;
 use App\Utils\Validation;
+use Exception;
+use SimpleXMLElement;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\Exception\ValidationFailedException;
+use Throwable;
+use Traversable;
 
 /**
  * Class HallOfFameCommand
@@ -78,7 +82,7 @@ class HallOfFameCommand extends CommandWithFilesystem
                     $count++;
                 } catch (ValidationFailedException $e) {
                     $result = implode(PHP_EOL, Validation::getViolations($e));
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                     $result = $e->getMessage();
                 }
 
@@ -98,7 +102,7 @@ class HallOfFameCommand extends CommandWithFilesystem
                 $this->clearEntityManager();
             }
             $this->commitTransaction();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->rollbackTransaction();
             throw $e;
         }
@@ -114,9 +118,9 @@ class HallOfFameCommand extends CommandWithFilesystem
 
     /**
      * @param string $path
-     * @return \Traversable
+     * @return Traversable
      */
-    private function readDataFile(string $path): \Traversable
+    private function readDataFile(string $path): Traversable
     {
         $xml = simplexml_load_string(file_get_contents($path));
         $xml->registerXPathNamespace('h', 'http://www.iishf.com/hallOfFame.xsd');
@@ -131,9 +135,9 @@ class HallOfFameCommand extends CommandWithFilesystem
         ];
 
         foreach ($xml->xpath('//h:year') as $year) {
-            /** @var \SimpleXMLElement $year */
+            /** @var SimpleXMLElement $year */
             foreach ($year->xpath('*') as $event) {
-                /** @var \SimpleXMLElement $event */
+                /** @var SimpleXMLElement $event */
 
                 $event->registerXPathNamespace('h', 'http://www.iishf.com/hallOfFame.xsd');
                 $host = $event->xpath('h:host');

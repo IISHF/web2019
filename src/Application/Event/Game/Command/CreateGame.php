@@ -11,6 +11,7 @@ namespace App\Application\Event\Game\Command;
 use App\Application\Common\Command\IdAware;
 use App\Application\Event\Command\EventAware;
 use App\Domain\Model\Event\Game\GameType;
+use DateTimeImmutable;
 
 /**
  * Class CreateGame
@@ -39,6 +40,6 @@ class CreateGame
         $this->id       = $id;
         $this->eventId  = $eventId;
         $this->gameType = GameType::GAME_TYPE_FIXED;
-        $this->dateTime = new \DateTimeImmutable('tomorrow 9:00');
+        $this->dateTime = new DateTimeImmutable('tomorrow 9:00');
     }
 }

@@ -13,6 +13,7 @@ use App\Utils\Text;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use function twig_number_format_filter;
 
 /**
  * Class FileExtension
@@ -41,7 +42,7 @@ class FileExtension extends AbstractExtension
     public function formatFileSize(Environment $env, int $bytes, bool $si = true): string
     {
         [$size, $unit] = Number::fileSize($bytes, $si);
-        return \twig_number_format_filter($env, $size, 1) . ' ' . $unit;
+        return twig_number_format_filter($env, $size, 1) . ' ' . $unit;
     }
 
     /**

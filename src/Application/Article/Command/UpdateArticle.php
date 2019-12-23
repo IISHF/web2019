@@ -10,6 +10,7 @@ namespace App\Application\Article\Command;
 
 use App\Application\Common\Command\IdAware;
 use App\Domain\Model\Article\Article;
+use DateTimeImmutable;
 
 /**
  * Class UpdateArticle
@@ -42,7 +43,7 @@ class UpdateArticle
      * @param string|null             $subtitle
      * @param string                  $body
      * @param array                   $tags
-     * @param \DateTimeImmutable|null $publishedAt
+     * @param DateTimeImmutable|null $publishedAt
      */
     private function __construct(
         string $id,
@@ -50,7 +51,7 @@ class UpdateArticle
         ?string $subtitle,
         string $body,
         array $tags,
-        ?\DateTimeImmutable $publishedAt
+        ?DateTimeImmutable $publishedAt
     ) {
         $this->id          = $id;
         $this->title       = $title;

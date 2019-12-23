@@ -10,6 +10,7 @@ namespace App\Domain\Model\Event\Team;
 
 use App\Domain\Model\Event\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -75,9 +76,9 @@ class ParticipatingTeamRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
-    private function createQueryBuilderWithAssociations(): \Doctrine\ORM\QueryBuilder
+    private function createQueryBuilderWithAssociations(): QueryBuilder
     {
         return $this->createQueryBuilder('t')
                     ->addSelect('c', 'e')

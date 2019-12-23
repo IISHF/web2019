@@ -8,6 +8,7 @@
 
 namespace App\Infrastructure\Security\MagicLink;
 
+use Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -127,7 +128,7 @@ class MagicLinkLoginAuthenticator extends AbstractGuardAuthenticator
             return $user;
         } catch (UsernameNotFoundException $notFound) {
             throw new BadCredentialsException('Bad credentials.', 0, $notFound);
-        } catch (\Exception $repositoryProblem) {
+        } catch (Exception $repositoryProblem) {
             throw new AuthenticationServiceException($repositoryProblem->getMessage(), 0, $repositoryProblem);
         }
     }

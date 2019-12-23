@@ -9,6 +9,7 @@
 namespace App\Domain\Model\HallOfFame;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -83,11 +84,11 @@ class HallOfFameRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param \Doctrine\ORM\QueryBuilder $queryBuilder
+     * @param QueryBuilder $queryBuilder
      * @param callable                   $getGroup
      * @return iterable|HallOfFameEntry[][]
      */
-    private function groupBy(\Doctrine\ORM\QueryBuilder $queryBuilder, callable $getGroup): iterable
+    private function groupBy(QueryBuilder $queryBuilder, callable $getGroup): iterable
     {
         $current = null;
         $batch   = [];

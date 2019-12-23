@@ -9,6 +9,7 @@
 namespace App\Application\Article\Command;
 
 use App\Application\Common\Command\IdAware;
+use DateTimeImmutable;
 
 /**
  * Class CreateLegacyArticle
@@ -36,6 +37,6 @@ class CreateLegacyArticle
     {
         $this->id          = $id;
         $this->author      = $author;
-        $this->publishedAt = new \DateTimeImmutable('now');
+        $this->publishedAt = new DateTimeImmutable('now');
     }
 }

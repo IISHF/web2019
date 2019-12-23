@@ -10,6 +10,7 @@ namespace App\Application\Staff\Command;
 
 use App\Domain\Model\Staff\StaffMember;
 use App\Domain\Model\Staff\StaffMemberRepository;
+use OutOfBoundsException;
 
 /**
  * Class StaffMemberCommandHandler
@@ -39,7 +40,7 @@ abstract class StaffMemberCommandHandler
     {
         $member = $this->memberRepository->findById($id);
         if (!$member) {
-            throw new \OutOfBoundsException('No staff member found for id ' . $id);
+            throw new OutOfBoundsException('No staff member found for id ' . $id);
         }
         return $member;
     }

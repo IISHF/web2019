@@ -9,6 +9,7 @@
 namespace App\Application\Article\Command;
 
 use App\Application\Common\Command\IdAware;
+use SplFileInfo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -35,7 +36,7 @@ class AddImage
      * @Assert\Type("SplFileInfo")
      * @Assert\NotNull()
      *
-     * @var \SplFileInfo
+     * @var SplFileInfo
      */
     private $file;
 
@@ -50,33 +51,33 @@ class AddImage
     /**
      * @param bool         $primaryImage
      * @param string       $articleId
-     * @param \SplFileInfo $image
+     * @param SplFileInfo $image
      * @param string|null  $caption
      * @return AddImage
      */
-    public static function add(bool $primaryImage, string $articleId, \SplFileInfo $image, ?string $caption): self
+    public static function add(bool $primaryImage, string $articleId, SplFileInfo $image, ?string $caption): self
     {
         return new self(self::createUuid(), $articleId, $image, $primaryImage, $caption);
     }
 
     /**
      * @param string       $articleId
-     * @param \SplFileInfo $image
+     * @param SplFileInfo $image
      * @param string|null  $caption
      * @return AddImage
      */
-    public static function addPrimary(string $articleId, \SplFileInfo $image, ?string $caption): self
+    public static function addPrimary(string $articleId, SplFileInfo $image, ?string $caption): self
     {
         return self::add(true, $articleId, $image, $caption);
     }
 
     /**
      * @param string       $articleId
-     * @param \SplFileInfo $image
+     * @param SplFileInfo $image
      * @param string|null  $caption
      * @return AddImage
      */
-    public static function addSecondary(string $articleId, \SplFileInfo $image, ?string $caption): self
+    public static function addSecondary(string $articleId, SplFileInfo $image, ?string $caption): self
     {
         return self::add(false, $articleId, $image, $caption);
     }
@@ -84,14 +85,14 @@ class AddImage
     /**
      * @param string       $id
      * @param string       $articleId
-     * @param \SplFileInfo $image
+     * @param SplFileInfo $image
      * @param bool         $primaryImage
      * @param string|null  $caption
      */
     private function __construct(
         string $id,
         string $articleId,
-        \SplFileInfo $image,
+        SplFileInfo $image,
         bool $primaryImage,
         ?string $caption
     ) {

@@ -11,6 +11,7 @@ namespace App\Application\NationalGoverningBody\Command;
 use App\Domain\Common\Urlizer;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBody;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBodyRepository;
+use OutOfBoundsException;
 
 /**
  * Class NationalGoverningBodyCommandHandler
@@ -40,7 +41,7 @@ abstract class NationalGoverningBodyCommandHandler
     {
         $ngb = $this->ngbRepository->findById($id);
         if (!$ngb) {
-            throw new \OutOfBoundsException('No national governing body found for id ' . $id);
+            throw new OutOfBoundsException('No national governing body found for id ' . $id);
         }
         return $ngb;
     }

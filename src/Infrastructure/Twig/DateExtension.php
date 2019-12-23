@@ -8,9 +8,11 @@
 
 namespace App\Infrastructure\Twig;
 
+use DateTimeInterface;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use function twig_escape_filter;
 
 /**
  * Class DateExtension
@@ -35,21 +37,21 @@ class DateExtension extends AbstractExtension
     }
 
     /**
-     * @param \DateTimeInterface $dateTime
+     * @param DateTimeInterface $dateTime
      * @return string[]
      */
-    private function createTimeStrings(\DateTimeInterface $dateTime): array
+    private function createTimeStrings(DateTimeInterface $dateTime): array
     {
-        $isoDate      = $dateTime->format(\DateTimeInterface::W3C);
+        $isoDate      = $dateTime->format(DateTimeInterface::W3C);
         $readableDate = $dateTime->format('F j, Y H:i');
         return [$isoDate, $readableDate];
     }
 
     /**
-     * @param \DateTimeInterface $dateTime
+     * @param DateTimeInterface $dateTime
      * @return string
      */
-    public function formatRelativeTime(\DateTimeInterface $dateTime): string
+    public function formatRelativeTime(DateTimeInterface $dateTime): string
     {
         [$isoDate, $readableDate] = $this->createTimeStrings($dateTime);
         return <<<HTML
@@ -58,10 +60,10 @@ HTML;
     }
 
     /**
-     * @param \DateTimeInterface $dateTime
+     * @param DateTimeInterface $dateTime
      * @return string
      */
-    public function formatTimeUntil(\DateTimeInterface $dateTime): string
+    public function formatTimeUntil(DateTimeInterface $dateTime): string
     {
         [$isoDate, $readableDate] = $this->createTimeStrings($dateTime);
         return <<<HTML
@@ -70,11 +72,11 @@ HTML;
     }
 
     /**
-     * @param \DateTimeInterface $dateTime
+     * @param DateTimeInterface $dateTime
      * @param bool               $micro
      * @return string
      */
-    public function formatTimeAgo(\DateTimeInterface $dateTime, bool $micro = false): string
+    public function formatTimeAgo(DateTimeInterface $dateTime, bool $micro = false): string
     {
         [$isoDate, $readableDate] = $this->createTimeStrings($dateTime);
         $microAttr = $micro ? 'format="micro"' : '';
@@ -85,11 +87,11 @@ HTML;
 
     /**
      * @param Environment        $env
-     * @param \DateTimeInterface $dateTime
+     * @param DateTimeInterface $dateTime
      * @param array              $options
      * @return string
      */
-    public function formatLocalTime(Environment $env, \DateTimeInterface $dateTime, array $options = []): string
+    public function formatLocalTime(Environment $env, DateTimeInterface $dateTime, array $options = []): string
     {
         $defaultOptions = [
             'year'           => 'numeric',
@@ -105,9 +107,9 @@ HTML;
         $optionsAttrs   = [];
         foreach (array_replace($defaultOptions, $options) as $k => $v) {
             if ($v !== null) {
-                $optionsAttrs[] = \twig_escape_filter($env, $k)
+                $optionsAttrs[] = twig_escape_filter($env, $k)
                     . '="'
-                    . \twig_escape_filter($env, $v, 'html_attr')
+                    . twig_escape_filter($env, $v, 'html_attr')
                     . '"';
             }
         }

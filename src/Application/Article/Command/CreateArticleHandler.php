@@ -9,6 +9,7 @@
 namespace App\Application\Article\Command;
 
 use App\Domain\Model\Article\Article;
+use DateTimeImmutable;
 
 /**
  * Class CreateArticleHandler
@@ -24,7 +25,7 @@ class CreateArticleHandler extends ArticleCommandHandler
     {
         $article = Article::create(
             $command->getId(),
-            $this->findSuitableSlug(new \DateTimeImmutable('now'), $command->getTitle(), null),
+            $this->findSuitableSlug(new DateTimeImmutable('now'), $command->getTitle(), null),
             $command->getTitle(),
             $command->getSubtitle(),
             $command->getBody(),

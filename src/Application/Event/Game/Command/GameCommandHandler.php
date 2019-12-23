@@ -14,6 +14,7 @@ use App\Domain\Model\Event\Game\Game;
 use App\Domain\Model\Event\Game\GameRepository;
 use App\Domain\Model\Event\Team\ParticipatingTeam;
 use App\Domain\Model\Event\Team\ParticipatingTeamRepository;
+use OutOfBoundsException;
 
 /**
  * Class GameCommandHandler
@@ -60,7 +61,7 @@ abstract class GameCommandHandler
     {
         $game = $this->gameRepository->findById($id);
         if (!$game) {
-            throw new \OutOfBoundsException('No game found for id ' . $id);
+            throw new OutOfBoundsException('No game found for id ' . $id);
         }
         return $game;
     }
@@ -73,7 +74,7 @@ abstract class GameCommandHandler
     {
         $event = $this->eventRepository->findById($id);
         if (!$event) {
-            throw new \OutOfBoundsException('No event found for id ' . $id);
+            throw new OutOfBoundsException('No event found for id ' . $id);
         }
         return $event;
     }
@@ -86,7 +87,7 @@ abstract class GameCommandHandler
     {
         $team = $this->teamRepository->findById($id);
         if (!$team) {
-            throw new \OutOfBoundsException('No participating team found for id ' . $id);
+            throw new OutOfBoundsException('No participating team found for id ' . $id);
         }
         return $team;
     }

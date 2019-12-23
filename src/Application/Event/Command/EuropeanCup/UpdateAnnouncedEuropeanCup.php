@@ -14,6 +14,9 @@ use App\Application\Event\Command\HostingProperties;
 use App\Application\Event\Command\TitleEventProperties;
 use App\Application\Event\EventHost;
 use App\Domain\Model\Event\EuropeanCup;
+use DateTimeImmutable;
+use DateTimeZone;
+use InvalidArgumentException;
 
 /**
  * Class UpdateAnnouncedEuropeanCup
@@ -31,7 +34,7 @@ class UpdateAnnouncedEuropeanCup
     public static function update(EuropeanCup $cup): self
     {
         if (!$cup->isAnnounced()) {
-            throw new \InvalidArgumentException('The european cup is not announced.');
+            throw new InvalidArgumentException('The european cup is not announced.');
         }
         return new self(
             $cup->getId(),
@@ -60,10 +63,10 @@ class UpdateAnnouncedEuropeanCup
      * @param string|null        $description
      * @param string[]           $tags
      * @param EventHost          $host
-     * @param \DateTimeImmutable $startDate
-     * @param \DateTimeImmutable $endDate
+     * @param DateTimeImmutable $startDate
+     * @param DateTimeImmutable $endDate
      * @param string             $venue
-     * @param \DateTimeZone      $timeZone
+     * @param DateTimeZone      $timeZone
      */
     private function __construct(
         string $id,
@@ -75,10 +78,10 @@ class UpdateAnnouncedEuropeanCup
         ?string $description,
         array $tags,
         EventHost $host,
-        \DateTimeImmutable $startDate,
-        \DateTimeImmutable $endDate,
+        DateTimeImmutable $startDate,
+        DateTimeImmutable $endDate,
         string $venue,
-        \DateTimeZone $timeZone
+        DateTimeZone $timeZone
     ) {
         $this->id            = $id;
         $this->name          = $name;

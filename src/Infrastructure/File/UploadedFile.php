@@ -11,6 +11,7 @@ namespace App\Infrastructure\File;
 use App\Domain\Model\File\File;
 use App\Domain\Model\File\FileBinary;
 use App\Domain\Model\File\FileInterface;
+use DateTimeImmutable;
 
 /**
  * Class UploadedFile
@@ -105,7 +106,7 @@ class UploadedFile implements FileInterface
     /**
      * {@inheritdoc}
      */
-    public function getCreatedAt(): \DateTimeImmutable
+    public function getCreatedAt(): DateTimeImmutable
     {
         return $this->file->getCreatedAt();
     }

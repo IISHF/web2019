@@ -11,6 +11,7 @@ namespace App\Infrastructure\Event\Game\Security\Voter;
 use App\Domain\Model\Event\Game\Game;
 use App\Infrastructure\Security\Voter\DelegatingVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use function in_array;
 
 /**
  * Class GameVoter
@@ -28,7 +29,7 @@ class GameVoter extends DelegatingVoter
             return false;
         }
 
-        return \in_array($attribute, ['EVENT_GAME_EDIT', 'EVENT_GAME_DELETE']);
+        return in_array($attribute, ['EVENT_GAME_EDIT', 'EVENT_GAME_DELETE']);
     }
 
     /**

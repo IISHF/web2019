@@ -13,6 +13,8 @@ use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
 use App\Domain\Model\File\File;
+use Collator;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -134,7 +136,7 @@ class Document
      */
     public function setTags(array $tags): self
     {
-        $collator = \Collator::create('en-US');
+        $collator = Collator::create('en-US');
         $collator->sort($tags);
         $this->tags = array_unique($tags);
         return $this;
@@ -149,12 +151,12 @@ class Document
     }
 
     /**
-     * @param \DateTimeImmutable|null $date
+     * @param DateTimeImmutable|null $date
      * @return DocumentVersion[]
      */
-    public function findValidVersions(?\DateTimeImmutable $date = null): array
+    public function findValidVersions(?DateTimeImmutable $date = null): array
     {
-        $date  = $date ?? new \DateTimeImmutable('now');
+        $date  = $date ?? new DateTimeImmutable('now');
         $valid = [];
         foreach ($this->versions as $version) {
             if ($version->isValid($date)) {
@@ -165,12 +167,12 @@ class Document
     }
 
     /**
-     * @param \DateTimeImmutable|null $date
+     * @param DateTimeImmutable|null $date
      * @return DocumentVersion|null
      */
-    public function findFirstValidVersion(?\DateTimeImmutable $date = null): ?DocumentVersion
+    public function findFirstValidVersion(?DateTimeImmutable $date = null): ?DocumentVersion
     {
-        $date = $date ?? new \DateTimeImmutable('now');
+        $date = $date ?? new DateTimeImmutable('now');
         foreach ($this->versions as $version) {
             if ($version->isValid($date)) {
                 return $version;
@@ -184,8 +186,8 @@ class Document
      * @param File                    $file
      * @param string                  $version
      * @param string                  $slug
-     * @param \DateTimeImmutable|null $validFrom
-     * @param \DateTimeImmutable|null $validUntil
+     * @param DateTimeImmutable|null $validFrom
+     * @param DateTimeImmutable|null $validUntil
      * @return DocumentVersion
      */
     public function createVersion(
@@ -193,8 +195,8 @@ class Document
         File $file,
         string $version,
         string $slug,
-        ?\DateTimeImmutable $validFrom = null,
-        ?\DateTimeImmutable $validUntil = null
+        ?DateTimeImmutable $validFrom = null,
+        ?DateTimeImmutable $validUntil = null
     ): DocumentVersion {
         $documentVersion = new DocumentVersion($id, $this, $file, $version, $slug, $validFrom, $validUntil);
         $this->addVersion($documentVersion);

@@ -12,6 +12,8 @@ use App\Domain\Common\Urlizer;
 use App\Domain\Model\Article\Article;
 use App\Domain\Model\Article\ArticleRepository;
 use App\Utils\Text;
+use DateTimeImmutable;
+use OutOfBoundsException;
 
 /**
  * Class ArticleCommandHandler
@@ -41,18 +43,18 @@ abstract class ArticleCommandHandler
     {
         $article = $this->articleRepository->findById($id);
         if (!$article) {
-            throw new \OutOfBoundsException('No article found for id ' . $id);
+            throw new OutOfBoundsException('No article found for id ' . $id);
         }
         return $article;
     }
 
     /**
-     * @param \DateTimeImmutable $publishedDate
+     * @param DateTimeImmutable $publishedDate
      * @param string             $title
      * @param string|null        $id
      * @return string
      */
-    protected function findSuitableSlug(\DateTimeImmutable $publishedDate, string $title, ?string $id): string
+    protected function findSuitableSlug(DateTimeImmutable $publishedDate, string $title, ?string $id): string
     {
         return Urlizer::urlizeUnique(
             $publishedDate->format('Y-m-d') . '-' . Text::shorten($title, 100),

@@ -11,6 +11,7 @@ namespace App\Infrastructure\Staff\Security\Voter;
 use App\Domain\Model\Staff\StaffMember;
 use App\Infrastructure\Security\Voter\DelegatingVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use function in_array;
 
 /**
  * Class StaffMemberVoter
@@ -28,7 +29,7 @@ class StaffMemberVoter extends DelegatingVoter
             return false;
         }
 
-        return \in_array($attribute, ['STAFF_MEMBER_EDIT', 'STAFF_MEMBER_DELETE']);
+        return in_array($attribute, ['STAFF_MEMBER_EDIT', 'STAFF_MEMBER_DELETE']);
     }
 
     /**

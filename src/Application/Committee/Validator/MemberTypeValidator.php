@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
+use function is_int;
 
 /**
  * Class MemberTypeValidator
@@ -31,7 +32,7 @@ class MemberTypeValidator extends ConstraintValidator
         if ($value === null || $value === '') {
             return;
         }
-        if (!\is_int($value)) {
+        if (!is_int($value)) {
             throw new UnexpectedValueException($value, 'integer');
         }
 

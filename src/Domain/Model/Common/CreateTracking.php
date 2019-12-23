@@ -8,6 +8,7 @@
 
 namespace App\Domain\Model\Common;
 
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -22,7 +23,7 @@ trait CreateTracking
      * @ORM\Column(name="created_at", type="datetime_immutable")
      * @Gedmo\Timestampable(on="create")
      *
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      */
     private $createdAt;
 
@@ -39,14 +40,14 @@ trait CreateTracking
      */
     protected function initCreateTracking(): self
     {
-        $this->createdAt = new \DateTimeImmutable('now');
+        $this->createdAt = new DateTimeImmutable('now');
         return $this;
     }
 
     /**
-     * @return \DateTimeImmutable
+     * @return DateTimeImmutable
      */
-    public function getCreatedAt(): \DateTimeImmutable
+    public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
     }

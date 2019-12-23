@@ -14,6 +14,7 @@ use App\Domain\Model\Event\Application\TitleEventApplicationRepository;
 use App\Domain\Model\Event\EventRepository;
 use App\Domain\Model\Event\Venue\EventVenue;
 use App\Domain\Model\Event\Venue\EventVenueRepository;
+use OutOfBoundsException;
 
 /**
  * Class TitleEventApplicationCommandHandler
@@ -49,13 +50,13 @@ abstract class TitleEventApplicationCommandHandler extends EventBasedCommandHand
 
     /**
      * @param string $id
-     * @return \App\Domain\Model\Event\Application\TitleEventApplication
+     * @return TitleEventApplication
      */
     protected function getApplication(string $id): TitleEventApplication
     {
         $application = $this->applicationRepository->findById($id);
         if (!$application) {
-            throw new \OutOfBoundsException('No title event application found for id ' . $id);
+            throw new OutOfBoundsException('No title event application found for id ' . $id);
         }
         return $application;
     }
@@ -68,7 +69,7 @@ abstract class TitleEventApplicationCommandHandler extends EventBasedCommandHand
     {
         $venue = $this->venueRepository->findById($id);
         if (!$venue) {
-            throw new \OutOfBoundsException('No event venue found for id ' . $id);
+            throw new OutOfBoundsException('No event venue found for id ' . $id);
         }
         return $venue;
     }

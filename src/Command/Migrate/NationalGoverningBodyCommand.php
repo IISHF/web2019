@@ -10,6 +10,7 @@ namespace App\Command\Migrate;
 
 use App\Application\NationalGoverningBody\Command\CreateNationalGoverningBody;
 use App\Utils\Validation;
+use Exception;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
@@ -17,6 +18,8 @@ use Symfony\Component\Console\Helper\TableCell;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\Exception\ValidationFailedException;
+use Throwable;
+use function count;
 
 /**
  * Class NationalGoverningBodyCommand
@@ -65,7 +68,7 @@ class NationalGoverningBodyCommand extends Command
         $ngbs = $this->db->fetchAll(
             'SELECT abbr, ngb_name, ngb_abbr, ngb_web, ngb_email, ngb_phone FROM mem_countries'
         );
-        $this->io->progressStart(\count($ngbs));
+        $this->io->progressStart(count($ngbs));
         $results = [];
         $this->beginTransaction();
         try {
@@ -111,7 +114,7 @@ class NationalGoverningBodyCommand extends Command
                         new TableCell(implode(PHP_EOL, Validation::getViolations($e)), ['colspan' => 2]),
 
                     ];
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                     $results[] = [
                         $i + 1,
                         $createNgb->getName() . ' (' . $createNgb->getAcronym() . ')',
@@ -123,7 +126,7 @@ class NationalGoverningBodyCommand extends Command
                 $this->clearEntityManager();
             }
             $this->commitTransaction();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->rollbackTransaction();
             throw $e;
         }

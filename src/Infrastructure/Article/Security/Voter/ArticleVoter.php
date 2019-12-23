@@ -11,6 +11,7 @@ namespace App\Infrastructure\Article\Security\Voter;
 use App\Domain\Model\Article\Article;
 use App\Infrastructure\Security\Voter\DelegatingVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use function in_array;
 
 /**
  * Class ArticleVoter
@@ -28,7 +29,7 @@ class ArticleVoter extends DelegatingVoter
             return false;
         }
 
-        return \in_array($attribute, ['ARTICLE_EDIT', 'ARTICLE_DELETE', 'ARTICLE_SUBMIT', 'ARTICLE_REVIEW']);
+        return in_array($attribute, ['ARTICLE_EDIT', 'ARTICLE_DELETE', 'ARTICLE_SUBMIT', 'ARTICLE_REVIEW']);
     }
 
     /**

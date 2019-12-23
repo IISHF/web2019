@@ -8,6 +8,9 @@
 
 namespace App\Infrastructure\HTMLPurifier;
 
+use HTMLPurifier_AttrDef_HTML_FrameTarget;
+use HTMLPurifier_Config;
+
 /**
  * Class Html5Config
  *
@@ -18,13 +21,13 @@ final class Html5Config
     private const REVISION = 201901021713;
 
     /**
-     * @param \HTMLPurifier_Config $parent
+     * @param HTMLPurifier_Config $parent
      * @param array                $settings
-     * @return \HTMLPurifier_Config
+     * @return HTMLPurifier_Config
      */
-    public static function create(\HTMLPurifier_Config $parent, array $settings = []): \HTMLPurifier_Config
+    public static function create(HTMLPurifier_Config $parent, array $settings = []): HTMLPurifier_Config
     {
-        $config = \HTMLPurifier_Config::inherit($parent);
+        $config = HTMLPurifier_Config::inherit($parent);
         $config->set('HTML.DefinitionID', __CLASS__);
         $config->set('HTML.DefinitionRev', self::REVISION);
         $config->loadArray($settings);
@@ -67,7 +70,7 @@ final class Html5Config
                     'download' => 'Text',
                     'hreflang' => 'Text',
                     'rel'      => 'Text',
-                    'target'   => new \HTMLPurifier_AttrDef_HTML_FrameTarget(),
+                    'target'   => new HTMLPurifier_AttrDef_HTML_FrameTarget(),
                     'type'     => 'Text',
                 ]
             );

@@ -8,6 +8,7 @@
 
 namespace App\Domain\Model\Common;
 
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -22,7 +23,7 @@ trait UpdateTracking
      * @ORM\Column(name="updated_at", type="datetime_immutable")
      * @Gedmo\Timestampable(on="update")
      *
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      */
     private $updatedAt;
 
@@ -39,14 +40,14 @@ trait UpdateTracking
      */
     protected function initUpdateTracking(): self
     {
-        $this->updatedAt = new \DateTimeImmutable('now');
+        $this->updatedAt = new DateTimeImmutable('now');
         return $this;
     }
 
     /**
-     * @return \DateTimeImmutable
+     * @return DateTimeImmutable
      */
-    public function getUpdatedAt(): \DateTimeImmutable
+    public function getUpdatedAt(): DateTimeImmutable
     {
         return $this->updatedAt;
     }

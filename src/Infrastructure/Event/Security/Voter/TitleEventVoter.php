@@ -11,6 +11,7 @@ namespace App\Infrastructure\Event\Security\Voter;
 use App\Domain\Model\Event\TitleEvent;
 use App\Infrastructure\Security\Voter\DelegatingVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use function in_array;
 
 /**
  * Class TitleEventVoter
@@ -28,7 +29,7 @@ class TitleEventVoter extends DelegatingVoter
             return false;
         }
 
-        return \in_array($attribute, ['EVENT_EDIT', 'EVENT_DELETE', 'EVENT_ANNOUNCE', 'EVENT_SANCTION']);
+        return in_array($attribute, ['EVENT_EDIT', 'EVENT_DELETE', 'EVENT_ANNOUNCE', 'EVENT_SANCTION']);
     }
 
     /**

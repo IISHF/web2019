@@ -10,6 +10,7 @@ namespace App\Application\File;
 
 use App\Domain\Model\File\File;
 use Psr\Cache\CacheItemPoolInterface;
+use Psr\Cache\InvalidArgumentException;
 
 /**
  * Class CachedResizer
@@ -40,7 +41,7 @@ class CachedResizer implements ImageResizer
     /**
      * {@inheritdoc}
      *
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function resizeImage(File $file, int $width, int $height): ResizedImage
     {
@@ -56,7 +57,7 @@ class CachedResizer implements ImageResizer
 
     /**
      * {@inheritdoc}
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function resizePdf(File $file, int $width, int $height): ResizedImage
     {
@@ -76,7 +77,7 @@ class CachedResizer implements ImageResizer
      * @param int      $height
      * @param callable $fn
      * @return CachedResizedImage
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function checkCache(File $file, int $width, int $height, callable $fn): CachedResizedImage
     {

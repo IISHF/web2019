@@ -16,6 +16,8 @@ use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
 use App\Domain\Model\Event\Event;
 use App\Domain\Model\Event\Team\ParticipatingTeam;
+use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -56,7 +58,7 @@ class Game
     /**
      * @ORM\Column(name="date_time_local", type="datetime_immutable")
      *
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      */
     private $dateTimeLocal;
 
@@ -68,14 +70,14 @@ class Game
     private $timeZone;
 
     /**
-     * @var \DateTimeZone|null
+     * @var DateTimeZone|null
      */
     private $timeZoneInstance;
 
     /**
      * @ORM\Column(name="date_time_utc", type="datetime_immutable")
      *
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      */
     private $dateTimeUtc;
 
@@ -127,8 +129,8 @@ class Game
      * @param string                   $id
      * @param Event                    $event
      * @param int                      $gameType
-     * @param \DateTimeImmutable       $dateTime
-     * @param \DateTimeZone            $timeZone
+     * @param DateTimeImmutable       $dateTime
+     * @param DateTimeZone            $timeZone
      * @param ParticipatingTeam|string $homeTeam
      * @param ParticipatingTeam|string $awayTeam
      * @param string|null              $remarks
@@ -138,8 +140,8 @@ class Game
         string $id,
         Event $event,
         int $gameType,
-        \DateTimeImmutable $dateTime,
-        \DateTimeZone $timeZone,
+        DateTimeImmutable $dateTime,
+        DateTimeZone $timeZone,
         $homeTeam,
         $awayTeam,
         ?string $remarks
@@ -163,8 +165,8 @@ class Game
      * @param string             $id
      * @param Event              $event
      * @param int                $gameType
-     * @param \DateTimeImmutable $dateTime
-     * @param \DateTimeZone      $timeZone
+     * @param DateTimeImmutable $dateTime
+     * @param DateTimeZone      $timeZone
      * @param ParticipatingTeam  $homeTeam
      * @param ParticipatingTeam  $awayTeam
      * @param string|null        $remarks
@@ -174,8 +176,8 @@ class Game
         string $id,
         Event $event,
         int $gameType,
-        \DateTimeImmutable $dateTime,
-        \DateTimeZone $timeZone,
+        DateTimeImmutable $dateTime,
+        DateTimeZone $timeZone,
         ParticipatingTeam $homeTeam,
         ParticipatingTeam $awayTeam,
         ?string $remarks
@@ -199,8 +201,8 @@ class Game
      * @param string             $id
      * @param Event              $event
      * @param int                $gameType
-     * @param \DateTimeImmutable $dateTime
-     * @param \DateTimeZone      $timeZone
+     * @param DateTimeImmutable $dateTime
+     * @param DateTimeZone      $timeZone
      * @param string             $homeTeam
      * @param string             $awayTeam
      * @param string|null        $remarks
@@ -210,8 +212,8 @@ class Game
         string $id,
         Event $event,
         int $gameType,
-        \DateTimeImmutable $dateTime,
-        \DateTimeZone $timeZone,
+        DateTimeImmutable $dateTime,
+        DateTimeZone $timeZone,
         string $homeTeam,
         string $awayTeam,
         ?string $remarks
@@ -235,8 +237,8 @@ class Game
      * @param string             $id
      * @param Event              $event
      * @param int                $gameType
-     * @param \DateTimeImmutable $dateTime
-     * @param \DateTimeZone      $timeZone
+     * @param DateTimeImmutable $dateTime
+     * @param DateTimeZone      $timeZone
      * @param ParticipatingTeam  $homeTeam
      * @param string|null        $homeTeamProvisional
      * @param ParticipatingTeam  $awayTeam
@@ -248,8 +250,8 @@ class Game
         string $id,
         Event $event,
         int $gameType,
-        \DateTimeImmutable $dateTime,
-        \DateTimeZone $timeZone,
+        DateTimeImmutable $dateTime,
+        DateTimeZone $timeZone,
         ?ParticipatingTeam $homeTeam,
         ?string $homeTeamProvisional,
         ?ParticipatingTeam $awayTeam,
@@ -335,9 +337,9 @@ class Game
     }
 
     /**
-     * @return \DateTimeImmutable
+     * @return DateTimeImmutable
      */
-    public function getDateTimeLocal(): \DateTimeImmutable
+    public function getDateTimeLocal(): DateTimeImmutable
     {
         if (!DateTime::isTimeZoneEqual($this->dateTimeLocal, $this->getTimeZone())) {
             $this->dateTimeLocal = DateTime::reinterpret($this->dateTimeLocal, $this->getTimeZone());
@@ -346,9 +348,9 @@ class Game
     }
 
     /**
-     * @return \DateTimeImmutable
+     * @return DateTimeImmutable
      */
-    public function getDateTimeUtc(): \DateTimeImmutable
+    public function getDateTimeUtc(): DateTimeImmutable
     {
         if (!DateTime::isUtc($this->dateTimeUtc)) {
             $this->dateTimeUtc = DateTime::reinterpretAsUtc($this->dateTimeUtc);
@@ -357,11 +359,11 @@ class Game
     }
 
     /**
-     * @param \DateTimeImmutable $dateTime
-     * @param \DateTimeZone      $timeZone
+     * @param DateTimeImmutable $dateTime
+     * @param DateTimeZone      $timeZone
      * @return $this
      */
-    private function setDateTime(\DateTimeImmutable $dateTime, \DateTimeZone $timeZone): self
+    private function setDateTime(DateTimeImmutable $dateTime, DateTimeZone $timeZone): self
     {
         $this->doSetTimeZone($timeZone);
         $this->reschedule($dateTime);
@@ -369,10 +371,10 @@ class Game
     }
 
     /**
-     * @param \DateTimeImmutable $dateTime
+     * @param DateTimeImmutable $dateTime
      * @return $this
      */
-    public function reschedule(\DateTimeImmutable $dateTime): self
+    public function reschedule(DateTimeImmutable $dateTime): self
     {
         $this->dateTimeLocal = DateTime::reinterpret($dateTime, $this->getTimeZone());
         $this->dateTimeUtc   = DateTime::toUtc($this->dateTimeLocal);
@@ -380,12 +382,12 @@ class Game
     }
 
     /**
-     * @return \DateTimeZone
+     * @return DateTimeZone
      */
-    public function getTimeZone(): \DateTimeZone
+    public function getTimeZone(): DateTimeZone
     {
         if (!$this->timeZoneInstance) {
-            $this->timeZoneInstance = new \DateTimeZone($this->timeZone);
+            $this->timeZoneInstance = new DateTimeZone($this->timeZone);
         }
         return $this->timeZoneInstance;
     }
@@ -399,9 +401,9 @@ class Game
     }
 
     /**
-     * @param \DateTimeZone $timeZone
+     * @param DateTimeZone $timeZone
      */
-    private function doSetTimeZone(\DateTimeZone $timeZone): void
+    private function doSetTimeZone(DateTimeZone $timeZone): void
     {
         Assert::lengthBetween($timeZone->getName(), 1, 32);
         $this->timeZone         = $timeZone->getName();
@@ -409,10 +411,10 @@ class Game
     }
 
     /**
-     * @param \DateTimeZone $timeZone
+     * @param DateTimeZone $timeZone
      * @return $this
      */
-    public function updateTimeZone(\DateTimeZone $timeZone): self
+    public function updateTimeZone(DateTimeZone $timeZone): self
     {
         $this->doSetTimeZone($timeZone);
         $this->reschedule($this->dateTimeLocal);

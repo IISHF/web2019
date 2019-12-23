@@ -10,6 +10,11 @@ namespace App\Command\Migrate;
 
 use App\Application\Document\Command\CreateDocument;
 use App\Application\Document\Command\CreateDocumentVersion;
+use DateTimeImmutable;
+use Exception;
+use FilesystemIterator;
+use GlobIterator;
+use SplFileInfo;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -89,15 +94,15 @@ class DocumentCommand extends CommandWithFilesystem
             'tournaments'       => ['title' => 'Tournament Regulations', 'tags' => ['Tournament', 'Regulation']],
         ];
 
-        $it            = new \GlobIterator(
+        $it            = new GlobIterator(
             $documentsPath . '/*.*',
-            \FilesystemIterator::KEY_AS_PATHNAME | \FilesystemIterator::CURRENT_AS_FILEINFO | \FilesystemIterator::SKIP_DOTS
+            FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::SKIP_DOTS
         );
         $documents     = [];
         $documentCount = 0;
         $this->io->section('Looking for files in ' . $documentsPath . '...');
         foreach ($it as $file) {
-            /** @var \SplFileInfo $file */
+            /** @var SplFileInfo $file */
             $matches = [];
             if (preg_match('/^([\w-]+)\.(\d{4})\.\w+$/', $file->getFilename(), $matches)
                 && isset($metaDataMap[$matches[1]])
@@ -130,15 +135,15 @@ class DocumentCommand extends CommandWithFilesystem
                 $createDoc         = true;
                 $typeDocumentIndex = count($typeDocuments);
                 foreach ($typeDocuments as $year => $typeDocument) {
-                    /** @var \SplFileInfo $typeDocument */
+                    /** @var SplFileInfo $typeDocument */
                     $typeDocumentIndex--;
 
                     $version   = 'Season ' . $year;
-                    $validFrom = new \DateTimeImmutable($year . '-01-01');
+                    $validFrom = new DateTimeImmutable($year . '-01-01');
                     if ($typeDocumentIndex === 0) {
                         $validUntil = null;
                     } else {
-                        $validUntil = new \DateTimeImmutable($year . '-12-31');
+                        $validUntil = new DateTimeImmutable($year . '-12-31');
                     }
                     $validityStr = self::formatValidity($validFrom, $validUntil);
 
@@ -185,7 +190,7 @@ class DocumentCommand extends CommandWithFilesystem
                 $this->clearEntityManager();
             }
             $this->commitTransaction();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->rollbackTransaction();
             throw $e;
         }
@@ -200,11 +205,11 @@ class DocumentCommand extends CommandWithFilesystem
     }
 
     /**
-     * @param \DateTimeImmutable|null $validFrom
-     * @param \DateTimeImmutable|null $validUntil
+     * @param DateTimeImmutable|null $validFrom
+     * @param DateTimeImmutable|null $validUntil
      * @return string
      */
-    private static function formatValidity(?\DateTimeImmutable $validFrom, ?\DateTimeImmutable $validUntil): string
+    private static function formatValidity(?DateTimeImmutable $validFrom, ?DateTimeImmutable $validUntil): string
     {
         if ($validFrom === null && $validUntil === null) {
             return '∞';

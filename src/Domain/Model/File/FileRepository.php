@@ -12,7 +12,9 @@ use App\Domain\Common\Repository\DoctrinePaging;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 use Pagerfanta\Pagerfanta;
 
 /**
@@ -74,9 +76,9 @@ class FileRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
-    private function createQueryBuilderWithBinary(): \Doctrine\ORM\QueryBuilder
+    private function createQueryBuilderWithBinary(): QueryBuilder
     {
         return $this->createQueryBuilder('f')
                     ->addSelect('fb')
@@ -86,12 +88,12 @@ class FileRepository extends ServiceEntityRepository
     /**
      * @param string|null $mimeType
      * @param string|null $origin
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
     private function createQueryBuilderWithFilter(
         ?string $mimeType = null,
         ?string $origin = null
-    ): \Doctrine\ORM\QueryBuilder {
+    ): QueryBuilder {
         $queryBuilder = $this->createQueryBuilder('f');
         if ($mimeType) {
             $queryBuilder->andWhere('f.mimeType = :mimeType')
@@ -211,7 +213,7 @@ SQL
             );
             $this->deleteBinariesByHash(...$fileHashes);
             $db->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $db->rollBack();
             throw $e;
         }

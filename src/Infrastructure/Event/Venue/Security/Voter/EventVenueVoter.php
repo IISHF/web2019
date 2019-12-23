@@ -11,6 +11,7 @@ namespace App\Infrastructure\Event\Venue\Security\Voter;
 use App\Domain\Model\Event\Venue\EventVenue;
 use App\Infrastructure\Security\Voter\DelegatingVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use function in_array;
 
 /**
  * Class EventVenueVoter
@@ -28,7 +29,7 @@ class EventVenueVoter extends DelegatingVoter
             return false;
         }
 
-        return \in_array($attribute, ['EVENT_VENUE_EDIT', 'EVENT_VENUE_DELETE']);
+        return in_array($attribute, ['EVENT_VENUE_EDIT', 'EVENT_VENUE_DELETE']);
     }
 
     /**

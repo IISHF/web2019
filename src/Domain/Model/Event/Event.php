@@ -17,6 +17,10 @@ use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
 use App\Domain\Model\Event\Team\ParticipatingTeam;
 use App\Domain\Model\Event\Venue\EventVenue;
+use BadMethodCallException;
+use Collator;
+use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -104,28 +108,28 @@ abstract class Event
     /**
      * @ORM\Column(name="start_date", type="datetime_immutable", nullable=true)
      *
-     * @var \DateTimeImmutable|null
+     * @var DateTimeImmutable|null
      */
     private $startDate;
 
     /**
      * @ORM\Column(name="start_date_utc", type="datetime_immutable", nullable=true)
      *
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      */
     private $startDateUtc;
 
     /**
      * @ORM\Column(name="end_date", type="datetime_immutable", nullable=true)
      *
-     * @var \DateTimeImmutable|null
+     * @var DateTimeImmutable|null
      */
     private $endDate;
 
     /**
      * @ORM\Column(name="end_date_utc", type="datetime_immutable", nullable=true)
      *
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      */
     private $endDateUtc;
 
@@ -137,7 +141,7 @@ abstract class Event
     private $timeZone;
 
     /**
-     * @var \DateTimeZone|null
+     * @var DateTimeZone|null
      */
     private $timeZoneInstance;
 
@@ -340,7 +344,7 @@ abstract class Event
     public function getSanctionNumber(): string
     {
         if (!$this->isSanctioned()) {
-            throw new \BadMethodCallException('Cannot get sanction number. Event is not sanctioned.');
+            throw new BadMethodCallException('Cannot get sanction number. Event is not sanctioned.');
         }
         return $this->sanctionNumber;
     }
@@ -365,12 +369,12 @@ abstract class Event
     }
 
     /**
-     * @return \DateTimeImmutable
+     * @return DateTimeImmutable
      */
-    public function getStartDate(): \DateTimeImmutable
+    public function getStartDate(): DateTimeImmutable
     {
         if (!$this->hasDate()) {
-            throw new \BadMethodCallException('Cannot get start date. No dates set.');
+            throw new BadMethodCallException('Cannot get start date. No dates set.');
         }
         if (!DateTime::isTimeZoneEqual($this->startDate, $this->getTimeZone())) {
             $this->startDate = DateTime::reinterpret($this->startDate, $this->getTimeZone());
@@ -379,9 +383,9 @@ abstract class Event
     }
 
     /**
-     * @return \DateTimeImmutable
+     * @return DateTimeImmutable
      */
-    public function getStartDateUtc(): \DateTimeImmutable
+    public function getStartDateUtc(): DateTimeImmutable
     {
         if (!DateTime::isUtc($this->startDateUtc)) {
             $this->startDateUtc = DateTime::reinterpretAsUtc($this->startDateUtc);
@@ -390,12 +394,12 @@ abstract class Event
     }
 
     /**
-     * @return \DateTimeImmutable
+     * @return DateTimeImmutable
      */
-    public function getEndDate(): \DateTimeImmutable
+    public function getEndDate(): DateTimeImmutable
     {
         if (!$this->hasDate()) {
-            throw new \BadMethodCallException('Cannot get end date. No dates set.');
+            throw new BadMethodCallException('Cannot get end date. No dates set.');
         }
         if (!DateTime::isTimeZoneEqual($this->endDate, $this->getTimeZone())) {
             $this->endDate = DateTime::reinterpret($this->endDate, $this->getTimeZone());
@@ -404,9 +408,9 @@ abstract class Event
     }
 
     /**
-     * @return \DateTimeImmutable
+     * @return DateTimeImmutable
      */
-    public function getEndDateUtc(): \DateTimeImmutable
+    public function getEndDateUtc(): DateTimeImmutable
     {
         if (!DateTime::isUtc($this->endDateUtc)) {
             $this->endDateUtc = DateTime::reinterpretAsUtc($this->endDateUtc);
@@ -415,12 +419,12 @@ abstract class Event
     }
 
     /**
-     * @param \DateTimeImmutable $startDate
-     * @param \DateTimeImmutable $endDate
-     * @param \DateTimeZone      $timeZone
+     * @param DateTimeImmutable $startDate
+     * @param DateTimeImmutable $endDate
+     * @param DateTimeZone      $timeZone
      * @return $this
      */
-    public function setDate(\DateTimeImmutable $startDate, \DateTimeImmutable $endDate, \DateTimeZone $timeZone): self
+    public function setDate(DateTimeImmutable $startDate, DateTimeImmutable $endDate, DateTimeZone $timeZone): self
     {
         Assert::lessThanEq($startDate, $endDate);
         Assert::greaterThanEq($endDate, $startDate);
@@ -445,15 +449,15 @@ abstract class Event
     }
 
     /**
-     * @return \DateTimeZone
+     * @return DateTimeZone
      */
-    public function getTimeZone(): \DateTimeZone
+    public function getTimeZone(): DateTimeZone
     {
         if (!$this->timeZone) {
-            throw new \BadMethodCallException('Cannot get time zone. No time zone set.');
+            throw new BadMethodCallException('Cannot get time zone. No time zone set.');
         }
         if (!$this->timeZoneInstance) {
-            $this->timeZoneInstance = new \DateTimeZone($this->timeZone);
+            $this->timeZoneInstance = new DateTimeZone($this->timeZone);
         }
         return $this->timeZoneInstance;
     }
@@ -540,7 +544,7 @@ abstract class Event
      */
     public function setTags(array $tags): self
     {
-        $collator = \Collator::create('en-US');
+        $collator = Collator::create('en-US');
         $collator->sort($tags);
         $this->tags = array_unique($tags);
         return $this;

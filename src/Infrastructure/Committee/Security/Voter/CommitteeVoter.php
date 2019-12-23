@@ -11,6 +11,7 @@ namespace App\Infrastructure\Committee\Security\Voter;
 use App\Domain\Model\Committee\Committee;
 use App\Infrastructure\Security\Voter\DelegatingVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use function in_array;
 
 /**
  * Class CommitteeVoter
@@ -28,7 +29,7 @@ class CommitteeVoter extends DelegatingVoter
             return false;
         }
 
-        return \in_array($attribute, ['COMMITTEE_EDIT', 'COMMITTEE_DELETE']);
+        return in_array($attribute, ['COMMITTEE_EDIT', 'COMMITTEE_DELETE']);
     }
 
     /**

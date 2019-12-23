@@ -8,6 +8,7 @@
 
 namespace App\Command\Migrate;
 
+use SplFileInfo;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -77,12 +78,12 @@ abstract class CommandWithFilesystem extends Command
 
     /**
      * @param string $path
-     * @return \SplFileInfo|null
+     * @return SplFileInfo|null
      */
-    protected static function getFile(string $path): ?\SplFileInfo
+    protected static function getFile(string $path): ?SplFileInfo
     {
         if (file_exists($path) && is_file($path) && is_readable($path)) {
-            return new \SplFileInfo($path);
+            return new SplFileInfo($path);
         }
         return null;
     }

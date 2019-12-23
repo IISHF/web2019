@@ -9,8 +9,10 @@
 namespace App\Infrastructure\Security\MagicLink;
 
 use App\Utils\Text;
+use DateTimeImmutable;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
+use Exception;
 
 /**
  * Class TokenStorage
@@ -36,10 +38,10 @@ class TokenStorage
      * @param string             $username
      * @param string             $userIp
      * @param string             $userAgent
-     * @param \DateTimeImmutable $created
+     * @param DateTimeImmutable $created
      * @return array
      */
-    public function createToken(string $username, string $userIp, string $userAgent, \DateTimeImmutable $created): array
+    public function createToken(string $username, string $userIp, string $userAgent, DateTimeImmutable $created): array
     {
         $ttl          = $created->modify('+ 15 minutes');
         $token        = random_bytes(32);
@@ -50,7 +52,7 @@ class TokenStorage
             $this->db->executeQuery(
                 'DELETE FROM login_tokens WHERE ttl < :now OR username = :username',
                 [
-                    'now'      => new \DateTimeImmutable('now'),
+                    'now'      => new DateTimeImmutable('now'),
                     'username' => $username,
                 ],
                 [
@@ -78,7 +80,7 @@ class TokenStorage
             $this->db->commit();
 
             return [bin2hex($token), $signatureKey, $ttl];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->db->rollBack();
             throw $e;
         }
@@ -106,7 +108,7 @@ class TokenStorage
             $this->db->executeQuery(
                 'DELETE FROM login_tokens WHERE ttl < :now OR token = :token',
                 [
-                    'now'   => new \DateTimeImmutable('now'),
+                    'now'   => new DateTimeImmutable('now'),
                     'token' => $token,
                 ],
                 [
@@ -121,9 +123,9 @@ class TokenStorage
             }
             [$signatureKey, $ttl] = $tokenData;
 
-            return [@hex2bin($signatureKey), new \DateTimeImmutable($ttl)];
+            return [@hex2bin($signatureKey), new DateTimeImmutable($ttl)];
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->db->rollBack();
             throw $e;
         }

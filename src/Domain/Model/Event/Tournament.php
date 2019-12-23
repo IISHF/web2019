@@ -9,6 +9,8 @@
 namespace App\Domain\Model\Event;
 
 use App\Domain\Model\Event\Venue\EventVenue;
+use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,10 +29,10 @@ class Tournament extends Event
      * @param int                $season
      * @param string             $ageGroup
      * @param EventHost          $host
-     * @param \DateTimeImmutable $startDate
-     * @param \DateTimeImmutable $endDate
+     * @param DateTimeImmutable $startDate
+     * @param DateTimeImmutable $endDate
      * @param EventVenue         $venue
-     * @param \DateTimeZone      $timeZone
+     * @param DateTimeZone      $timeZone
      * @param array              $tags
      */
     public function __construct(
@@ -40,10 +42,10 @@ class Tournament extends Event
         int $season,
         string $ageGroup,
         EventHost $host,
-        \DateTimeImmutable $startDate,
-        \DateTimeImmutable $endDate,
+        DateTimeImmutable $startDate,
+        DateTimeImmutable $endDate,
         EventVenue $venue,
-        \DateTimeZone $timeZone,
+        DateTimeZone $timeZone,
         array $tags
     ) {
         parent::__construct($id, $name, $slug, $season, $ageGroup, $tags);

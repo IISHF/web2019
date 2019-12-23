@@ -12,6 +12,7 @@ use App\Domain\Model\File\File;
 use App\Domain\Model\File\FileBinary;
 use App\Domain\Model\File\FileRepository;
 use Ramsey\Uuid\Uuid;
+use SplFileInfo;
 use Symfony\Component\HttpFoundation\File\MimeType\ExtensionGuesser;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 
@@ -36,26 +37,26 @@ class FileFactory
     }
 
     /**
-     * @param \SplFileInfo $file
+     * @param SplFileInfo $file
      * @param string       $origin
      * @param string|null  $originalName
      * @return File
      */
-    public function createFile(\SplFileInfo $file, string $origin, ?string $originalName = null): File
+    public function createFile(SplFileInfo $file, string $origin, ?string $originalName = null): File
     {
         return $this->createFileWithId(Uuid::uuid4(), $file, $origin, $originalName);
     }
 
     /**
      * @param string|null  $id
-     * @param \SplFileInfo $file
+     * @param SplFileInfo $file
      * @param string|null  $origin
      * @param string|null  $originalName
      * @return File
      */
     public function createFileWithId(
         string $id,
-        \SplFileInfo $file,
+        SplFileInfo $file,
         string $origin,
         ?string $originalName = null
     ): File {
@@ -79,10 +80,10 @@ class FileFactory
     }
 
     /**
-     * @param \SplFileInfo $file
+     * @param SplFileInfo $file
      * @return FileBinary
      */
-    private function ensureBinary(\SplFileInfo $file): FileBinary
+    private function ensureBinary(SplFileInfo $file): FileBinary
     {
         $hash   = sha1_file($file->getPathname());
         $binary = $this->fileRepository->findFileBinaryReference($hash);
@@ -93,11 +94,11 @@ class FileFactory
     }
 
     /**
-     * @param \SplFileInfo $file
+     * @param SplFileInfo $file
      * @param string       $default
      * @return string
      */
-    private static function guessMimeType(\SplFileInfo $file, string $default = 'application/octet-stream'): string
+    private static function guessMimeType(SplFileInfo $file, string $default = 'application/octet-stream'): string
     {
         return MimeTypeGuesser::getInstance()->guess($file->getPathname()) ?? $default;
     }

@@ -8,6 +8,8 @@
 
 namespace App\Domain\Model\Common;
 
+use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,17 +22,17 @@ trait SoftDeleteableEntity
     /**
      * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
      *
-     * @var \DateTime|null
+     * @var DateTime|null
      */
     private $deletedAt;
 
     /**
-     * @param \DateTimeImmutable $deletedAt
+     * @param DateTimeImmutable $deletedAt
      * @return $this
      */
-    public function delete(\DateTimeImmutable $deletedAt): self
+    public function delete(DateTimeImmutable $deletedAt): self
     {
-        $dateTime = new \DateTime(null, $deletedAt->getTimezone());
+        $dateTime = new DateTime(null, $deletedAt->getTimezone());
         $dateTime->setTimestamp($deletedAt->getTimestamp());
         $this->deletedAt = $dateTime;
         return $this;
@@ -46,12 +48,12 @@ trait SoftDeleteableEntity
     }
 
     /**
-     * @return \DateTimeImmutable|null
+     * @return DateTimeImmutable|null
      */
-    public function getDeletedAt(): ?\DateTimeImmutable
+    public function getDeletedAt(): ?DateTimeImmutable
     {
         if ($this->deletedAt) {
-            return \DateTimeImmutable::createFromMutable($this->deletedAt);
+            return DateTimeImmutable::createFromMutable($this->deletedAt);
         }
         return null;
     }

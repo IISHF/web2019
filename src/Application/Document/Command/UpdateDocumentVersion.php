@@ -10,6 +10,7 @@ namespace App\Application\Document\Command;
 
 use App\Application\Common\Command\IdAware;
 use App\Domain\Model\Document\DocumentVersion;
+use DateTimeImmutable;
 
 /**
  * Class UpdateDocumentVersion
@@ -37,14 +38,14 @@ class UpdateDocumentVersion
     /**
      * @param string                  $id
      * @param string                  $version
-     * @param \DateTimeImmutable|null $validFrom
-     * @param \DateTimeImmutable|null $validUntil
+     * @param DateTimeImmutable|null $validFrom
+     * @param DateTimeImmutable|null $validUntil
      */
     private function __construct(
         string $id,
         string $version,
-        ?\DateTimeImmutable $validFrom,
-        ?\DateTimeImmutable $validUntil
+        ?DateTimeImmutable $validFrom,
+        ?DateTimeImmutable $validUntil
     ) {
         $this->id         = $id;
         $this->version    = $version;

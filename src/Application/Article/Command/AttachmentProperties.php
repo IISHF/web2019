@@ -8,6 +8,7 @@
 
 namespace App\Application\Article\Command;
 
+use SplFileInfo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -15,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @package App\Application\Article\Command
  *
- * @property \SplFileInfo $file
+ * @property SplFileInfo $file
  */
 trait AttachmentProperties
 {
@@ -37,9 +38,9 @@ trait AttachmentProperties
     }
 
     /**
-     * @return \SplFileInfo
+     * @return SplFileInfo
      */
-    public function getFile(): \SplFileInfo
+    public function getFile(): SplFileInfo
     {
         return $this->file;
     }

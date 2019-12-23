@@ -8,6 +8,8 @@
 
 namespace App\Domain\Common\Repository;
 
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 
@@ -19,9 +21,9 @@ use Pagerfanta\Pagerfanta;
 trait DoctrinePaging
 {
     /**
-     * @param \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder $query
-     * @param int                                            $page
-     * @param int                                            $limit
+     * @param Query|QueryBuilder $query
+     * @param int                $page
+     * @param int                $limit
      * @return Pagerfanta
      */
     public function createPager($query, int $page = 1, int $limit = 30): Pagerfanta

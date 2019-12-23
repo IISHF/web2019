@@ -15,6 +15,9 @@ use App\Application\Event\Command\SanctioningProperties;
 use App\Application\Event\Command\TitleEventProperties;
 use App\Application\Event\EventHost;
 use App\Domain\Model\Event\EuropeanCup;
+use DateTimeImmutable;
+use DateTimeZone;
+use InvalidArgumentException;
 
 /**
  * Class UpdateSanctionedEuropeanCup
@@ -32,7 +35,7 @@ class UpdateSanctionedEuropeanCup
     public static function update(EuropeanCup $cup): self
     {
         if (!$cup->isSanctioned()) {
-            throw new \InvalidArgumentException('The european cup is not sanctioned.');
+            throw new InvalidArgumentException('The european cup is not sanctioned.');
         }
         return new self(
             $cup->getId(),
@@ -63,10 +66,10 @@ class UpdateSanctionedEuropeanCup
      * @param string[]           $tags
      * @param string             $sanctionNumber
      * @param EventHost          $host
-     * @param \DateTimeImmutable $startDate
-     * @param \DateTimeImmutable $endDate
+     * @param DateTimeImmutable $startDate
+     * @param DateTimeImmutable $endDate
      * @param string             $venue
-     * @param \DateTimeZone      $timeZone
+     * @param DateTimeZone      $timeZone
      */
     private function __construct(
         string $id,
@@ -79,10 +82,10 @@ class UpdateSanctionedEuropeanCup
         array $tags,
         string $sanctionNumber,
         EventHost $host,
-        \DateTimeImmutable $startDate,
-        \DateTimeImmutable $endDate,
+        DateTimeImmutable $startDate,
+        DateTimeImmutable $endDate,
         string $venue,
-        \DateTimeZone $timeZone
+        DateTimeZone $timeZone
     ) {
         $this->id             = $id;
         $this->name           = $name;

@@ -11,6 +11,7 @@ namespace App\Application\Article\Command;
 use App\Application\File\FileFactory;
 use App\Domain\Model\Article\ArticleRepository;
 use App\Domain\Model\File\File;
+use SplFileInfo;
 
 /**
  * Class AttachmentCommandHandler
@@ -36,10 +37,10 @@ abstract class AttachmentCommandHandler extends ArticleCommandHandler
 
     /**
      * @param string       $origin
-     * @param \SplFileInfo $file
+     * @param SplFileInfo $file
      * @return File
      */
-    protected function createFile(string $origin, \SplFileInfo $file): File
+    protected function createFile(string $origin, SplFileInfo $file): File
     {
         return $this->fileFactory->createFile($file, $origin);
     }

@@ -8,6 +8,8 @@
 
 namespace App\Application\User\Command;
 
+use OutOfBoundsException;
+
 /**
  * Class ConfirmUserHandler
  *
@@ -22,7 +24,7 @@ class ConfirmUserHandler extends UserPasswordCommandHandler
     {
         $user = $this->userRepository->findByConfirmToken($command->getConfirmToken());
         if (!$user) {
-            throw new \OutOfBoundsException('No user found for confirmation token ' . $command->getConfirmToken());
+            throw new OutOfBoundsException('No user found for confirmation token ' . $command->getConfirmToken());
         }
         $user->markUserAsConfirmed($this->encodePassword($command->getPassword()));
         $this->userRepository->save($user);

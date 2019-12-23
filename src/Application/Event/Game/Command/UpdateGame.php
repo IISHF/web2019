@@ -10,6 +10,7 @@ namespace App\Application\Event\Game\Command;
 
 use App\Application\Common\Command\IdAware;
 use App\Domain\Model\Event\Game\Game;
+use DateTimeImmutable;
 
 /**
  * Class UpdateGame
@@ -43,7 +44,7 @@ class UpdateGame
     /**
      * @param string             $id
      * @param int                $gameType
-     * @param \DateTimeImmutable $dateTime
+     * @param DateTimeImmutable $dateTime
      * @param string|null        $homeTeam
      * @param string|null        $homeTeamProvisional
      * @param string|null        $awayTeam
@@ -55,7 +56,7 @@ class UpdateGame
     private function __construct(
         string $id,
         int $gameType,
-        \DateTimeImmutable $dateTime,
+        DateTimeImmutable $dateTime,
         ?string $homeTeam,
         ?string $homeTeamProvisional,
         ?string $awayTeam,

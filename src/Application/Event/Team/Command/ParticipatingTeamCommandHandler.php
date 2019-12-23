@@ -12,6 +12,7 @@ use App\Application\Event\Command\EventBasedCommandHandler;
 use App\Domain\Model\Event\EventRepository;
 use App\Domain\Model\Event\Team\ParticipatingTeam;
 use App\Domain\Model\Event\Team\ParticipatingTeamRepository;
+use OutOfBoundsException;
 
 /**
  * Class ParticipatingTeamCommandHandler
@@ -43,7 +44,7 @@ abstract class ParticipatingTeamCommandHandler extends EventBasedCommandHandler
     {
         $team = $this->teamRepository->findById($id);
         if (!$team) {
-            throw new \OutOfBoundsException('No participating team found for id ' . $id);
+            throw new OutOfBoundsException('No participating team found for id ' . $id);
         }
         return $team;
     }

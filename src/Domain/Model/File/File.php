@@ -13,6 +13,7 @@ use App\Domain\Model\Common\AssociationOne;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;
 use Doctrine\ORM\Mapping as ORM;
+use RuntimeException;
 use Webmozart\Assert\Assert;
 
 /**
@@ -268,10 +269,10 @@ class File implements FileInterface
     public function writeTo(?string $filename): string
     {
         if ($filename === null && ($filename = tempnam(sys_get_temp_dir(), 'file_')) === false) {
-            throw new \RuntimeException('Cannot create a temporary filename.');
+            throw new RuntimeException('Cannot create a temporary filename.');
         }
         if (file_put_contents($filename, $this->binary->getData(), LOCK_EX) === false) {
-            throw new \RuntimeException('Cannot write to file ' . $filename . '.');
+            throw new RuntimeException('Cannot write to file ' . $filename . '.');
         }
         return $filename;
     }

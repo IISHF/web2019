@@ -13,6 +13,7 @@ use App\Domain\Model\Common\TagProvider;
 use App\Domain\Model\File\FileRepository;
 use App\Utils\Tags;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Pagerfanta;
 
@@ -104,9 +105,9 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
     }
 
     /**
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
-    private function createQueryBuilderWithVersions(): \Doctrine\ORM\QueryBuilder
+    private function createQueryBuilderWithVersions(): QueryBuilder
     {
         return $this->createQueryBuilder('d')
                     ->addSelect('dv', 'f')
@@ -217,9 +218,9 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
     }
 
     /**
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
-    private function createVersionQueryBuilder(): \Doctrine\ORM\QueryBuilder
+    private function createVersionQueryBuilder(): QueryBuilder
     {
         return $this->_em->createQueryBuilder()
                          ->select('dv', 'd', 'f')

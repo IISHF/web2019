@@ -10,6 +10,7 @@ namespace App\Application\Event\Game\Command;
 
 use App\Application\Common\Command\IdAware;
 use App\Domain\Model\Event\Game\Game;
+use DateTimeImmutable;
 
 /**
  * Class RescheduleGame
@@ -34,9 +35,9 @@ class RescheduleGame
 
     /**
      * @param string             $id
-     * @param \DateTimeImmutable $dateTime
+     * @param DateTimeImmutable $dateTime
      */
-    private function __construct(string $id, \DateTimeImmutable $dateTime)
+    private function __construct(string $id, DateTimeImmutable $dateTime)
     {
         $this->id       = $id;
         $this->dateTime = $dateTime;

@@ -9,6 +9,7 @@
 namespace App\Infrastructure\Twig;
 
 use Twig\Environment;
+use function twig_escape_filter;
 
 /**
  * Class EmailRuntime
@@ -26,7 +27,7 @@ class EmailRuntime
     {
         return sprintf(
             '<a email="%s" is="safe-email">email</a>',
-            \twig_escape_filter(
+            twig_escape_filter(
                 $env,
                 strrev(
                     str_replace(['@', '.'], [' [at] ', ' [dot] '], $email)

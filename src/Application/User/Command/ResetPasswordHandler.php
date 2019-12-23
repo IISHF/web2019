@@ -8,6 +8,8 @@
 
 namespace App\Application\User\Command;
 
+use OutOfBoundsException;
+
 /**
  * Class ResetPasswordHandler
  *
@@ -22,7 +24,7 @@ class ResetPasswordHandler extends UserPasswordCommandHandler
     {
         $user = $this->userRepository->findByResetPasswordToken($command->getResetPasswordToken());
         if (!$user) {
-            throw new \OutOfBoundsException(
+            throw new OutOfBoundsException(
                 'No user found for reset password token ' . $command->getResetPasswordToken()
             );
         }

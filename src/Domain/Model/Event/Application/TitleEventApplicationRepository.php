@@ -10,6 +10,7 @@ namespace App\Domain\Model\Event\Application;
 
 use App\Domain\Model\Event\TitleEvent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -84,9 +85,9 @@ class TitleEventApplicationRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
-    private function createQueryBuilderWithAssociations(): \Doctrine\ORM\QueryBuilder
+    private function createQueryBuilderWithAssociations(): QueryBuilder
     {
         return $this->createQueryBuilder('a')
                     ->addSelect('e', 'v')

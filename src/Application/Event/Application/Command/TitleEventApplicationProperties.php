@@ -10,6 +10,8 @@ namespace App\Application\Event\Application\Command;
 
 use App\Application\Common\ContactPerson;
 use App\Application\Event\Application\Validator\UniqueApplicantClubName;
+use DateTimeImmutable;
+use DateTimeZone;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -46,7 +48,7 @@ trait TitleEventApplicationProperties
      *      message="This value should be less than or equal to the proposed end date."
      * )
      *
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      */
     private $proposedStartDate;
 
@@ -58,7 +60,7 @@ trait TitleEventApplicationProperties
      *      message="This value should be greater than or equal to the proposed start date."
      * )
      *
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      */
     private $proposedEndDate;
 
@@ -75,7 +77,7 @@ trait TitleEventApplicationProperties
      * @Assert\Type("DateTimeZone")
      * @Assert\NotNull()
      *
-     * @var \DateTimeZone
+     * @var DateTimeZone
      */
     private $timeZone;
 
@@ -106,36 +108,36 @@ trait TitleEventApplicationProperties
     }
 
     /**
-     * @return \DateTimeImmutable
+     * @return DateTimeImmutable
      */
-    public function getProposedStartDate(): \DateTimeImmutable
+    public function getProposedStartDate(): DateTimeImmutable
     {
         return $this->proposedStartDate;
     }
 
     /**
-     * @param \DateTimeImmutable $proposedStartDate
+     * @param DateTimeImmutable $proposedStartDate
      * @return $this
      */
-    public function setProposedStartDate(\DateTimeImmutable $proposedStartDate): self
+    public function setProposedStartDate(DateTimeImmutable $proposedStartDate): self
     {
         $this->proposedStartDate = $proposedStartDate;
         return $this;
     }
 
     /**
-     * @return \DateTimeImmutable
+     * @return DateTimeImmutable
      */
-    public function getProposedEndDate(): \DateTimeImmutable
+    public function getProposedEndDate(): DateTimeImmutable
     {
         return $this->proposedEndDate;
     }
 
     /**
-     * @param \DateTimeImmutable $proposedEndDate
+     * @param DateTimeImmutable $proposedEndDate
      * @return $this
      */
-    public function setProposedEndDate(\DateTimeImmutable $proposedEndDate): self
+    public function setProposedEndDate(DateTimeImmutable $proposedEndDate): self
     {
         $this->proposedEndDate = $proposedEndDate;
         return $this;
@@ -160,18 +162,18 @@ trait TitleEventApplicationProperties
     }
 
     /**
-     * @return \DateTimeZone|null
+     * @return DateTimeZone|null
      */
-    public function getTimeZone(): ?\DateTimeZone
+    public function getTimeZone(): ?DateTimeZone
     {
         return $this->timeZone;
     }
 
     /**
-     * @param \DateTimeZone $timeZone
+     * @param DateTimeZone $timeZone
      * @return $this
      */
-    public function setTimeZone(\DateTimeZone $timeZone): self
+    public function setTimeZone(DateTimeZone $timeZone): self
     {
         $this->timeZone = $timeZone;
         return $this;

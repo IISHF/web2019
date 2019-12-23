@@ -10,6 +10,7 @@ namespace App\Application\User\Command;
 
 use App\Domain\Model\User\User;
 use App\Domain\Model\User\UserRepository;
+use OutOfBoundsException;
 
 /**
  * Class UserCommandHandler
@@ -39,7 +40,7 @@ abstract class UserCommandHandler
     {
         $user = $this->userRepository->findById($id);
         if (!$user) {
-            throw new \OutOfBoundsException('No user found for id ' . $id);
+            throw new OutOfBoundsException('No user found for id ' . $id);
         }
         return $user;
     }
@@ -52,7 +53,7 @@ abstract class UserCommandHandler
     {
         $user = $this->userRepository->findByEmail($email);
         if (!$user) {
-            throw new \OutOfBoundsException('No user found for email ' . $email);
+            throw new OutOfBoundsException('No user found for email ' . $email);
         }
         return $user;
     }

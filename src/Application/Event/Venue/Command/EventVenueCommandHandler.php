@@ -10,6 +10,7 @@ namespace App\Application\Event\Venue\Command;
 
 use App\Domain\Model\Event\Venue\EventVenue;
 use App\Domain\Model\Event\Venue\EventVenueRepository;
+use OutOfBoundsException;
 
 /**
  * Class EventVenueCommandHandler
@@ -39,7 +40,7 @@ abstract class EventVenueCommandHandler
     {
         $venue = $this->venueRepository->findById($id);
         if (!$venue) {
-            throw new \OutOfBoundsException('No event venue found for id ' . $id);
+            throw new OutOfBoundsException('No event venue found for id ' . $id);
         }
         return $venue;
     }

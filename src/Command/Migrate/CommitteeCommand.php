@@ -14,9 +14,14 @@ use App\Domain\Common\Country;
 use App\Domain\Model\Committee\MemberType;
 use App\Domain\Model\Committee\TermType;
 use App\Utils\Validation;
+use DOMDocument;
+use Exception;
+use OutOfBoundsException;
+use SimpleXMLElement;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\Exception\ValidationFailedException;
+use Throwable;
 
 /**
  * Class CommitteeCommand
@@ -108,7 +113,7 @@ class CommitteeCommand extends CommandWithFilesystem
                     $result = '';
                 } catch (ValidationFailedException $e) {
                     $result = implode(PHP_EOL, Validation::getViolations($e));
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                     $result = $e->getMessage();
                 }
 
@@ -122,7 +127,7 @@ class CommitteeCommand extends CommandWithFilesystem
                 $this->clearEntityManager();
             }
             $this->commitTransaction();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->rollbackTransaction();
             throw $e;
         }
@@ -138,12 +143,12 @@ class CommitteeCommand extends CommandWithFilesystem
 
     /**
      * @param string $templateFile
-     * @return \SimpleXMLElement
+     * @return SimpleXMLElement
      */
-    private function loadCommitteeTemplate(string $templateFile): \SimpleXMLElement
+    private function loadCommitteeTemplate(string $templateFile): SimpleXMLElement
     {
         $content = file_get_contents($templateFile);
-        $dom     = new \DOMDocument('1.0', 'UTF-8');
+        $dom     = new DOMDocument('1.0', 'UTF-8');
         $dom->loadHTML(
             <<<HTML
 <!DOCTYPE html>
@@ -161,15 +166,15 @@ HTML
     }
 
     /**
-     * @param \SimpleXMLElement $xml
+     * @param SimpleXMLElement $xml
      * @return array
      */
-    private function extractCommittees(\SimpleXMLElement $xml): array
+    private function extractCommittees(SimpleXMLElement $xml): array
     {
         $countries  = array_flip(Country::getCountries());
         $committees = [];
         foreach ($xml->xpath('//div[@class="data"]/h2') as $c) {
-            /** @var \SimpleXMLElement $c */
+            /** @var SimpleXMLElement $c */
 
             $members = [];
             foreach ($c->xpath('following-sibling::ul[1]/li') as $m) {
@@ -180,7 +185,7 @@ HTML
                     $country = 'United Kingdom';
                 }
                 if (!isset($countries[$country])) {
-                    throw new \OutOfBoundsException('Country ' . $country . ' is unknown.');
+                    throw new OutOfBoundsException('Country ' . $country . ' is unknown.');
                 }
 
                 $members[] = [

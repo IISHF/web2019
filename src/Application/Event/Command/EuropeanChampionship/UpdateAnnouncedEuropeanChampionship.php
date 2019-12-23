@@ -14,6 +14,9 @@ use App\Application\Event\Command\HostingProperties;
 use App\Application\Event\Command\TitleEventProperties;
 use App\Application\Event\EventHost;
 use App\Domain\Model\Event\EuropeanChampionship;
+use DateTimeImmutable;
+use DateTimeZone;
+use InvalidArgumentException;
 
 /**
  * Class UpdateAnnouncedEuropeanChampionship
@@ -31,7 +34,7 @@ class UpdateAnnouncedEuropeanChampionship
     public static function update(EuropeanChampionship $championship): self
     {
         if (!$championship->isAnnounced()) {
-            throw new \InvalidArgumentException('The european championship is not announced.');
+            throw new InvalidArgumentException('The european championship is not announced.');
         }
         return new self(
             $championship->getId(),
@@ -58,10 +61,10 @@ class UpdateAnnouncedEuropeanChampionship
      * @param string|null        $description
      * @param string[]           $tags
      * @param EventHost          $host
-     * @param \DateTimeImmutable $startDate
-     * @param \DateTimeImmutable $endDate
+     * @param DateTimeImmutable $startDate
+     * @param DateTimeImmutable $endDate
      * @param string             $venue
-     * @param \DateTimeZone      $timeZone
+     * @param DateTimeZone      $timeZone
      */
     private function __construct(
         string $id,
@@ -72,10 +75,10 @@ class UpdateAnnouncedEuropeanChampionship
         ?string $description,
         array $tags,
         EventHost $host,
-        \DateTimeImmutable $startDate,
-        \DateTimeImmutable $endDate,
+        DateTimeImmutable $startDate,
+        DateTimeImmutable $endDate,
         string $venue,
-        \DateTimeZone $timeZone
+        DateTimeZone $timeZone
     ) {
         $this->id            = $id;
         $this->name          = $name;

@@ -13,6 +13,8 @@ use App\Infrastructure\Messaging\MailService;
 use App\Infrastructure\Security\MagicLink\Exception\TokenExpiredException;
 use App\Infrastructure\Security\MagicLink\Exception\TokenNotFoundException;
 use App\Infrastructure\Security\MagicLink\Exception\TokenTamperedException;
+use DateTimeImmutable;
+use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -76,7 +78,7 @@ class TokenManager
      * @param string                  $userIp
      * @param string                  $userAgent
      * @param string|null             $redirectTo
-     * @param \DateTimeImmutable|null $created
+     * @param DateTimeImmutable|null $created
      * @return array
      */
     public function createToken(
@@ -84,9 +86,9 @@ class TokenManager
         string $userIp,
         string $userAgent,
         ?string $redirectTo,
-        ?\DateTimeImmutable $created = null
+        ?DateTimeImmutable $created = null
     ): array {
-        $created = $created ?? new \DateTimeImmutable('now');
+        $created = $created ?? new DateTimeImmutable('now');
         try {
             $user = $this->userRepository->findByEmail($username);
             if (!$user) {
@@ -97,7 +99,7 @@ class TokenManager
 
             /** @var string $token */
             /** @var string $signatureKey */
-            /** @var \DateTimeImmutable $ttl */
+            /** @var DateTimeImmutable $ttl */
             [$token, $signatureKey, $ttl] = $this->tokenStorage->createToken($username, $userIp, $userAgent, $created);
 
             $urlParams = $this->signParams(
@@ -115,7 +117,7 @@ class TokenManager
                 'Created magic link token {token} (valid until {ttl}) for user {username} from {ip} using {userAgent}',
                 [
                     'token'     => $token,
-                    'ttl'       => $ttl->format(\DateTimeImmutable::W3C),
+                    'ttl'       => $ttl->format(DateTimeImmutable::W3C),
                     'username'  => $username,
                     'ip'        => $userIp,
                     'userAgent' => $userAgent,
@@ -145,7 +147,7 @@ class TokenManager
                 'ttl' => $ttl,
             ];
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logger->error(
                 'Creating a magic link token for user {username} from {ip} using {userAgent} failed: {message}',
                 [
@@ -219,7 +221,7 @@ class TokenManager
         }
 
         /** @var string $signatureKey */
-        /** @var \DateTimeImmutable $ttl */
+        /** @var DateTimeImmutable $ttl */
         [$signatureKey, $ttl] = $tokenData;
 
         $signatureCheck = $this->createParamSignature(
@@ -244,13 +246,13 @@ class TokenManager
             throw new TokenTamperedException('The parameters did not pass the signature check.');
         }
 
-        if ($ttl < new \DateTimeImmutable('now')) {
+        if ($ttl < new DateTimeImmutable('now')) {
             $this->logger->notice(
                 'Validating a magic link token {token} for user {username} failed: token expired on {ttl}',
                 [
                     'token'    => $token,
                     'username' => $username,
-                    'ttl'      => $ttl->format(\DateTimeImmutable::W3C),
+                    'ttl'      => $ttl->format(DateTimeImmutable::W3C),
                 ]
             );
             throw new TokenExpiredException($ttl);

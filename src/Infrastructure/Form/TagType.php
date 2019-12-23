@@ -18,6 +18,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function in_array;
+use function is_array;
 
 /**
  * Class TagType
@@ -80,7 +82,7 @@ class TagType extends AbstractType implements DataTransformerInterface
 
         $view->vars['full_name']       .= '[]';
         $view->vars['is_selected']     = function ($choice, array $values) {
-            return \in_array($choice, $values, true);
+            return in_array($choice, $values, true);
         };
         $view->vars['select2_options'] = [
             'tokenSeparators' => [','],
@@ -97,7 +99,7 @@ class TagType extends AbstractType implements DataTransformerInterface
             return [];
         }
 
-        if (!\is_array($value)) {
+        if (!is_array($value)) {
             throw new TransformationFailedException('Expected an array.');
         }
 
@@ -113,7 +115,7 @@ class TagType extends AbstractType implements DataTransformerInterface
             return [];
         }
 
-        if (!\is_array($value)) {
+        if (!is_array($value)) {
             throw new TransformationFailedException('Expected an array.');
         }
 

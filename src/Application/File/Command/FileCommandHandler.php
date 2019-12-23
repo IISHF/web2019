@@ -11,6 +11,8 @@ namespace App\Application\File\Command;
 use App\Application\File\FileFactory;
 use App\Domain\Model\File\File;
 use App\Domain\Model\File\FileRepository;
+use OutOfBoundsException;
+use SplFileInfo;
 
 /**
  * Class FileCommandHandler
@@ -47,19 +49,19 @@ abstract class FileCommandHandler
     {
         $file = $this->fileRepository->findById($id);
         if (!$file) {
-            throw new \OutOfBoundsException('No file found for id ' . $id);
+            throw new OutOfBoundsException('No file found for id ' . $id);
         }
         return $file;
     }
 
     /**
      * @param string       $id
-     * @param \SplFileInfo $file
+     * @param SplFileInfo $file
      * @param string       $origin
      * @param string|null  $originalName
      * @return File
      */
-    protected function createFile(string $id, \SplFileInfo $file, string $origin, ?string $originalName): File
+    protected function createFile(string $id, SplFileInfo $file, string $origin, ?string $originalName): File
     {
         return $this->fileFactory->createFileWithId($id, $file, $origin, $originalName);
     }

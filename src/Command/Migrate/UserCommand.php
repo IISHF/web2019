@@ -10,9 +10,12 @@ namespace App\Command\Migrate;
 
 use App\Application\User\Command\CreateUser;
 use App\Utils\Validation;
+use Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\Exception\ValidationFailedException;
+use Throwable;
+use function count;
 
 /**
  * Class UserCommand
@@ -41,7 +44,7 @@ class UserCommand extends Command
         $this->io->title('Migrate users rom legacy database');
 
         $users = $this->db->fetchAll('SELECT userid, surname, name FROM sys_users');
-        $this->io->progressStart(\count($users));
+        $this->io->progressStart(count($users));
         $results = [];
         $this->beginTransaction();
         try {
@@ -56,7 +59,7 @@ class UserCommand extends Command
                     $this->dispatchCommand($createUser);
                 } catch (ValidationFailedException $e) {
                     $result = implode(PHP_EOL, Validation::getViolations($e));
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                     $result = $e->getMessage();
                 }
 
@@ -72,7 +75,7 @@ class UserCommand extends Command
                 $this->clearEntityManager();
             }
             $this->commitTransaction();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->rollbackTransaction();
             throw $e;
         }

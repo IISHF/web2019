@@ -11,6 +11,8 @@ namespace App\Application\Event\Application\Command;
 use App\Application\Common\Command\IdAware;
 use App\Application\Common\ContactPerson;
 use App\Application\Event\Command\EventAware;
+use DateTimeImmutable;
+use DateTimeZone;
 
 /**
  * Class ApplyForTitleEvent
@@ -39,8 +41,8 @@ class ApplyForTitleEvent
         $this->id                = $id;
         $this->eventId           = $eventId;
         $this->contact           = new ContactPerson();
-        $this->proposedStartDate = new \DateTimeImmutable('next Saturday');
+        $this->proposedStartDate = new DateTimeImmutable('next Saturday');
         $this->proposedEndDate   = $this->proposedStartDate->modify('+ 1 day');
-        $this->timeZone          = new \DateTimeZone('Europe/Berlin');
+        $this->timeZone          = new DateTimeZone('Europe/Berlin');
     }
 }

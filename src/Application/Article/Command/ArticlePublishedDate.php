@@ -8,6 +8,7 @@
 
 namespace App\Application\Article\Command;
 
+use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -20,23 +21,23 @@ trait ArticlePublishedDate
     /**
      * @Assert\Type("DateTimeImmutable")
      *
-     * @var \DateTimeImmutable|null
+     * @var DateTimeImmutable|null
      */
     private $publishedAt;
 
     /**
-     * @return \DateTimeImmutable|null
+     * @return DateTimeImmutable|null
      */
-    public function getPublishedAt(): ?\DateTimeImmutable
+    public function getPublishedAt(): ?DateTimeImmutable
     {
         return $this->publishedAt;
     }
 
     /**
-     * @param \DateTimeImmutable $publishedAt
+     * @param DateTimeImmutable $publishedAt
      * @return $this
      */
-    public function setPublishedAt(\DateTimeImmutable $publishedAt): self
+    public function setPublishedAt(DateTimeImmutable $publishedAt): self
     {
         $this->publishedAt = $publishedAt;
         return $this;

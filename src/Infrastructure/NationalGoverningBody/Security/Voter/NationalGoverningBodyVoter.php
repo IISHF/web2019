@@ -11,6 +11,7 @@ namespace App\Infrastructure\NationalGoverningBody\Security\Voter;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBody;
 use App\Infrastructure\Security\Voter\DelegatingVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use function in_array;
 
 /**
  * Class NationalGoverningBodyVoter
@@ -28,7 +29,7 @@ class NationalGoverningBodyVoter extends DelegatingVoter
             return false;
         }
 
-        return \in_array($attribute, ['NATIONAL_GOVERNING_BODY_EDIT', 'NATIONAL_GOVERNING_BODY_DELETE']);
+        return in_array($attribute, ['NATIONAL_GOVERNING_BODY_EDIT', 'NATIONAL_GOVERNING_BODY_DELETE']);
     }
 
     /**
