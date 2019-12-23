@@ -1,4 +1,7 @@
 # web2019
+
+![](https://github.com/IISHF/web2019/workflows/IISHF%20CI/badge.svg)
+
 The relaunch of www.iishf.com
 
 ## VirtualBox Setup
