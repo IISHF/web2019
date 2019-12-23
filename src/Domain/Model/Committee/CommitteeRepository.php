@@ -9,7 +9,8 @@
 namespace App\Domain\Model\Committee;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class CommitteeRepository
@@ -90,9 +91,9 @@ class CommitteeRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
-    private function createQueryBuilderWithMembers(): \Doctrine\ORM\QueryBuilder
+    private function createQueryBuilderWithMembers(): QueryBuilder
     {
         return $this->createQueryBuilder('c')
                     ->addSelect('cm')
@@ -156,9 +157,9 @@ class CommitteeRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
-    private function createMemberQueryBuilder(): \Doctrine\ORM\QueryBuilder
+    private function createMemberQueryBuilder(): QueryBuilder
     {
         return $this->_em->createQueryBuilder()
                          ->select('cm', 'c')

@@ -10,9 +10,9 @@ namespace App\Domain\Model\File;
 
 use App\Domain\Common\Repository\DoctrinePaging;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
+use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Pagerfanta;
 
 /**
@@ -183,7 +183,7 @@ class FileRepository extends ServiceEntityRepository
             $fileHashes = array_column(
                 $db->fetchAll(
                     <<<'SQL'
-SELECT fb.hash, COUNT(f.id) AS c 
+SELECT fb.hash, COUNT(f.id) AS c
 FROM file_binaries fb
 LEFT JOIN files f ON fb.hash = f.binary_hash
 WHERE fb.hash IN (SELECT binary_hash FROM files WHERE id IN (:ids))

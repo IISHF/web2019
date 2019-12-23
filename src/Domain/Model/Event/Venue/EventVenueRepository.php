@@ -10,7 +10,7 @@ namespace App\Domain\Model\Event\Venue;
 
 use App\Domain\Common\Repository\DoctrinePaging;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Pagerfanta;
 
 /**
