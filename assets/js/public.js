@@ -45,7 +45,8 @@ $.fn.datetimepicker.Constructor.Default = Object.assign({}, $.fn.datetimepicker.
 const Upload = React.lazy(() => import('./components/Upload.js'));
 document.querySelectorAll('[data-enable-dropzone=true]')
     .forEach((el) => {
-        ReactDOM.render(<Lazy><Upload/></Lazy>, el);
+        const {uploadUrl} = el.dataset;
+        ReactDOM.render(<Lazy><Upload uploadUrl={uploadUrl}/></Lazy>, el);
     });
 
 const TrixEditor = React.lazy(() => import('./components/TrixEditor.js'));

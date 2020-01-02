@@ -1,15 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Dropzone from 'react-dropzone';
 import {fromEvent} from 'file-selector';
 import fileSize from 'filesize';
 import classNames from 'classnames';
 import Button from 'react-bootstrap/Button';
+import api from '../api';
 
 export default class Upload extends React.Component {
+    static propTypes = {
+        uploadUrl: PropTypes.string,
+    };
+
     constructor(props) {
         super(props);
         this.state = {
-            file: null
+            file: null,
+            uploading: false,
         }
     }
 
@@ -27,6 +34,15 @@ export default class Upload extends React.Component {
                 preview: URL.createObjectURL(file)
             })
         });
+        if (this.props.uploadUrl) {
+            const data = new FormData();
+            data.append('file', file);
+
+            this.setState({uploading: true});
+            api.post(this.props.uploadUrl, data)
+                .catch(() => this.clearFile())
+                .finally(() => this.setState({uploading: true}));
+        }
     }
 
     onCancel() {
@@ -42,13 +58,14 @@ export default class Upload extends React.Component {
         if (this.state.file && this.state.file.preview) {
             URL.revokeObjectURL(this.state.file.preview);
             this.setState({
-                file: null
+                file: null,
+                uploading: false,
             });
         }
     }
 
     render() {
-        const file = this.state.file;
+        const {file, uploading} = this.state;
 
         return (
             <Dropzone
@@ -78,6 +95,15 @@ export default class Upload extends React.Component {
                                 </div>
                             ) : (
                                 <p className="dz-message">Drop files here, or click to select files</p>
+                            )}
+                            {uploading && (
+                                <div className="d-flex justify-content-center">
+                                    <div className="spinner-border"
+                                         style={{width: '10rem', height: '10rem'}}
+                                         role="status">
+                                        <span className="sr-only">Uploading...</span>
+                                    </div>
+                                </div>
                             )}
                         </div>
                     )

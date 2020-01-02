@@ -20,6 +20,7 @@ use App\Infrastructure\NationalGoverningBody\Form\UpdateNationalGoverningBodyTyp
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -138,6 +139,31 @@ class NationalGoverningBodyController extends AbstractController
             [
                 'ngb'  => $ngb,
                 'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @Route(
+     *     "/{ngb}/logo",
+     *     methods={"POST"},
+     *     requirements={"ngb": "%routing.uuid%"}
+     * )
+     * @ParamConverter(
+     *      name="ngb",
+     *      class="App\Domain\Model\NationalGoverningBody\NationalGoverningBody",
+     *      converter="app.national_governing_body"
+     * )
+     * @Security("is_granted('NATIONAL_GOVERNING_BODY_EDIT', ngb)")
+     *
+     * @param Request               $request
+     * @param NationalGoverningBody $ngb
+     * @return Response
+     */
+    public function upload(Request $request, NationalGoverningBody $ngb): Response
+    {
+        return JsonResponse::create(
+            [
             ]
         );
     }

@@ -3,7 +3,8 @@
 {% block content %}
     <h1>{{ ngb.name }}</h1>
 
-    <div data-enable-dropzone="true"></div>
+    <div data-enable-dropzone="true"
+         data-upload-url="{{ path('app_nationalgoverningbody_upload', {ngb: ngb.id}) }}"></div>
 
     <dl class="row">
         <dt class="col-2">ID</dt>
