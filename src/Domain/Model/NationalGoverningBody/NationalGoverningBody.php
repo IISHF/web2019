@@ -9,11 +9,13 @@
 namespace App\Domain\Model\NationalGoverningBody;
 
 use App\Domain\Common\Country;
+use App\Domain\Model\Common\AssociationOne;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasEmail;
 use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\MayHavePhoneNumber;
 use App\Domain\Model\Common\UpdateTracking;
+use App\Domain\Model\File\File;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use Webmozart\Assert\Assert;
@@ -37,7 +39,9 @@ use Webmozart\Assert\Assert;
  */
 class NationalGoverningBody
 {
-    use HasId, CreateTracking, UpdateTracking, HasEmail, MayHavePhoneNumber;
+    use HasId, CreateTracking, UpdateTracking, HasEmail, MayHavePhoneNumber, AssociationOne;
+
+    public const LOGO_ORIGIN = 'com.iishf.ngb.logo';
 
     /**
      * @ORM\Column(name="name", type="string", length=64)
@@ -101,6 +105,14 @@ class NationalGoverningBody
      * @var string|null
      */
     private $instagramProfile;
+
+    /**
+     * @ORM\OneToOne(targetEntity="\App\Domain\Model\File\File")
+     * @ORM\JoinColumn(name="logo_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     *
+     * @var File|null
+     */
+    private $logo;
 
     /**
      * @param string           $id
@@ -331,5 +343,22 @@ class NationalGoverningBody
         Assert::nullOrLengthBetween($instagramProfile, 1, 128);
         $this->instagramProfile = $instagramProfile;
         return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getLogo(): ?File
+    {
+        return $this->logo;
+    }
+
+    /**
+     * @param File|null $logo
+     * @return $this
+     */
+    public function setLogo(?File $logo): self
+    {
+        return $this->setRelatedEntity($this->logo, $logo);
     }
 }

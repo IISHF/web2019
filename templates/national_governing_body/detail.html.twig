@@ -4,7 +4,10 @@
     <h1>{{ ngb.name }}</h1>
 
     <div data-enable-dropzone="true"
-         data-upload-url="{{ path('app_nationalgoverningbody_upload', {ngb: ngb.id}) }}"></div>
+         data-upload-url="{{ path('app_nationalgoverningbody_addlogo', {ngb: ngb.id}) }}"
+         data-remove-url="{{ path('app_nationalgoverningbody_removelogo', {ngb: ngb.id}) }}"
+         data-image-url="{{ ngb.logo ? path('app_nationalgoverningbody_logo', {ngb: ngb.slug}) : null }}"
+    ></div>
 
     <dl class="row">
         <dt class="col-2">ID</dt>

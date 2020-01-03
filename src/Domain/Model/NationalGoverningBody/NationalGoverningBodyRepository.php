@@ -8,6 +8,7 @@
 
 namespace App\Domain\Model\NationalGoverningBody;
 
+use App\Domain\Model\File\FileRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,11 +20,18 @@ use Doctrine\Persistence\ManagerRegistry;
 class NationalGoverningBodyRepository extends ServiceEntityRepository
 {
     /**
-     * @param ManagerRegistry $managerRegistry
+     * @var FileRepository
      */
-    public function __construct(ManagerRegistry $managerRegistry)
+    private $fileRepository;
+
+    /**
+     * @param ManagerRegistry $managerRegistry
+     * @param FileRepository  $fileRepository
+     */
+    public function __construct(ManagerRegistry $managerRegistry, FileRepository $fileRepository)
     {
         parent::__construct($managerRegistry, NationalGoverningBody::class);
+        $this->fileRepository = $fileRepository;
     }
 
     /**
@@ -119,5 +127,8 @@ class NationalGoverningBodyRepository extends ServiceEntityRepository
     public function delete(NationalGoverningBody $ngb): void
     {
         $this->_em->remove($ngb);
+        if (($logo = $ngb->getLogo()) !== null) {
+            $this->fileRepository->delete($logo);
+        }
     }
 }

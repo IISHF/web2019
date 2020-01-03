@@ -10,13 +10,15 @@ import api from '../api';
 export default class Upload extends React.Component {
     static propTypes = {
         uploadUrl: PropTypes.string,
+        removeUrl: PropTypes.string,
+        imageUrl: PropTypes.string,
     };
 
     constructor(props) {
         super(props);
         this.state = {
             file: null,
-            uploading: false,
+            processing: false,
         }
     }
 
@@ -38,10 +40,10 @@ export default class Upload extends React.Component {
             const data = new FormData();
             data.append('file', file);
 
-            this.setState({uploading: true});
+            this.setState({processing: true});
             api.post(this.props.uploadUrl, data)
                 .catch(() => this.clearFile())
-                .finally(() => this.setState({uploading: true}));
+                .finally(() => this.setState({processing: false}));
         }
     }
 
@@ -51,21 +53,29 @@ export default class Upload extends React.Component {
 
     onRemove(e) {
         e.stopPropagation();
-        this.clearFile();
+
+        if (this.props.removeUrl) {
+            this.setState({processing: true});
+            api.delete(this.props.removeUrl)
+                .then(() => this.clearFile())
+                .finally(() => this.setState({processing: false}));
+        } else {
+            this.clearFile();
+        }
     }
 
     clearFile() {
         if (this.state.file && this.state.file.preview) {
             URL.revokeObjectURL(this.state.file.preview);
-            this.setState({
-                file: null,
-                uploading: false,
-            });
         }
+        this.setState({
+            file: null,
+            processing: false,
+        });
     }
 
     render() {
-        const {file, uploading} = this.state;
+        const {file, processing} = this.state;
 
         return (
             <Dropzone
@@ -76,7 +86,7 @@ export default class Upload extends React.Component {
                 accept={'image/*'}
             >
                 {({getRootProps, getInputProps, isDragActive, isDragAccept}) => {
-                    let className = classNames(
+                    const className = classNames(
                         'dropzone',
                         {'dz-drag-hover': isDragActive},
                         {'dz-drag-hover-ok': isDragAccept},
@@ -86,17 +96,35 @@ export default class Upload extends React.Component {
                     return (
                         <div {...getRootProps()} className={className} style={{height: 300}}>
                             <input {...getInputProps()} />
-                            {file ? (
-                                <div className="dropzone-preview dz-image-preview">
-                                    <div className="dz-size">{fileSize(file.size)}</div>
-                                    <Button variant="danger" className="dz-remove" onClick={this.onRemove.bind(this)}>Remove
-                                    </Button>
-                                    <img className="dz-thumbnail" alt={file.name} src={file.preview}/>
-                                </div>
-                            ) : (
-                                <p className="dz-message">Drop files here, or click to select files</p>
-                            )}
-                            {uploading && (
+                            {(() => {
+                                if (file) {
+                                    return (
+                                        <div className="dropzone-preview dz-image-preview">
+                                            <div className="dz-size">{fileSize(file.size)}</div>
+                                            <Button variant="danger" className="dz-remove"
+                                                    onClick={this.onRemove.bind(this)}>Remove
+                                            </Button>
+                                            <img className="dz-thumbnail" alt={file.name} src={file.preview}/>
+                                        </div>
+                                    );
+                                } else if (this.props.imageUrl) {
+                                    return (
+                                        <div className="dropzone-preview dz-image-preview">
+                                            {this.props.removeUrl ? (
+                                                <Button variant="danger" className="dz-remove"
+                                                        onClick={this.onRemove.bind(this)}>Remove
+                                                </Button>
+                                            ) : null}
+                                            <img className="dz-thumbnail"
+                                                 alt={this.props.imageUrl}
+                                                 src={this.props.imageUrl}/>
+                                        </div>
+                                    );
+                                } else {
+                                    return <p className="dz-message">Drop files here, or click to select files</p>;
+                                }
+                            })()}
+                            {processing && (
                                 <div className="d-flex justify-content-center">
                                     <div className="spinner-border"
                                          style={{width: '10rem', height: '10rem'}}
