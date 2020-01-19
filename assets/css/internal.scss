@@ -1,0 +1,15 @@
+@import "~bootstrap/scss/bootstrap";
+
+@import '~@fortawesome/fontawesome-free/css/all.css';
+
+@import "select2";
+
+@import "~tempusdominus-bootstrap-4/src/sass/tempusdominus-bootstrap-4-build";
+
+@import "dropzone";
+@import "trix";
+
+.news-text {
+    max-height: 150px;
+    overflow: hidden;
+}

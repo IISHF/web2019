@@ -6,14 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{% block title %}Welcome!{% endblock %}</title>
     {% block stylesheets %}
-        {{ encore_entry_link_tags('public') }}
     {% endblock %}
 </head>
 <body>
 {% block body %}{% endblock %}
-{% include '_footer.html.twig' %}
 {% block javascripts %}
-    {{ encore_entry_script_tags('public') }}
 {% endblock %}
 </body>
 </html>

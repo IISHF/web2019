@@ -1,53 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <main class="main main__iishf">
-        <div class="iishf__bg iishf__bg--right">
-            <div class="position-absolute w-100" style="z-index: 1000;">
-                {{ include('_navbar.html.twig') }}
-            </div>
+ {% block stylesheets %}
+     {{ parent() }}
+     {{ encore_entry_link_tags('public') }}
+ {% endblock %}
 
-            <div class="navbar-head">
-                <div class="navbar-head__bg navbar-head__bg--top">
-                    <div class="navbar-content">
-                        <div class="col-12">
-                            <div class="navbar__text">
-                                International Inline <br>
-                                Skater Hockey <br>
-                                Federation
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="iishf__breadcrumbs">
-                <div class="navbar-content">
-                    <div class="col-12">
-                        <nav class="breadcrumb navbar-head__breadcrumbs">
-                            <a class="breadcrumb-item" href="#">Home</a>
-                            <span class="breadcrumb-item active">About sport</span>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col">
-                        {% for label, messages in app.flashes %}
-                            {% for message in messages %}
-                                <div class="alert alert-{{ label }}" role="alert">
-                                    {{ message }}
-                                </div>
-                            {% endfor %}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-
-            {% block content %}
-            {% endblock %}
-        </div>
-    </main>
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('public') }}
 {% endblock %}
