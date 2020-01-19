@@ -1,0 +1,38 @@
+{% extends 'public.html.twig' %}
+
+{% block content %}
+    <section class="iishf obligation__bg obligation__bg--left-bottom">
+        <div class="obligation__bg obligation__bg--right-bottom">
+            {% include 'home/_title.html.twig' with {'title': 'Obligation', 'before': true} %}
+            <div class="obligation">
+                <div class="col-12">
+                    <h2 class="obligation__title">IISHF Headquarters</h2>
+                    <h3 class="obligation__subtitle">Piergiovanni Gionchetta</h3>
+                    <div class="obligation__address-box">
+                        <ul class="list-unstyled">
+                            <li class="d-flex">
+                                <b>Address:</b>
+                                <span class="obligation__address">Chemin du Soleil 3<br> 2604 La Heutte<br>switzerland</span>
+                            </li>
+                            <li class="d-flex">
+                                <b>E-mail:</b>
+                                <span>
+                                    <a href="mailto:pgionchetta@iishf.com" class="obligation__mail">pgionchetta@iishf.com</a> or
+                                    <a href="mailto:office@iishf.com" class="obligation__mail">office@iishf.com</a>
+                                </span>
+                            </li>
+                            <li class="d-flex">
+                                <b>Phone:</b>
+                                <span><a href="tel:+41796269499">+41 79 6269499</a></span>
+                            </li>
+                            <li class="d-flex">
+                                <b>Fax:</b>
+                                <span><a href="tel:+41323428024">+41 32 3428024</a></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

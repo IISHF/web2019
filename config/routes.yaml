@@ -2,6 +2,34 @@ home:
     path: /
     controller: App\Controller\HomeController::index
     methods:  [GET]
+about_sport:
+    path: /about-sport
+    controller: App\Controller\HomeController::aboutSport
+    methods:  [GET]
+calendar:
+    path: /calendar
+    controller: App\Controller\HomeController::calendar
+    methods:  [GET]
+cookie:
+    path: /cookie
+    controller: App\Controller\HomeController::cookie
+    methods:  [GET]
+obligation:
+    path: /obligation
+    controller: App\Controller\HomeController::obligation
+    methods:  [GET]
+photo:
+    path: /photo
+    controller: App\Controller\HomeController::photo
+    methods:  [GET]
+privacy:
+    path: /privacy
+    controller: App\Controller\HomeController::privacy
+    methods:  [GET]
+video:
+    path: /video
+    controller: App\Controller\HomeController::video
+    methods:  [GET]
 login:
     path: /login
     controller: App\Controller\HomeController::login

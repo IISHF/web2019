@@ -1,0 +1,63 @@
+{% extends 'public.html.twig' %}
+
+{% block content %}
+    <section class="iishf obligation__bg obligation__bg--left-bottom">
+        <div class="obligation__bg obligation__bg--right-bottom about-sport__bg--right-bottom pb-0">
+            {% include 'home/_title.html.twig' with {'title': 'About sport', 'before': true} %}
+            <div class="about-sport">
+                <div class="col-12">
+                    <div class="about-sport__row row">
+                        <div class="col-12 col-md-6 order-1 order-md-0">
+                            <div class="about-sport__text mt-lg-5">
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+                                has been the
+                                industry's
+                                standard dummy text ever since the 1500s, when an unknown printer took a galley of type
+                                and scrambled it
+                                to
+                                make a type specimen book. It has survived not only five centuries, but also the leap
+                                into electronic
+                                typesetting, remaining essentially unchanged. It was popularised in the 1960s with the
+                                release of Letraset
+                                sheets containing Lorem Ipsum passages, and more recently with desktop publishing
+                                software like Aldus
+                                PageMaker including versions of Lorem Ipsum.
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 order-0 order-md-1">
+                            <div class="about-sport__img">
+                                <img src="{{ asset('build/images/main/about-img--1.png') }}" alt=""
+                                     class="img-fluid w-100 pl-md-5 mb-4 mb-md-0">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-sport__row row">
+                        <div class="col-12 col-md-6">
+                            <div class="about-sport__img">
+                                <img src="{{ asset('build/images/main/about-img--2.png') }}" alt=""
+                                     class="img-fluid w-100 pr-md-5 mb-4 mb-md-0">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="about-sport__text mt-lg-5">
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+                                has been the
+                                industry's
+                                standard dummy text ever since the 1500s, when an unknown printer took a galley of type
+                                and scrambled it
+                                to
+                                make a type specimen book. It has survived not only five centuries, but also the leap
+                                into electronic
+                                typesetting, remaining essentially unchanged. It was popularised in the 1960s with the
+                                release of Letraset
+                                sheets containing Lorem Ipsum passages, and more recently with desktop publishing
+                                software like Aldus
+                                PageMaker including versions of Lorem Ipsum.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

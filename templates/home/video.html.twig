@@ -1,0 +1,70 @@
+{% extends 'public.html.twig' %}
+
+{% block content %}
+    <section class="iishf iishf__bg iishf__bg--left-bottom">
+        <div class="iishf__bg iishf__bg--right-bottom">
+            <div class="iishf__bg iishf__bg--left-top">
+                {% include 'home/_title.html.twig' with {'title': 'Video', 'before': true} %}
+                <div class="iishf__accordion">
+                    <div class="accordion" id="accordionVideo">
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h5 class="mb-0 w-100 d-flex align-items-center justify-content-between">
+                                    <button class="btn btn-link w-100 text-left" type="button" data-toggle="collapse"
+                                            data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Final Games 2018
+                                    </button>
+                                    <i class="fas fa-chevron-down fa-3x"></i>
+                                </h5>
+                            </div>
+
+                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                                 data-parent="#accordionVideo">
+                                <div class="card-body">
+                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                                    richardson ad
+                                    squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                                    quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird
+                                    on it
+                                    squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh
+                                    helvetica,
+                                    craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan
+                                    excepteur
+                                    butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+                                    synth
+                                    nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="photoSlider" class="iishf__slider">
+                    <div class="iishf__slide">
+                        <img src="{{ asset('build/images/main/photo-slide-img--1.png') }}" class="w-100">
+                    </div>
+                    <div class="iishf__slide">
+                        <img src="{{ asset('build/images/main/photo-slide-img--2.png') }}" class="w-100">
+                    </div>
+                    <div class="iishf__slide">
+                        <img src="{{ asset('build/images/main/photo-slide-img--3.png') }}" class="w-100">
+                    </div>
+                    <div class="iishf__slide">
+                        <img src="{{ asset('build/images/main/photo-slide-img--4.png') }}" class="w-100">
+                    </div>
+                    <div class="iishf__slide">
+                        <img src="{{ asset('build/images/main/photo-slide-img--1.png') }}" class="w-100">
+                    </div>
+                    <div class="iishf__slide">
+                        <img src="{{ asset('build/images/main/photo-slide-img--2.png') }}" class="w-100">
+                    </div>
+                    <div class="iishf__slide">
+                        <img src="{{ asset('build/images/main/photo-slide-img--3.png') }}" class="w-100">
+                    </div>
+                    <div class="iishf__slide">
+                        <img src="{{ asset('build/images/main/photo-slide-img--4.png') }}" class="w-100">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

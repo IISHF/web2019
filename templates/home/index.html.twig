@@ -26,7 +26,10 @@
                         differently, but most often you could hear about rink hockey. Such roller hockey has become
                         widespread in 60 countries, and even up to this point they continue to play it.
                         <div class="text-center">
-                            {% include 'home/_more_button.html.twig' with {'class': 'm-about__btn'} %}
+                            {% include 'home/_more_button.html.twig' with {
+                                'class': 'm-about__btn',
+                                'href': path('about_sport')
+                            } %}
                         </div>
                     </div>
                 </div>
@@ -83,7 +86,9 @@
             <div class="col-12">
                 {% include 'home/_title.html.twig' with {'title': 'Broadcast', 'before': true} %}
                 <div class="m-broadcast__video-container">
-                    <video src="" poster="{{ asset('build/images/main/broadcast-img.png') }}" class="w-100"></video>
+                    <a href="{{ path('video') }}">
+                        <video src="" poster="{{ asset('build/images/main/broadcast-img.png') }}" class="w-100"></video>
+                    </a>
                 </div>
             </div>
         </section>
@@ -275,8 +280,10 @@
                     {% for i in 0..1 %}
                         {% for j in 1..4 %}
                             <div class="m-photo__slide">
-                                <img src="{{ asset('build/images/main/photo-slide-img--'~j~'.png') }}" alt=""
-                                     class="img-fluid">
+                                <a href="{{ path('photo') }}">
+                                    <img src="{{ asset('build/images/main/photo-slide-img--'~j~'.png') }}" alt=""
+                                         class="img-fluid">
+                                </a>
                             </div>
                         {% endfor %}
                     {% endfor %}

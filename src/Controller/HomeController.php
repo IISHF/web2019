@@ -29,15 +29,68 @@ class HomeController extends AbstractController
      */
     public function index(ArticleRepository $articleRepository): Response
     {
-        $number = random_int(0, 100);
-
         return $this->render(
             'home/index.html.twig',
             [
-                'number'   => $number,
                 'articles' => $articleRepository->findMostRecent(),
             ]
         );
+    }
+
+    /**
+     * @return Response
+     */
+    public function aboutSport(): Response
+    {
+        return $this->render('home/about_sport.html.twig');
+    }
+
+    /**
+     * @return Response
+     */
+    public function calendar(): Response
+    {
+        return $this->render('home/calendar.html.twig');
+    }
+
+    /**
+     * @return Response
+     */
+    public function cookie(): Response
+    {
+        return $this->render('home/cookie.html.twig');
+    }
+
+    /**
+     * @return Response
+     */
+    public function obligation(): Response
+    {
+        return $this->render('home/obligation.html.twig');
+    }
+
+    /**
+     * @return Response
+     */
+    public function photo(): Response
+    {
+        return $this->render('home/photo.html.twig');
+    }
+
+    /**
+     * @return Response
+     */
+    public function privacy(): Response
+    {
+        return $this->render('home/privacy.html.twig');
+    }
+
+    /**
+     * @return Response
+     */
+    public function video(): Response
+    {
+        return $this->render('home/video.html.twig');
     }
 
     /**
