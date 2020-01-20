@@ -1,0 +1,10 @@
+<section class="m-broadcast m-broadcast__bg">
+    <div class="col-12">
+        {% include 'home/_title.html.twig' with {'title': 'Broadcast', 'before': true} %}
+        <div class="m-broadcast__video-container">
+            <a href="{{ path('video') }}">
+                <video src="" poster="{{ asset('build/images/main/broadcast-img.png') }}" class="w-100"></video>
+            </a>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,17 @@
+<section class="m-photo m-photo__bg m-photo__bg--right">
+    <div class="m-photo__bg m-photo__bg--left">
+        {% include 'home/_title.html.twig' with {'title': 'Photo', 'before': true} %}
+        <div id="photoSlider" class="m-photo__slider">
+            {% for i in 0..1 %}
+                {% for j in 1..4 %}
+                    <div class="m-photo__slide">
+                        <a href="{{ path('photo') }}">
+                            <img src="{{ asset('build/images/main/photo-slide-img--'~j~'.png') }}" alt=""
+                                 class="img-fluid">
+                        </a>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+</section>

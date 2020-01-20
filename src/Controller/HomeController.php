@@ -32,7 +32,7 @@ class HomeController extends AbstractController
         return $this->render(
             'home/index.html.twig',
             [
-                'articles' => $articleRepository->findMostRecent(),
+                'articles' => $articleRepository->findMostRecent(12),
             ]
         );
     }

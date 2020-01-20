@@ -1,0 +1,77 @@
+<section class="m-news m-news__bg">
+    {% include 'home/_title.html.twig' with {'title': 'News', 'before': true} %}
+    <div id="newsSlider" class="m-news__slider">
+        {% for block in articles|batch(4) %}
+            {# @var article1 \App\Domain\Model\Article\Article #}
+            {# @var article2 \App\Domain\Model\Article\Article #}
+            {# @var article3 \App\Domain\Model\Article\Article #}
+            {# @var article4 \App\Domain\Model\Article\Article #}
+            {% set article1 = block[0 + loop.index0 * 4] %}
+            {% set article2 = block[1 + loop.index0 * 4] %}
+            {% set article3 = block[2 + loop.index0 * 4] %}
+            {% set article4 = block[3 + loop.index0 * 4] %}
+            {% set defaultImage1 = 'build/images/main/news-slide-img--1.png' %}
+            {% set defaultImage2 = 'build/images/main/news-slide-img--2.png' %}
+            {% set defaultImage3 = 'build/images/main/news-slide-img--3.png' %}
+            {% set defaultImage4 = 'build/images/main/news-slide-img--4.png' %}
+            <div class="m-news__slide">
+                <div class="m-news__slide-container m-news__slide-container--left">
+                    <div class="m-news__slide-img">
+                        <img src="{{ article1.firstAttachmentUrl|default(asset(defaultImage1)) }}" alt=""
+                             class="img-fluid">
+                    </div>
+                    <div class="m-news__slide-content">
+                        <span class="m-news__slide-text">{{ article1.tags|join(', ') }}</span>
+                        <span class="m-news__slide-date">/ {{ article1.publishedAt|relative_time }}</span>
+                        <div class="m-news__slide-title">{{ article1.title }}</div>
+                        {% include 'home/_more_button.html.twig' with {'href': path('app_article_detail', {article: article1.slug})} %}
+                    </div>
+                </div>
+                <div class="d-flex m-news__slide-right">
+                    <div class="m-news__slide-container m-news__slide-container--center">
+                        <div class="m-news__slide-img position-relative">
+                            <img src="{{ article2.firstAttachmentUrl|default(asset(defaultImage2)) }}" alt=""
+                                 class="img-fluid d-block d-xl-none">
+                            <div class="m-news__slide-content">
+                                <span class="m-news__slide-text">{{ article2.tags|join(', ') }}</span>
+                                <span class="m-news__slide-date">/ {{ article2.publishedAt|relative_time }}</span>
+                                <div class="m-news__slide-title">{{ article2.title }}</div>
+                                {% include 'home/_more_button.html.twig' with {'href': path('app_article_detail', {article: article2.slug})} %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-news__slide-container m-news__slide-container--right">
+                        <div class="m-news__slide-item m-news__slide-item--top">
+                            <div class="d-flex">
+                                <div class="m-news__slide-img">
+                                    <img src="{{ article3.firstAttachmentUrl|default(asset(defaultImage3)) }}" alt=""
+                                         class="img-fluid">
+                                </div>
+                                <div class="m-news__slide-content">
+                                    <span class="m-news__slide-text">{{ article3.tags|join(', ') }}</span>
+                                    <span class="m-news__slide-date">/ {{ article3.publishedAt|relative_time }}</span>
+                                    <div class="m-news__slide-title">{{ article3.title }}</div>
+                                    {% include 'home/_more_button.html.twig' with {'href': path('app_article_detail', {article: article3.slug})} %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-news__slide-item m-news__slide-item--bottom">
+                            <div class="d-flex">
+                                <div class="m-news__slide-img">
+                                    <img src="{{ article4.firstAttachmentUrl|default(asset(defaultImage4)) }}" alt=""
+                                         class="img-fluid">
+                                </div>
+                                <div class="m-news__slide-content">
+                                    <span class="m-news__slide-text">{{ article4.tags|join(', ') }}</span>
+                                    <span class="m-news__slide-date">/ {{ article4.publishedAt|relative_time }}</span>
+                                    <div class="m-news__slide-title">{{ article4.title }}</div>
+                                    {% include 'home/_more_button.html.twig' with {'href': path('app_article_detail', {article: article4.slug})} %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>

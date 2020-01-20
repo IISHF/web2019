@@ -1,0 +1,19 @@
+<section class="m-social">
+    <div class="m-social__bg m-social__bg--left">
+        <div class="m-social__bg m-social__bg--right">
+            {% include 'home/_title.html.twig' with {'title': 'We are in social networks', 'before': true} %}
+            <div class="m-social__container">
+                <div class="col-12">
+                    <div class="row">
+                        {% for i in 0..2 %}
+                            <div class="col-12 col-md-4 text-center">
+                                <img src="{{ asset('build/images/main/social__plug-img.png') }}" alt=""
+                                     class="img-fluid w-100">
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

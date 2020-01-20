@@ -1,0 +1,16 @@
+<section class="m-partners">
+    <div class="m-partners__bg m-partners__bg--left">
+        <div class="m-partners__bg m-partners__bg--right">
+            {% include 'home/_title.html.twig' with {'title': 'Partners and Sponsors', 'before': true} %}
+            <div id="partnersCarousel" class="m-partners__carousel">
+                {% for i in 0..7 %}
+                    <div>
+                        <a href="#" class="d-flex justify-content-center align-items-center">
+                            <img src="{{ asset('build/images/main/partners-slide-img--1.png') }}" alt="">
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
