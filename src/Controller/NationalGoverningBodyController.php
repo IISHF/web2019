@@ -26,6 +26,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Messenger\Exception\ValidationFailedException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -202,7 +203,11 @@ class NationalGoverningBodyController extends AbstractController
             throw new BadRequestHttpException();
         }
         $addLogo = AddNationalGoverningBodyLogo::addTo($ngb, $file);
-        $commandBus->dispatch($addLogo);
+        try {
+            $commandBus->dispatch($addLogo);
+        } catch (ValidationFailedException $e) {
+            return ApiResponse::validationFailed($e->getViolations(), $e->getCode());
+        }
 
         return ApiResponse::created(
             'app_nationalgoverningbody_logo',
