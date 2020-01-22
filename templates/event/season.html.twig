@@ -30,4 +30,10 @@
     <h2>Tournaments</h2>
     {{ include('event/_event_table.html.twig', {events: tournaments, emptyText: 'No tournaments found.'}) }}
 
+     <div class="btn-group" role="group">
+         {% for year in 2010..(date()|date('Y')) %}
+             <a href="{{ path('app_event_event_season', {season: year}) }}" class="btn">{{ year }}</a>
+         {% endfor %}
+     </div>
+
 {% endblock %}
