@@ -16,8 +16,18 @@ Encore
     .enableIntegrityHashes(Encore.isProduction())
 
     .enableSassLoader()
-    .enablePostCssLoader()
+    .enablePostCssLoader((options) => {
+        options.config = {
+            path: 'assets/postcss.config.js'
+        };
+    })
     .enableReactPreset()
+    .configureUrlLoader(
+        {
+            fonts: {limit: 4096},
+            images: {limit: 4096}
+        }
+    )
 
     .autoProvidejQuery()
 
