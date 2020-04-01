@@ -16,7 +16,7 @@
                     <h5 class="card-title">{{ committee.title }}</h5>
                     <div class="card-text">
                         <div class="trix-content">
-                            {{ committee.description|purify('article') }}
+                            {{ committee.description|default('')|purify('article') }}
                         </div>
                         {% if committee.members is not empty %}
                             <ul>

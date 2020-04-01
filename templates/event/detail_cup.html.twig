@@ -1,7 +1,7 @@
 {% extends 'internal.html.twig' %}
 
 {% block content %}
-    {# @var event \App\Domain\Model\Event\EuropeanCup #}
+    {# @var event App\Domain\Model\Event\EuropeanCup #}
     <h1>European Cup {{ event.season }} / {{ event.name }}</h1>
 
     {{ include('event/_cup_detail.html.twig', {event: event}) }}
@@ -14,7 +14,7 @@
         {{ include('event/_games_card.html.twig', {event: event, games: games}) }}
     {% endif %}
 
-    {% if event.openForApplications%}
+    {% if event.openForApplications %}
         {{ include('event/_applications_card.html.twig', {event: event, applications: applications}) }}
     {% endif %}
 

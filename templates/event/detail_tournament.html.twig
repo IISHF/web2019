@@ -1,7 +1,7 @@
 {% extends 'internal.html.twig' %}
 
 {% block content %}
-    {# @var event \App\Domain\Model\Event\Tournament #}
+    {# @var event App\Domain\Model\Event\Tournament #}
     <h1>Tournament {{ event.season }} / {{ event.name }}</h1>
 
     {{ include('event/_tournament_detail.html.twig', {event: event}) }}

@@ -14,7 +14,7 @@
         {% if article.legacyFormat %}
             <div class="clearfix">
                 {% if images|default(false) and images.hasPrimaryImage %}
-                    {# @var primaryImage \App\Domain\Model\Article\ArticleImage #}
+                    {# @var primaryImage App\Domain\Model\Article\ArticleImage #}
                     {% set primaryImage = images.primaryImage %}
                     <figure class="figure float-left mr-4" style="max-width: 300px;">
                         <a href="{{ path('app_file_download', {'name': primaryImage.name}) }}" target="_blank">
@@ -34,7 +34,7 @@
                     <div class="card-header">Documents</div>
                     <div class="list-group list-group-flush">
                         {% for document in documents %}
-                            {# @var document \App\Domain\Model\Article\ArticleDocument #}
+                            {# @var document App\Domain\Model\Article\ArticleDocument #}
                             <a href="{{ path('app_file_download', {'name': document.name}) }}"
                                target="_blank"
                                class="list-group-item list-group-item-action">{{ document.title }}</a>
@@ -50,7 +50,7 @@
                             {% for row in images.secondaryImages|batch(5) %}
                                 <div class="row">
                                     {% for image in row %}
-                                        {# @var image \App\Domain\Model\Article\ArticleImage #}
+                                        {# @var image App\Domain\Model\Article\ArticleImage #}
                                         <div class="col">
                                             <figure class="figure float-left">
                                                 <a href="{{ path('app_file_download', {'name': image.name}) }}"

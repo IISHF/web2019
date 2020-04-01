@@ -1,10 +1,11 @@
+{# @var event App\Domain\Model\Event\EuropeanChampionship #}
 {% embed  'event/_event_detail.html.twig' with {event: event} %}
     {% block more_fields %}
         <dt class="col-2">Planned Length</dt>
         <dd class="col-10">{{ event.plannedLength }}</dd>
         <dt class="col-2">Description</dt>
         <dd class="col-10">
-            <div class="trix-content">{{ event.description|purify('article') }}</div>
+            <div class="trix-content">{{ event.description|default('')|purify('article') }}</div>
         </dd>
     {% endblock %}
 {% endembed %}

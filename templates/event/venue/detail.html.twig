@@ -17,7 +17,7 @@
         </dd>
         <dt class="col-2">Rink Info</dt>
         <dd class="col-10">
-            <div class="trix-content">{{ venue.rinkInfo|purify('article') }}</div>
+            <div class="trix-content">{{ venue.rinkInfo|default('')|purify('article') }}</div>
         </dd>
         <dt class="col-2">Last Updated</dt>
         <dd class="col-10">{{ venue.updatedAt|relative_time }}</dd>

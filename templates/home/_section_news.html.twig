@@ -2,10 +2,10 @@
     {% include 'home/_title.html.twig' with {'title': 'News', 'before': true} %}
     <div id="newsSlider" class="m-news__slider">
         {% for block in articles|batch(4) %}
-            {# @var article1 \App\Domain\Model\Article\Article #}
-            {# @var article2 \App\Domain\Model\Article\Article #}
-            {# @var article3 \App\Domain\Model\Article\Article #}
-            {# @var article4 \App\Domain\Model\Article\Article #}
+            {# @var article1 App\Domain\Model\Article\Article #}
+            {# @var article2 App\Domain\Model\Article\Article #}
+            {# @var article3 App\Domain\Model\Article\Article #}
+            {# @var article4 App\Domain\Model\Article\Article #}
             {% set article1 = block[0 + loop.index0 * 4] %}
             {% set article2 = block[1 + loop.index0 * 4] %}
             {% set article3 = block[2 + loop.index0 * 4] %}
