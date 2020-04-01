@@ -14,9 +14,9 @@ cookie:
     path: /cookie
     controller: App\Controller\HomeController::cookie
     methods:  [GET]
-obligation:
-    path: /obligation
-    controller: App\Controller\HomeController::obligation
+imprint:
+    path: /imprint
+    controller: App\Controller\HomeController::imprint
     methods:  [GET]
 photo:
     path: /photo

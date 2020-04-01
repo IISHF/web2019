@@ -1,4 +1,4 @@
-.obligation {
+.imprint {
     font-family: "Montserrat", sans-serif;
     max-width: 96rem;
     margin: 6rem auto 0;
@@ -7,19 +7,19 @@
         background-repeat: no-repeat;
 
         &--left-bottom {
-            background-image: url("../../img/common/obligation__bg--left-bottom.png");
+            background-image: url("../../img/common/imprint__bg--left-bottom.png");
             background-position: left bottom;
             background-size: 26%;
             padding-bottom: 18rem;
         }
 
         &--right-top {
-            background-image: url("../../img/common/obligation__bg--right-top.png");
+            background-image: url("../../img/common/imprint__bg--right-top.png");
             background-position: right bottom;
         }
 
         &--right-bottom {
-            background-image: url("../../img/common/obligation__bg--right-bottom.png");
+            background-image: url("../../img/common/imprint__bg--right-bottom.png");
             background-position: right top;
             padding-bottom: 10rem;
             background-size: contain;

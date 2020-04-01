@@ -64,9 +64,9 @@ class HomeController extends AbstractController
     /**
      * @return Response
      */
-    public function obligation(): Response
+    public function imprint(): Response
     {
-        return $this->render('home/obligation.html.twig');
+        return $this->render('home/imprint.html.twig');
     }
 
     /**
