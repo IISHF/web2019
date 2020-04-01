@@ -4,6 +4,11 @@
 
 The relaunch of www.iishf.com
 
+## Credits
+
+The design is based on the work done by Aleksandr Tkach at INTERRA 
+project digital agency.
+
 ## VirtualBox Setup
 
 The project contains a VirtualBox setup using Vagrant with Ansible 
