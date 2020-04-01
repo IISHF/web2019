@@ -7,10 +7,10 @@ popd > /dev/null
 cd ${SCRIPTPATH}/../
 
 /usr/local/bin/composer install --prefer-dist --optimize-autoloader --apcu-autoloader
-./app/console cache:clear --env=dev --no-debug --no-warmup
-./app/console doctrine:migrations:migrate --no-interaction
-./app/console cache:clear --env=prod --no-debug --no-warmup
-./app/console cache:warmup --env=prod --no-debug
+APP_ENV=dev ./bin/console cache:clear --no-warmup
+APP_ENV=dev ./bin/console doctrine:migrations:migrate --no-interaction
+APP_ENV=prod ./bin/console cache:clear --no-warmup
+APP_ENV=prod ./bin/console cache:warmup
 
 cd -
 
