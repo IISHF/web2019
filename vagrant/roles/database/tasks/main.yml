@@ -6,7 +6,7 @@
         packages:
             - mysql-server
             - mysql-client
-            - python-mysqldb
+            - python3-mysqldb
 
 -   name: copy mysql configuration
     copy: src=mysql.cnf dest=/etc/mysql/mysql.conf.d/z-iishf.cnf
@@ -28,6 +28,7 @@
         - iishf_org
 
 -   name: create the database user
+    no_log: true
     mysql_user:
         name=iishf
         password={{ mysql_user_password }}
@@ -38,6 +39,3 @@
         - localhost
         - '10.0.%'
         - '10.11.12.%'
-
--   name: add database timezone support
-    shell: mysql_tzinfo_to_sql /usr/share/zoneinfo/ | mysql mysql

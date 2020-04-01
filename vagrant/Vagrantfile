@@ -23,5 +23,6 @@ Vagrant.configure("2") do |config|
     	ansible.playbook = "playbook.yml"
     	ansible.limit = "all"
     	ansible.verbose = "vv"
+    	ansible.extra_vars = { ansible_python_interpreter: "auto" }
   	end
 end
