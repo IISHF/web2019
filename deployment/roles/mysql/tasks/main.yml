@@ -1,0 +1,31 @@
+---
+
+-   name: install mysql
+    apt: name={{ packages }} state=present
+    vars:
+        packages:
+            - mysql-server
+            - mysql-client
+            - python3-mysqldb
+
+-   name: copy mysql configuration
+    copy: src=mysql.cnf dest=/etc/mysql/mysql.conf.d/z-iishf.cnf
+    notify:
+        - restart mysql
+
+-   name: remove the test database
+    mysql_db: name=test state=absent
+
+-   name: create the database
+    mysql_db: name=iishf encoding=utf8mb4 collation=utf8mb4_general_ci state=present
+
+-   name: create the database user
+    no_log: true
+    mysql_user:
+        name=iishf
+        password={{ database_password }}
+        priv='iishf.*:ALL'
+        state=present
+        host={{ item }}
+    with_items:
+        - localhost

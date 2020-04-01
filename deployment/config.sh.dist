@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+IP=
+KEY_FILE=public.pem.txt
+
+VOLUME_ID=

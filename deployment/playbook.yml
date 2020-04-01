@@ -1,0 +1,108 @@
+---
+
+-   hosts: all
+    gather_facts: yes
+    become: true
+    vars:
+        locale: 'en_US.UTF-8'
+        language: 'en_US:en'
+        timezone: 'UTC'
+    pre_tasks:
+        -   debug:
+                var: hostvars[inventory_hostname]
+        -   include_vars: vars.yml
+        -   locale_gen: name="{{ locale }}" state=present
+        -   command: /usr/sbin/update-locale LANG={{ locale }} LC_ALL={{ locale }} LANGUAGE={{ language }}
+            args:
+                creates: /etc/default/locale
+        -   timezone: name="{{ timezone }}"
+        -   apt: update_cache=yes autoclean=yes autoremove=yes upgrade=safe
+        -   apt: name={{ packages }} state=present
+            vars:
+                packages:
+                    - ntp
+                    - vim
+                    - git
+                    - tar
+                    - unzip
+                    - wget
+                    - apt-transport-https
+                    - aptitude
+                    - acl
+        -   name: put deployment key into ssh directory
+            copy: content="{{deployment_key}}" dest=/home/ubuntu/.ssh/id_rsa mode=0400 owner=ubuntu group=ubuntu
+        -   name: Clone git repository
+            git:
+                repo=git@github.com:IISHF/web2019.git
+                dest=/home/ubuntu/iishf
+                accept_hostkey=yes
+                clone=yes
+                update=no
+            become: true
+            become_user: ubuntu
+
+-   hosts: public
+    become: true
+    vars:
+        hostname: public.iishf.com
+        document_root: /var/www/iishf/public
+        certbot_type: nginx
+    pre_tasks:
+        -   include_vars: public.yml
+        -   hostname: name="{{ hostname }}"
+        -   file:
+                path: /home/ubuntu/iishf/{{ item }}
+                state: directory
+                mode: '0755'
+                owner: ubuntu
+                group: ubuntu
+            with_items: "{{ writeable_paths }}"
+        -   acl:
+                name=/home/ubuntu/iishf/{{ item[0] }}
+                entity={{ item[1] }}
+                etype=user
+                permissions="rwX"
+                default={{ item[2] }}
+                recursive=yes
+                state=present
+            with_nested:
+                - "{{ writeable_paths }}"
+                - ['www-data', 'ubuntu']
+                - [yes, no]
+    roles:
+        - mysql
+        - nginx_php
+        - composer
+        - postfix
+        - certbot
+    post_tasks:
+        -   name: install .env.local
+            become: true
+            become_user: ubuntu
+            template: src=env.local.j2 dest=/home/ubuntu/iishf/.env.local
+        -   name: install composer dependencies
+            become: true
+            become_user: ubuntu
+            command: /usr/local/bin/composer install --prefer-dist --optimize-autoloader --apcu-autoloader
+            args:
+                chdir: /home/ubuntu/iishf
+                creates: /home/ubuntu/iishf/vendor
+        -   name: set crontab email for application cronjobs
+            cron:
+                name: MAILTO
+                env: yes
+                value: webmaster@iishf.com
+                user: ubuntu
+        -   name: install logrotate
+            copy: src=iishf.logrotate dest=/etc/logrotate.d/iishf
+        -   name: set crontab email for root cronjobs
+            cron:
+                name: MAILTO
+                env: yes
+                value: webmaster@iishf.de
+        -   name: set root cronjobs
+            cron:
+                name: certbot_renew
+                minute: '15'
+                hour: '0,12'
+                job: 'certbot renew --pre-hook "service nginx stop" --post-hook "service nginx start" --non-interactive'

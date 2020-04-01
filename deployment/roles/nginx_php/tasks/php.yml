@@ -1,0 +1,87 @@
+---
+
+-   name: install php
+    apt: name={{ packages }} state=present
+    vars:
+        packages:
+            - curl
+            - php-cli
+            - php-fpm
+            - php-xml
+            - php-curl
+            - php-xdebug
+            - php-sqlite3
+            - php-json
+            - php-intl
+            - php-mbstring
+            - php-iconv
+            - php-imagick
+            - php-bcmath
+            - php-gmp
+            - php-apcu
+            - php-zip
+            - php-mysql
+            - newrelic-php5
+    notify:
+        - restart php
+
+-   name: change php fpm configuration
+    lineinfile:
+        dest=/etc/php/7.2/fpm/php-fpm.conf
+        regexp="{{ item.regexp }}"
+        line="{{ item.line }}"
+        backup=yes
+    with_items:
+        - { regexp: '^;?(emergency_restart_threshold)', line: 'emergency_restart_threshold = 10' }
+        - { regexp: '^;?(emergency_restart_interval)', line: 'emergency_restart_interval = 1m' }
+        - { regexp: '^;?(process_control_timeout)', line: 'process_control_timeout = 10s' }
+    notify:
+        - restart php
+
+-   name: change php fpm pool configuration
+    lineinfile:
+        dest=/etc/php/7.2/fpm/pool.d/www.conf
+        regexp="{{ item.regexp }}"
+        line="{{ item.line }}"
+        backup=yes
+    with_items:
+        - { regexp: '^;?(pm\.max_children)', line: 'pm.max_children = 10' }
+        - { regexp: '^;?(pm\.start_servers)', line: 'pm.start_servers = 3' }
+        - { regexp: '^;?(pm\.min_spare_servers)', line: 'pm.min_spare_servers = 2' }
+        - { regexp: '^;?(pm\.max_spare_servers)', line: 'pm.max_spare_servers = 4' }
+        - { regexp: '^;?(pm\.max_requests)', line: 'pm.max_requests = 500' }
+    notify:
+        - restart php
+
+-   name: copy new php.ini
+    copy: src=php.ini dest=/etc/php/7.2/mods-available/iishf.ini owner=root group=root mode=0644
+    notify:
+        - restart php
+
+-   name: enable new php.ini
+    file:
+        src=/etc/php/7.2/mods-available/iishf.ini
+        dest={{ item }}
+        state=link
+    with_items:
+        - /etc/php/7.2/fpm/conf.d/99-iishf.ini
+        - /etc/php/7.2/cli/conf.d/99-iishf.ini
+    notify:
+        - restart php
+
+-   name: copy newrelic.ini
+    template:
+        src=newrelic.ini.j2
+        dest=/etc/php/7.2/mods-available/newrelic.ini
+    notify:
+        - restart php
+
+-   name: fix ImageMagick policy for PDF
+    lineinfile:
+        dest=/etc/ImageMagick-6/policy.xml
+        regexp="^(.*)rights=\"none\" pattern=\"PDF\"(.*)$"
+        line="\1rights=\"read|write\" pattern=\"PDF\"\2"
+        backrefs=yes
+        backup=yes
+    notify:
+        - restart php

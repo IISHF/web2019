@@ -1,0 +1,5 @@
+---
+
+writeable_paths:
+    - var/cache
+    - var/log

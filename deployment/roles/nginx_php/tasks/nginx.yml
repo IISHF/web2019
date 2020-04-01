@@ -1,0 +1,44 @@
+---
+
+-   name: install nginx
+    apt: name={{ packages }} state=present
+    vars:
+        packages:
+            - nginx
+
+-   name: copy new virtual hosts
+    template:
+        src={{ item.src }}
+        dest=/etc/nginx/sites-available/{{ item.dest }}
+    with_items:
+        - { src: 'server.default.conf.j2', dest: 'default.conf' }
+        - { src: 'server.public.conf.j2', dest: 'public.conf' }
+        - { src: 'server.public-ssl.conf.j2', dest: 'public-ssl.conf' }
+    notify:
+        - restart nginx
+
+-   name: remove default virtual host
+    file:
+        path=/etc/nginx/sites-enabled/default
+        state=absent
+    notify:
+        - restart nginx
+
+-   name: Enable new virtual hosts
+    file:
+        src=/etc/nginx/sites-available/{{ item }}
+        dest=/etc/nginx/sites-enabled/{{ item }}
+        state=link
+    with_items:
+        - default.conf
+        - public.conf
+    notify:
+        - restart nginx
+
+-   name: Link repository to document root
+    file:
+        src=/home/ubuntu/iishf
+        dest=/var/www/iishf
+        state=link
+    notify:
+        - restart nginx

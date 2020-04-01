@@ -1,0 +1,42 @@
+---
+
+-   name: install postfix
+    apt: name=postfix state=present
+
+-   name: set SMTP auth password
+    template: src=smtp_auth.j2 dest=/etc/postfix/smtp_auth owner=root group=root mode=0600
+    notify:
+        - restart postfix
+
+-   name: hash SMTP auth password
+    shell: postmap /etc/postfix/smtp_auth creates=/etc/postfix/smtp_auth.db
+    notify:
+        - restart postfix
+
+-   name: update postfix config
+    lineinfile:
+        dest=/etc/postfix/main.cf
+        regexp="{{ item.regexp }}"
+        line="{{ item.line }}"
+        backrefs=yes
+        backup=yes
+    with_items:
+        - { regexp: '^(myhostname =)', line: '\1 {{ hostname }}' }
+        - { regexp: '^(mydestination =)', line: '\1 localhost.de, localhost' }
+        - { regexp: '^(relayhost =)', line: '\1 [{{ mailer_host }}]:{{ mailer_port }}' }
+    notify:
+        - restart postfix
+
+-   name: update postfix config with SMTP auth password and relay host
+    lineinfile:
+        dest=/etc/postfix/main.cf
+        insertafter=EOF
+        line={{ item }}
+        backup=yes
+    with_items:
+        - 'myorigin = /etc/mailname'
+        - 'smtp_sasl_auth_enable = yes'
+        - 'smtp_sasl_password_maps = hash:/etc/postfix/smtp_auth'
+        - 'smtp_sasl_security_options = noanonymous'
+    notify:
+        - restart postfix

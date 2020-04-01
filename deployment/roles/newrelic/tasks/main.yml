@@ -1,0 +1,22 @@
+---
+
+-   name: add newrelic apt key
+    apt_key: url=https://download.newrelic.com/548C16BF.gpg state=present
+
+-   name: add newrelic apt sources
+    apt_repository: repo="deb http://apt.newrelic.com/debian/ newrelic non-free" state=present
+    register: newrelic_repos
+
+-   name: update apt caches after newrelic apt sources are added
+    apt: update_cache=yes
+    when: newrelic_repos.changed
+
+-   name: put newrelic license key into home directory
+    copy: content="{{ newrelic_license_key }}" dest=/home/ubuntu/newrelic_license mode=0600 owner=ubuntu group=ubuntu
+
+-   name: install newrelic-sysmond
+    apt: name="newrelic-sysmond" state=present
+
+-   name: set newrelic license key
+    command: nrsysmond-config --set license_key={{ newrelic_license_key }}
+    notify: restart newrelic nrsysmond

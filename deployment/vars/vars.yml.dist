@@ -1,0 +1,18 @@
+---
+application_secret:
+
+database_password:
+
+mailer_user:
+mailer_password:
+mailer_host:
+mailer_port: 587
+
+newrelic_license_key:
+
+google_recaptcha_key:
+google_recaptcha_secret:
+
+deployment_key: |
+    -----BEGIN OPENSSH PRIVATE KEY-----
+    -----END OPENSSH PRIVATE KEY-----

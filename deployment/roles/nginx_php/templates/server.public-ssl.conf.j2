@@ -1,0 +1,70 @@
+server {
+    listen 443 ssl http2;
+    server_name {{ hostname }};
+
+    ssl_certificate /etc/letsencrypt/live/{{ hostname }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ hostname }}/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    return 301 https://dev.iishf.com$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+
+    http2_push_preload on;
+
+    server_name dev.iishf.com beta.iishf.com;
+    root {{ document_root }};
+
+    ssl_certificate /etc/letsencrypt/live/{{ hostname }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ hostname }}/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    error_log /var/log/nginx/iishf.error.log;
+    access_log /var/log/nginx/iishf.access.log;
+
+    client_max_body_size 100m;
+
+    gzip on;
+    gzip_http_version 1.0;
+    gzip_disable "MSIE [1-6]\.";
+    gzip_vary on;
+    gzip_comp_level 2;
+    gzip_min_length 1100;
+    gzip_buffers 4 8k;
+    gzip_proxied any;
+    gzip_types
+        text/plain
+        text/xml
+        text/css
+        text/javascript
+        application/json
+        application/x-javascript
+        application/javascript
+        application/ecmascript
+        application/rss+xml
+        application/xml;
+
+    location / {
+        # try to serve file directly, fallback to index.php
+        try_files $uri /index.php$is_args$args;
+    }
+
+    location ~ ^/index\.php(/|$) {
+        fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+
+        internal;
+    }
+
+    location ~ \.php$ {
+        return 404;
+    }
+}

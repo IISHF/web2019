@@ -17,6 +17,15 @@
 /vagrant/roles/webserver/files/iishf_test.*
 /vagrant/__legacy/
 
+# Deployment
+/deployment/ansible.cfg
+/deployment/playbook.retry
+/deployment/hosts
+/deployment/config.sh
+/deployment/vars/vars.yml
+/deployment/keys/*
+!/deployment/keys/.gitignore
+
 /bin/*
 !/bin/console
 !/bin/phpunit

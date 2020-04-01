@@ -1,0 +1,10 @@
+/home/ubuntu/iishf/var/log/dev.log /home/ubuntu/iishf/var/log/prod*.log {
+    rotate 12
+    weekly
+    size 64M
+    missingok
+    notifempty
+    compress
+    delaycompress
+	copytruncate
+}
