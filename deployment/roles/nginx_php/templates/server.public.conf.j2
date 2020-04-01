@@ -1,5 +1,5 @@
 server {
     listen 80;
-    server_name {{ hostname }} dev.iishf.com beta.iishf.com;
+    server_name beta.iishf.com dev.iishf.com;
     return 301 https://dev.iishf.com$request_uri;
 }

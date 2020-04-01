@@ -12,7 +12,6 @@ sudo certbot run \
     --email <<your email address>> \
     --agree-tos \
     --non-interactive \
-    --domains public.iishf.com \
     --domains beta.iishf.com \
     --domains dev.iishf.com 
 ```    
