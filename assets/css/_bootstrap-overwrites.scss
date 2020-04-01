@@ -5,8 +5,9 @@ $navbar-padding-x: 0;
 //color overrides
 $link-color: #000000;
 $navbar-light-color: #000000;
-$navbar-light-hover-color:  #000;
+$navbar-light-hover-color: #000;
 $primary: #0B2C43;
+$additional: #ef9029;
 $info: #000;
 //buttons
 $btn-border-radius: 0;
@@ -33,8 +34,14 @@ $breadcrumb-item-padding: 1rem;
 $card-cap-bg: #246d96;
 $card-cap-color: #fff;
 //dropdown menu
-$dropdown-bg: $card-cap-bg;
-$dropdown-link-color: #fff;
-$dropdown-font-size: 26px;
-$dropdown-padding-y: 5px;
+$dropdown-bg: #fff;
+$dropdown-link-color: #333;
+$dropdown-link-hover-color: $additional;
+$dropdown-font-size: 24px;
+$dropdown-padding-y: 8px;
 $dropdown-min-width: 100%;
+$dropdown-border-radius: 4px;
+$dropdown-border-color: #fff;
+$font-weight-normal: 600;
+$dropdown-item-padding-y: 3px;
+//$dropdown-item-padding-x: 6px;

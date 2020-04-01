@@ -4,47 +4,83 @@ import bootstrapPlugin from '@fullcalendar/bootstrap';
 
 document.addEventListener('DOMContentLoaded', function () {
     const calendarTournamentEl = document.getElementById('calendarTournament');
-    const calendarTodayEl = document.getElementById('calendarToday');
-    const calendarOtherEl = document.getElementById('calendarOther');
+    let calendar;
 
-    if (calendarTodayEl) {
-        const calendarToday = new Calendar(calendarTodayEl, {
+    const createCalendar = function (node, options) {
+        calendar = new Calendar(node, {
             plugins: [dayGridPlugin, bootstrapPlugin],
-            themeSystem: 'bootstrap',
-            header: {
-                left: '',
-                center: 'title',
-                right: ''
-            }
-        });
-        calendarToday.render();
-    }
-    if (calendarTournamentEl) {
-        const calendarTournament = new Calendar(calendarTournamentEl, {
-            plugins: [dayGridPlugin, bootstrapPlugin],
-            themeSystem: 'bootstrap',
             header: {
                 left: '',
                 center: 'title',
                 right: ''
             },
-            viewRender: function (view) {
-                const title = view.title;
-                $("#externalTitle").html(title);
-            }
+            ...options
         });
-        calendarTournament.render();
-    }
-    if (calendarOtherEl) {
-        const calendarOther = new Calendar(calendarOtherEl, {
-            plugins: [dayGridPlugin, bootstrapPlugin],
-            themeSystem: 'bootstrap',
-            header: {
-                left: '',
-                center: 'title',
-                right: ''
-            }
+
+        return calendar;
+    };
+
+    // render tournament calendar on page load
+    createCalendar(calendarTournamentEl).render();
+    const tabHeight = $(calendarTournamentEl).height();
+
+    const destroyCalendar = () => {
+        calendar && calendar.destroy();
+    };
+
+    const clearContainer = (container) => {
+        $(container).empty();
+    };
+
+    const renderCalendar = (calendar) => {
+        return setTimeout(() => {
+            hideLoader();
+            calendar.render();
+        }, 200)
+    };
+
+    const getTabPaneId = (e) => {
+        const target = $(e.target);
+        let tabPaneId;
+
+        if (target.is('span')) {
+            tabPaneId = target.parent().attr("href");
+        } else {
+            tabPaneId = target.attr("href");
+        }
+
+        return tabPaneId
+    };
+
+    const getEmptyCalendarContainer = (e) => {
+        destroyCalendar();
+
+        const tabPaneId = getTabPaneId(e);
+        const container = document.querySelector(tabPaneId + ' .calendar-container');
+        clearContainer(container);
+
+        return container;
+    };
+
+    const showLoader = () => {
+        $('.lds-dual-ring').each((i, el) => {
+            $(el).height(tabHeight).show();
         });
-        calendarOther.render();
-    }
+    };
+
+    const hideLoader = () => {
+        $('.lds-dual-ring').each((i, el) => {
+            $(el).hide();
+        });
+    };
+
+    // render new calendar on tabs switch
+    $('a[data-calendar="tab"]').on('click', function (e) {
+        const container = getEmptyCalendarContainer(e);
+
+        showLoader();
+
+        createCalendar(container);
+        renderCalendar(calendar);
+    });
 });
