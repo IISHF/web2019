@@ -16,6 +16,7 @@
 /vagrant/.bundle/
 /vagrant/roles/webserver/files/iishf_test.*
 /vagrant/__legacy/
+/vagrant/dbbackup*
 
 # Deployment
 /deployment/ansible.cfg

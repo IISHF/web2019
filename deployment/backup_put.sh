@@ -6,4 +6,4 @@ popd > /dev/null
 
 VAGRANTPATH=${SCRIPTPATH}/../vagrant
 
-${SCRIPTPATH}/scp_to.sh public ${VAGRANTPATH}/dbbackup.gz /tmp/
+${SCRIPTPATH}/scp_to.sh ${VAGRANTPATH}/dbbackup.gz /tmp/

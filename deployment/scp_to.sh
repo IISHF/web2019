@@ -6,4 +6,4 @@ popd > /dev/null
 
 source ${SCRIPTPATH}/config.sh
 
-scp -i ${SCRIPTPATH}/keys/${KEY_FILE} ${2} ubuntu@${IP}:${3}
+scp -r -i ${SCRIPTPATH}/keys/${KEY_FILE} ${1} ubuntu@${IP}:${2}
