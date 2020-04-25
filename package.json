@@ -24,7 +24,7 @@
   "contributors": [
     "Stefan Gehrig <stefan.gehrig.hn@googlemail.com>"
   ],
-  "license": "MIT",
+  "license": "BSD-3-Clause",
   "private": true,
   "scripts": {
     "dev-server": "encore dev-server --hot --https --port 9010 --host iishf.test --key ./vagrant/roles/webserver/files/iishf_test.key --cert ./vagrant/roles/webserver/files/iishf_test.crt",

@@ -3,7 +3,7 @@
     "description": "This is the IISHF Website Project",
     "type": "project",
     "homepage": "https://github.com/IISHF/web2019",
-    "license": "MIT",
+    "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "Stefan Gehrig",
