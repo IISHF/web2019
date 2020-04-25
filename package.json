@@ -16,7 +16,15 @@
     "url-loader": "^2.3.0",
     "webpack-notifier": "^1.8.0"
   },
-  "license": "UNLICENSED",
+  "name": "@iishf/web2019",
+  "version": "1.0.0-dev",
+  "description": "This is the IISHF Website Project",
+  "repository": "https://github.com/IISHF/web2019",
+  "author": "Stefan Gehrig <stefan.gehrig.hn@googlemail.com>",
+  "contributors": [
+    "Stefan Gehrig <stefan.gehrig.hn@googlemail.com>"
+  ],
+  "license": "MIT",
   "private": true,
   "scripts": {
     "dev-server": "encore dev-server --hot --https --port 9010 --host iishf.test --key ./vagrant/roles/webserver/files/iishf_test.key --cert ./vagrant/roles/webserver/files/iishf_test.crt",

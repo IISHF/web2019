@@ -2,7 +2,14 @@
     "name": "iishf/web2019",
     "description": "This is the IISHF Website Project",
     "type": "project",
-    "license": "proprietary",
+    "homepage": "https://github.com/IISHF/web2019",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Stefan Gehrig",
+            "email": "stefan.gehrig.hn@googlemail.com"
+        }
+    ],
     "require": {
         "php": ">=7.2",
         "ext-ctype": "*",
