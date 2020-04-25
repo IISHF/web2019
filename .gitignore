@@ -18,6 +18,9 @@
 /vagrant/__legacy/
 /vagrant/dbbackup*
 
+#Docker
+/docker/nginx/iishf_test.*
+
 # Deployment
 /deployment/ansible.cfg
 /deployment/playbook.retry

@@ -1,0 +1,52 @@
+version: '3.7'
+
+services:
+    db:
+        image: mysql:5.7.29
+        command:
+            - "--character-set-server=utf8mb4"
+            - "--collation-server=utf8mb4_general_ci"
+            - "--max-allowed-packet=64M"
+        ports:
+            - "33060:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: iishf
+            MYSQL_USER: iishf
+            MYSQL_PASSWORD: iishf
+        volumes:
+            - db:/var/lib/mysql
+
+    php:
+        image: iishf/web2019/php
+        build: ./php
+        ports:
+            - "9000:9000"
+        environment:
+            IS_VIRTUAL_ENV: 0
+            DATABASE_URL: mysql://iishf:iishf@db/iishf
+            MAILER_DSN: smtp://mail:1025
+        volumes:
+            - ../:/app:cached
+            -   type: tmpfs
+                target: /app/var
+        depends_on:
+            - db
+
+    nginx:
+        image: iishf/web2019/nginx
+        build: ./nginx
+        ports:
+            - "4430:443"
+        depends_on:
+            - php
+        volumes:
+            - ../:/app:ro
+
+    mail:
+        image: mailhog/mailhog
+        ports:
+            - "8025:8025"
+volumes:
+    db:
+        driver: local
