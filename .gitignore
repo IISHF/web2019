@@ -19,6 +19,7 @@
 /vagrant/dbbackup*
 
 # Docker
+/docker/.env
 /docker/nginx/iishf_test.*
 
 # Deployment
