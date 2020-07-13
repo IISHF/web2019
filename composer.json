@@ -12,6 +12,7 @@
     ],
     "require": {
         "php": ">=7.2",
+        "ext-PDO": "*",
         "ext-ctype": "*",
         "ext-dom": "*",
         "ext-hash": "*",
@@ -20,7 +21,6 @@
         "ext-intl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "ext-PDO": "*",
         "ext-simplexml": "*",
         "ext-xml": "*",
         "antishov/doctrine-extensions-bundle": "^1.4",
@@ -75,6 +75,7 @@
         "symfony/security-guard": "^5.1",
         "symfony/security-http": "^5.1",
         "symfony/serializer-pack": "^1.0",
+        "symfony/translation": "^5.1",
         "symfony/translation-contracts": "^2.1",
         "symfony/twig-bridge": "^5.1",
         "symfony/twig-bundle": "^5.1",
