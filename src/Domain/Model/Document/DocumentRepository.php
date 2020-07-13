@@ -12,6 +12,7 @@ use App\Domain\Common\Repository\DoctrinePaging;
 use App\Domain\Model\Common\TagProvider;
 use App\Domain\Model\File\FileRepository;
 use App\Utils\Tags;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -125,6 +126,23 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
         $queryBuilder = $this->createQueryBuilderWithVersions()
                              ->orderBy('d.title', 'ASC');
         return $this->createPager($queryBuilder, $page, $limit);
+    }
+
+    /**
+     * @param DateTimeImmutable|null $reference
+     * @return Document[]
+     */
+    public function findCurrentlyValid(?DateTimeImmutable $reference = null): iterable
+    {
+        $reference = $reference ?? new DateTimeImmutable('now');
+        return $this->createQueryBuilderWithVersions()
+                    ->where(
+                        'EXISTS (SELECT v.id FROM ' . DocumentVersion::class . ' AS v WHERE v.document = d AND (v.validFrom IS NULL OR v.validFrom <= :date) AND (v.validUntil IS NULL OR v.validUntil >= :date))'
+                    )
+                    ->setParameter('date', $reference, 'datetime_immutable')
+                    ->orderBy('d.title', 'ASC')
+                    ->getQuery()
+                    ->getResult();
     }
 
     /**

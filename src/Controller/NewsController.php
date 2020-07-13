@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Domain\Model\Article\Article;
 use App\Domain\Model\Article\ArticleRepository;
+use App\Infrastructure\Controller\PagingRequest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,21 +23,37 @@ class NewsController extends AbstractController
     /**
      * @Route("", methods={"GET"})
      *
+     * @param Request           $request
+     * @param ArticleRepository $articleRepository
      * @return Response
      */
-    public function index(): Response
+    public function index(Request $request, ArticleRepository $articleRepository): Response
     {
-        return $this->render('news/index.html.twig');
+        $paging = PagingRequest::create($request);
+        return $this->render(
+            'news/index.html.twig',
+            [
+                'articles' => $articleRepository->findPublishedPaged($paging->getPage(), $paging->getLimit(6)),
+            ]
+        );
     }
 
     /**
      * @Route("/archive", methods={"GET"})
      *
+     * @param Request           $request
+     * @param ArticleRepository $articleRepository
      * @return Response
      */
-    public function archive(): Response
+    public function archive(Request $request, ArticleRepository $articleRepository): Response
     {
-        return $this->render('news/archive.html.twig');
+        $paging = PagingRequest::create($request);
+        return $this->render(
+            'news/archive.html.twig',
+            [
+                'articles' => $articleRepository->findPublishedPaged($paging->getPage(), $paging->getLimit()),
+            ]
+        );
     }
 
     /**
@@ -67,6 +85,7 @@ class NewsController extends AbstractController
                 'article'   => $article,
                 'images'    => $images,
                 'documents' => $documents,
+                'latest'    => $articleRepository->findMostRecent(2),
             ]
         );
     }

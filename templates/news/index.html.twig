@@ -7,23 +7,35 @@
                 {% include 'home/_title.html.twig' with {'title': 'News', 'before': true} %}
                 <div class="news">
                     <div class="page-container">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="news__item">
-                                    <div class="news__img-item">
-                                        <a href="#">
-                                            <img src="{{ asset('build/images/other/hockey-day.jpg') }}" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="news__descr-item">
-                                        <div class="news__date">
-                                            <span>HOCKEY DAY</span> / 12.01.19
+                        {% for row in articles|batch(2) %}
+                            <div class="row">
+                                {% for article in row %}
+                                    <div class="col-md-6">
+                                        <div class="news__item">
+                                            <div class="news__img-item">
+                                                <a href="{{ path('app_news_detail', {'article': article.slug}) }}">
+                                                    <img src="{{ asset('build/images/other/hockey-day.jpg') }}" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="news__descr-item">
+                                                <div class="news__date">
+                                                    <span>{{ article.title }}</span> /
+                                                    {{ article.publishedAt|relative_time }}
+                                                </div>
+                                                <h3>{{ article.subtitle }}</h3>
+                                                {% include 'common/_more_button.html.twig' with {
+                                                    'href': path('app_news_detail', {'article': article.slug})
+                                                } %}
+                                            </div>
                                         </div>
-                                        <h3>December 1 - World Hockey Day!</h3>
-                                        {% include 'common/_more_button.html.twig' %}
                                     </div>
-                                </div>
+                                {% endfor %}
                             </div>
+                        {% endfor %}
+
+
+                        <div class="row">
+
                             <div class="col-md-6">
                                 <div class="news__item">
                                     <div class="news__img-item">

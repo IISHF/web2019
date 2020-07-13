@@ -7,147 +7,35 @@
                 {% include 'home/_title.html.twig' with {'title': 'Documents', 'before': true} %}
                 <div class="documents">
                     <div class="page-container">
-                        <div class="documents__date d-flex align-items-center">
-                            <div class="documents__title-date mr-5">Year:</div>
-                            <select class="select-item documents__select">
-                                <option value="2020">2020</option>
-                                <option value="2019">2019</option>
-                                <option value="2018">2018</option>
-                                <option value="2017">2017</option>
-                            </select>
-                        </div>
-                        <div class="documents__wrapp">
+                        {% for row in documents|batch(4) %}
                             <div class="row documents-row">
-                                <div class="col-3">
-                                    <div class="document-item">
-                                        <a href="#" class="document-item__link">
-                                            <div class="document-item__type">
-                                                PDF
-                                            </div>
-                                            <div class="document-item__title">
-                                                Official Rule Book Edition 2019 (*)
-                                            </div>
-                                            <div class="document-item__text">
-                                                Original Filename: rulesofthegame.2019.pdf, Filesize: 1305 kB, Uploaded
-                                                on 2019-04-07
-                                            </div>
-                                        </a>
+                                {% for document in row %}
+                                    {% set version = document.findFirstValidVersion %}
+                                    <div class="col-3">
+                                        <div class="document-item">
+                                            <a class="document-item__link"
+                                               href="{{ path('app_file_download', {'name': version.fileName}) }}"
+                                               target="_blank">
+                                                <div class="document-item__type">
+                                                    {{ version.version }}
+                                                </div>
+                                                <div class="document-item__title">
+                                                    {{ document.title }}
+                                                </div>
+                                                <div class="document-item__text">
+                                                    Validity: {{ include(
+                                                        'admin/document/_version_validity.html.twig', {
+                                                            version: version
+                                                        }) }},
+                                                    Size: {{ version.fileSize|file_size }},
+                                                    uploaded {{ version.updatedAt|relative_time }}
+                                                </div>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="document-item">
-                                        <a href="#" class="document-item__link">
-                                            <div class="document-item__type">
-                                                PDF
-                                            </div>
-                                            <div class="document-item__title">
-                                                Official Rule Book Edition 2019 (*)
-                                            </div>
-                                            <div class="document-item__text">
-                                                Original Filename: rulesofthegame.2019.pdf, Filesize: 1305 kB, Uploaded
-                                                on 2019-04-07
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="document-item">
-                                        <a href="#" class="document-item__link">
-                                            <div class="document-item__type">
-                                                PDF
-                                            </div>
-                                            <div class="document-item__title">
-                                                Official Rule Book Edition 2019 (*)
-                                            </div>
-                                            <div class="document-item__text">
-                                                Original Filename: rulesofthegame.2019.pdf, Filesize: 1305 kB, Uploaded
-                                                on 2019-04-07
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="document-item">
-                                        <a href="#" class="document-item__link">
-                                            <div class="document-item__type">
-                                                PDF
-                                            </div>
-                                            <div class="document-item__title">
-                                                Official Rule Book Edition 2019 (*)
-                                            </div>
-                                            <div class="document-item__text">
-                                                Original Filename: rulesofthegame.2019.pdf, Filesize: 1305 kB, Uploaded
-                                                on 2019-04-07
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="document-item">
-                                        <a href="#" class="document-item__link">
-                                            <div class="document-item__type">
-                                                PDF
-                                            </div>
-                                            <div class="document-item__title">
-                                                Official Rule Book Edition 2019 (*)
-                                            </div>
-                                            <div class="document-item__text">
-                                                Original Filename: rulesofthegame.2019.pdf, Filesize: 1305 kB, Uploaded
-                                                on 2019-04-07
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="document-item">
-                                        <a href="#" class="document-item__link">
-                                            <div class="document-item__type">
-                                                PDF
-                                            </div>
-                                            <div class="document-item__title">
-                                                Official Rule Book Edition 2019 (*)
-                                            </div>
-                                            <div class="document-item__text">
-                                                Original Filename: rulesofthegame.2019.pdf, Filesize: 1305 kB, Uploaded
-                                                on 2019-04-07
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="document-item">
-                                        <a href="#" class="document-item__link">
-                                            <div class="document-item__type">
-                                                PDF
-                                            </div>
-                                            <div class="document-item__title">
-                                                Official Rule Book Edition 2019 (*)
-                                            </div>
-                                            <div class="document-item__text">
-                                                Original Filename: rulesofthegame.2019.pdf, Filesize: 1305 kB, Uploaded
-                                                on 2019-04-07
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="document-item">
-                                        <a href="#" class="document-item__link">
-                                            <div class="document-item__type">
-                                                PDF
-                                            </div>
-                                            <div class="document-item__title">
-                                                Official Rule Book Edition 2019 (*)
-                                            </div>
-                                            <div class="document-item__text">
-                                                Original Filename: rulesofthegame.2019.pdf, Filesize: 1305 kB, Uploaded
-                                                on 2019-04-07
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
+                                {% endfor %}
                             </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

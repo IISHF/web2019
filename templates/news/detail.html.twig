@@ -4,45 +4,81 @@
     <section class="iishf__bg iishf__bg--left-bottom">
         <div class="iishf__bg iishf__bg--right-bottom">
             <div class="iishf__bg iishf__bg--left-top">
-                {% include 'home/_title.html.twig' with {'title': 'Hockey Tour to Switzerland', 'before': true} %}
+                {% include 'home/_title.html.twig' with {'title': article.title, 'before': true} %}
                 <div class="news">
                     <div class="page-container">
                         <div class="text-block">
-                            <img src="{{ asset('build/images/other/news.jpg') }}" alt="">
                             <p>
-                                UKRAINIAN NATIONAL ROLE HOCKEY TEAM
+                                {{ article.subtitle }}
                             </p>
-                            <p>
-                                The national team of Ukraine in roller hockey with the ball goes to the European
-                                Championship for the second time. This
-                                time we go to the picturesque Swiss town of Rosmezon.
-                                To defeat powerful opponents, our athletes need ardent fan support. Those who wish are
-                                invited to join our hockey tour.
-                                You can book a tour simply by writing to us in Messenger (m.me/rh.ukraine). You will
-                                find a comfortable bus with the
-                                best athletes of our country, the atmosphere of competitions and attendance of all
-                                championship matches, from which our
-                                team will need to be supported at least 7 times.<br>
-                                Tour program: <br>
-                                We leave from Kiev: 20.11 at 7:00 <br>
-                                21.11 - stop in Prague, free time for excursions and walks (about 8 hours).<br>
-                                Arrival in Rosmezon: 22.11 in the morning.<br>
-                                22.11 - opening ceremony of the IISHF Open Men European Championships 2018 at 19.00.<br>
-                                23-25.11 - championship games<br>
-                                Departure from Rosmezon: 25.11 late in the evening<br>
-                                26.11- stop in Dresden, free time for excursions and walks (about 8 hours).<br>
-                                Return to Kyiv: 27.11
-                            </p>
-                            <p>
-                                Accommodation in Rosmezon cozy Motel "Au Gros Pré" (https://goo.gl/rkXfYi) with a
-                                beautiful view of nature and near the
-                                sports ground (20 minutes on foot). Walks around the host city of the championship. Meet
-                                European players, fans and
-                                coaches. Celebrating the end of the championship with the team.
-                            </p>
-                            <p>
-                                The team needs your support!
-                            </p>
+                            <div>
+                                {% if article.legacyFormat %}
+                                    <div class="clearfix">
+                                        {% if images|default(false) and images.hasPrimaryImage %}
+                                            {# @var primaryImage App\Domain\Model\Article\ArticleImage #}
+                                            {% set primaryImage = images.primaryImage %}
+                                            <figure class="figure float-left mr-4" style="max-width: 300px;">
+                                                <a href="{{ path('app_file_download', {'name': primaryImage.name}) }}"
+                                                   target="_blank">
+                                                    <img src="{{ path('app_file_download', {'name': primaryImage.name, 'w': 300}) }}"
+                                                         class="figure-img img-fluid rounded"
+                                                         alt="{{ primaryImage.caption|default(primaryImage.clientName)|e('html_attr') }}">
+                                                </a>
+                                                {% if primaryImage.caption is not empty %}
+                                                    <figcaption
+                                                            class="figure-caption">{{ primaryImage.caption }}</figcaption>
+                                                {% endif %}
+                                            </figure>
+                                        {% endif %}
+                                        {{ article.body|article_legacy_body }}
+                                    </div>
+                                    {% if documents|default(false) and documents is not empty %}
+                                        <div class="card my-4">
+                                            <div class="card-header">Documents</div>
+                                            <div class="list-group list-group-flush">
+                                                {% for document in documents %}
+                                                    {# @var document App\Domain\Model\Article\ArticleDocument #}
+                                                    <a href="{{ path('app_file_download', {'name': document.name}) }}"
+                                                       target="_blank"
+                                                       class="list-group-item list-group-item-action">{{ document.title }}</a>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% if images|default(false) and images.hasSecondaryImages %}
+                                        <div class="card my-4">
+                                            <div class="card-header">Images</div>
+                                            <div class="card-body">
+                                                <div class="container">
+                                                    {% for row in images.secondaryImages|batch(5) %}
+                                                        <div class="row">
+                                                            {% for image in row %}
+                                                                {# @var image App\Domain\Model\Article\ArticleImage #}
+                                                                <div class="col">
+                                                                    <figure class="figure float-left">
+                                                                        <a href="{{ path('app_file_download', {'name': image.name}) }}"
+                                                                           target="_blank">
+                                                                            <img src="{{ path('app_file_download', {'name': image.name}) }}"
+                                                                                 class="figure-img img-fluid rounded"
+                                                                                 alt="{{ image.caption|default(image.clientName)|e('html_attr') }}">
+                                                                        </a>
+                                                                        {% if image.caption is not empty %}
+                                                                            <figcaption
+                                                                                    class="figure-caption small">{{ image.caption }}</figcaption>
+                                                                        {% endif %}
+                                                                    </figure>
+                                                                </div>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% else %}
+                                    <div class="trix-content">{{ article.body|purify('article') }}</div>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -51,38 +87,27 @@
                     <div class="news-more__list">
                         <div class="page-container">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="news__item">
-                                        <div class="news__img-item">
-                                            <a href="#">
-                                                <img src="{{ asset('build/images/other/hockey-day.jpg') }}" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="news__descr-item">
-                                            <div class="news__date">
-                                                <span>HOCKEY DAY</span> / 12.01.19
+                                {% for article in latest %}
+                                    <div class="col-md-6">
+                                        <div class="news__item">
+                                            <div class="news__img-item">
+                                                <a href="{{ path('app_news_detail', {'article': article.slug}) }}">
+                                                    <img src="{{ asset('build/images/other/hockey-day.jpg') }}" alt="">
+                                                </a>
                                             </div>
-                                            <h3>December 1 - World Hockey Day!</h3>
-                                            {% include 'common/_more_button.html.twig' %}
+                                            <div class="news__descr-item">
+                                                <div class="news__date">
+                                                    <span>{{ article.title }}</span> /
+                                                    {{ article.publishedAt|relative_time }}
+                                                </div>
+                                                <h3>{{ article.subtitle }}</h3>
+                                                {% include 'common/_more_button.html.twig' with {
+                                                    'href': path('app_news_detail', {'article': article.slug})
+                                                } %}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="news__item">
-                                        <div class="news__img-item">
-                                            <a href="#">
-                                                <img src="{{ asset('build/images/other/hockey-day.jpg') }}" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="news__descr-item">
-                                            <div class="news__date">
-                                                <span>HOCKEY DAY</span> / 12.01.19
-                                            </div>
-                                            <h3>December 1 - World Hockey Day!</h3>
-                                            {% include 'common/_more_button.html.twig' %}
-                                        </div>
-                                    </div>
-                                </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>

@@ -7,84 +7,62 @@
                 {% include 'home/_title.html.twig' with {'title': 'Member countries', 'before': true} %}
                 <div class="member">
                     <div class="page-container">
-                        <div class="member__item">
-                            <div class="member__logo-item">
-                                <img src="{{ asset('build/images/other/orsv.png') }}" alt="">
-                            </div>
-                            <div class="member__descr-item">
-                                <div class="member__info-item">
-                                    <h3>Austria (AUT)</h3>
-                                    <p class="blue-color"><b>Österreichischer Rollsport- und Inline-Skate-Verband
-                                            (ÖRSV)</b></p>
-                                    <p>Peter-Mitterhofer-Weg 23</p>
-                                    <p>6300 Wörgl</p>
-                                    <p class="blue-color">
-                                        <b>Homepage:</b>
-                                        <a href="#">http://www.isha.at</a>
-                                    </p>
-                                    <p class="blue-color">
-                                        <b>E-Mail:</b>
-                                        <a href="#">inlineskaterhockey@oersv.or.at</a>
-                                    </p>
+                        {% for ngb in ngbs %}
+                            <div class="member__item">
+                                <div class="member__logo-item">
+                                    <img src="{{ asset('build/images/other/orsv.png') }}" alt="">
                                 </div>
-                                {% include 'common/_more_button.html.twig' with {
-                                    'before': true,
-                                    'title': 'more information'
-                                } %}
-                            </div>
-                        </div>
-                        <div class="member__item">
-                            <div class="member__logo-item">
-                                <img src="{{ asset('build/images/other/orsv.png') }}" alt="">
-                            </div>
-                            <div class="member__descr-item">
-                                <div class="member__info-item">
-                                    <h3>Austria (AUT)</h3>
-                                    <p class="blue-color"><b>Österreichischer Rollsport- und Inline-Skate-Verband
-                                            (ÖRSV)</b></p>
-                                    <p>Peter-Mitterhofer-Weg 23</p>
-                                    <p>6300 Wörgl</p>
-                                    <p class="blue-color">
-                                        <b>Homepage:</b>
-                                        <a href="#">http://www.isha.at</a>
-                                    </p>
-                                    <p class="blue-color">
-                                        <b>E-Mail:</b>
-                                        <a href="#">inlineskaterhockey@oersv.or.at</a>
-                                    </p>
+                                <div class="member__descr-item">
+                                    <div class="member__info-item">
+                                        <h3>{{ ngb.countryName }} ({{ ngb.iocCode }})</h3>
+                                        <p class="blue-color">
+                                            <b>{{ ngb.name }} ({{ ngb.acronym }})</b>
+                                        </p>
+                                        {% if ngb.website %}
+                                            <p class="blue-color">
+                                                <b>Homepage:</b>
+                                                <a href="{{ ngb.website }}" target="_blank" rel="noopener"
+                                                   referrerpolicy="origin-when-cross-origin">{{ ngb.website }}</a>
+                                            </p>
+                                        {% endif %}
+                                        <p class="blue-color">
+                                            <b>E-Mail:</b>
+                                            {{ ngb.email|safe_email }}
+                                        </p>
+                                        {% if ngb.phoneNumber %}
+                                            <p class="blue-color">
+                                                <b>Telephone:</b>
+                                                <a href="{{ ngb.phoneNumber|phone_number_format('RFC3966') }}">
+                                                    {{ ngb.phoneNumber|phone_number_format() }}
+                                                </a>
+                                            </p>
+                                        {% endif %}
+                                        {% if ngb.facebookProfile %}
+                                            <p class="blue-color">
+                                                <b>Facebook Profile:</b>
+                                                {{ ngb.facebookProfile }}
+                                            </p>
+                                        {% endif %}
+                                        {% if ngb.twitterProfile %}
+                                            <p class="blue-color">
+                                                <b>Twitter Profile:</b>
+                                                {{ ngb.twitterProfile }}
+                                            </p>
+                                        {% endif %}
+                                        {% if ngb.instagramProfile %}
+                                            <p class="blue-color">
+                                                <b>Instagram Profile:</b>
+                                                {{ ngb.instagramProfile }}
+                                            </p>
+                                        {% endif %}
+                                    </div>
+                                    {% include 'common/_more_button.html.twig' with {
+                                        'before': true,
+                                        'title': 'more information'
+                                    } %}
                                 </div>
-                                {% include 'common/_more_button.html.twig' with {
-                                    'before': true,
-                                    'title': 'more information'
-                                } %}
                             </div>
-                        </div>
-                        <div class="member__item">
-                            <div class="member__logo-item">
-                                <img src="{{ asset('build/images/other/orsv.png') }}" alt="">
-                            </div>
-                            <div class="member__descr-item">
-                                <div class="member__info-item">
-                                    <h3>Austria (AUT)</h3>
-                                    <p class="blue-color"><b>Österreichischer Rollsport- und Inline-Skate-Verband
-                                            (ÖRSV)</b></p>
-                                    <p>Peter-Mitterhofer-Weg 23</p>
-                                    <p>6300 Wörgl</p>
-                                    <p class="blue-color">
-                                        <b>Homepage:</b>
-                                        <a href="#">http://www.isha.at</a>
-                                    </p>
-                                    <p class="blue-color">
-                                        <b>E-Mail:</b>
-                                        <a href="#">inlineskaterhockey@oersv.or.at</a>
-                                    </p>
-                                </div>
-                                {% include 'common/_more_button.html.twig' with {
-                                    'before': true,
-                                    'title': 'more information'
-                                } %}
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
