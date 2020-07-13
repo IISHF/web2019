@@ -1,0 +1,131 @@
+.member {
+    margin-top: 50px;
+    font-family: "Montserrat", sans-serif;
+
+    &__item {
+        display: flex;
+
+        + .member__item {
+            margin-top: 105px;
+
+            @media (max-width: 767px) {
+                margin-top: 30px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            display: block;
+        }
+    }
+
+    &__logo-item {
+        width: 225px;
+        text-align: right;
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        @media (max-width: 1400px) {
+            width: 200px;
+        }
+
+        @media (max-width: 767px) {
+            width: 150px;
+        }
+    }
+
+    &__descr-item {
+        flex: 1;
+        padding-left: 30px;
+        font-weight: 400;
+        max-width: 600px;
+        font-size: 16px;
+
+        @media (max-width: 1400px) {
+            max-width: 450px;
+        }
+
+        @media (max-width: 767px) {
+            margin-top: 10px;
+            padding-left: 60px;
+            max-width: 100%;
+            font-size: 14px;
+            line-height: 17px;
+        }
+
+    }
+
+    &__info-item {
+        h3 {
+            font-weight: bold;
+            font-size: 24px;
+            line-height: 29px;
+            color: #246D96;
+
+            @media (max-width: 767px) {
+                font-size: 18px;
+                line-height: 22px;
+            }
+        }
+
+        .blue-color {
+            color: #246D96;
+        }
+
+        a {
+            font-weight: 700;
+            color: #FF8A00;
+        }
+    }
+
+    .custom-btn {
+        font-size: 18px;
+        transform: skewX(38deg);
+
+        &__container {
+            margin-top: 50px;
+            margin-left: 15px;
+
+            @media (max-width: 767px) {
+                margin-top: 15px;
+            }
+        }
+
+        &__text {
+            text-transform: none;
+            transform: skewX(-38deg);
+        }
+
+        &__decoration-item {
+            margin-left: 0;
+            margin-right: 0.6rem;
+            transform: skewX(38deg);
+
+            &:first-child {
+                background: rgba(#FF8A00, 0.16);
+            }
+
+            &:nth-child(2) {
+                background: rgba(#FF8A00, 0.52);
+            }
+
+            &:nth-child(3) {
+                background: rgba(#FF8A00, 0.82);
+            }
+
+            &:nth-child(4) {
+                background: #FF8A00;
+            }
+        }
+
+        @media (max-width: 767px) {
+            font-size: 14px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        padding-bottom: 60px;
+    }
+}

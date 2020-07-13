@@ -1,0 +1,84 @@
+{% extends 'public.html.twig' %}
+
+{% block content %}
+    <section class="iishf__bg iishf__bg--left-bottom">
+        <div class="iishf__bg iishf__bg--right-bottom">
+            <div class="iishf__bg iishf__bg--left-top">
+                {% include 'home/_title.html.twig' with {'title': 'News archive', 'before': true} %}
+                <div class="news-archive">
+                    <div class="page-container">
+                        <div class="news-archive__header d-flex align-items-center justify-content-between">
+                            <div class="news-archive__title-header">Please select a year:</div>
+                            <div class="news-archive__year d-none d-md-block">
+                                <a href="#">2005</a>
+                                <a href="#">2006</a>
+                                <a href="#">2007</a>
+                                <a href="#">2008</a>
+                                <a href="#">2009</a>
+                                <a href="#" class="is-active">2010</a>
+                                <a href="#">2011</a>
+                            </div>
+                            <div class="d-block d-md-none">
+                                <select name="" id="">
+                                    <option value="">2019</option>
+                                    <option value="">2018</option>
+                                    <option value="">2017</option>
+                                    <option value="">2016</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="news-archive__table">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <td>#</td>
+                                    <td>Title</td>
+                                    <td>Date</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <a href="#">IISHF U16 European Cup 2019</a>
+                                    </td>
+                                    <td>
+                                        2019-04-27 23:24:13
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <a href="#">IISHF U16 European Cup 2019</a>
+                                    </td>
+                                    <td>
+                                        2019-04-27 23:24:13
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <a href="#">IISHF U16 European Cup 2019</a>
+                                    </td>
+                                    <td>
+                                        2019-04-27 23:24:13
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <a href="#">IISHF U16 European Cup 2019</a>
+                                    </td>
+                                    <td>
+                                        2019-04-27 23:24:13
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

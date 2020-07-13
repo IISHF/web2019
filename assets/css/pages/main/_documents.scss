@@ -1,0 +1,130 @@
+.documents {
+    margin-top: 60px;
+
+    &__wrapp {
+        @include media-breakpoint-down(sm) {
+            overflow: auto;
+            padding: 40px 15px;
+        }
+    }
+
+    &__date {
+        margin-bottom: 35px;
+
+        @include media-breakpoint-down(sm) {
+            margin-bottom: 0;
+            margin-top: 30px;
+            padding: 0 15px;
+        }
+    }
+
+    &__title-date {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 700;
+        font-size: 24px;
+        color: #333;
+
+        @include media-breakpoint-down(sm) {
+            font-size: 18px;
+        }
+    }
+
+    .page-container {
+        @include media-breakpoint-down(sm) {
+            padding: 0;
+        }
+    }
+
+    @include media-breakpoint-down(sm) {
+        margin-top: 10px;
+        margin-bottom: 40px;
+    }
+}
+
+.document-item {
+    margin-bottom: 50px;
+    font-family: "Montserrat", sans-serif;
+
+    &__link {
+        position: relative;
+        overflow: hidden;
+        display: block;
+        padding: 40px 45px;
+        font-weight: 400;
+        min-height: 360px;
+        text-align: center;
+        box-shadow: 0px 3px 24px 0px rgba(111, 101, 101, 0.35);
+        background: #fff;
+        outline: 0 !important;
+        border: 0 !important;
+        text-decoration: none !important;
+
+        &::before {
+            content: "";
+            position: absolute;
+            right: -55px;
+            top: 0;
+            display: block;
+            width: 100px;
+            height: 40px;
+            background: #245f80;
+            transform: rotate(45deg);
+        }
+
+        &:hover {
+            .document-item__title {
+                color: #f59128;
+            }
+        }
+
+        @media (max-width: 1400px) {
+            padding: 30px 10px;
+            min-height: auto;
+        }
+    }
+
+    &__type {
+        font-weight: bold;
+        font-size: 36px;
+        color: #245f80;
+
+        @media (max-width: 1400px) {
+            font-size: 24px;
+        }
+    }
+
+    &__title {
+        margin-top: 40px;
+        font-size: 18px;
+        font-weight: bold;
+
+        @media (max-width: 1400px) {
+            margin-top: 25px;
+            font-size: 14px;
+        }
+    }
+
+    &__text {
+        margin-top: 20px;
+        font-size: 12px;
+        color: #333333;
+
+        @media (max-width: 1400px) {
+            margin-top: 25px;
+        }
+    }
+
+    @include media-breakpoint-down(sm) {
+        margin-bottom: 0;
+    }
+}
+
+.documents-row {
+    @include media-breakpoint-down(sm) {
+
+        > .col-3 {
+            flex: 0 0 240px;
+            max-width: 240px;
+        }
+    }
+}

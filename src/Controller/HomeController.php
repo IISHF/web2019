@@ -56,6 +56,14 @@ class HomeController extends AbstractController
     /**
      * @return Response
      */
+    public function committees(): Response
+    {
+        return $this->render('home/committees.html.twig');
+    }
+
+    /**
+     * @return Response
+     */
     public function cookie(): Response
     {
         return $this->render('home/cookie.html.twig');
@@ -64,9 +72,49 @@ class HomeController extends AbstractController
     /**
      * @return Response
      */
+    public function documents(): Response
+    {
+        return $this->render('home/documents.html.twig');
+    }
+
+    /**
+     * @return Response
+     */
     public function imprint(): Response
     {
         return $this->render('home/imprint.html.twig');
+    }
+
+    /**
+     * @return Response
+     */
+    public function members(): Response
+    {
+        return $this->render('home/members.html.twig');
+    }
+
+    /**
+     * @return Response
+     */
+    public function news(): Response
+    {
+        return $this->render('home/news.html.twig');
+    }
+
+    /**
+     * @return Response
+     */
+    public function newsArchive(): Response
+    {
+        return $this->render('home/news_archive.html.twig');
+    }
+
+    /**
+     * @return Response
+     */
+    public function newsSingle(): Response
+    {
+        return $this->render('home/news_single.html.twig');
     }
 
     /**

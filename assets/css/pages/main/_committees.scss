@@ -1,0 +1,163 @@
+.committees {
+    margin-top: 75px;
+    padding-bottom: 250px;
+
+    @media (max-width: 1199px) {
+        padding-bottom: 75px;
+    }
+
+    @media (max-width: 767px) {
+        margin-top: 35px;
+        padding-bottom: 100px;
+    }
+}
+
+.committees-item {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+
+    &:not(:first-child) {
+        margin-top: 90px;
+    }
+
+    &__header {
+        margin-bottom: 55px;
+        font-size: 24px;
+        line-height: 29px;
+        color: #333333;
+
+        p {
+            margin: 0;
+        }
+
+        @media (max-width: 1400px) {
+            font-size: 18px;
+            line-height: 22px;
+        }
+
+        @media (max-width: 767px) {
+            margin-bottom: 25px;
+            font-size: 12px;
+            line-height: 15px;
+        }
+    }
+}
+
+.committees-carousel {
+    &__item {
+        color: #333333;
+    }
+
+    &__img {
+        img {
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+
+    &__name {
+        margin-top: 27px;
+        font-weight: 700;
+        font-size: 30px;
+        line-height: 37px;
+
+        @media (max-width: 1400px) {
+            margin-top: 20px;
+            font-size: 18px;
+            line-height: 22px;
+        }
+    }
+
+    &__country {
+        margin-top: 5px;
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 22px;
+
+        @media (max-width: 1400px) {
+            font-size: 12px;
+            line-height: 15px;
+        }
+    }
+
+    &__pos {
+        margin-top: 15px;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 22px;
+
+        @media (max-width: 1400px) {
+            font-size: 12px;
+            line-height: 15px;
+        }
+    }
+
+    .slick-slide {
+        margin: 0 15px;
+    }
+
+    .slick-list {
+        margin: 0 -15px;
+    }
+
+    .slick-prev,
+    .slick-next {
+        margin-top: 0;
+        transform: none;
+        background: transparent;
+
+        &::before,
+        &::after {
+            font-size: 40px;
+            height: 50px;
+            opacity: 1;
+            color: #C4C4C4;
+        }
+    }
+
+    .slick-next {
+        top: -56px;
+        right: -10px;
+
+        @media (max-width: 1400px) {
+            top: -63px;
+        }
+    }
+
+    .slick-prev {
+        top: -56px;
+        left: auto;
+        right: 100px;
+
+        @media (max-width: 1400px) {
+            top: -63px;
+        }
+    }
+
+    .circle-dots {
+        position: absolute;
+        width: auto;
+        bottom: auto;
+        top: -47px;
+        right: 45px;
+
+        li {
+            margin: 0 7px;
+            width: 9px;
+            height: 9px;
+
+            button {
+                padding: 0;
+                width: 9px;
+                height: 9px;
+                background: #C4C4C4
+            }
+
+            &.slick-active {
+                button {
+                    background: #F59128;
+                }
+            }
+        }
+    }
+}

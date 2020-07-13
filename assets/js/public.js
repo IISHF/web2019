@@ -88,4 +88,5 @@ $(document).ready(function () {
     });
 
     require('./slick-carousel');
+    require('./documents');
 });

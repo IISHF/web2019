@@ -6,6 +6,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const calendarTournamentEl = document.getElementById('calendarTournament');
     let calendar;
 
+    if (!calendarTournamentEl) {
+        return;
+    }
+
     const createCalendar = function (node, options) {
         calendar = new Calendar(node, {
             plugins: [dayGridPlugin, bootstrapPlugin],

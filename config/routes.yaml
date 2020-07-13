@@ -10,13 +10,37 @@ calendar:
     path: /calendar
     controller: App\Controller\HomeController::calendar
     methods:  [GET]
+committees:
+    path: /committees
+    controller: App\Controller\HomeController::committees
+    methods:  [GET]
 cookie:
     path: /cookie
     controller: App\Controller\HomeController::cookie
     methods:  [GET]
+documents:
+    path: /documents
+    controller: App\Controller\HomeController::documents
+    methods:  [GET]
 imprint:
     path: /imprint
     controller: App\Controller\HomeController::imprint
+    methods:  [GET]
+members:
+    path: /members
+    controller: App\Controller\HomeController::members
+    methods:  [GET]
+news:
+    path: /news
+    controller: App\Controller\HomeController::news
+    methods:  [GET]
+newsArchive:
+    path: /news/archive
+    controller: App\Controller\HomeController::newsArchive
+    methods:  [GET]
+newsSingle:
+    path: /news/single
+    controller: App\Controller\HomeController::newsSingle
     methods:  [GET]
 photo:
     path: /photo

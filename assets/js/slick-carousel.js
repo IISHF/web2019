@@ -125,4 +125,36 @@ $(document).ready(function () {
             }
         ]
     });
+
+    $('.committees-carousel')
+        .on('init', function (event, slick) {
+            $('.committees-carousel').each(function (index, element) {
+                const dots = $(this).find('.circle-dots');
+                const right_arrow = $(this).find('.slick-next');
+                const left_arrow = $(this).find('.slick-prev');
+                const dots_width = dots.innerWidth();
+                const arrow_width = right_arrow.width();
+                const right = dots_width + arrow_width;
+
+                left_arrow.css('right', right + 'px');
+            })
+        })
+        .slick({
+            dots: true,
+            dotsClass: "slick-dots circle-dots",
+            infinite: true,
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            responsive: [
+                {
+                    breakpoint: 768,
+                    settings: {
+                        dots: false,
+                        arrows: false,
+                        centerMode: true,
+                        slidesToShow: 1
+                    }
+                }
+            ]
+        });
 });

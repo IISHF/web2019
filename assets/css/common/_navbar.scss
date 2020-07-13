@@ -59,6 +59,7 @@
         }
 
         &__breadcrumbs {
+            font-weight: 400;
             font-size: 2.2rem;
             @include media-breakpoint-down(md) {
                 margin-bottom: 0;
