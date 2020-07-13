@@ -1,0 +1,16 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block content %}
+    <h1>Create Document</h1>
+
+    {{ form_start(form) }}
+
+    {{ form_rest(form) }}
+
+    <div class="btn-group" role="group">
+        <button type="submit" class="btn btn-success">Create</button>
+        <a href="{{ path('app_admin_document_list') }}" class="btn btn-light">Cancel</a>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}

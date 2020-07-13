@@ -1,0 +1,35 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block content %}
+    {# @var event App\Domain\Model\Event\Tournament #}
+    <h1>Tournament {{ event.season }} / {{ event.name }}</h1>
+
+    {{ include('admin/event/_tournament_detail.html.twig', {event: event}) }}
+
+    {{ include('admin/event/_teams_card.html.twig', {event: event, teams: teams}) }}
+
+    {% if event.sanctioned %}
+        {{ include('admin/event/_games_card.html.twig', {event: event, games: games}) }}
+    {% endif %}
+
+    {% embed 'admin/event/_event_workflow_buttons.html.twig' with {event: event} %}
+        {% block before_workflow %}
+            {% if is_granted('EVENT_EDIT', event) %}
+                <a href="{{ path('app_admin_event_event_update', {event: event.id}) }}"
+                   class="btn btn-primary">Edit</a>
+            {% endif %}
+        {% endblock %}
+        {% block after_workflow %}
+            {% if is_granted('EVENT_DELETE', event) %}
+                {{ include('common/_delete_btn.html.twig', {
+                    title: event.name,
+                    body: 'Do you really want to delete the tournament?',
+                    deleteAction: path('app_admin_event_event_delete', {event: event.id}),
+                    csrfIntention: 'event_delete_' ~ event.id,
+                }) }}
+            {% endif %}
+            <a href="{{ path('app_admin_event_event_season', {season: event.season}) }}"
+               class="btn btn-outline-secondary">Back</a>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

@@ -1,0 +1,68 @@
+<div class="card my-4">
+    <div class="card-body">
+        <h5 class="card-title">Applications</h5>
+        {% if is_granted('EVENT_EDIT', event) %}
+            <div class="btn-group" role="group">
+                <a href="{{ path('app_admin_event_titleeventapplication_apply', {event: event.id}) }}"
+                   class="btn btn-success">Add application</a>
+            </div>
+        {% endif %}
+        <table class="table table-sm">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Club</th>
+                <th scope="col">Date</th>
+                <th scope="col">Venue</th>
+                <th scope="col">Time Zone</th>
+                <th scope="col">Updated</th>
+                <th scope="col">&#160;</th>
+            </tr>
+            </thead>
+            <tbody>
+            {# @var applications App\Domain\Model\Event\Application\TitleEventApplication[] #}
+            {% for application in applications %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>
+                        <a href="{{ path('app_admin_event_titleeventapplication_detail', {
+                            event: event.id,
+                            application: application.id
+                        }) }}">{{ application.applicantClub }}</a>
+                    </td>
+                    <td>{{ application.proposedStartDate|date('F j, Y') }}
+                        – {{ application.proposedStartDate|date('F j, Y') }}</td>
+                    <td>{{ application.venue.address.city }}, {{ application.venue.address.countryName }}</td>
+                    <td>{{ application.timeZoneName }}</td>
+                    <td class="text-nowrap">{{ application.updatedAt|relative_time }}</td>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group">
+                            {% if is_granted('EVENT_EDIT', event) %}
+                                <a href="{{ path('app_admin_event_titleeventapplication_update', {
+                                    event: event.id,
+                                    application: application.id
+                                }) }}"
+                                   class="btn btn-primary">Edit</a>
+                                {{ include('common/_delete_btn.html.twig', {
+                                    title: application.applicantClub,
+                                    body: 'Do you really want to withdraw the application?',
+                                    deleteBtn: 'Withdraw',
+                                    deleteAction: path('app_admin_event_titleeventapplication_withdraw', {
+                                        event: event.id,
+                                        application: application.id
+                                    }),
+                                    csrfIntention: 'event_application_withdraw_' ~ application.id,
+                                }) }}
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">No applications found.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

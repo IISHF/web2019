@@ -16,22 +16,22 @@
                         <a class="nav-link text-uppercase" href="{{ path('home') }}">Home</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link text-uppercase" href="{{ path('calendar') }}">Calendar</a>
+                        <a class="nav-link text-uppercase" href="{{ path('app_calendar_index') }}">Calendar</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link text-uppercase" href="{{ path('app_article_list') }}">Articles</a>
+                        <a class="nav-link text-uppercase" href="{{ path('app_news_index') }}">Articles</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-uppercase" href="{{ path('app_document_list') }}">Documents</a>
+                        <a class="nav-link text-uppercase" href="{{ path('app_documents_index') }}">Documents</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-uppercase" href="{{ path('app_event_event_current') }}">Events</a>
+                        <a class="nav-link text-uppercase" href="#">Events</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-uppercase" href="{{ path('app_nationalgoverningbody_list') }}">NGBs</a>
+                        <a class="nav-link text-uppercase" href="{{ path('app_members_index') }}">Members</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-uppercase" href="{{ path('app_iishf_info') }}">IISHF</a>
+                        <a class="nav-link text-uppercase" href="{{ path('app_committees_index') }}">IISHF</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
@@ -42,6 +42,11 @@
                                aria-expanded="false"><i class="fas fa-user"></i></a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                                 <h2 class="dropdown-header">{{ app.user.username }}</h2>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a class="dropdown-item"
+                                       href="{{ path('app_admin_home_index') }}">Administration</a>
+                                    <div class="dropdown-divider"></div>
+                                {% endif %}
                                 <a class="dropdown-item" href="{{ path('app_account_changepassword') }}">Change
                                     Password</a>
                                 <div class="dropdown-divider"></div>

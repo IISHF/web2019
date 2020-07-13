@@ -1,0 +1,79 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block content %}
+    <h1>Documents</h1>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="btn-group" role="group">
+            <a href="{{ path('app_admin_document_create') }}" class="btn btn-success">Create</a>
+        </div>
+    {% endif %}
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Tags</th>
+            <th scope="col">Version</th>
+            <th scope="col">Valid</th>
+            <th scope="col">Type</th>
+            <th scope="col">Size</th>
+            <th scope="col">Created</th>
+            <th scope="col">&#160;</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for document in documents %}
+            {% set validVersion = document.findFirstValidVersion %}
+            <tr>
+                <th scope="row">{{ loop.index0 + documents.currentPageOffsetStart }}</th>
+                <td>
+                    <a href="{{ path('app_admin_document_detail', {'document': document.slug}) }}">{{ document.title }}</a>
+                </td>
+                <td>{{ include('common/_tags.html.twig', {tags: document.tags}) }}</td>
+                {% if validVersion %}
+                    <td>
+                        <a href="{{ path('app_admin_document_version', {
+                            'document': document.slug,
+                            'version': validVersion.slug
+                        }) }}">{{ validVersion.version }}</a>
+                    </td>
+                    <td>{{ include('admin/document/_version_validity.html.twig', {version: validVersion}) }}</td>
+                    <td>{{ validVersion.fileType }}</td>
+                    <td>{{ validVersion.fileSize|file_size }}</td>
+                    <td class="text-nowrap">{{ validVersion.createdAt|relative_time }}</td>
+                {% else %}
+                    <td colspan="5" class="text-muted">No valid version.</td>
+                {% endif %}
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
+                        {% if is_granted('DOCUMENT_EDIT', document) %}
+                            <a href="{{ path('app_admin_document_update', {'document': document.id}) }}"
+                               class="btn btn-primary">Edit</a>
+                        {% endif %}
+                        {% if is_granted('DOCUMENT_DELETE', document) %}
+                            {{ include('common/_delete_btn.html.twig', {
+                                title: document.title,
+                                body: 'Do you really want to delete the document?',
+                                deleteAction: path('app_admin_document_delete', {'document': document.id}),
+                                csrfIntention: 'document_delete_' ~ document.id,
+                            }) }}
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">No documents found.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if documents.haveToPaginate %}
+        <nav>
+            {{ pagerfanta(documents) }}
+        </nav>
+    {% endif %}
+{% endblock %}

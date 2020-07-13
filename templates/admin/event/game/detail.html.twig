@@ -1,0 +1,72 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block content %}
+    <h1>{{ game.fixture }}</h1>
+
+    <dl class="row">
+        <dt class="col-2">ID</dt>
+        <dd class="col-10">{{ game.id }}</dd>
+        <dt class="col-2">Game Number</dt>
+        <dd class="col-10">{{ game.gameNumber }}</dd>
+        <dt class="col-2">Game Type</dt>
+        <dd class="col-10">{{ game.gameTypeName }}</dd>
+        <dt class="col-2">Date/Time local</dt>
+        <dd class="col-10">{{ game.dateTimeLocal|date('F j, Y H:i', false) }}</dd>
+        <dt class="col-2">Time Zone</dt>
+        <dd class="col-10">{{ game.timeZoneName }}</dd>
+        <dt class="col-2">Date/Time UTC</dt>
+        <dd class="col-10">{{ game.dateTimeUtc|date('F j, Y H:i', false) }}</dd>
+        <dt class="col-2">Date/Time</dt>
+        <dd class="col-10">{{ game.dateTimeLocal|local_time }}</dd>
+        <dt class="col-2">Home Team</dt>
+        <dd class="col-10">{{ game.homeTeamName }}</dd>
+        <dt class="col-2">Away Team</dt>
+        <dd class="col-10">{{ game.awayTeamName }}</dd>
+        <dt class="col-2">Remarks</dt>
+        <dd class="col-10">{{ game.remarks }}</dd>
+        <dt class="col-2">Result</dt>
+        <dd class="col-10">{{ game.result.isResult ? game.result.homeGoals ~ ':' ~ game.result.awayGoals : '' }}</dd>
+        <dt class="col-2">Last Updated</dt>
+        <dd class="col-10">{{ game.updatedAt|relative_time }}</dd>
+        <dt class="col-2">Created</dt>
+        <dd class="col-10">{{ game.createdAt|relative_time }}</dd>
+    </dl>
+
+    <div class="btn-group" role="group">
+        {% if is_granted('EVENT_GAME_EDIT', game) %}
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Edit</button>
+                <div class="dropdown-menu">
+                    <a href="{{ path('app_admin_event_game_recordresult', {
+                        event: event.id,
+                        game: game.id
+                    }) }}" class="dropdown-item">Record Result</a>
+                    <a href="{{ path('app_admin_event_game_reschedule', {
+                        event: event.id,
+                        game: game.id
+                    }) }}" class="dropdown-item">Reschedule</a>
+                    <a href="{{ path('app_admin_event_game_changefixture', {
+                        event: event.id,
+                        game: game.id
+                    }) }}" class="dropdown-item">Change Fixture</a>
+                    <a href="{{ path('app_admin_event_game_update', {
+                        event: event.id,
+                        game: game.id
+                    }) }}" class="dropdown-item">Edit Game</a>
+                </div>
+            </div>
+            {{ include('common/_delete_btn.html.twig', {
+                title: game.fixture,
+                body: 'Do you really want to delete the game?',
+                deleteBtn: 'Delete',
+                deleteAction: path('app_admin_event_game_delete', {
+                    event: event.id,
+                    game: game.id
+                }),
+                csrfIntention: 'event_game_delete_' ~ game.id,
+            }) }}
+        {% endif %}
+        <a href="{{ path('app_admin_event_event_detail', {season: event.season, event: event.slug}) }}"
+           class="btn btn-outline-secondary">Back</a>
+    </div>
+{% endblock %}

@@ -32,7 +32,8 @@ Encore
     .autoProvidejQuery()
 
     .addEntry('public', './assets/js/public.js')
-    .addEntry('internal', './assets/js/internal.js')
+    .addEntry('login', './assets/js/login.js')
+    .addEntry('admin', './assets/js/admin.js')
     .copyFiles({
         from: './assets/img',
         to: 'images/[path][name].[hash:8].[ext]',

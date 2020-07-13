@@ -1,0 +1,93 @@
+{% extends 'public.html.twig' %}
+
+{% block content %}
+    <section class="iishf__bg iishf__bg--left-bottom">
+        <div class="iishf__bg iishf__bg--right-bottom">
+            <div class="iishf__bg iishf__bg--left-top">
+                {% include 'home/_title.html.twig' with {'title': 'Hockey Tour to Switzerland', 'before': true} %}
+                <div class="news">
+                    <div class="page-container">
+                        <div class="text-block">
+                            <img src="{{ asset('build/images/other/news.jpg') }}" alt="">
+                            <p>
+                                UKRAINIAN NATIONAL ROLE HOCKEY TEAM
+                            </p>
+                            <p>
+                                The national team of Ukraine in roller hockey with the ball goes to the European
+                                Championship for the second time. This
+                                time we go to the picturesque Swiss town of Rosmezon.
+                                To defeat powerful opponents, our athletes need ardent fan support. Those who wish are
+                                invited to join our hockey tour.
+                                You can book a tour simply by writing to us in Messenger (m.me/rh.ukraine). You will
+                                find a comfortable bus with the
+                                best athletes of our country, the atmosphere of competitions and attendance of all
+                                championship matches, from which our
+                                team will need to be supported at least 7 times.<br>
+                                Tour program: <br>
+                                We leave from Kiev: 20.11 at 7:00 <br>
+                                21.11 - stop in Prague, free time for excursions and walks (about 8 hours).<br>
+                                Arrival in Rosmezon: 22.11 in the morning.<br>
+                                22.11 - opening ceremony of the IISHF Open Men European Championships 2018 at 19.00.<br>
+                                23-25.11 - championship games<br>
+                                Departure from Rosmezon: 25.11 late in the evening<br>
+                                26.11- stop in Dresden, free time for excursions and walks (about 8 hours).<br>
+                                Return to Kyiv: 27.11
+                            </p>
+                            <p>
+                                Accommodation in Rosmezon cozy Motel "Au Gros Pré" (https://goo.gl/rkXfYi) with a
+                                beautiful view of nature and near the
+                                sports ground (20 minutes on foot). Walks around the host city of the championship. Meet
+                                European players, fans and
+                                coaches. Celebrating the end of the championship with the team.
+                            </p>
+                            <p>
+                                The team needs your support!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="news-more">
+                    {% include 'home/_title.html.twig' with {'title': 'Latest news', 'before': true} %}
+                    <div class="news-more__list">
+                        <div class="page-container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="news__item">
+                                        <div class="news__img-item">
+                                            <a href="#">
+                                                <img src="{{ asset('build/images/other/hockey-day.jpg') }}" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="news__descr-item">
+                                            <div class="news__date">
+                                                <span>HOCKEY DAY</span> / 12.01.19
+                                            </div>
+                                            <h3>December 1 - World Hockey Day!</h3>
+                                            {% include 'common/_more_button.html.twig' %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="news__item">
+                                        <div class="news__img-item">
+                                            <a href="#">
+                                                <img src="{{ asset('build/images/other/hockey-day.jpg') }}" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="news__descr-item">
+                                            <div class="news__date">
+                                                <span>HOCKEY DAY</span> / 12.01.19
+                                            </div>
+                                            <h3>December 1 - World Hockey Day!</h3>
+                                            {% include 'common/_more_button.html.twig' %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

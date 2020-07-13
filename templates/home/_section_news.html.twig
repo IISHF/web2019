@@ -24,7 +24,9 @@
                         <span class="m-news__slide-text">{{ article1.tags|join(', ') }}</span>
                         <span class="m-news__slide-date">/ {{ article1.publishedAt|relative_time }}</span>
                         <div class="m-news__slide-title">{{ article1.title }}</div>
-                        {% include 'home/_more_button.html.twig' with {'href': path('app_article_detail', {article: article1.slug})} %}
+                        {% include 'common/_more_button.html.twig' with {
+                            'href': path('app_news_detail', {article: article1.slug})
+                        } %}
                     </div>
                 </div>
                 <div class="d-flex m-news__slide-right">
@@ -36,7 +38,9 @@
                                 <span class="m-news__slide-text">{{ article2.tags|join(', ') }}</span>
                                 <span class="m-news__slide-date">/ {{ article2.publishedAt|relative_time }}</span>
                                 <div class="m-news__slide-title">{{ article2.title }}</div>
-                                {% include 'home/_more_button.html.twig' with {'href': path('app_article_detail', {article: article2.slug})} %}
+                                {% include 'common/_more_button.html.twig' with {
+                                    'href': path('app_news_detail', {article: article2.slug})
+                                } %}
                             </div>
                         </div>
                     </div>
@@ -51,7 +55,9 @@
                                     <span class="m-news__slide-text">{{ article3.tags|join(', ') }}</span>
                                     <span class="m-news__slide-date">/ {{ article3.publishedAt|relative_time }}</span>
                                     <div class="m-news__slide-title">{{ article3.title }}</div>
-                                    {% include 'home/_more_button.html.twig' with {'href': path('app_article_detail', {article: article3.slug})} %}
+                                    {% include 'common/_more_button.html.twig' with {
+                                        'href': path('app_news_detail', {article: article3.slug})
+                                    } %}
                                 </div>
                             </div>
                         </div>
@@ -65,7 +71,9 @@
                                     <span class="m-news__slide-text">{{ article4.tags|join(', ') }}</span>
                                     <span class="m-news__slide-date">/ {{ article4.publishedAt|relative_time }}</span>
                                     <div class="m-news__slide-title">{{ article4.title }}</div>
-                                    {% include 'home/_more_button.html.twig' with {'href': path('app_article_detail', {article: article4.slug})} %}
+                                    {% include 'common/_more_button.html.twig' with {
+                                        'href': path('app_news_detail', {article: article4.slug})
+                                    } %}
                                 </div>
                             </div>
                         </div>

@@ -1,0 +1,10 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block content %}
+    {{ include('admin/event/_form_workflow.html.twig', {
+        event: event,
+        form: form,
+        transition: transition,
+        title: 'European Championship ' ~ event.season ~ ' / ' ~ event.name
+    }) }}
+{% endblock %}

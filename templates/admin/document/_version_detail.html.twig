@@ -1,0 +1,29 @@
+<dl class="row">
+    <dt class="col-2">ID</dt>
+    <dd class="col-10">{{ version.id }}</dd>
+    <dt class="col-2">Slug</dt>
+    <dd class="col-10">{{ version.slug }}</dd>
+    <dt class="col-2">Version</dt>
+    <dd class="col-10">
+        <a href="{{ path('app_file_download', {'name': version.fileName, 'download': 1}) }}" target="_blank"
+           title="Download {{ version.fileClientName|e('html_attr') }}" data-toggle="tooltip" data-placement="top">
+            <i class="fas fa-download"></i>
+        </a>
+        <a href="{{ path('app_file_download', {'name': version.fileName}) }}"
+           target="_blank">{{ version.version }}</a>
+    </dd>
+    <dt class="col-2">Valid From</dt>
+    <dd class="col-10">{{ version.validFrom ? version.validFrom|date('F j, Y') : '' }}</dd>
+    <dt class="col-2">Valid Until</dt>
+    <dd class="col-10">{{ version.validUntil ? version.validUntil|date('F j, Y') : '' }}</dd>
+    <dt class="col-2">Valid</dt>
+    <dd class="col-10">{{ include('admin/document/_version_validity.html.twig', {version: version}) }}</dd>
+    <dt class="col-2">Type</dt>
+    <dd class="col-10">{{ version.fileType }}</dd>
+    <dt class="col-2">Size</dt>
+    <dd class="col-10">{{ version.fileSize|file_size }}</dd>
+    <dt class="col-2">Last Updated</dt>
+    <dd class="col-10">{{ version.updatedAt|relative_time }}</dd>
+    <dt class="col-2">Created</dt>
+    <dd class="col-10">{{ version.createdAt|relative_time }}</dd>
+</dl>

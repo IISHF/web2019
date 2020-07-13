@@ -1,0 +1,70 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block content %}
+    <h1>{{ ngb.name }}</h1>
+
+    <div data-enable-dropzone="true"
+         data-upload-url="{{ path('app_admin_nationalgoverningbody_addlogo', {ngb: ngb.id}) }}"
+         data-remove-url="{{ path('app_admin_nationalgoverningbody_removelogo', {ngb: ngb.id}) }}"
+         data-image-url="{{ ngb.logo ? path('app_admin_nationalgoverningbody_logo', {ngb: ngb.slug}) : null }}"
+    ></div>
+
+    <dl class="row">
+        <dt class="col-2">ID</dt>
+        <dd class="col-10">{{ ngb.id }}</dd>
+        <dt class="col-2">Slug</dt>
+        <dd class="col-10">{{ ngb.slug }}</dd>
+        <dt class="col-2">Name</dt>
+        <dd class="col-10">{{ ngb.name }}</dd>
+        <dt class="col-2">Acronym</dt>
+        <dd class="col-10">{{ ngb.acronym }}</dd>
+        <dt class="col-2">IOC Code</dt>
+        <dd class="col-10">{{ ngb.iocCode }}</dd>
+        <dt class="col-2">Country Code</dt>
+        <dd class="col-10">{{ ngb.country }}</dd>
+        <dt class="col-2">Country</dt>
+        <dd class="col-10">{{ ngb.countryName }}</dd>
+        <dt class="col-2">E-mail</dt>
+        <dd class="col-10">{{ ngb.email|safe_email }}</dd>
+        <dt class="col-2">Website</dt>
+        <dd class="col-10">
+            {% if ngb.website %}
+                <a href="{{ ngb.website }}" target="_blank" rel="noopener"
+                   referrerpolicy="origin-when-cross-origin">{{ ngb.website }}</a>
+            {% endif %}
+        </dd>
+        <dt class="col-2">Telephone</dt>
+        <dd class="col-10">
+            {% if ngb.phoneNumber %}
+                <a href="{{ ngb.phoneNumber|phone_number_format('RFC3966') }}">{{ ngb.phoneNumber|phone_number_format() }}</a>
+            {% endif %}
+        </dd>
+        <dt class="col-2">Facebook Profile</dt>
+        <dd class="col-10">{{ ngb.facebookProfile }}</dd>
+        <dt class="col-2">Twitter Profile</dt>
+        <dd class="col-10">{{ ngb.twitterProfile }}</dd>
+        <dt class="col-2">Instagram Profile</dt>
+        <dd class="col-10">{{ ngb.instagramProfile }}</dd>
+        <dt class="col-2">Last Updated</dt>
+        <dd class="col-10">{{ ngb.updatedAt|relative_time }}</dd>
+        <dt class="col-2">Created</dt>
+        <dd class="col-10">{{ ngb.createdAt|relative_time }}</dd>
+    </dl>
+
+    <div class="btn-group" role="group">
+        {% if is_granted('NATIONAL_GOVERNING_BODY_EDIT', ngb) %}
+            <a href="{{ path('app_admin_nationalgoverningbody_update', {'ngb': ngb.id}) }}"
+               class="btn btn-primary">Edit</a>
+        {% endif %}
+        {% if is_granted('NATIONAL_GOVERNING_BODY_DELETE', ngb) %}
+            {{ include('common/_delete_btn.html.twig', {
+                title: ngb.name,
+                body: 'Do you really want to delete the national governing body?',
+                deleteAction: path('app_admin_nationalgoverningbody_delete', {'ngb': ngb.id}),
+                csrfIntention: 'ngb_delete_' ~ ngb.id,
+            }) }}
+        {% endif %}
+        <a href="{{ path('app_admin_nationalgoverningbody_list') }}" class="btn btn-outline-secondary">Back</a>
+    </div>
+
+{% endblock %}

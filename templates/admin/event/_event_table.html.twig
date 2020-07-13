@@ -1,0 +1,85 @@
+{# @var events App\Domain\Model\Event\Event[] #}
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Status</th>
+        <th scope="col">Name</th>
+        <th scope="col">Age Group</th>
+        <th scope="col">Date</th>
+        <th scope="col">Host</th>
+        <th scope="col">Venue</th>
+        <th scope="col">Time Zone</th>
+        <th scope="col">Tags</th>
+        <th scope="col">Updated</th>
+        <th scope="col">&#160;</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for event in events %}
+        <tr>
+            <td>{{ include('admin/event/_event_state.html.twig', {event: event}) }}</td>
+            <td>
+                <a href="{{ path('app_admin_event_event_detail', {'season': event.season, event: event.slug}) }}">
+                    {{ event.name }}</a>
+            </td>
+            <td>{{ event.ageGroup }}</td>
+            <td>
+                {% if event.hasDate %}
+                    {{ event.startDate|date('F j, Y') }} – {{ event.endDate|date('F j, Y') }}
+                {% else %}
+                    <span class="text-muted">No date yet.</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if event.hasHost %}
+                    {{ event.host.club }}
+                {% else %}
+                    <span class="text-muted">No host yet.</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if event.hasVenue %}
+                    {{ event.venue.address.city }}, {{ event.venue.address.countryName }}
+                {% else %}
+                    <span class="text-muted">No venue yet.</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if event.hasTimeZone %}
+                    {{ event.timeZoneName }}
+                {% else %}
+                    <span class="text-muted">No time zone yet.</span>
+                {% endif %}
+            </td>
+            <td>{{ include('common/_tags.html.twig', {tags: event.tags}) }}</td>
+            <td class="text-nowrap">{{ event.updatedAt|relative_time }}</td>
+            <td>
+                <div class="btn-group btn-group-sm" role="group">
+                    {% embed 'admin/event/_event_workflow_buttons.html.twig' with {event: event, size: 'sm'} %}
+                        {% block before_workflow %}
+                            {% if is_granted('EVENT_EDIT', event) %}
+                                <a href="{{ path('app_admin_event_event_update', {event: event.id}) }}"
+                                   class="btn btn-primary">Edit</a>
+                            {% endif %}
+                        {% endblock %}
+                        {% block after_workflow %}
+                            {% if is_granted('EVENT_DELETE', event) %}
+                                {{ include('common/_delete_btn.html.twig', {
+                                    title: event.name,
+                                    body: 'Do you really want to delete the event?',
+                                    deleteAction: path('app_admin_event_event_delete', {event: event.id}),
+                                    csrfIntention: 'event_delete_' ~ event.id,
+                                }) }}
+                            {% endif %}
+                        {% endblock %}
+                    {% endembed %}
+                </div>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="10">{{ emptyText|default('No events found.') }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

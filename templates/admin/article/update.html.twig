@@ -1,0 +1,10 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block content %}
+    <h1>
+        {{ include('admin/article/_article_state.html.twig', {article: article}) }}
+        {{ article.title }}
+    </h1>
+
+    {% include 'article/_form.html.twig' with {author: article.author, form: form} %}
+{% endblock %}

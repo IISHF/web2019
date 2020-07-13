@@ -1,0 +1,7 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block content %}
+    <h1>Record result for Game {{ game.fixture }}</h1>
+
+    {% include 'event/game/_form.html.twig' with {game: game, form: form} %}
+{% endblock %}

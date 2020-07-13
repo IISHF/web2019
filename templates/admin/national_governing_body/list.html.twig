@@ -1,0 +1,39 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block content %}
+    <h1>National Governing Bodies</h1>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="btn-group" role="group">
+            <a href="{{ path('app_admin_nationalgoverningbody_create') }}" class="btn btn-success">Create</a>
+        </div>
+    {% endif %}
+
+    <div class="card-columns">
+        {% for ngb in ngbs %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ ngb.countryName }}</h5>
+                    <h6 class="card-subtitle">{{ ngb.acronym }}</h6>
+                    <p class="card-text">{{ ngb.name }}</p>
+                    <div class="btn-group btn-group" role="group">
+                        <a href="{{ path('app_admin_nationalgoverningbody_detail', {'ngb': ngb.slug}) }}"
+                           class="btn btn-outline-primary">Details</a>
+                        {% if is_granted('NATIONAL_GOVERNING_BODY_EDIT', ngb) %}
+                            <a href="{{ path('app_admin_nationalgoverningbody_update', {'ngb': ngb.id}) }}"
+                               class="btn btn-primary">Edit</a>
+                        {% endif %}
+                        {% if is_granted('NATIONAL_GOVERNING_BODY_DELETE', ngb) %}
+                            {{ include('common/_delete_btn.html.twig', {
+                                title: ngb.name,
+                                body: 'Do you really want to delete the national governing body?',
+                                deleteAction: path('app_admin_nationalgoverningbody_delete', {'ngb': ngb.id}),
+                                csrfIntention: 'ngb_delete_' ~ ngb.id,
+                            }) }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

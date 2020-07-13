@@ -1,0 +1,7 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block content %}
+    <h1>Create European Cup</h1>
+
+    {% include 'event/_form_cup.html.twig' with {form: form, submitBtnText: 'Create', submitBtnType: 'success'} %}
+{% endblock %}

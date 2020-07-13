@@ -1,0 +1,7 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block content %}
+    <h1>Create Staff Member</h1>
+
+    {% include 'staff/_form.html.twig' with {form: form, submitBtnText: 'Create', submitBtnType: 'success'} %}
+{% endblock %}

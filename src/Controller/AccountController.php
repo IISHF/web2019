@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: stefan
- * Date: 2018-11-29
- * Time: 17:03
+ * Copyright (c) 2020 Stefan Gehrig (stefan.gehrig.hn@googlemail.com).
  */
 
 namespace App\Controller;
@@ -18,6 +15,7 @@ use App\Infrastructure\User\Form\ChangePasswordType;
 use App\Infrastructure\User\Form\ConfirmUserType;
 use App\Infrastructure\User\Form\RequestPasswordResetType;
 use App\Infrastructure\User\Form\ResetPasswordType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,6 +36,7 @@ class AccountController extends AbstractController
 
     /**
      * @Route("/change-password", methods={"GET", "POST"})
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      *
      * @param Request             $request
      * @param MessageBusInterface $commandBus
@@ -45,8 +44,6 @@ class AccountController extends AbstractController
      */
     public function changePassword(Request $request, MessageBusInterface $commandBus): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
-
         $user = $this->getUser();
         if (!$user) {
             throw $this->createAccessDeniedException();

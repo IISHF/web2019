@@ -1,0 +1,51 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block content %}
+    <h1>{{ application.applicantClub }}</h1>
+
+    <dl class="row">
+        <dt class="col-2">ID</dt>
+        <dd class="col-10">{{ application.id }}</dd>
+        <dt class="col-2">Proposed Date</dt>
+        <dd class="col-10">{{ application.proposedStartDate|date('F j, Y') }}
+            – {{ application.proposedEndDate|date('F j, Y') }}</dd>
+        <dt class="col-2">Contact</dt>
+        <dd class="col-10">{{ application.contact.name }}</dd>
+        <dt class="col-2">E-mail</dt>
+        <dd class="col-10">{{ application.contact.email|safe_email }}</dd>
+        <dt class="col-2">Telephone</dt>
+        <dd class="col-10">
+            {% if application.contact.phoneNumber %}
+                <a href="{{ application.contact.phoneNumber|phone_number_format('RFC3966') }}">{{ application.contact.phoneNumber|phone_number_format() }}</a>
+            {% endif %}
+        </dd>
+        <dt class="col-2">Venue</dt>
+        <dd class="col-10">{{ application.venue.address.city }}, {{ application.venue.address.countryName }}</dd>
+        <dt class="col-2">Last Updated</dt>
+        <dd class="col-10">{{ application.updatedAt|relative_time }}</dd>
+        <dt class="col-2">Created</dt>
+        <dd class="col-10">{{ application.createdAt|relative_time }}</dd>
+    </dl>
+
+    <div class="btn-group" role="group">
+        {% if is_granted('EVENT_EDIT', event) %}
+            <a href="{{ path('app_admin_event_titleeventapplication_update', {
+                event: event.id,
+                application: application.id
+            }) }}"
+               class="btn btn-primary">Edit</a>
+            {{ include('common/_delete_btn.html.twig', {
+                title: application.applicantClub,
+                body: 'Do you really want to withdraw the application?',
+                deleteBtn: 'Withdraw',
+                deleteAction: path('app_admin_event_titleeventapplication_withdraw', {
+                    event: event.id,
+                    application: application.id
+                }),
+                csrfIntention: 'event_application_withdraw_' ~ application.id,
+            }) }}
+        {% endif %}
+        <a href="{{ path('app_admin_event_event_detail', {season: event.season, event: event.slug}) }}"
+           class="btn btn-outline-secondary">Back</a>
+    </div>
+{% endblock %}

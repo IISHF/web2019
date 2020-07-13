@@ -1,0 +1,66 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block content %}
+    <h1>Venues</h1>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="btn-group" role="group">
+            <a href="{{ path('app_admin_event_eventvenue_create') }}" class="btn btn-success">Create</a>
+        </div>
+    {% endif %}
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Address</th>
+            <th scope="col">Updated</th>
+            <th scope="col">&#160;</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for venue in venues %}
+            <tr>
+                <td><a href="{{ path('app_admin_event_eventvenue_detail', {'venue': venue.id}) }}">{{ venue.name }}</a></td>
+                <td>
+                    {{ venue.address.address1 }}, {{ venue.address.address2 }},
+                    {{ venue.address.state }},
+                    {{ venue.address.city }} {{ venue.address.postalCode }},
+                    {{ venue.address.countryName }}
+                </td>
+                <td class="text-nowrap">{{ venue.updatedAt|relative_time }}</td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
+                        {% if is_granted('EVENT_VENUE_EDIT', venue) %}
+                            <a href="{{ path('app_admin_event_eventvenue_update', {'venue': venue.id}) }}"
+                               class="btn btn-primary">Edit</a>
+                        {% endif %}
+                        {% if is_granted('EVENT_VENUE_DELETE', venue) %}
+                            {{ include('common/_delete_btn.html.twig', {
+                                title: venue.name,
+                                body: 'Do you really want to delete the venue?',
+                                deleteAction: path('app_admin_event_eventvenue_delete', {'venue': venue.id}),
+                                csrfIntention: 'venue_delete_' ~ venue.id,
+                            }) }}
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">No venues found.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if venues.haveToPaginate %}
+        <nav>
+            {{ pagerfanta(venues) }}
+        </nav>
+    {% endif %}
+
+    <div class="btn-group" role="group">
+        <a href="{{ path('app_admin_event_event_current') }}" class="btn btn-outline-secondary">Back</a>
+    </div>
+{% endblock %}

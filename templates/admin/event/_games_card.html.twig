@@ -1,0 +1,87 @@
+<div class="card my-4">
+    <div class="card-body">
+        <h5 class="card-title">Games</h5>
+        {% if is_granted('EVENT_EDIT', event) %}
+            <div class="btn-group" role="group">
+                <a href="{{ path('app_admin_event_game_create', {event: event.id}) }}"
+                   class="btn btn-success">Create Game</a>
+            </div>
+        {% endif %}
+        <table class="table table-sm">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Fixture</th>
+                <th scope="col">Date/Time local</th>
+                <th scope="col">Date/Time UTC</th>
+                <th scope="col">Date/Time</th>
+                <th scope="col">Remarks</th>
+                <th scope="col">Result</th>
+                <th scope="col">Updated</th>
+                <th scope="col">&#160;</th>
+            </tr>
+            </thead>
+            <tbody>
+            {# @var games App\Domain\Model\Event\Game\Game[] #}
+            {% for game in games %}
+                <tr>
+                    <th scope="row">{{ game.gameNumber }}</th>
+                    <td><a href="{{ path('app_admin_event_game_detail', {
+                            event: event.id,
+                            game: game.id
+                        }) }}">{{ game.fixture }}</a></td>
+                    <td>{{ game.dateTimeLocal|date('F j, Y H:i', false) }}</td>
+                    <td>{{ game.dateTimeUtc|date('F j, Y H:i', false) }}</td>
+                    <td>{{ game.dateTimeLocal|local_time }}</td>
+                    <td>{{ game.remarks }}</td>
+                    <td>{{ game.result.isResult ? game.result.homeGoals ~ ':' ~ game.result.awayGoals : '' }}</td>
+                    <td class="text-nowrap">{{ game.updatedAt|relative_time }}</td>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group">
+                            {% if is_granted('EVENT_GAME_EDIT', game) %}
+                                <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle" type="button"
+                                            data-toggle="dropdown">Edit
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a href="{{ path('app_admin_event_game_recordresult', {
+                                            event: event.id,
+                                            game: game.id
+                                        }) }}" class="dropdown-item">Record Result</a>
+                                        <a href="{{ path('app_admin_event_game_reschedule', {
+                                            event: event.id,
+                                            game: game.id
+                                        }) }}" class="dropdown-item">Reschedule</a>
+                                        <a href="{{ path('app_admin_event_game_changefixture', {
+                                            event: event.id,
+                                            game: game.id
+                                        }) }}" class="dropdown-item">Change Fixture</a>
+                                        <a href="{{ path('app_admin_event_game_update', {
+                                            event: event.id,
+                                            game: game.id
+                                        }) }}" class="dropdown-item">Edit Game</a>
+                                    </div>
+                                </div>
+                                {{ include('common/_delete_btn.html.twig', {
+                                    title: game.fixture,
+                                    body: 'Do you really want to delete the game?',
+                                    deleteBtn: 'Delete',
+                                    deleteAction: path('app_admin_event_game_delete', {
+                                        event: event.id,
+                                        game: game.id
+                                    }),
+                                    csrfIntention: 'event_game_delete_' ~ game.id,
+                                }) }}
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="9">No games found.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

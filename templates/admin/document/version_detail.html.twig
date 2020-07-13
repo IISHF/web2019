@@ -1,0 +1,33 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block content %}
+    <h1>{{ version.title }}</h1>
+
+    {{ include('admin/document/_version_detail.html.twig', {version: version}) }}
+
+    <div class="card my-4">
+        <div class="card-body">
+            <h5 class="card-title">Document</h5>
+            {{ include('admin/document/_document_detail.html.twig', {document: version.document}) }}
+        </div>
+    </div>
+
+    <div class="btn-group" role="group">
+        {% if is_granted('DOCUMENT_VERSION_EDIT', version) %}
+            <a href="{{ path('app_admin_document_updateversion', {
+                'document': version.document.id,
+                'version': version.id
+            }) }}" class="btn btn-primary">Edit</a>
+        {% endif %}
+        {% if is_granted('DOCUMENT_VERSION_DELETE', version) %}
+            {{ include('common/_delete_btn.html.twig', {
+                title: version.title,
+                body: 'Do you really want to delete the document version?',
+                deleteAction: path('app_admin_document_deleteversion', {'document': version.document.id, 'version': version.id}),
+                csrfIntention: 'document_version_delete_' ~ version.id,
+            }) }}
+        {% endif %}
+        <a href="{{ path('app_admin_document_detail', {'document': version.document.slug}) }}"
+           class="btn btn-outline-secondary">Back</a>
+    </div>
+{% endblock %}

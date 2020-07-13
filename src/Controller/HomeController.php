@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -24,6 +25,8 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class HomeController extends AbstractController
 {
     /**
+     * @Route("", methods={"GET"}, name="home")
+     *
      * @param ArticleRepository $articleRepository
      * @return Response
      */
@@ -38,30 +41,8 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @return Response
-     */
-    public function aboutSport(): Response
-    {
-        return $this->render('home/about_sport.html.twig');
-    }
-
-    /**
-     * @return Response
-     */
-    public function calendar(): Response
-    {
-        return $this->render('home/calendar.html.twig');
-    }
-
-    /**
-     * @return Response
-     */
-    public function committees(): Response
-    {
-        return $this->render('home/committees.html.twig');
-    }
-
-    /**
+     * @Route("/cookie", methods={"GET"}, name="cookie")
+     *
      * @return Response
      */
     public function cookie(): Response
@@ -70,14 +51,8 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @return Response
-     */
-    public function documents(): Response
-    {
-        return $this->render('home/documents.html.twig');
-    }
-
-    /**
+     * @Route("/imprint", methods={"GET"}, name="imprint")
+     *
      * @return Response
      */
     public function imprint(): Response
@@ -86,46 +61,8 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @return Response
-     */
-    public function members(): Response
-    {
-        return $this->render('home/members.html.twig');
-    }
-
-    /**
-     * @return Response
-     */
-    public function news(): Response
-    {
-        return $this->render('home/news.html.twig');
-    }
-
-    /**
-     * @return Response
-     */
-    public function newsArchive(): Response
-    {
-        return $this->render('home/news_archive.html.twig');
-    }
-
-    /**
-     * @return Response
-     */
-    public function newsSingle(): Response
-    {
-        return $this->render('home/news_single.html.twig');
-    }
-
-    /**
-     * @return Response
-     */
-    public function photo(): Response
-    {
-        return $this->render('home/photo.html.twig');
-    }
-
-    /**
+     * @Route("/privacy", methods={"GET"}, name="privacy")
+     *
      * @return Response
      */
     public function privacy(): Response
@@ -134,14 +71,8 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @return Response
-     */
-    public function video(): Response
-    {
-        return $this->render('home/video.html.twig');
-    }
-
-    /**
+     * @Route("/login", methods={"GET", "POST"}, name="login")
+     *
      * @param Request             $request
      * @param AuthenticationUtils $authenticationUtils
      * @return Response
@@ -169,6 +100,8 @@ class HomeController extends AbstractController
     }
 
     /**
+     * @Route("/login/magic", methods={"POST"}, name="login_magic")
+     *
      * @param Request          $request
      * @param SessionInterface $session
      * @param TokenManager     $tokenManager
@@ -253,6 +186,8 @@ class HomeController extends AbstractController
     }
 
     /**
+     * @Route("/login/magic/confirm", methods={"GET"}, name="login_magic_confirm")
+     *
      * @param SessionInterface $session
      * @return Response
      */
