@@ -3,7 +3,7 @@
 {% block content %}
     <h1>Add team to {{ event.name }}</h1>
 
-    {% include 'event/team/_form.html.twig' with {
+    {% include 'admin/event/team/_form.html.twig' with {
         event: event,
         form: form,
         submitBtnText: 'Add',
