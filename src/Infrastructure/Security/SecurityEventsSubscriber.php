@@ -11,17 +11,16 @@ namespace App\Infrastructure\Security;
 use App\Domain\Model\User\UserRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Core\AuthenticationEvents;
 use Symfony\Component\Security\Core\Event\AuthenticationFailureEvent;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
-use Symfony\Component\Security\Http\SecurityEvents;
+use Symfony\Component\Security\Http\Event\LogoutEvent;
 
 /**
- * Class LoginSubscriber
+ * Class SecurityEventsSubscriber
  *
  * @package App\Infrastructure\Security
  */
-class LoginSubscriber implements EventSubscriberInterface
+class SecurityEventsSubscriber implements EventSubscriberInterface
 {
     /**
      * @var UserRepository
@@ -83,13 +82,26 @@ class LoginSubscriber implements EventSubscriberInterface
     }
 
     /**
+     * @param LogoutEvent $event
+     */
+    public function onLogout(LogoutEvent $event): void
+    {
+        $token = $event->getToken();
+        if ($token && ($user = $this->userRepository->findByEmail($token->getUsername())) !== null) {
+            $user->registerLogout();
+            $this->userRepository->save($user);
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
     public static function getSubscribedEvents(): array
     {
         return [
-            SecurityEvents::INTERACTIVE_LOGIN            => 'onInteractiveLogin',
-            AuthenticationEvents::AUTHENTICATION_FAILURE => 'onAuthenticationFailure',
+            InteractiveLoginEvent::class      => 'onInteractiveLogin',
+            AuthenticationFailureEvent::class => 'onAuthenticationFailure',
+            LogoutEvent::class                => 'onLogout',
         ];
     }
 }

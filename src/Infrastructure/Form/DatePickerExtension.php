@@ -40,7 +40,7 @@ class DatePickerExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public static function getExtendedTypes()
+    public static function getExtendedTypes(): iterable
     {
         return [DateType::class, TimeType::class, DateTimeType::class];
     }

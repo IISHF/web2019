@@ -1,7 +1,7 @@
 imports:
     - { resource: 'services/' }
 
-white_october_pagerfanta:
+babdev_pagerfanta:
     default_view: twitter_bootstrap4
 
 parameters:

@@ -23,7 +23,8 @@ security:
         main:
             pattern:   ^/
             provider: all
-            anonymous: lazy
+            lazy: true
+            anonymous: true
             switch_user: true
             user_checker: App\Infrastructure\Security\UserChecker
             remember_me:
@@ -75,13 +76,7 @@ services:
     app.security.remember_me.token_provider:
         class: Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider
 
-    app.security.logout_success_handler:
-        class: App\Infrastructure\Security\LogoutSuccessHandler
-        decorates: security.logout.success_handler.main
-        arguments:
-            $inner: "@app.security.logout_success_handler.inner"
-
-    App\Infrastructure\Security\LoginSubscriber:
+    App\Infrastructure\Security\SecurityEventsSubscriber:
 
     App\Infrastructure\Security\UserChecker:
 
