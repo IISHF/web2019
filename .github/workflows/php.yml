@@ -45,5 +45,5 @@ jobs:
       - name: Run test suite
         run: vendor/bin/phpunit -c phpunit.xml.dist --coverage-text
         env:
-          DATABASE_URL: mysql://${{ job.services.mysql.env['MYSQL_USER'] }}:${{ job.services.mysql.env['MYSQL_PASSWORD'] }}@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/${{ job.services.mysql.env['MYSQL_DATABASE'] }}
+          DATABASE_URL: mysql://iishf:iishf@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/iishf
           MAILER_DSN: null://null
