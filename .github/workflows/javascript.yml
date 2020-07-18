@@ -9,13 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup PHP, with composer and extensions
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 7.2
-          extensions: curl, xdebug, sqlite3, json, intl, mbstring, imagick, bcmath, gmp, apcu, zip, mysql
-          coverage: xdebug
-
       - name: Get yarn cache directory
         id: yarn-cache
         run: echo "::set-output name=dir::$(yarn cache dir)"
