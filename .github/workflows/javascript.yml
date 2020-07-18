@@ -1,4 +1,4 @@
-name: IISHF Javascript Packaging
+name: JS Packaging
 
 on: [push]
 
