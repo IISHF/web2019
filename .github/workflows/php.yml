@@ -1,4 +1,4 @@
-name: IISHF CI
+name: IISHF PHP Tests
 
 on: [push]
 
@@ -19,10 +19,10 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Setup PHP, with composer and extensions
-        uses: shivammathur/setup-php@v1
+        uses: shivammathur/setup-php@v2
         with:
           php-version: 7.2
           extensions: curl, xdebug, sqlite3, json, intl, mbstring, imagick, bcmath, gmp, apcu, zip, mysql
@@ -32,7 +32,7 @@ jobs:
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
       - name: Cache composer dependencies
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -47,5 +47,5 @@ jobs:
       - name: Run test suite
         run: vendor/bin/phpunit -c phpunit.xml.dist --coverage-text
         env:
-          DATABASE_URL: mysql://iishf:iishf@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/iishf
+          DATABASE_URL: mysql://${{ job.services.mysql.env['MYSQL_USER'] }}:${{ job.services.mysql.env['MYSQL_PASSWORD'] }}@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/${{ job.services.mysql.env['MYSQL_DATABASE'] }}
           MAILER_DSN: null://null
