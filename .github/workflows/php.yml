@@ -1,4 +1,4 @@
-name: IISHF PHP Tests
+name: PHP Testing
 
 on: [push]
 
