@@ -47,7 +47,7 @@ jobs:
         run: yarn run build
 
       - name: Remove unneeded directories and files
-        run: rm -rf ./.github ./assets ./deployment ./docker ./node_modules ./tests ./vagrant ./var
+        run: rm -rf ./.git ./.github ./assets ./deployment ./docker ./node_modules ./tests ./vagrant ./var
     
       - name: Create ZIP archive
         run:  zip --recurse-paths release.zip .
