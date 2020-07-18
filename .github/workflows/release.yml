@@ -50,7 +50,7 @@ jobs:
         run: rm -rf ./.github ./assets ./deployment ./docker ./node_modules ./tests ./vagrant ./var
     
       - name: Create ZIP archive
-        run:  zip --junk-paths --recurse-paths release.zip .
+        run:  zip --recurse-paths release.zip .
 
       - name: Create release
         id: release
