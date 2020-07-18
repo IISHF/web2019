@@ -45,3 +45,30 @@ jobs:
 
       - name: Build Javascript package
         run: yarn run build
+
+      - name: Remove unneeded directories and files
+        run: rm -rf ./.github ./assets ./deployment ./docker ./node_modules ./tests ./vagrant ./var
+    
+      - name: Create ZIP archive
+        run:  zip --junk-paths --recurse-paths release.zip .
+
+      - name: Create release
+        id: release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          tag_name: ${{github.ref}}
+          release_name: Release ${{github.ref}}
+          draft: true
+          prerelease: true
+          
+      - name: Upload release ZIP archive
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: ./release.zip
+          asset_name: release.zip
+          asset_content_type: application/zip
