@@ -1,0 +1,8 @@
+<div class="m-news__slide-content">
+    <span class="m-news__slide-text">{{ article.tags|join(', ') }}</span>
+    <span class="m-news__slide-date">/ {{ article.publishedAt|relative_time }}</span>
+    <div class="m-news__slide-title">{{ article.title }}</div>
+    {% include 'common/_more_button.html.twig' with {
+        'href': path('app_news_detail', {article: article.slug})
+    } %}
+</div>

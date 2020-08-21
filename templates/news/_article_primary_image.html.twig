@@ -1,0 +1,19 @@
+{% set class = class|default('img-fluid') %}
+{% set alt = alt|default('') %}
+{% set defaultImage = defaultImage|default(null) %}
+
+{% if article.legacyFormat %}
+    {% if legacyPrimaryImage %}
+        <img src="{{ path('app_file_download', {'name': legacyPrimaryImage.name}) }}" class="{{ class|e('html_attr') }}"
+             alt="{{ legacyPrimaryImage.caption|default(alt)|e('html_attr') }}">
+    {% elseif defaultImage %}
+        <img src="{{ defaultImage|e('html_attr') }}" alt="{{ alt|e('html_attr') }}" class="{{ class|e('html_attr') }}">
+    {% endif %}
+{% else %}
+    {% if article.firstAttachmentUrl %}
+        <img src="{{ article.firstAttachmentUrl|e('html_attr') }}" alt="{{ alt|e('html_attr') }}"
+             class="{{ class|e('html_attr') }}">
+    {% elseif defaultImage %}
+        <img src="{{ defaultImage|e('html_attr') }}" alt="{{ alt|e('html_attr') }}" class="{{ class|e('html_attr') }}">
+    {% endif %}
+{% endif %}

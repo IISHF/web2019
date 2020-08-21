@@ -1,7 +1,11 @@
 <div class="news__item">
     <div class="news__img-item">
         <a href="{{ path('app_news_detail', {'article': article.slug}) }}">
-            <img src="{{ asset('build/images/other/hockey-day.jpg') }}" alt="">
+            {{ render(controller('App\\Controller\\NewsController::articlePrimaryImage', {
+                'article': article,
+                'alt': article.title,
+                'defaultImage': asset('build/images/other/hockey-day.jpg')
+            })) }}
         </a>
     </div>
     <div class="news__descr-item">

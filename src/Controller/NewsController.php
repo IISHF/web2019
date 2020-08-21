@@ -102,4 +102,25 @@ class NewsController extends AbstractController
             ]
         );
     }
+
+    public function articlePrimaryImage(
+        Request $request,
+        Article $article,
+        ArticleRepository $articleRepository
+    ): Response {
+        if (!$article->isPublished()) {
+            throw $this->createNotFoundException();
+        }
+        $images = $articleRepository->findImages($article);
+        return $this->render(
+            'news/_article_primary_image.html.twig',
+            [
+                'article'            => $article,
+                'legacyPrimaryImage' => $images->getPrimaryImage(),
+                'class'              => $request->attributes->get('class'),
+                'alt'                => $request->attributes->get('alt'),
+                'defaultImage'       => $request->attributes->get('defaultImage'),
+            ]
+        );
+    }
 }
