@@ -1,0 +1,37 @@
+{% extends '@BabDevPagerfanta/default.html.twig' %}
+
+{%- block pager_widget -%}
+    <div class="pagination d-flex align-items-center justify-content-end">
+        {{- block('pager') -}}
+    </div>
+{%- endblock pager_widget -%}
+
+{%- block page_link -%}
+    <a href="{{- path -}}" class="pagination__item">
+        <span>{{- page -}}</span>
+    </a>
+{%- endblock page_link -%}
+
+{%- block current_page_link -%}
+    <a href="{{- path -}}" class="pagination__item is-active">
+        <span>{{- page -}}</span>
+    </a>
+{%- endblock current_page_link -%}
+
+{%- block previous_page_link -%}
+{%- endblock previous_page_link -%}
+
+{%- block previous_page_link_disabled -%}
+{%- endblock previous_page_link_disabled -%}
+
+{%- block next_page_link -%}
+{%- endblock next_page_link -%}
+
+{%- block next_page_link_disabled -%}
+{%- endblock next_page_link_disabled -%}
+
+{%- block ellipsis -%}
+    <a href="#" class="pagination__item">
+        <span>…</span>
+    </a>
+{%- endblock ellipsis -%}

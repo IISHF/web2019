@@ -33,72 +33,9 @@
                             </div>
                         {% endfor %}
 
-
-                        <div class="row">
-
-                            <div class="col-md-6">
-                                <div class="news__item">
-                                    <div class="news__img-item">
-                                        <a href="#">
-                                            <img src="{{ asset('build/images/other/hockey-day.jpg') }}" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="news__descr-item">
-                                        <div class="news__date">
-                                            <span>HOCKEY DAY</span> / 12.01.19
-                                        </div>
-                                        <h3>December 1 - World Hockey Day!</h3>
-                                        {% include 'common/_more_button.html.twig' %}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="news__item">
-                                    <div class="news__img-item">
-                                        <a href="#">
-                                            <img src="{{ asset('build/images/other/hockey-day.jpg') }}" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="news__descr-item">
-                                        <div class="news__date">
-                                            <span>HOCKEY DAY</span> / 12.01.19
-                                        </div>
-                                        <h3>December 1 - World Hockey Day!</h3>
-                                        {% include 'common/_more_button.html.twig' %}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="news__item">
-                                    <div class="news__img-item">
-                                        <a href="#">
-                                            <img src="{{ asset('build/images/other/hockey-day.jpg') }}" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="news__descr-item">
-                                        <div class="news__date">
-                                            <span>HOCKEY DAY</span> / 12.01.19
-                                        </div>
-                                        <h3>December 1 - World Hockey Day!</h3>
-                                        {% include 'common/_more_button.html.twig' %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="pagination d-flex align-items-center justify-content-end">
-                            <a href="#" class="pagination__item">
-                                <span>1</span>
-                            </a>
-                            <a href="#" class="pagination__item">
-                                <span>2</span>
-                            </a>
-                            <a href="#" class="pagination__item">
-                                <span>3</span>
-                            </a>
-                            <a href="#" class="pagination__item is-active">
-                                <span>4</span>
-                            </a>
-                        </div>
+                        {% if articles.haveToPaginate %}
+                            {{ pagerfanta(articles, 'twig', {'template': 'news/_pager.html.twig'}) }}
+                        {% endif %}
                     </div>
                 </div>
             </div>
