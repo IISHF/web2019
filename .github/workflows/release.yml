@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2
@@ -15,7 +15,7 @@ jobs:
       - name: Setup PHP with composer and extensions
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.2
+          php-version: 7.4
           extensions: curl, xdebug, sqlite3, json, intl, mbstring, imagick, bcmath, gmp, apcu, zip, mysql
           coverage: xdebug
 
