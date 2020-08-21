@@ -7,15 +7,41 @@
                 {% include 'home/_title.html.twig' with {'title': 'Committees', 'before': true} %}
                 <div class="committees">
                     <div class="page-container">
-                        {% for committee in committees %}
+                        {% if staff is not empty %}
                             <div class="committees-item">
                                 <div class="committees-item__header">
                                     <p>
-                                        <b>{{ committee.title }}</b> <br>
-                                        {{ committee.description|default('')|purify('article') }}
+                                        <b>IISHF Staff Members</b>
                                     </p>
                                 </div>
-                                {% if committee.members is not empty %}
+                                <div class="committees-carousel">
+                                    {% for member in staff %}
+                                        <div class="committees-carousel__item">
+                                            <div class="committees-carousel__img">
+                                                <img src="{{ asset('build/images/main/com.jpg') }}" alt="">
+                                            </div>
+                                            <div class="committees-carousel__name">{{ member.name }}</div>
+                                            <div class="committees-carousel__country">{{ member.email|safe_email }}</div>
+                                            <div class="committees-carousel__pos">
+                                                {{ member.title }}<br/>
+                                                {{ member.roles|join(', ', ' and ') }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% for committee in committees %}
+                            {% if committee.members is not empty %}
+                                <div class="committees-item">
+                                    <div class="committees-item__header">
+                                        <p>
+                                            <b>{{ committee.title }}</b> <br>
+                                            {{ committee.description|default('')|purify('article') }}
+                                        </p>
+                                    </div>
+
                                     <div class="committees-carousel">
                                         {% for member in committee.members %}
                                             <div class="committees-carousel__item">
@@ -31,8 +57,8 @@
                                             </div>
                                         {% endfor %}
                                     </div>
-                                {% endif %}
-                            </div>
+                                </div>
+                            {% endif %}
                         {% endfor %}
                     </div>
                 </div>

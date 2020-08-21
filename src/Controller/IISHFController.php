@@ -3,30 +3,33 @@
 namespace App\Controller;
 
 use App\Domain\Model\Committee\CommitteeRepository;
+use App\Domain\Model\Staff\StaffMemberRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class CommitteesController
+ * Class IISHFController
  *
  * @package App\Controller
  *
- * @Route("/iishf/committees")
+ * @Route("/iishf")
  */
-class CommitteesController extends AbstractController
+class IISHFController extends AbstractController
 {
     /**
      * @Route("", methods={"GET"})
      *
-     * @param CommitteeRepository $committeeRepository
+     * @param StaffMemberRepository $memberRepository
+     * @param CommitteeRepository   $committeeRepository
      * @return Response
      */
-    public function index(CommitteeRepository $committeeRepository): Response
+    public function index(StaffMemberRepository $memberRepository, CommitteeRepository $committeeRepository): Response
     {
         return $this->render(
-            'committees/index.html.twig',
+            'iishf/index.html.twig',
             [
+                'staff'      => $memberRepository->findAll(),
                 'committees' => $committeeRepository->findAll(),
             ]
         );
