@@ -2,7 +2,8 @@ imports:
     - { resource: 'services/' }
 
 babdev_pagerfanta:
-    default_view: twitter_bootstrap4
+    default_view: twig
+    default_twig_template: '@BabDevPagerfanta/twitter_bootstrap4.html.twig'
 
 parameters:
     locale: 'en'

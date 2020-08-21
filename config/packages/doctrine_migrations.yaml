@@ -1,5 +1,6 @@
 doctrine_migrations:
-    dir_name: '%kernel.project_dir%/src/Updates'
-    namespace: DbUpdates
-    table_name: db_updates
-    name: IISHF Database Updates
+    migrations_paths:
+        DbUpdates: '%kernel.project_dir%/src/Updates'
+    storage:
+        table_storage:
+            table_name: db_updates
