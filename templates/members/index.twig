@@ -10,7 +10,10 @@
                         {% for ngb in ngbs %}
                             <div class="member__item">
                                 <div class="member__logo-item">
-                                    <img src="{{ asset('build/images/other/orsv.png') }}" alt="">
+                                    {% if ngb.logo %}
+                                        <img src="{{ path('app_admin_nationalgoverningbody_logo', {'ngb': ngb.slug}) }}"
+                                             alt="{{ ngb.name|e('html_attr') }}">
+                                    {% endif %}
                                 </div>
                                 <div class="member__descr-item">
                                     <div class="member__info-item">

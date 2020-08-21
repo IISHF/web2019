@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Domain\Model\Article\ArticleRepository;
+use App\Domain\Model\NationalGoverningBody\NationalGoverningBodyRepository;
 use App\Infrastructure\Security\Exception\CaptchaTestFailedException;
 use App\Infrastructure\Security\MagicLink\TokenManager;
 use App\Infrastructure\Security\ReCaptchaClient;
@@ -27,15 +28,19 @@ class HomeController extends AbstractController
     /**
      * @Route("", methods={"GET"}, name="home")
      *
-     * @param ArticleRepository $articleRepository
+     * @param ArticleRepository               $articleRepository
+     * @param NationalGoverningBodyRepository $ngbRepository
      * @return Response
      */
-    public function index(ArticleRepository $articleRepository): Response
-    {
+    public function index(
+        ArticleRepository $articleRepository,
+        NationalGoverningBodyRepository $ngbRepository
+    ): Response {
         return $this->render(
             'home/index.html.twig',
             [
                 'articles' => $articleRepository->findMostRecent(12),
+                'members'  => $ngbRepository->findAll(),
             ]
         );
     }
