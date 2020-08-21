@@ -142,37 +142,6 @@ class NationalGoverningBodyController extends AbstractController
 
     /**
      * @Route(
-     *     "/{ngb}/logo",
-     *     methods={"GET"},
-     *     requirements={"ngb": "%routing.slug%"}
-     * )
-     * @ParamConverter(
-     *      name="ngb",
-     *      class="App\Domain\Model\NationalGoverningBody\NationalGoverningBody",
-     *      converter="app.national_governing_body"
-     * )
-     *
-     * @param Request               $request
-     * @param NationalGoverningBody $ngb
-     * @return Response
-     */
-    public function logo(Request $request, NationalGoverningBody $ngb): Response
-    {
-        $logo = $ngb->getLogo();
-        if (!$logo) {
-            throw $this->createNotFoundException();
-        }
-        return $this->redirectToRoute(
-            'app_file_download',
-            [
-                'name' => $logo->getName(),
-            ],
-            Response::HTTP_SEE_OTHER
-        );
-    }
-
-    /**
-     * @Route(
      *     "/{ngb}/delete",
      *     methods={"POST", "DELETE"},
      *     requirements={"ngb": "%routing.uuid%"}

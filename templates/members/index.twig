@@ -11,7 +11,7 @@
                             <div class="member__item">
                                 <div class="member__logo-item">
                                     {% if ngb.logo %}
-                                        <img src="{{ path('app_admin_nationalgoverningbody_logo', {'ngb': ngb.slug}) }}"
+                                        <img src="{{ path('app_members_logo', {'ngb': ngb.slug}) }}"
                                              alt="{{ ngb.name|e('html_attr') }}">
                                     {% endif %}
                                 </div>
