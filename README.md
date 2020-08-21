@@ -44,7 +44,7 @@ used below).
 ```
 host$ cd vagrant
 host$ vargant ssh
-Welcome to Ubuntu 18.04.3 LTS (GNU/Linux 4.15.0-20-generic x86_64)
+Welcome to Ubuntu 20.04.1 LTS (GNU/Linux 5.4.0-42-generic x86_64)
 [...]
 vagrant$ cd /var/www/iishf
 ```
