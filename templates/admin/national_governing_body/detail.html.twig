@@ -3,11 +3,10 @@
 {% block content %}
     <h1>{{ ngb.name }}</h1>
 
-    <div data-enable-dropzone="true"
-         data-upload-url="{{ path('app_admin_nationalgoverningbody_addlogo', {ngb: ngb.id}) }}"
-         data-remove-url="{{ path('app_admin_nationalgoverningbody_removelogo', {ngb: ngb.id}) }}"
-         data-image-url="{{ ngb.logo ? path('app_admin_nationalgoverningbody_logo', {ngb: ngb.slug}) : null }}"
-    ></div>
+    {% if ngb.logo %}
+        <img src="{{ path('app_admin_nationalgoverningbody_logo', {'ngb': ngb.slug}) }}"
+             alt="{{ ngb.name|e('html_attr') }}">
+    {% endif %}
 
     <dl class="row">
         <dt class="col-2">ID</dt>

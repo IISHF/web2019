@@ -25,6 +25,16 @@ class UpdateNationalGoverningBody implements IdentifiesNationalGoverningBody
     use IdAware, NationalGoverningBodyProperties;
 
     /**
+     * @var bool
+     */
+    private bool $hasLogo;
+
+    /**
+     * @var bool
+     */
+    private bool $removeLogo = false;
+
+    /**
      * @param NationalGoverningBody $nationalGoverningBody
      * @return self
      */
@@ -41,7 +51,8 @@ class UpdateNationalGoverningBody implements IdentifiesNationalGoverningBody
             $nationalGoverningBody->getPhoneNumber(),
             $nationalGoverningBody->getFacebookProfile(),
             $nationalGoverningBody->getTwitterProfile(),
-            $nationalGoverningBody->getInstagramProfile()
+            $nationalGoverningBody->getInstagramProfile(),
+            $nationalGoverningBody->getLogo() !== null
         );
     }
 
@@ -57,6 +68,7 @@ class UpdateNationalGoverningBody implements IdentifiesNationalGoverningBody
      * @param string|null      $facebookProfile
      * @param string|null      $twitterProfile
      * @param string|null      $instagramProfile
+     * @param bool             $hasLogo
      */
     private function __construct(
         string $id,
@@ -69,7 +81,8 @@ class UpdateNationalGoverningBody implements IdentifiesNationalGoverningBody
         ?PhoneNumber $phoneNumber,
         ?string $facebookProfile,
         ?string $twitterProfile,
-        ?string $instagramProfile
+        ?string $instagramProfile,
+        bool $hasLogo
     ) {
         $this->id               = $id;
         $this->name             = $name;
@@ -82,5 +95,32 @@ class UpdateNationalGoverningBody implements IdentifiesNationalGoverningBody
         $this->facebookProfile  = $facebookProfile;
         $this->twitterProfile   = $twitterProfile;
         $this->instagramProfile = $instagramProfile;
+        $this->hasLogo          = $hasLogo;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasLogo(): bool
+    {
+        return $this->hasLogo;
+    }
+
+    /**
+     * @return bool
+     */
+    public function removeLogo(): bool
+    {
+        return $this->removeLogo;
+    }
+
+    /**
+     * @param bool $removeLogo
+     * @return $this
+     */
+    public function setRemoveLogo(bool $removeLogo): self
+    {
+        $this->removeLogo = $removeLogo;
+        return $this;
     }
 }

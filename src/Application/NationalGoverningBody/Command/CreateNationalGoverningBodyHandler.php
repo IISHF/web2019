@@ -8,6 +8,8 @@
 
 namespace App\Application\NationalGoverningBody\Command;
 
+use App\Application\Common\Command\CommandDispatcher;
+use App\Application\Common\Command\CommandDispatchingHandler;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBody;
 
 /**
@@ -15,8 +17,11 @@ use App\Domain\Model\NationalGoverningBody\NationalGoverningBody;
  *
  * @package App\Application\NationalGoverningBody\Command
  */
-class CreateNationalGoverningBodyHandler extends NationalGoverningBodyCommandHandler
+class CreateNationalGoverningBodyHandler extends NationalGoverningBodyCommandHandler implements
+    CommandDispatchingHandler
 {
+    use CommandDispatcher;
+
     /**
      * @param CreateNationalGoverningBody $command
      */
@@ -38,5 +43,10 @@ class CreateNationalGoverningBodyHandler extends NationalGoverningBodyCommandHan
         );
 
         $this->ngbRepository->save($ngb);
+
+        if (($logo = $command->getLogo()) !== null) {
+            $addLogo = AddNationalGoverningBodyLogo::addTo($ngb, $logo);
+            $this->dispatchCommand($addLogo);
+        }
     }
 }

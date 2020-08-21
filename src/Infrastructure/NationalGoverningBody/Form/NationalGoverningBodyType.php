@@ -12,6 +12,7 @@ use Misd\PhoneNumberBundle\Form\Type\PhoneNumberType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -107,6 +108,14 @@ class NationalGoverningBodyType extends AbstractType
                 TextType::class,
                 [
                     'label'    => 'Instagram Profile',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'logo',
+                FileType::class,
+                [
+                    'label'    => 'Logo',
                     'required' => false,
                 ]
             );

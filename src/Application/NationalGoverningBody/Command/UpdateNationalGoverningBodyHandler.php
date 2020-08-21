@@ -8,13 +8,19 @@
 
 namespace App\Application\NationalGoverningBody\Command;
 
+use App\Application\Common\Command\CommandDispatcher;
+use App\Application\Common\Command\CommandDispatchingHandler;
+
 /**
  * Class UpdateNationalGoverningBodyHandler
  *
  * @package App\Application\NationalGoverningBody
  */
-class UpdateNationalGoverningBodyHandler extends NationalGoverningBodyCommandHandler
+class UpdateNationalGoverningBodyHandler extends NationalGoverningBodyCommandHandler implements
+    CommandDispatchingHandler
 {
+    use CommandDispatcher;
+
     /**
      * @param UpdateNationalGoverningBody $command
      */
@@ -32,6 +38,15 @@ class UpdateNationalGoverningBodyHandler extends NationalGoverningBodyCommandHan
             ->setFacebookProfile($command->getFacebookProfile())
             ->setTwitterProfile($command->getTwitterProfile())
             ->setInstagramProfile($command->getInstagramProfile());
+
         $this->ngbRepository->save($ngb);
+
+        if (($logo = $command->getLogo()) !== null) {
+            $addLogo = AddNationalGoverningBodyLogo::addTo($ngb, $logo);
+            $this->dispatchCommand($addLogo);
+        } elseif ($command->removeLogo()) {
+            $removeLogo = RemoveNationalGoverningBodyLogo::removeFrom($ngb);
+            $this->dispatchCommand($removeLogo);
+        }
     }
 }

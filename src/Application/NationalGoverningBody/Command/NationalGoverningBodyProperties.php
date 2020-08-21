@@ -11,6 +11,7 @@ namespace App\Application\NationalGoverningBody\Command;
 use App\Domain\Common\Country;
 use libphonenumber\PhoneNumber;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
+use SplFileInfo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -113,6 +114,19 @@ trait NationalGoverningBodyProperties
      * @var string|null
      */
     private $instagramProfile;
+
+    /**
+     * @Assert\File(
+     *      maxSize="4M",
+     *      mimeTypes={
+     *          "image/*"
+     *      }
+     * )
+     * @Assert\Type("SplFileInfo")
+     *
+     * @var SplFileInfo|null
+     */
+    private $logo;
 
     /**
      * @return string
@@ -299,6 +313,24 @@ trait NationalGoverningBodyProperties
     public function setInstagramProfile(?string $instagramProfile): self
     {
         $this->instagramProfile = $instagramProfile;
+        return $this;
+    }
+
+    /**
+     * @return SplFileInfo|null
+     */
+    public function getLogo(): ?SplFileInfo
+    {
+        return $this->logo;
+    }
+
+    /**
+     * @param SplFileInfo|null $logo
+     * @return $this
+     */
+    public function setLogo(?SplFileInfo $logo): self
+    {
+        $this->logo = $logo;
         return $this;
     }
 }

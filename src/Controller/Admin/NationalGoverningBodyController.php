@@ -5,16 +5,13 @@
 
 namespace App\Controller\Admin;
 
-use App\Application\NationalGoverningBody\Command\AddNationalGoverningBodyLogo;
 use App\Application\NationalGoverningBody\Command\CreateNationalGoverningBody;
 use App\Application\NationalGoverningBody\Command\DeleteNationalGoverningBody;
-use App\Application\NationalGoverningBody\Command\RemoveNationalGoverningBodyLogo;
 use App\Application\NationalGoverningBody\Command\UpdateNationalGoverningBody;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBody;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBodyRepository;
 use App\Infrastructure\Controller\CsrfSecuredHandler;
 use App\Infrastructure\Controller\FormHandler;
-use App\Infrastructure\Http\ApiResponse;
 use App\Infrastructure\NationalGoverningBody\Form\CreateNationalGoverningBodyType;
 use App\Infrastructure\NationalGoverningBody\Form\UpdateNationalGoverningBodyType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -22,8 +19,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Messenger\Exception\ValidationFailedException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -174,70 +169,6 @@ class NationalGoverningBodyController extends AbstractController
             ],
             Response::HTTP_SEE_OTHER
         );
-    }
-
-    /**
-     * @Route(
-     *     "/{ngb}/logo",
-     *     methods={"POST"},
-     *     requirements={"ngb": "%routing.uuid%"}
-     * )
-     * @ParamConverter(
-     *      name="ngb",
-     *      class="App\Domain\Model\NationalGoverningBody\NationalGoverningBody",
-     *      converter="app.national_governing_body"
-     * )
-     * @Security("is_granted('NATIONAL_GOVERNING_BODY_EDIT', ngb)")
-     *
-     * @param Request               $request
-     * @param NationalGoverningBody $ngb
-     * @param MessageBusInterface   $commandBus
-     * @return Response
-     */
-    public function addLogo(Request $request, NationalGoverningBody $ngb, MessageBusInterface $commandBus): Response
-    {
-        $file = $request->files->get('file');
-        if (!$file) {
-            throw new BadRequestHttpException();
-        }
-        $addLogo = AddNationalGoverningBodyLogo::addTo($ngb, $file);
-        try {
-            $commandBus->dispatch($addLogo);
-        } catch (ValidationFailedException $e) {
-            return ApiResponse::validationFailed($e->getViolations(), $e->getCode());
-        }
-
-        return ApiResponse::created(
-            'app_admin_nationalgoverningbody_logo',
-            [
-                'ngb' => $ngb->getSlug(),
-            ],
-            $this->get('router')
-        );
-    }
-
-    /**
-     * @Route(
-     *     "/{ngb}/logo",
-     *     methods={"DELETE"},
-     *     requirements={"ngb": "%routing.uuid%"}
-     * )
-     * @ParamConverter(
-     *      name="ngb",
-     *      class="App\Domain\Model\NationalGoverningBody\NationalGoverningBody",
-     *      converter="app.national_governing_body"
-     * )
-     * @Security("is_granted('NATIONAL_GOVERNING_BODY_EDIT', ngb)")
-     *
-     * @param NationalGoverningBody $ngb
-     * @param MessageBusInterface   $commandBus
-     * @return Response
-     */
-    public function removeLogo(NationalGoverningBody $ngb, MessageBusInterface $commandBus): Response
-    {
-        $removeLogo = RemoveNationalGoverningBodyLogo::removeFrom($ngb);
-        $commandBus->dispatch($removeLogo);
-        return ApiResponse::noContent();
     }
 
     /**
