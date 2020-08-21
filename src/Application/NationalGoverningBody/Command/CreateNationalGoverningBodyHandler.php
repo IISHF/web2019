@@ -39,7 +39,9 @@ class CreateNationalGoverningBodyHandler extends NationalGoverningBodyCommandHan
             $command->getPhoneNumber(),
             $command->getFacebookProfile(),
             $command->getTwitterProfile(),
-            $command->getInstagramProfile()
+            $command->getInstagramProfile(),
+            $command->getTikTokProfile(),
+            $command->getTelegramProfile()
         );
 
         $this->ngbRepository->save($ngb);

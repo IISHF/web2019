@@ -42,6 +42,18 @@
 {% endset %}
 {{ forms.withHelp(form.instagramProfile, instagramProfileHelp) }}
 
+{% set tikTokProfileHelp %}
+    The Tik Tok profile is the Tik Tok username (<code>PROFILE</code> for
+    <code>https://tiktok.com/@PROFILE</code>).
+{% endset %}
+{{ forms.withHelp(form.tikTokProfile, tikTokProfileHelp) }}
+
+{% set telegramProfileHelp %}
+    The Telegram profile is the Telegram username (<code>PROFILE</code> for
+    <code>https://t.me/PROFILE</code>).
+{% endset %}
+{{ forms.withHelp(form.telegramProfile, telegramProfileHelp) }}
+
 {{ form_rest(form) }}
 
 <div class="btn-group" role="group">

@@ -67,11 +67,31 @@
                                                 </a>
                                             </p>
                                         {% endif %}
+                                        {% if ngb.tikTokProfile %}
+                                            <p class="blue-color">
+                                                <b>Tik Tok Profile:</b>
+                                                <a href="{{ ('https://tiktok.com/@' ~ ngb.tikTokProfile)|e('html_attr') }}"
+                                                   target="_blank" rel="noopener"
+                                                   referrerpolicy="origin-when-cross-origin">
+                                                    {{ ngb.tikTokProfile }}
+                                                </a>
+                                            </p>
+                                        {% endif %}
+                                        {% if ngb.telegramProfile %}
+                                            <p class="blue-color">
+                                                <b>Telegram Profile:</b>
+                                                <a href="{{ ('https://t.me/' ~ ngb.telegramProfile)|e('html_attr') }}"
+                                                   target="_blank" rel="noopener"
+                                                   referrerpolicy="origin-when-cross-origin">
+                                                    {{ ngb.telegramProfile }}
+                                                </a>
+                                            </p>
+                                        {% endif %}
                                     </div>
-                                    {% include 'common/_more_button.html.twig' with {
+                                    {# {% include 'common/_more_button.html.twig' with {
                                         'before': true,
                                         'title': 'more information'
-                                    } %}
+                                    } %} #}
                                 </div>
                             </div>
                         {% endfor %}

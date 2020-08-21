@@ -52,6 +52,8 @@ class UpdateNationalGoverningBody implements IdentifiesNationalGoverningBody
             $nationalGoverningBody->getFacebookProfile(),
             $nationalGoverningBody->getTwitterProfile(),
             $nationalGoverningBody->getInstagramProfile(),
+            $nationalGoverningBody->getTikTokProfile(),
+            $nationalGoverningBody->getTelegramProfile(),
             $nationalGoverningBody->getLogo() !== null
         );
     }
@@ -68,6 +70,8 @@ class UpdateNationalGoverningBody implements IdentifiesNationalGoverningBody
      * @param string|null      $facebookProfile
      * @param string|null      $twitterProfile
      * @param string|null      $instagramProfile
+     * @param string|null      $tikTokProfile
+     * @param string|null      $telegramProfile
      * @param bool             $hasLogo
      */
     private function __construct(
@@ -82,6 +86,8 @@ class UpdateNationalGoverningBody implements IdentifiesNationalGoverningBody
         ?string $facebookProfile,
         ?string $twitterProfile,
         ?string $instagramProfile,
+        ?string $tikTokProfile,
+        ?string $telegramProfile,
         bool $hasLogo
     ) {
         $this->id               = $id;
@@ -95,6 +101,8 @@ class UpdateNationalGoverningBody implements IdentifiesNationalGoverningBody
         $this->facebookProfile  = $facebookProfile;
         $this->twitterProfile   = $twitterProfile;
         $this->instagramProfile = $instagramProfile;
+        $this->tikTokProfile    = $tikTokProfile;
+        $this->telegramProfile  = $telegramProfile;
         $this->hasLogo          = $hasLogo;
     }
 

@@ -107,6 +107,20 @@ class NationalGoverningBody
     private $instagramProfile;
 
     /**
+     * @ORM\Column(name="tik_tok_profile", type="string", length=128, nullable=true)
+     *
+     * @var string|null
+     */
+    private $tikTokProfile;
+
+    /**
+     * @ORM\Column(name="telegram_profile", type="string", length=128, nullable=true)
+     *
+     * @var string|null
+     */
+    private $telegramProfile;
+
+    /**
      * @ORM\OneToOne(targetEntity="\App\Domain\Model\File\File")
      * @ORM\JoinColumn(name="logo_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      *
@@ -127,6 +141,8 @@ class NationalGoverningBody
      * @param string|null      $facebookProfile
      * @param string|null      $twitterProfile
      * @param string|null      $instagramProfile
+     * @param string|null      $tikTokProfile
+     * @param string|null      $telegramProfile
      */
     public function __construct(
         string $id,
@@ -140,7 +156,9 @@ class NationalGoverningBody
         ?PhoneNumber $phoneNumber = null,
         ?string $facebookProfile = null,
         ?string $twitterProfile = null,
-        ?string $instagramProfile = null
+        ?string $instagramProfile = null,
+        ?string $tikTokProfile = null,
+        ?string $telegramProfile = null
     ) {
         $this->setId($id)
              ->setName($name)
@@ -154,6 +172,8 @@ class NationalGoverningBody
              ->setFacebookProfile($facebookProfile)
              ->setTwitterProfile($twitterProfile)
              ->setInstagramProfile($instagramProfile)
+             ->setTikTokProfile($tikTokProfile)
+             ->setTelegramProfile($telegramProfile)
              ->initCreateTracking()
              ->initUpdateTracking();
     }
@@ -342,6 +362,44 @@ class NationalGoverningBody
     {
         Assert::nullOrLengthBetween($instagramProfile, 1, 128);
         $this->instagramProfile = $instagramProfile;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTikTokProfile(): ?string
+    {
+        return $this->tikTokProfile;
+    }
+
+    /**
+     * @param string|null $tikTokProfile
+     * @return $this
+     */
+    public function setTikTokProfile(?string $tikTokProfile): self
+    {
+        Assert::nullOrLengthBetween($tikTokProfile, 1, 128);
+        $this->tikTokProfile = $tikTokProfile;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTelegramProfile(): ?string
+    {
+        return $this->telegramProfile;
+    }
+
+    /**
+     * @param string|null $telegramProfile
+     * @return $this
+     */
+    public function setTelegramProfile(?string $telegramProfile): self
+    {
+        Assert::nullOrLengthBetween($telegramProfile, 1, 128);
+        $this->telegramProfile = $telegramProfile;
         return $this;
     }
 

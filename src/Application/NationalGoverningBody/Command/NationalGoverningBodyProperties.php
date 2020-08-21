@@ -116,6 +116,28 @@ trait NationalGoverningBodyProperties
     private $instagramProfile;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\Length(max=128)
+     * @Assert\Regex(pattern="/^[0-9A-Za-z_]{2,24}$/")
+     *
+     * @see https://www.wikidata.org/wiki/Wikidata:Property_proposal/TikTok_username
+     *
+     * @var string|null
+     */
+    private $tikTokProfile;
+
+    /**
+     * @Assert\Type("string")
+     * @Assert\Length(max=128)
+     * @Assert\Regex(pattern="/^[0-9A-Za-z_]{5,32}$/")
+     *
+     * @see https://core.telegram.org/method/account.checkUsername
+     *
+     * @var string|null
+     */
+    private $telegramProfile;
+
+    /**
      * @Assert\File(
      *      maxSize="4M",
      *      mimeTypes={
@@ -313,6 +335,42 @@ trait NationalGoverningBodyProperties
     public function setInstagramProfile(?string $instagramProfile): self
     {
         $this->instagramProfile = $instagramProfile;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTikTokProfile(): ?string
+    {
+        return $this->tikTokProfile;
+    }
+
+    /**
+     * @param string|null $tikTokProfile
+     * @return $this
+     */
+    public function setTikTokProfile(?string $tikTokProfile): self
+    {
+        $this->tikTokProfile = $tikTokProfile;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTelegramProfile(): ?string
+    {
+        return $this->telegramProfile;
+    }
+
+    /**
+     * @param string|null $telegramProfile
+     * @return $this
+     */
+    public function setTelegramProfile(?string $telegramProfile): self
+    {
+        $this->telegramProfile = $telegramProfile;
         return $this;
     }
 

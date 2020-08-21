@@ -112,6 +112,22 @@ class NationalGoverningBodyType extends AbstractType
                 ]
             )
             ->add(
+                'tikTokProfile',
+                TextType::class,
+                [
+                    'label'    => 'Tik Tok Profile',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'telegramProfile',
+                TextType::class,
+                [
+                    'label'    => 'Telegram Profile',
+                    'required' => false,
+                ]
+            )
+            ->add(
                 'logo',
                 FileType::class,
                 [
