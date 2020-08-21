@@ -31,7 +31,7 @@ final class ApiResponse
             $params,
             UrlGeneratorInterface::ABSOLUTE_URL
         );
-        return JsonResponse::create($params, Response::HTTP_CREATED, ['Location' => $url]);
+        return new JsonResponse($params, Response::HTTP_CREATED, ['Location' => $url]);
     }
 
     /**
@@ -39,7 +39,7 @@ final class ApiResponse
      */
     public static function noContent(): Response
     {
-        return Response::create('', Response::HTTP_NO_CONTENT);
+        return new Response('', Response::HTTP_NO_CONTENT);
     }
 
     /**
@@ -53,7 +53,7 @@ final class ApiResponse
         array $payload = [],
         int $status = Response::HTTP_INTERNAL_SERVER_ERROR
     ): Response {
-        return JsonResponse::create(
+        return new JsonResponse(
             array_merge(
                 $payload,
                 [

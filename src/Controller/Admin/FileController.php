@@ -101,6 +101,6 @@ class FileController extends AbstractController
         $remove = RemoveFile::remove($file);
         $commandBus->dispatch($remove);
 
-        return Response::create('', Response::HTTP_NO_CONTENT);
+        return new Response('', Response::HTTP_NO_CONTENT);
     }
 }

@@ -84,7 +84,7 @@ class ArticleController extends AbstractController
     {
         $file = $fileUploader->uploadFile($request, Article::FILE_ORIGIN);
 
-        return JsonResponse::create(
+        return new JsonResponse(
             [
                 'filename'    => $file->getOriginalName(),
                 'contentType' => $file->getMimeType(),

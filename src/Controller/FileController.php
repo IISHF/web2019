@@ -67,10 +67,10 @@ class FileController extends AbstractController
             $pdfPreview = true;
         }
 
-        $response = Response::create()
-                            ->setEtag($etag)
-                            ->setLastModified($date)
-                            ->setPublic();
+        $response = (new Response())
+            ->setEtag($etag)
+            ->setLastModified($date)
+            ->setPublic();
         if ($response->isNotModified($request)) {
             return $response;
         }
@@ -99,13 +99,13 @@ class FileController extends AbstractController
                 'png'
             );
         } else {
-            $response = BinaryFileResponse::create($file->writeTo(null))
-                                          ->setContentDisposition(
-                                              $contentDisposition,
-                                              $file->getClientName(),
-                                              $file->getSafeClientName()
-                                          )
-                                          ->deleteFileAfterSend();
+            $response = (new BinaryFileResponse($file->writeTo(null)))
+                ->setContentDisposition(
+                    $contentDisposition,
+                    $file->getClientName(),
+                    $file->getSafeClientName()
+                )
+                ->deleteFileAfterSend();
         }
 
         return $response->setEtag($etag)
@@ -135,8 +135,8 @@ class FileController extends AbstractController
             $safeFilename .= '.' . $addExtension;
         }
 
-        $response = StreamedResponse::create($callback);
-        $headers  = $response->headers;
+        $response = new StreamedResponse($callback);
+        $headers = $response->headers;
         $headers->set('Content-Type', $mimeType ?? $file->getMimeType());
         $headers->set(
             'Content-Disposition',
