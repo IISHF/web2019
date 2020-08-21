@@ -40,19 +40,31 @@
                                         {% if ngb.facebookProfile %}
                                             <p class="blue-color">
                                                 <b>Facebook Profile:</b>
-                                                {{ ngb.facebookProfile }}
+                                                <a href="{{ ('https://www.facebook.com/' ~ ngb.facebookProfile)|e('html_attr') }}"
+                                                   target="_blank" rel="noopener"
+                                                   referrerpolicy="origin-when-cross-origin">
+                                                    {{ ngb.facebookProfile }}
+                                                </a>
                                             </p>
                                         {% endif %}
                                         {% if ngb.twitterProfile %}
                                             <p class="blue-color">
                                                 <b>Twitter Profile:</b>
-                                                {{ ngb.twitterProfile }}
+                                                <a href="{{ ('https://twitter.com/' ~ (ngb.twitterProfile)|trim('@', 'left'))|e('html_attr') }}"
+                                                   target="_blank" rel="noopener"
+                                                   referrerpolicy="origin-when-cross-origin">
+                                                    {{ ngb.twitterProfile }}
+                                                </a>
                                             </p>
                                         {% endif %}
                                         {% if ngb.instagramProfile %}
                                             <p class="blue-color">
                                                 <b>Instagram Profile:</b>
-                                                {{ ngb.instagramProfile }}
+                                                <a href="{{ ('https://www.instagram.com/' ~ ngb.instagramProfile ~ '/')|e('html_attr') }}"
+                                                   target="_blank" rel="noopener"
+                                                   referrerpolicy="origin-when-cross-origin">
+                                                    {{ ngb.instagramProfile }}
+                                                </a>
                                             </p>
                                         {% endif %}
                                     </div>
