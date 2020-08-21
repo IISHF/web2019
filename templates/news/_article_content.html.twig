@@ -1,0 +1,5 @@
+{% if article.legacyFormat %}
+    {{ render(controller('App\\Controller\\NewsController::legacyArticleContent', {'article': article})) }}
+{% else %}
+    <div class="trix-content">{{ article.body|purify('article') }}</div>
+{% endif %}

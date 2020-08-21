@@ -1,0 +1,17 @@
+<div class="news__item">
+    <div class="news__img-item">
+        <a href="{{ path('app_news_detail', {'article': article.slug}) }}">
+            <img src="{{ asset('build/images/other/hockey-day.jpg') }}" alt="">
+        </a>
+    </div>
+    <div class="news__descr-item">
+        <div class="news__date">
+            <span>{{ article.title }}</span> /
+            {{ article.publishedAt|relative_time }}
+        </div>
+        <h3>{{ article.subtitle }}</h3>
+        {% include 'common/_more_button.html.twig' with {
+            'href': path('app_news_detail', {'article': article.slug})
+        } %}
+    </div>
+</div>

@@ -77,15 +77,28 @@ class NewsController extends AbstractController
         if (!$article->isPublished()) {
             throw $this->createNotFoundException();
         }
+        return $this->render(
+            'news/detail.html.twig',
+            [
+                'article' => $article,
+                'latest'  => $articleRepository->findMostRecent(2),
+            ]
+        );
+    }
+
+    public function legacyArticleContent(Article $article, ArticleRepository $articleRepository): Response
+    {
+        if (!$article->isPublished()) {
+            throw $this->createNotFoundException();
+        }
         $images    = $articleRepository->findImages($article);
         $documents = $articleRepository->findDocuments($article);
         return $this->render(
-            'news/detail.html.twig',
+            'news/_legacy_article_content.html.twig',
             [
                 'article'   => $article,
                 'images'    => $images,
                 'documents' => $documents,
-                'latest'    => $articleRepository->findMostRecent(2),
             ]
         );
     }

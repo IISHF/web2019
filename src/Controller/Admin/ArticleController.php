@@ -156,16 +156,11 @@ class ArticleController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        $images    = $articleRepository->findImages($article);
-        $documents = $articleRepository->findDocuments($article);
-
         return $this->render(
             'admin/article/detail.html.twig',
             [
-                'article'   => $article,
-                'images'    => $images,
-                'documents' => $documents,
-                'versions'  => $versions,
+                'article'  => $article,
+                'versions' => $versions,
             ]
         );
     }
