@@ -26,7 +26,7 @@
 
 -   name: change php fpm user, group, listen.owner and listen.group to vagrant
     lineinfile:
-        dest=/etc/php/7.2/fpm/pool.d/www.conf
+        dest=/etc/php/7.4/fpm/pool.d/www.conf
         regexp="{{ item.regexp }}"
         line="{{ item.line }}"
         backrefs=yes
@@ -41,7 +41,7 @@
 
 -   name: disable php xdebug on cli
     file:
-        path=/etc/php/7.2/cli/conf.d/20-xdebug.ini
+        path=/etc/php/7.4/cli/conf.d/20-xdebug.ini
         state=absent
     notify:
         - restart php
@@ -49,7 +49,7 @@
 -   name: copy new php.ini
     copy:
         src=php.ini
-        dest=/etc/php/7.2/mods-available/iishf.ini
+        dest=/etc/php/7.4/mods-available/iishf.ini
         owner=root
         group=root
         mode=0644
@@ -58,12 +58,12 @@
 
 -   name: enable new php.ini
     file:
-        src=/etc/php/7.2/mods-available/iishf.ini
+        src=/etc/php/7.4/mods-available/iishf.ini
         dest={{ item }}
         state=link
     with_items:
-        - /etc/php/7.2/fpm/conf.d/99-iishf.ini
-        - /etc/php/7.2/cli/conf.d/99-iishf.ini
+        - /etc/php/7.4/fpm/conf.d/99-iishf.ini
+        - /etc/php/7.4/cli/conf.d/99-iishf.ini
     notify:
         - restart php
 

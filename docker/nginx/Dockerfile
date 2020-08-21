@@ -1,4 +1,4 @@
-FROM nginx:1.17.10
+FROM nginx:1.19.2
 LABEL maintainer="Stefan Gehrig <stefan.gehrig.hn@googlemail.com>"
 
 RUN rm /etc/nginx/conf.d/default.conf \

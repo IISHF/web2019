@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
     db:
-        image: mysql:5.7.29
+        image: mysql:8.0.21
         command:
             - "--character-set-server=utf8mb4"
             - "--collation-server=utf8mb4_general_ci"
@@ -18,7 +18,7 @@ services:
             - db:/var/lib/mysql
 
     php:
-        image: iishf/web2019/php
+        image: iishf/web2019/php:7.4.9-fpm
         build: ./php
         ports:
             - "9000:9000"
@@ -34,7 +34,7 @@ services:
             - db
 
     nginx:
-        image: iishf/web2019/nginx
+        image: iishf/web2019/nginx:1.19.2
         build: ./nginx
         ports:
             - "4430:443"

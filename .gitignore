@@ -17,6 +17,7 @@
 /vagrant/roles/webserver/files/iishf_test.*
 /vagrant/__legacy/
 /vagrant/dbbackup*
+/vagrant/*.sql
 
 # Docker
 /docker/.env

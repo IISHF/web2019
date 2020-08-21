@@ -1,7 +1,7 @@
 ---
 
 -   name: add blackfire apt key
-    apt_key: url=https://packagecloud.io/gpg.key state=present
+    apt_key: url=https://packages.blackfire.io/gpg.key state=present
 
 -   name: add blackfire apt sources
     apt_repository: repo="deb http://packages.blackfire.io/debian any main" state=present

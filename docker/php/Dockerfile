@@ -1,4 +1,4 @@
-FROM php:7.2.30-fpm
+FROM php:7.4.9-fpm
 LABEL maintainer="Stefan Gehrig <stefan.gehrig.hn@googlemail.com>"
 
 RUN apt-get update \
@@ -11,7 +11,6 @@ RUN apt-get update \
         libgmp-dev \
         libicu-dev \
         libzip-dev \
-    && docker-php-ext-configure zip --with-libzip \
     && docker-php-ext-install -j$(nproc) \
         bcmath \
         gmp \
