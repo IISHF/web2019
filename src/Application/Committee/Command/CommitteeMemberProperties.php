@@ -12,6 +12,7 @@ use App\Application\Committee\Validator\MemberType as ValidMemberType;
 use App\Application\Committee\Validator\TermType as ValidTermType;
 use App\Domain\Model\Committee\MemberType;
 use App\Domain\Model\Committee\TermType;
+use SplFileInfo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -89,6 +90,19 @@ trait CommitteeMemberProperties
      * @var int
      */
     private $memberType = MemberType::MEMBER;
+
+    /**
+     * @Assert\File(
+     *      maxSize="4M",
+     *      mimeTypes={
+     *          "image/*"
+     *      }
+     * )
+     * @Assert\Type("SplFileInfo")
+     *
+     * @var SplFileInfo|null
+     */
+    private $image;
 
     /**
      * @return string
@@ -231,6 +245,24 @@ trait CommitteeMemberProperties
     public function setMemberType(int $memberType): self
     {
         $this->memberType = $memberType;
+        return $this;
+    }
+
+    /**
+     * @return SplFileInfo|null
+     */
+    public function getImage(): ?SplFileInfo
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param SplFileInfo|null $image
+     * @return $this
+     */
+    public function setImage(?SplFileInfo $image): self
+    {
+        $this->image = $image;
         return $this;
     }
 }

@@ -13,6 +13,7 @@ use App\Domain\Model\Common\AssociationOne;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
+use App\Domain\Model\File\File;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -27,6 +28,8 @@ use Webmozart\Assert\Assert;
 class CommitteeMember
 {
     use HasId, CreateTracking, UpdateTracking, AssociationOne;
+
+    public const IMAGE_ORIGIN = 'com.iishf.committee_member.image';
 
     /**
      * @ORM\ManyToOne(targetEntity="Committee", inversedBy="members")
@@ -91,6 +94,14 @@ class CommitteeMember
      * @var int
      */
     private $memberType;
+
+    /**
+     * @ORM\OneToOne(targetEntity="\App\Domain\Model\File\File")
+     * @ORM\JoinColumn(name="image_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     *
+     * @var File|null
+     */
+    private $image;
 
     /**
      * @param string      $id
@@ -361,5 +372,22 @@ class CommitteeMember
         MemberType::assertValidMemberType($memberType);
         $this->memberType = $memberType;
         return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getImage(): ?File
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param File|null $image
+     * @return $this
+     */
+    public function setImage(?File $image): self
+    {
+        return $this->setRelatedEntity($this->image, $image);
     }
 }

@@ -96,8 +96,9 @@ class CommitteeRepository extends ServiceEntityRepository
     private function createQueryBuilderWithMembers(): QueryBuilder
     {
         return $this->createQueryBuilder('c')
-                    ->addSelect('cm')
+                    ->addSelect('cm', 'cmi')
                     ->leftJoin('c.members', 'cm')
+                    ->leftJoin('cm.image', 'cmi')
                     ->orderBy('cm.memberType', 'ASC')
                     ->addOrderBy('cm.lastName', 'ASC')
                     ->addOrderBy('cm.firstName', 'ASC');

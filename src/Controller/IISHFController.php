@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Domain\Model\Committee\CommitteeMember;
 use App\Domain\Model\Committee\CommitteeRepository;
 use App\Domain\Model\Staff\StaffMember;
 use App\Domain\Model\Staff\StaffMemberRepository;
@@ -41,7 +42,7 @@ class IISHFController extends AbstractController
 
     /**
      * @Route(
-     *     "/{member}/image",
+     *     "/staff/{member}/image",
      *     methods={"GET"},
      *     requirements={"member": "%routing.uuid%"}
      * )
@@ -55,6 +56,26 @@ class IISHFController extends AbstractController
      * @return Response
      */
     public function staffMemberImage(StaffMember $member): Response
+    {
+        return $this->redirectToFile($member->getImage());
+    }
+
+    /**
+     * @Route(
+     *     "/committees/{member}/image",
+     *     methods={"GET"},
+     *     requirements={"member": "%routing.uuid%"}
+     * )
+     * @ParamConverter(
+     *      name="member",
+     *      class="App\Domain\Model\Committee\CommitteeMember",
+     *      converter="app.committee_member"
+     * )
+     *
+     * @param CommitteeMember $member
+     * @return Response
+     */
+    public function committeeMemberImage(CommitteeMember $member): Response
     {
         return $this->redirectToFile($member->getImage());
     }

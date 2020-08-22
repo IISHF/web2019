@@ -29,7 +29,7 @@ class StaffMember
 {
     use HasId, CreateTracking, UpdateTracking, AssociationOne;
 
-    public const IMAGE_ORIGIN = 'com.iishf.staff.image';
+    public const IMAGE_ORIGIN = 'com.iishf.staff_member.image';
 
     /**
      * @ORM\Column(name="first_name", type="string", length=128)

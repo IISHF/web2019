@@ -10,6 +10,10 @@ namespace App\Infrastructure\Committee\Form;
 
 use App\Application\Committee\Command\UpdateCommitteeMember;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Event\PreSetDataEvent;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -27,6 +31,36 @@ class UpdateCommitteeMemberType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => UpdateCommitteeMember::class,
+            ]
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
+    }
+
+    /**
+     * @param PreSetDataEvent $event
+     */
+    public function onPreSetData(PreSetDataEvent $event): void
+    {
+        /** @var UpdateCommitteeMember $data */
+        $data = $event->getData();
+        if (!$data->hasImage()) {
+            return;
+        }
+        $form = $event->getForm();
+        $form->add(
+            'removeImage',
+            CheckboxType::class,
+            [
+                'label'    => 'Remove profile image',
+                'required' => false,
+                'help'     => 'This checkbox is mutually exclusive with uploading a new image',
             ]
         );
     }

@@ -49,7 +49,10 @@
                                         {% for member in committee.members %}
                                             <div class="committees-carousel__item">
                                                 <div class="committees-carousel__img">
-                                                    <img src="{{ asset('build/images/main/com.jpg') }}" alt="">
+                                                    {% if member.image %}
+                                                        <img src="{{ path('app_iishf_committeememberimage', {'member': member.id}) }}"
+                                                             alt="{{ member.name|e('html_attr') }}">
+                                                    {% endif %}
                                                 </div>
                                                 <div class="committees-carousel__name">{{ member.name }}</div>
                                                 <div class="committees-carousel__country">{{ member.countryName }}</div>

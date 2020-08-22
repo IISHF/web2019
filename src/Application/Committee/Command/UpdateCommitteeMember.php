@@ -21,6 +21,16 @@ class UpdateCommitteeMember
     use IdAware, CommitteeMemberProperties;
 
     /**
+     * @var bool
+     */
+    private bool $hasImage;
+
+    /**
+     * @var bool
+     */
+    private bool $removeImage = false;
+
+    /**
      * @param CommitteeMember $member
      * @return self
      */
@@ -35,7 +45,8 @@ class UpdateCommitteeMember
             $member->getTermType(),
             $member->getTermSince(),
             $member->getTermDuration(),
-            $member->getMemberType()
+            $member->getMemberType(),
+            $member->getImage() !== null
         );
     }
 
@@ -49,6 +60,7 @@ class UpdateCommitteeMember
      * @param int|null    $termSince
      * @param int|null    $termDuration
      * @param int         $memberType
+     * @param bool        $hasImage
      */
     private function __construct(
         string $id,
@@ -59,7 +71,8 @@ class UpdateCommitteeMember
         int $termType,
         ?int $termSince,
         ?int $termDuration,
-        int $memberType
+        int $memberType,
+        bool $hasImage
     ) {
         $this->id           = $id;
         $this->firstName    = $firstName;
@@ -70,5 +83,32 @@ class UpdateCommitteeMember
         $this->termSince    = $termSince;
         $this->termDuration = $termDuration;
         $this->memberType   = $memberType;
+        $this->hasImage     = $hasImage;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasImage(): bool
+    {
+        return $this->hasImage;
+    }
+
+    /**
+     * @return bool
+     */
+    public function removeImage(): bool
+    {
+        return $this->removeImage;
+    }
+
+    /**
+     * @param bool $removeImage
+     * @return $this
+     */
+    public function setRemoveImage(bool $removeImage): self
+    {
+        $this->removeImage = $removeImage;
+        return $this;
     }
 }

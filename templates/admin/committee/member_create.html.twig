@@ -3,14 +3,10 @@
 {% block content %}
     <h1>Create Member for Committee {{ committee.title }}</h1>
 
-    {{ form_start(form) }}
-
-    {{ form_rest(form) }}
-
-    <div class="btn-group" role="group">
-        <button type="submit" class="btn btn-success">Create</button>
-        <a href="{{ path('app_admin_committee_detail', {committee: committee.slug}) }}" class="btn btn-light">Cancel</a>
-    </div>
-
-    {{ form_end(form) }}
+    {% include 'admin/committee/_member_form.html.twig' with {
+        form: form,
+        committee: committee,
+        submitBtnText: 'Create',
+        submitBtnType: 'success'
+    } %}
 {% endblock %}

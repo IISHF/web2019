@@ -43,6 +43,9 @@ class UpdateStaffMemberType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
     }
 
+    /**
+     * @param PreSetDataEvent $event
+     */
     public function onPreSetData(PreSetDataEvent $event): void
     {
         /** @var UpdateStaffMember $data */

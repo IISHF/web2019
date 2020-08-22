@@ -1,0 +1,25 @@
+{{ form_start(form) }}
+
+<div class="card my-4">
+    <h5 class="card-header">Profile Image</h5>
+    <div class="card-body">
+        {% if member and member.image %}
+            <img src="{{ path('app_iishf_committeememberimage', {'member': member.id}) }}"
+                 alt="{{ member.name|e('html_attr') }}" class="mx-auto d-block my-2"/>
+            {% if form.removeImage is defined %}
+                {{ form_row(form.removeImage) }}
+            {% endif %}
+        {% endif %}
+        {{ form_row(form.image) }}
+    </div>
+</div>
+
+{{ form_rest(form) }}
+
+<div class="btn-group" role="group">
+    <button type="submit" class="btn btn-{{ submitBtnType|default('primary') }}">
+        {{ submitBtnText|default('Update') }}</button>
+    <a href="{{ path('app_admin_committee_detail', {committee: committee.slug}) }}" class="btn btn-light">Cancel</a>
+</div>
+
+{{ form_end(form) }}

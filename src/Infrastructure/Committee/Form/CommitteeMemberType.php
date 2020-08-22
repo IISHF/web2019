@@ -10,6 +10,7 @@ namespace App\Infrastructure\Committee\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -89,6 +90,14 @@ class CommitteeMemberType extends AbstractType
                 IntegerType::class,
                 [
                     'label'    => 'Term Duration',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'image',
+                FileType::class,
+                [
+                    'label'    => 'Profile Image',
                     'required' => false,
                 ]
             );

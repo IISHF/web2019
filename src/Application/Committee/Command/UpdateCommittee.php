@@ -34,14 +34,14 @@ class UpdateCommittee
     }
 
     /**
-     * @param string $id
-     * @param string $title
-     * @param string $description
+     * @param string      $id
+     * @param string      $title
+     * @param string|null $description
      */
     private function __construct(
         string $id,
         string $title,
-        string $description
+        ?string $description
     ) {
         $this->id          = $id;
         $this->title       = $title;

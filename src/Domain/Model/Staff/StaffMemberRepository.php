@@ -45,8 +45,8 @@ class StaffMemberRepository extends ServiceEntityRepository implements TagProvid
     public function findAll(): iterable
     {
         return $this->createQueryBuilder('m')
-                    ->addSelect('i')
-                    ->leftJoin('m.image', 'i')
+                    ->addSelect('mi')
+                    ->leftJoin('m.image', 'mi')
                     ->orderBy('m.lastName', 'ASC')
                     ->addOrderBy('m.firstName', 'ASC')
                     ->getQuery()

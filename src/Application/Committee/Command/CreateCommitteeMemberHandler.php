@@ -8,13 +8,18 @@
 
 namespace App\Application\Committee\Command;
 
+use App\Application\Common\Command\CommandDispatcher;
+use App\Application\Common\Command\CommandDispatchingHandler;
+
 /**
  * Class CreateCommitteeMemberHandler
  *
  * @package App\Application\Committee\Command
  */
-class CreateCommitteeMemberHandler extends CommitteeCommandHandler
+class CreateCommitteeMemberHandler extends CommitteeCommandHandler implements CommandDispatchingHandler
 {
+    use CommandDispatcher;
+
     /**
      * @param CreateCommitteeMember $command
      */
@@ -33,5 +38,10 @@ class CreateCommitteeMemberHandler extends CommitteeCommandHandler
             $command->getMemberType()
         );
         $this->committeeRepository->saveMember($member);
+
+        if (($image = $command->getImage()) !== null) {
+            $addImage = AddCommitteeMemberImage::addTo($member, $image);
+            $this->dispatchCommand($addImage);
+        }
     }
 }
