@@ -19,6 +19,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class IISHFController extends AbstractController
 {
+    use RedirectToFileController;
+
     /**
      * @Route("", methods={"GET"})
      *
@@ -54,16 +56,6 @@ class IISHFController extends AbstractController
      */
     public function staffMemberImage(StaffMember $member): Response
     {
-        $image = $member->getImage();
-        if (!$image) {
-            throw $this->createNotFoundException();
-        }
-        return $this->redirectToRoute(
-            'app_file_download',
-            [
-                'name' => $image->getName(),
-            ],
-            Response::HTTP_SEE_OTHER
-        );
+        return $this->redirectToFile($member->getImage());
     }
 }

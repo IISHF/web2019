@@ -18,6 +18,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class MembersController extends AbstractController
 {
+    use RedirectToFileController;
+
     /**
      * @Route("", methods={"GET"})
      *
@@ -51,16 +53,6 @@ class MembersController extends AbstractController
      */
     public function logo(NationalGoverningBody $ngb): Response
     {
-        $logo = $ngb->getLogo();
-        if (!$logo) {
-            throw $this->createNotFoundException();
-        }
-        return $this->redirectToRoute(
-            'app_file_download',
-            [
-                'name' => $logo->getName(),
-            ],
-            Response::HTTP_SEE_OTHER
-        );
+        return $this->redirectToFile($ngb->getLogo());
     }
 }
