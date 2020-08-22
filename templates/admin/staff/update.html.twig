@@ -3,5 +3,5 @@
 {% block content %}
     <h1>{{ member.name }}</h1>
 
-    {% include 'admin/staff/_form.html.twig' with {form: form} %}
+    {% include 'admin/staff/_form.html.twig' with {form: form, member: member} %}
 {% endblock %}

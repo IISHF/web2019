@@ -3,6 +3,11 @@
 {% block content %}
     <h1>{{ member.name }}</h1>
 
+    {% if member.image %}
+        <img src="{{ path('app_iishf_staffmemberimage', {'member': member.id}) }}"
+             alt="{{ member.name|e('html_attr') }}"/>
+    {% endif %}
+
     <dl class="row">
         <dt class="col-2">ID</dt>
         <dd class="col-10">{{ member.id }}</dd>

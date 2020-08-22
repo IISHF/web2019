@@ -21,6 +21,16 @@ class UpdateStaffMember
     use IdAware, StaffMemberProperties;
 
     /**
+     * @var bool
+     */
+    private bool $hasImage;
+
+    /**
+     * @var bool
+     */
+    private bool $removeImage = false;
+
+    /**
      * @param StaffMember $member
      * @return self
      */
@@ -32,7 +42,8 @@ class UpdateStaffMember
             $member->getLastName(),
             $member->getEmail(),
             $member->getTitle(),
-            $member->getRoles()
+            $member->getRoles(),
+            $member->getImage() !== null
         );
     }
 
@@ -43,6 +54,7 @@ class UpdateStaffMember
      * @param string $email
      * @param string $title
      * @param array  $roles
+     * @param bool   $hasImage
      */
     private function __construct(
         string $id,
@@ -50,7 +62,8 @@ class UpdateStaffMember
         string $lastName,
         string $email,
         string $title,
-        array $roles
+        array $roles,
+        bool $hasImage
     ) {
         $this->id        = $id;
         $this->firstName = $firstName;
@@ -58,5 +71,32 @@ class UpdateStaffMember
         $this->email     = $email;
         $this->title     = $title;
         $this->roles     = $roles;
+        $this->hasImage  = $hasImage;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasImage(): bool
+    {
+        return $this->hasImage;
+    }
+
+    /**
+     * @return bool
+     */
+    public function removeImage(): bool
+    {
+        return $this->removeImage;
+    }
+
+    /**
+     * @param bool $removeImage
+     * @return $this
+     */
+    public function setRemoveImage(bool $removeImage): self
+    {
+        $this->removeImage = $removeImage;
+        return $this;
     }
 }

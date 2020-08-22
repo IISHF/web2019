@@ -8,9 +8,11 @@
 
 namespace App\Domain\Model\Staff;
 
+use App\Domain\Model\Common\AssociationOne;
 use App\Domain\Model\Common\CreateTracking;
 use App\Domain\Model\Common\HasId;
 use App\Domain\Model\Common\UpdateTracking;
+use App\Domain\Model\File\File;
 use Collator;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
@@ -25,7 +27,9 @@ use Webmozart\Assert\Assert;
  */
 class StaffMember
 {
-    use HasId, CreateTracking, UpdateTracking;
+    use HasId, CreateTracking, UpdateTracking, AssociationOne;
+
+    public const IMAGE_ORIGIN = 'com.iishf.staff.image';
 
     /**
      * @ORM\Column(name="first_name", type="string", length=128)
@@ -61,6 +65,14 @@ class StaffMember
      * @var string[]
      */
     private $roles;
+
+    /**
+     * @ORM\OneToOne(targetEntity="\App\Domain\Model\File\File")
+     * @ORM\JoinColumn(name="image_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     *
+     * @var File|null
+     */
+    private $image;
 
     /**
      * @param string   $id
@@ -196,5 +208,22 @@ class StaffMember
         $collator->sort($roles);
         $this->roles = array_unique($roles);
         return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getImage(): ?File
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param File|null $image
+     * @return $this
+     */
+    public function setImage(?File $image): self
+    {
+        return $this->setRelatedEntity($this->image, $image);
     }
 }

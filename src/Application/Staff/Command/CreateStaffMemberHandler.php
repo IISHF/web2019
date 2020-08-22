@@ -8,6 +8,8 @@
 
 namespace App\Application\Staff\Command;
 
+use App\Application\Common\Command\CommandDispatcher;
+use App\Application\Common\Command\CommandDispatchingHandler;
 use App\Domain\Model\Staff\StaffMember;
 
 /**
@@ -15,8 +17,10 @@ use App\Domain\Model\Staff\StaffMember;
  *
  * @package App\Application\Staff\Command
  */
-class CreateStaffMemberHandler extends StaffMemberCommandHandler
+class CreateStaffMemberHandler extends StaffMemberCommandHandler implements CommandDispatchingHandler
 {
+    use CommandDispatcher;
+
     /**
      * @param CreateStaffMember $command
      */
@@ -30,6 +34,12 @@ class CreateStaffMemberHandler extends StaffMemberCommandHandler
             $command->getTitle(),
             $command->getRoles()
         );
+
         $this->memberRepository->save($member);
+
+        if (($image = $command->getImage()) !== null) {
+            $addImage = AddStaffMemberImage::addTo($member, $image);
+            $this->dispatchCommand($addImage);
+        }
     }
 }

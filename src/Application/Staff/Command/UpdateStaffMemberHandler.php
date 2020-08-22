@@ -8,13 +8,18 @@
 
 namespace App\Application\Staff\Command;
 
+use App\Application\Common\Command\CommandDispatcher;
+use App\Application\Common\Command\CommandDispatchingHandler;
+
 /**
  * Class UpdateStaffMemberHandler
  *
  * @package App\Application\Staff\Command
  */
-class UpdateStaffMemberHandler extends StaffMemberCommandHandler
+class UpdateStaffMemberHandler extends StaffMemberCommandHandler implements CommandDispatchingHandler
 {
+    use CommandDispatcher;
+
     /**
      * @param UpdateStaffMember $command
      */
@@ -27,5 +32,13 @@ class UpdateStaffMemberHandler extends StaffMemberCommandHandler
                ->setTitle($command->getTitle())
                ->setRoles($command->getRoles());
         $this->memberRepository->save($member);
+
+        if (($image = $command->getImage()) !== null) {
+            $addImage = AddStaffMemberImage::addTo($member, $image);
+            $this->dispatchCommand($addImage);
+        } elseif ($command->removeImage()) {
+            $removeImage = RemoveStaffMemberImage::removeFrom($member);
+            $this->dispatchCommand($removeImage);
+        }
     }
 }

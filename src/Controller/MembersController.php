@@ -6,7 +6,6 @@ use App\Domain\Model\NationalGoverningBody\NationalGoverningBody;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBodyRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -47,11 +46,10 @@ class MembersController extends AbstractController
      *      converter="app.national_governing_body"
      * )
      *
-     * @param Request               $request
      * @param NationalGoverningBody $ngb
      * @return Response
      */
-    public function logo(Request $request, NationalGoverningBody $ngb): Response
+    public function logo(NationalGoverningBody $ngb): Response
     {
         $logo = $ngb->getLogo();
         if (!$logo) {

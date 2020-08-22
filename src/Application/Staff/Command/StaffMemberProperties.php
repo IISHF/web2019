@@ -8,6 +8,7 @@
 
 namespace App\Application\Staff\Command;
 
+use SplFileInfo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -64,6 +65,19 @@ trait StaffMemberProperties
      * @var string[]
      */
     private $roles = [];
+
+    /**
+     * @Assert\File(
+     *      maxSize="4M",
+     *      mimeTypes={
+     *          "image/*"
+     *      }
+     * )
+     * @Assert\Type("SplFileInfo")
+     *
+     * @var SplFileInfo|null
+     */
+    private $image;
 
     /**
      * @return string
@@ -152,6 +166,24 @@ trait StaffMemberProperties
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+        return $this;
+    }
+
+    /**
+     * @return SplFileInfo|null
+     */
+    public function getImage(): ?SplFileInfo
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param SplFileInfo|null $image
+     * @return $this
+     */
+    public function setImage(?SplFileInfo $image): self
+    {
+        $this->image = $image;
         return $this;
     }
 }
