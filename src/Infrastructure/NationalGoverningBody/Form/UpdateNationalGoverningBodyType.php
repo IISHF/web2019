@@ -55,8 +55,9 @@ class UpdateNationalGoverningBodyType extends AbstractType
             'removeLogo',
             CheckboxType::class,
             [
-                'label' => 'Remove logo',
-                'help'  => 'This checkbox is mutually exclusive with uploading a new logo',
+                'label'    => 'Remove logo',
+                'required' => false,
+                'help'     => 'This checkbox is mutually exclusive with uploading a new logo',
             ]
         );
     }

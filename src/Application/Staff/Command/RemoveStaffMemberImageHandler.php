@@ -5,9 +5,8 @@
 
 namespace App\Application\Staff\Command;
 
-use App\Application\Common\Command\CommandDispatcher;
 use App\Application\Common\Command\CommandDispatchingHandler;
-use App\Application\File\Command\RemoveFile;
+use App\Application\Common\Command\RemoveFileCommandDispatcher;
 
 /**
  * Class RemoveStaffMemberImageHandler
@@ -16,7 +15,7 @@ use App\Application\File\Command\RemoveFile;
  */
 class RemoveStaffMemberImageHandler extends StaffMemberCommandHandler implements CommandDispatchingHandler
 {
-    use CommandDispatcher;
+    use RemoveFileCommandDispatcher;
 
     /**
      * @param RemoveStaffMemberImage $command
@@ -24,9 +23,7 @@ class RemoveStaffMemberImageHandler extends StaffMemberCommandHandler implements
     public function __invoke(RemoveStaffMemberImage $command): void
     {
         $member = $this->getStaffMember($command->getId());
-        if (($image = $member->getImage()) !== null) {
-            $removeFile = RemoveFile::remove($image);
-            $this->dispatchCommand($removeFile);
+        if ($this->dispatchRemoveFileIfExists($member->getImage())) {
             $member->setImage(null);
             $this->memberRepository->save($member);
         }

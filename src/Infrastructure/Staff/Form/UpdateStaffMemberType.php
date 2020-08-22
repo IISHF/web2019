@@ -55,8 +55,9 @@ class UpdateStaffMemberType extends AbstractType
             'removeImage',
             CheckboxType::class,
             [
-                'label' => 'Remove profile image',
-                'help'  => 'This checkbox is mutually exclusive with uploading a new image',
+                'label'    => 'Remove profile image',
+                'required' => false,
+                'help'     => 'This checkbox is mutually exclusive with uploading a new image',
             ]
         );
     }

@@ -5,15 +5,11 @@
 
 namespace App\Application\Staff\Command;
 
-use App\Application\Common\Command\CommandDispatcher;
+use App\Application\Common\Command\AddFileCommandDispatcher;
 use App\Application\Common\Command\CommandDispatchingHandler;
-use App\Application\File\Command\AddFile;
-use App\Application\File\Command\RemoveFile;
 use App\Domain\Model\File\FileRepository;
 use App\Domain\Model\Staff\StaffMember;
 use App\Domain\Model\Staff\StaffMemberRepository;
-use RuntimeException;
-use Symfony\Component\HttpFoundation\File\UploadedFile as HttpUploadedFile;
 
 /**
  * Class AddStaffMemberImageHandler
@@ -22,12 +18,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile as HttpUploadedFile;
  */
 class AddStaffMemberImageHandler extends StaffMemberCommandHandler implements CommandDispatchingHandler
 {
-    use CommandDispatcher;
-
-    /**
-     * @var FileRepository
-     */
-    private $fileRepository;
+    use AddFileCommandDispatcher;
 
     /**
      * @param StaffMemberRepository $memberRepository
@@ -45,27 +36,13 @@ class AddStaffMemberImageHandler extends StaffMemberCommandHandler implements Co
     public function __invoke(AddStaffMemberImage $command): void
     {
         $member = $this->getStaffMember($command->getId());
-        if (($currentImage = $member->getImage()) !== null) {
-            $removeFile = RemoveFile::remove($currentImage);
-            $this->dispatchCommand($removeFile);
+        if ($this->dispatchRemoveFileIfExists($member->getImage())) {
             $member->setImage(null);
         }
 
-        $newImage     = $command->getImage();
-        $originalName = null;
-        if ($newImage instanceof HttpUploadedFile) {
-            $originalName = $newImage->getClientOriginalName();
-            $newImage     = $newImage->move(sys_get_temp_dir());
-        }
-
-        $addFile = AddFile::add($newImage, StaffMember::IMAGE_ORIGIN, $originalName);
-        $this->dispatchCommand($addFile);
-
-        $image = $this->fileRepository->findById($addFile->getId());
-        if (!$image) {
-            throw new RuntimeException('Something went wrong when saving the file');
-        }
+        $image = $this->dispatchAddFile($command->getImage(), StaffMember::IMAGE_ORIGIN);
         $member->setImage($image);
+
         $this->memberRepository->save($member);
     }
 }

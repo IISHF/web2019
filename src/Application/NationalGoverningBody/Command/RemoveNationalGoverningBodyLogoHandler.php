@@ -5,9 +5,8 @@
 
 namespace App\Application\NationalGoverningBody\Command;
 
-use App\Application\Common\Command\CommandDispatcher;
 use App\Application\Common\Command\CommandDispatchingHandler;
-use App\Application\File\Command\RemoveFile;
+use App\Application\Common\Command\RemoveFileCommandDispatcher;
 
 /**
  * Class RemoveNationalGoverningBodyLogoHandler
@@ -17,7 +16,7 @@ use App\Application\File\Command\RemoveFile;
 class RemoveNationalGoverningBodyLogoHandler extends NationalGoverningBodyCommandHandler implements
     CommandDispatchingHandler
 {
-    use CommandDispatcher;
+    use RemoveFileCommandDispatcher;
 
     /**
      * @param RemoveNationalGoverningBodyLogo $command
@@ -25,9 +24,7 @@ class RemoveNationalGoverningBodyLogoHandler extends NationalGoverningBodyComman
     public function __invoke(RemoveNationalGoverningBodyLogo $command): void
     {
         $ngb = $this->getNationalGoverningBody($command->getId());
-        if (($logo = $ngb->getLogo()) !== null) {
-            $removeFile = RemoveFile::remove($logo);
-            $this->dispatchCommand($removeFile);
+        if ($this->dispatchRemoveFileIfExists($ngb->getLogo())) {
             $ngb->setLogo(null);
             $this->ngbRepository->save($ngb);
         }

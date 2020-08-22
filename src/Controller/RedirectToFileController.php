@@ -20,6 +20,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 trait RedirectToFileController
 {
+    /**
+     * @param File|null $file
+     * @return Response
+     */
     private function redirectToFile(?File $file): Response
     {
         if (!$file) {

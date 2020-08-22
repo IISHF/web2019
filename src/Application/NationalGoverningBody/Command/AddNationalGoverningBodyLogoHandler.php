@@ -5,15 +5,11 @@
 
 namespace App\Application\NationalGoverningBody\Command;
 
-use App\Application\Common\Command\CommandDispatcher;
+use App\Application\Common\Command\AddFileCommandDispatcher;
 use App\Application\Common\Command\CommandDispatchingHandler;
-use App\Application\File\Command\AddFile;
-use App\Application\File\Command\RemoveFile;
 use App\Domain\Model\File\FileRepository;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBody;
 use App\Domain\Model\NationalGoverningBody\NationalGoverningBodyRepository;
-use RuntimeException;
-use Symfony\Component\HttpFoundation\File\UploadedFile as HttpUploadedFile;
 
 /**
  * Class AddNationalGoverningBodyLogoHandler
@@ -23,12 +19,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile as HttpUploadedFile;
 class AddNationalGoverningBodyLogoHandler extends NationalGoverningBodyCommandHandler implements
     CommandDispatchingHandler
 {
-    use CommandDispatcher;
-
-    /**
-     * @var FileRepository
-     */
-    private $fileRepository;
+    use AddFileCommandDispatcher;
 
     /**
      * @param NationalGoverningBodyRepository $ngbRepository
@@ -46,27 +37,13 @@ class AddNationalGoverningBodyLogoHandler extends NationalGoverningBodyCommandHa
     public function __invoke(AddNationalGoverningBodyLogo $command): void
     {
         $ngb = $this->getNationalGoverningBody($command->getId());
-        if (($currentLogo = $ngb->getLogo()) !== null) {
-            $removeFile = RemoveFile::remove($currentLogo);
-            $this->dispatchCommand($removeFile);
+        if ($this->dispatchRemoveFileIfExists($ngb->getLogo())) {
             $ngb->setLogo(null);
         }
 
-        $newLogo      = $command->getLogo();
-        $originalName = null;
-        if ($newLogo instanceof HttpUploadedFile) {
-            $originalName = $newLogo->getClientOriginalName();
-            $newLogo      = $newLogo->move(sys_get_temp_dir());
-        }
-
-        $addFile = AddFile::add($newLogo, NationalGoverningBody::LOGO_ORIGIN, $originalName);
-        $this->dispatchCommand($addFile);
-
-        $logo = $this->fileRepository->findById($addFile->getId());
-        if (!$logo) {
-            throw new RuntimeException('Something went wrong when saving the file');
-        }
+        $logo = $this->dispatchAddFile($command->getLogo(), NationalGoverningBody::LOGO_ORIGIN);
         $ngb->setLogo($logo);
+
         $this->ngbRepository->save($ngb);
     }
 }
