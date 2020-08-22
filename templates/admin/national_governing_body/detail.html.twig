@@ -5,7 +5,7 @@
 
     {% if ngb.logo %}
         <img src="{{ path('app_members_logo', {'ngb': ngb.slug}) }}"
-             alt="{{ ngb.name|e('html_attr') }}">
+             alt="{{ ngb.name|e('html_attr') }}"/>
     {% endif %}
 
     <dl class="row">

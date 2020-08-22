@@ -1,3 +1,5 @@
+{% set ngb = ngb|default(null) %}
+
 {% macro withHelp(field, help) %}
     <div class="form-group">
         {{- form_label(field) -}}
@@ -11,6 +13,20 @@
 {% import _self as forms %}
 
 {{ form_start(form) }}
+
+<div class="card my-4">
+    <h5 class="card-header">Logo</h5>
+    <div class="card-body">
+        {% if ngb and ngb.logo %}
+            <img src="{{ path('app_members_logo', {'ngb': ngb.slug}) }}"
+                 alt="{{ ngb.name|e('html_attr') }}" class="mx-auto d-block my-2"/>
+            {% if form.removeLogo is defined %}
+                {{ form_row(form.removeLogo) }}
+            {% endif %}
+        {% endif %}
+        {{ form_row(form.logo) }}
+    </div>
+</div>
 
 {{ form_row(form.name) }}
 {{ form_row(form.acronym) }}
@@ -26,33 +42,39 @@
 {{ form_row(form.website) }}
 {{ form_row(form.phoneNumber) }}
 
-{% set facebookProfileHelp %}
-    Extract the Facebook profile from the profile URL <code>https://www.facebook.com/PROFILE</code>.
-{% endset %}
-{{ forms.withHelp(form.facebookProfile, facebookProfileHelp) }}
+<div class="card my-4">
+    <h5 class="card-header">Social Media</h5>
+    <div class="card-body">
+        {% set facebookProfileHelp %}
+            Extract the Facebook profile from the profile URL <code>https://www.facebook.com/PROFILE</code>.
+        {% endset %}
+        {{ forms.withHelp(form.facebookProfile, facebookProfileHelp) }}
 
-{% set twitterProfileHelp %}
-    The Twitter profile is the Twitter username (<code>@PROFILE</code> for <code>https://twitter.com/PROFILE</code>).
-{% endset %}
-{{ forms.withHelp(form.twitterProfile, twitterProfileHelp) }}
+        {% set twitterProfileHelp %}
+            The Twitter profile is the Twitter username (<code>@PROFILE</code> for
+            <code>https://twitter.com/PROFILE</code>).
+        {% endset %}
+        {{ forms.withHelp(form.twitterProfile, twitterProfileHelp) }}
 
-{% set instagramProfileHelp %}
-    The Instagram profile is the Instagram username (<code>PROFILE</code> for
-    <code>https://www.instagram.com/PROFILE/</code>).
-{% endset %}
-{{ forms.withHelp(form.instagramProfile, instagramProfileHelp) }}
+        {% set instagramProfileHelp %}
+            The Instagram profile is the Instagram username (<code>PROFILE</code> for
+            <code>https://www.instagram.com/PROFILE/</code>).
+        {% endset %}
+        {{ forms.withHelp(form.instagramProfile, instagramProfileHelp) }}
 
-{% set tikTokProfileHelp %}
-    The Tik Tok profile is the Tik Tok username (<code>PROFILE</code> for
-    <code>https://tiktok.com/@PROFILE</code>).
-{% endset %}
-{{ forms.withHelp(form.tikTokProfile, tikTokProfileHelp) }}
+        {% set tikTokProfileHelp %}
+            The Tik Tok profile is the Tik Tok username (<code>PROFILE</code> for
+            <code>https://tiktok.com/@PROFILE</code>).
+        {% endset %}
+        {{ forms.withHelp(form.tikTokProfile, tikTokProfileHelp) }}
 
-{% set telegramProfileHelp %}
-    The Telegram profile is the Telegram username (<code>PROFILE</code> for
-    <code>https://t.me/PROFILE</code>).
-{% endset %}
-{{ forms.withHelp(form.telegramProfile, telegramProfileHelp) }}
+        {% set telegramProfileHelp %}
+            The Telegram profile is the Telegram username (<code>PROFILE</code> for
+            <code>https://t.me/PROFILE</code>).
+        {% endset %}
+        {{ forms.withHelp(form.telegramProfile, telegramProfileHelp) }}
+    </div>
+</div>
 
 {{ form_rest(form) }}
 
