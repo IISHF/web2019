@@ -2,7 +2,7 @@
 <div class="custom-btn__container {{ class|default('') }}">
     {% if not before %}
         <a class="btn custom-btn custom-btn--orange" href="{{ href|default('#') }}">
-            <span class="custom-btn__text">more</span>
+            <span class="custom-btn__text">{{ title|default('more') }}</span>
         </a>
     {% endif %}
     <span class="custom-btn__decoration-item"></span>

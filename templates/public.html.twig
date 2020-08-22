@@ -25,8 +25,9 @@
                 <div class="navbar-content">
                     <div class="col-12">
                         <nav class="breadcrumb navbar-head__breadcrumbs">
-                            <a class="breadcrumb-item" href="#">Home</a>
-                            <span class="breadcrumb-item active">About sport</span>
+                            <a class="breadcrumb-item" href="{{ path('home') }}">Home</a>
+                            {% block breadcrumbs %}
+                            {% endblock %}
                         </nav>
                     </div>
                 </div>

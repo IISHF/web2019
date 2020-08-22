@@ -1,10 +1,15 @@
 {% extends 'public.html.twig' %}
 
+{% block breadcrumbs %}
+    <a class="breadcrumb-item" href="{{ path('app_news_index') }}">Articles</a>
+    <span class="breadcrumb-item active">Archive</span>
+{% endblock %}
+
 {% block content %}
     <section class="iishf__bg iishf__bg--left-bottom">
         <div class="iishf__bg iishf__bg--right-bottom">
             <div class="iishf__bg iishf__bg--left-top">
-                {% include 'home/_title.html.twig' with {'title': 'News archive', 'before': true} %}
+                {% include 'home/_title.html.twig' with {'title': 'News Archive', 'before': true} %}
                 <div class="news-archive">
                     <div class="page-container">
                         <div class="news-archive__table">

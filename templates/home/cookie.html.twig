@@ -1,10 +1,14 @@
 {% extends 'public.html.twig' %}
 
+{% block breadcrumbs %}
+    <span class="breadcrumb-item active">Cookie Policy</span>
+{% endblock %}
+
 {% block content %}
     <section class="iishf iishf__bg iishf__bg--left-bottom">
         <div class="iishf__bg iishf__bg--right-bottom">
             <div class="iishf__bg iishf__bg--left-top">
-                {% include 'home/_title.html.twig' with {'title': 'Cookie', 'before': true} %}
+                {% include 'home/_title.html.twig' with {'title': 'Cookie Policy', 'before': true} %}
                 <div class="cookie">
                     <div class="col-12 p-lg-0">
                         <p class="mb-4">

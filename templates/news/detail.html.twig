@@ -1,5 +1,11 @@
 {% extends 'public.html.twig' %}
 
+{% block breadcrumbs %}
+    <a class="breadcrumb-item" href="{{ path('app_news_index') }}">Articles</a>
+    <a class="breadcrumb-item" href="{{ path('app_news_archive') }}">Archive</a>
+    <span class="breadcrumb-item active">{{ article.title }}</span>
+{% endblock %}
+
 {% block content %}
     <section class="iishf__bg iishf__bg--left-bottom">
         <div class="iishf__bg iishf__bg--right-bottom">
