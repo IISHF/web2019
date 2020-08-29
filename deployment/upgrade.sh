@@ -14,4 +14,4 @@ APP_ENV=prod ./bin/console cache:warmup
 
 cd -
 
-sudo service php7.2-fpm restart
+sudo service php7.4-fpm restart

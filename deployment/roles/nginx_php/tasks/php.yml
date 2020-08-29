@@ -27,7 +27,7 @@
 
 -   name: change php fpm configuration
     lineinfile:
-        dest=/etc/php/7.2/fpm/php-fpm.conf
+        dest=/etc/php/7.4/fpm/php-fpm.conf
         regexp="{{ item.regexp }}"
         line="{{ item.line }}"
         backup=yes
@@ -40,7 +40,7 @@
 
 -   name: change php fpm pool configuration
     lineinfile:
-        dest=/etc/php/7.2/fpm/pool.d/www.conf
+        dest=/etc/php/7.4/fpm/pool.d/www.conf
         regexp="{{ item.regexp }}"
         line="{{ item.line }}"
         backup=yes
@@ -54,25 +54,25 @@
         - restart php
 
 -   name: copy new php.ini
-    copy: src=php.ini dest=/etc/php/7.2/mods-available/iishf.ini owner=root group=root mode=0644
+    copy: src=php.ini dest=/etc/php/7.4/mods-available/iishf.ini owner=root group=root mode=0644
     notify:
         - restart php
 
 -   name: enable new php.ini
     file:
-        src=/etc/php/7.2/mods-available/iishf.ini
+        src=/etc/php/7.4/mods-available/iishf.ini
         dest={{ item }}
         state=link
     with_items:
-        - /etc/php/7.2/fpm/conf.d/99-iishf.ini
-        - /etc/php/7.2/cli/conf.d/99-iishf.ini
+        - /etc/php/7.4/fpm/conf.d/99-iishf.ini
+        - /etc/php/7.4/cli/conf.d/99-iishf.ini
     notify:
         - restart php
 
 -   name: copy newrelic.ini
     template:
         src=newrelic.ini.j2
-        dest=/etc/php/7.2/mods-available/newrelic.ini
+        dest=/etc/php/7.4/mods-available/newrelic.ini
     notify:
         - restart php
 
