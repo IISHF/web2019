@@ -1,16 +1,4 @@
 ---
 
--   name: add certbot apt sources
-    apt_repository: repo="ppa:certbot/certbot" state=present
-    register: certbot_repos
-
--   name: update apt caches after certbot apt sources are added
-    apt: update_cache=yes
-    when: certbot_repos.changed
-
 -   name: install certbot
-    apt: name={{ packages }} state=present
-    vars:
-        packages:
-            - software-properties-common
-            - "python-certbot-{{ certbot_type }}"
+    command: snap install --classic certbot
