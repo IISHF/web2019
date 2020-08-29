@@ -1,10 +1,6 @@
 [mysqld]
-bind-address            = 0.0.0.0
-collation-server        = utf8mb4_general_ci
-character-set-server    = utf8mb4
-max_allowed_packet      = 64M
-max_connections         = 32
-key_buffer_size         = 16M
-innodb_buffer_pool_size = 64MB
-innodb_log_buffer_size  = 512K
-performance_schema      = off
+bind-address         = 0.0.0.0
+collation-server     = utf8mb4_general_ci
+character-set-server = utf8mb4
+max_allowed_packet   = 64M
+performance_schema   = off
