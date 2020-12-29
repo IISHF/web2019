@@ -1,3 +1,4 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
     secret: '%env(APP_SECRET)%'
     default_locale: '%locale%'
@@ -10,6 +11,8 @@ framework:
     assets:
         json_manifest_path: '%kernel.project_dir%/public/build/manifest.json'
 
+    # Enables session support. Note that the session will ONLY be started if you read or write from it.
+    # Remove or comment this section to explicitly disable session support.
     session:
         handler_id: session.handler.native_file
         name: IISHF_SESSION
