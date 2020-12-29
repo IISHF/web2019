@@ -4,14 +4,14 @@ framework:
         # failure_transport: failed
 
         transports:
-            # https://symfony.com/doc/current/messenger.html#transport-configuration
-            # async: '%env(MESSENGER_TRANSPORT_DSN)%'
-            # failed: 'doctrine://default?queue_name=failed'
-            # sync: 'sync://'
+        # https://symfony.com/doc/current/messenger.html#transport-configuration
+        # async: '%env(MESSENGER_TRANSPORT_DSN)%'
+        # failed: 'doctrine://default?queue_name=failed'
+        # sync: 'sync://'
 
         routing:
-            # Route your messages to the transports
-            # 'App\Message\YourMessage': async
+        # Route your messages to the transports
+        # 'App\Message\YourMessage': async
 
         default_bus: messenger.bus.commands
         buses:
@@ -25,20 +25,20 @@ framework:
                 middleware:
                     - messenger.middleware.validation
 
-    services:
-        _defaults:
-            autowire: true
-            autoconfigure: true
-            public: false
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
 
-        App\Infrastructure\Command\HandlesRecordedEventsMiddleware:
-            arguments:
-                $eventBus: '@messenger.bus.events'
-        App\Application\Common\Command\EventRecorder:
-        App\Application\Common\Command\EventRecorderInterface: '@App\Application\Common\Command\EventRecorder'
-        App\Application\Common\Command\RecordsEvents: '@App\Application\Common\Command\EventRecorder'
+    App\Infrastructure\Command\HandlesRecordedEventsMiddleware:
+        arguments:
+            $eventBus: '@messenger.bus.events'
+    App\Application\Common\Command\EventRecorder:
+    App\Application\Common\Command\EventRecorderInterface: '@App\Application\Common\Command\EventRecorder'
+    App\Application\Common\Command\RecordsEvents: '@App\Application\Common\Command\EventRecorder'
 
-        App\Application\Common\Command\CompositeCommandHandler:
-            autoconfigure: false
-            tags:
-                - { name: messenger.message_handler, bus: messenger.bus.commands }
+    App\Application\Common\Command\CompositeCommandHandler:
+        autoconfigure: false
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.commands }
