@@ -25,7 +25,7 @@ class TokenTest extends TestCase
     {
         $token = Token::random(10, false);
         self::assertEquals(20, strlen($token));
-        self::assertRegExp('/^[0-9a-f]{20}$/', $token);
+        self::assertMatchesRegularExpression('/^[0-9a-f]{20}$/', $token);
     }
 
     public function testHashFromRawToRaw(): void
@@ -40,7 +40,7 @@ class TokenTest extends TestCase
         $token = Token::random(10, true);
         $hash  = Token::hash($token, true, false);
         self::assertEquals(64, strlen($hash));
-        self::assertRegExp('/^[0-9a-f]{64}$/', $hash);
+        self::assertMatchesRegularExpression('/^[0-9a-f]{64}$/', $hash);
     }
 
     public function testHashFromHexToHex(): void
@@ -48,7 +48,7 @@ class TokenTest extends TestCase
         $token = Token::random(10, false);
         $hash  = Token::hash($token, false, false);
         self::assertEquals(64, strlen($hash));
-        self::assertRegExp('/^[0-9a-f]{64}$/', $hash);
+        self::assertMatchesRegularExpression('/^[0-9a-f]{64}$/', $hash);
     }
 
     public function testHashFromHexToRaw(): void

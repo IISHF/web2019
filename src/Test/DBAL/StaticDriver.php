@@ -7,9 +7,6 @@ namespace App\Test\DBAL;
 
 use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Driver\Connection;
-use Doctrine\DBAL\Driver\DriverException;
-use Doctrine\DBAL\Driver\ExceptionConverterDriver;
-use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\VersionAwarePlatformDriver;
@@ -21,7 +18,7 @@ use PDOException;
  * @package App\Test\DBAL
  * @see     https://github.com/dmaicher/doctrine-test-bundle
  */
-class StaticDriver implements Driver, ExceptionConverterDriver, VersionAwarePlatformDriver
+class StaticDriver implements Driver, VersionAwarePlatformDriver
 {
     /**
      * @var Connection[]
@@ -104,17 +101,6 @@ class StaticDriver implements Driver, ExceptionConverterDriver, VersionAwarePlat
     public function getDatabase(\Doctrine\DBAL\Connection $conn): string
     {
         return $this->innerDriver->getDatabase($conn);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function convertException($message, DriverException $exception): Exception\DriverException
-    {
-        if ($this->innerDriver instanceof ExceptionConverterDriver) {
-            return $this->innerDriver->convertException($message, $exception);
-        }
-        return new Exception\DriverException($message, $exception);
     }
 
     /**

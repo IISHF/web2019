@@ -142,9 +142,11 @@ class TimezoneTest extends TestCase
             ['America/New_York', 'America/New York'],
             ['Eire', 'Other/Eire'],
             ['Etc/Greenwich', 'Etc/Greenwich'],
-            ['US/Pacific-New', 'US/Pacific-New'],
+            ['US/Pacific', 'US/Pacific'],
             ['Poland', 'Other/Poland'],
             ['America/Argentina/San_Juan', 'America/Argentina - San Juan'],
+            ['Asia/Kolkata', 'Asia/Kolkata'],
+            ['Asia/Calcutta', 'Asia/Calcutta'],
         ];
     }
 }
