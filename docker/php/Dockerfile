@@ -32,7 +32,7 @@ COPY php.ini $PHP_INI_DIR/conf.d/iishf.ini
 COPY policy.xml /etc/ImageMagick-6/policy.xml
 
 # install composer
-COPY --from=composer:1.10 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer
 
 VOLUME /app
 WORKDIR /app
