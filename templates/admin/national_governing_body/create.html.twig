@@ -1,7 +1,9 @@
 {% extends 'admin/admin.html.twig' %}
 
+{% block title %}Members | {{ parent() }}{% endblock %}
+
 {% block content %}
-    <h1>Create National Governing Body</h1>
+    <h1>Create Member</h1>
 
     {% include 'admin/national_governing_body/_form.html.twig' with {form: form, submitBtnText: 'Create', submitBtnType: 'success'} %}
 {% endblock %}

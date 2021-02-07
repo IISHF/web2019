@@ -1,5 +1,7 @@
 {% extends 'public.html.twig' %}
 
+{% block title %}Archive | Articles | {{ parent() }}{% endblock %}
+
 {% block breadcrumbs %}
     <a class="breadcrumb-item" href="{{ path('app_news_index') }}">Articles</a>
     <span class="breadcrumb-item active">Archive</span>

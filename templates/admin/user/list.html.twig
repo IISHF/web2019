@@ -1,7 +1,9 @@
 {% extends 'admin/admin.html.twig' %}
 
+{% block title %}Users | {{ parent() }}{% endblock %}
+
 {% block content %}
-    <h1>Articles</h1>
+    <h1>Users</h1>
 
     {% if is_granted('ROLE_ADMIN') %}
         <div class="btn-group" role="group">

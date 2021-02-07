@@ -10,6 +10,8 @@
     {{ encore_entry_script_tags('admin') }}
 {% endblock %}
 
+{% block title %}Administration | {{ parent() }}{% endblock %}
+
 {% block body %}
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="{{ path('app_admin_home_index') }}">IISHF</a>

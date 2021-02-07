@@ -1,5 +1,7 @@
 {% extends 'admin/admin.html.twig' %}
 
+{% block title %}Articles | {{ parent() }}{% endblock %}
+
 {% block content %}
     <h1>
         {{ include('admin/article/_article_state.html.twig', {article: article}) }}
