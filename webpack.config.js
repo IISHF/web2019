@@ -17,17 +17,11 @@ Encore
 
     .enableSassLoader()
     .enablePostCssLoader((options) => {
-        options.config = {
-            path: 'assets/postcss.config.js'
+        options.postcssOptions = {
+            config: 'assets/postcss.config.js'
         };
     })
     .enableReactPreset()
-    .configureUrlLoader(
-        {
-            fonts: {limit: 4096},
-            images: {limit: 4096}
-        }
-    )
 
     .autoProvidejQuery()
 
@@ -58,6 +52,14 @@ Encore
             corejs: 3
         }
     )
+
+    .configureDevServerOptions(options => {
+        options.https = {
+            key: './vagrant/roles/webserver/files/iishf_test.key',
+            cert: './vagrant/roles/webserver/files/iishf_test.crt',
+        };
+        options.host = 'iishf.test';
+    })
 ;
 
 let config = Encore.getWebpackConfig();
