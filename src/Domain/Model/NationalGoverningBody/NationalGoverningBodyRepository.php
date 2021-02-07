@@ -9,6 +9,7 @@
 namespace App\Domain\Model\NationalGoverningBody;
 
 use App\Domain\Model\File\FileRepository;
+use Collator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -105,10 +106,20 @@ class NationalGoverningBodyRepository extends ServiceEntityRepository
      */
     public function findAll(): iterable
     {
-        return $this->createQueryBuilder('n')
+        $all = $this->createQueryBuilder('n')
                     ->orderBy('n.country', 'ASC')
                     ->getQuery()
                     ->getResult();
+
+        $collator = Collator::create('en-US');
+        usort(
+            $all,
+            static function (NationalGoverningBody $a, NationalGoverningBody $b) use ($collator): int {
+                return $collator->compare($a->getCountryName(), $b->getCountryName());
+            }
+        );
+
+        return $all;
     }
 
     /**
