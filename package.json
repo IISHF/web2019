@@ -31,7 +31,7 @@
     "dev-server": "encore dev-server --hot --port 9010",
     "dev": "encore dev",
     "watch": "encore dev --watch",
-    "build": "encore production"
+    "build": "encore production --progress"
   },
   "browserslist": [
     "last 2 versions",
