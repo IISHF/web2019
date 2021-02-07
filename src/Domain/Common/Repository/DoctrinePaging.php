@@ -10,7 +10,7 @@ namespace App\Domain\Common\Repository;
 
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 
 /**
@@ -28,7 +28,7 @@ trait DoctrinePaging
      */
     public function createPager($query, int $page = 1, int $limit = 30): Pagerfanta
     {
-        $pager = new Pagerfanta(new DoctrineORMAdapter($query));
+        $pager = new Pagerfanta(new QueryAdapter($query));
         $pager->setCurrentPage($page)
               ->setMaxPerPage($limit);
         return $pager;

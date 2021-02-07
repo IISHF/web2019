@@ -42,6 +42,7 @@
         "giggsey/libphonenumber-for-php": "^8.12",
         "guzzlehttp/guzzle": "^6.5",
         "odolbeau/phone-number-bundle": "^3.3",
+        "pagerfanta/doctrine-orm-adapter": "^2.6",
         "pagerfanta/pagerfanta": "^2.6",
         "phpdocumentor/reflection-docblock": "^5.2",
         "psr/cache": "^1.0",
