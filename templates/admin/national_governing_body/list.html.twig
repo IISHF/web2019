@@ -11,16 +11,28 @@
         </div>
     {% endif %}
 
-    <div class="card-columns">
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Acronym</th>
+            <th scope="col">Country Name</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Updated</th>
+            <th scope="col">&#160;</th>
+        </tr>
+        </thead>
+        <tbody>
         {% for ngb in ngbs %}
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ ngb.countryName }}</h5>
-                    <h6 class="card-subtitle">{{ ngb.acronym }}</h6>
-                    <p class="card-text">{{ ngb.name }}</p>
-                    <div class="btn-group btn-group" role="group">
-                        <a href="{{ path('app_admin_nationalgoverningbody_detail', {'ngb': ngb.slug}) }}"
-                           class="btn btn-outline-primary">Details</a>
+            <tr>
+                <td><a href="{{ path('app_admin_nationalgoverningbody_detail', {'ngb': ngb.slug}) }}">{{ ngb.name }}</a>
+                </td>
+                <td>{{ ngb.acronym }}</td>
+                <td>{{ ngb.countryName }}</td>
+                <td>{{ ngb.email|safe_email }}</td>
+                <td class="text-nowrap">{{ ngb.updatedAt|relative_time }}</td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
                         {% if is_granted('NATIONAL_GOVERNING_BODY_EDIT', ngb) %}
                             <a href="{{ path('app_admin_nationalgoverningbody_update', {'ngb': ngb.id}) }}"
                                class="btn btn-primary">Edit</a>
@@ -34,8 +46,9 @@
                             }) }}
                         {% endif %}
                     </div>
-                </div>
-            </div>
+                </td>
+            </tr>
         {% endfor %}
-    </div>
+        </tbody>
+    </table>
 {% endblock %}
