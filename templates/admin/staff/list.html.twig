@@ -11,20 +11,30 @@
         </div>
     {% endif %}
 
-    <div class="card-columns">
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Title</th>
+            <th scope="col">Roles</th>
+            <th scope="col">Updated</th>
+            <th scope="col">&#160;</th>
+        </tr>
+        </thead>
+        <tbody>
         {% for member in members %}
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ member.name }}</h5>
-                    <h6 class="card-subtitle">{{ member.title }}</h6>
-                    <div class="card-text">
-                        {% for role in member.roles %}
-                            <span class="badge badge-info">{{ role }}</span>
-                        {% endfor %}
-                    </div>
-                    <div class="btn-group btn-group" role="group">
-                        <a href="{{ path('app_admin_staffmember_detail', {'member': member.id}) }}"
-                           class="btn btn-outline-primary">Details</a>
+            <tr>
+                <td>
+                    <a href="{{ path('app_admin_staffmember_detail', {'member': member.id}) }}">{{ member.name }}</a>
+                </td>
+                <td>{{ member.title }}</td>
+                <td>
+                    {% for role in member.roles %}
+                        <span class="badge badge-info">{{ role }}</span>
+                    {% endfor %}
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
                         {% if is_granted('STAFF_MEMBER_EDIT', member) %}
                             <a href="{{ path('app_admin_staffmember_update', {'member': member.id}) }}"
                                class="btn btn-primary">Edit</a>
@@ -38,8 +48,9 @@
                             }) }}
                         {% endif %}
                     </div>
-                </div>
-            </div>
+                </td>
+            </tr>
         {% endfor %}
-    </div>
+        </tbody>
+    </table>
 {% endblock %}
