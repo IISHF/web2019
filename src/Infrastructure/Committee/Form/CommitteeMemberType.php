@@ -54,19 +54,20 @@ class CommitteeMemberType extends AbstractType
                 ]
             )
             ->add(
-                'title',
-                TextType::class,
-                [
-                    'label'    => 'Title',
-                    'required' => false,
-                ]
-            )
-            ->add(
                 'memberType',
                 MemberTypeChoiceType::class,
                 [
                     'label'    => 'Member Type',
                     'required' => true,
+                ]
+            )
+            ->add(
+                'title',
+                TextType::class,
+                [
+                    'label'    => 'Title',
+                    'required' => false,
+                    'help'     => 'You can provide a more specific title here. If empty the title will default to the member type.',
                 ]
             )
             ->add(

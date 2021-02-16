@@ -256,10 +256,14 @@ class CommitteeMember
     }
 
     /**
+     * @param bool $withFallback
      * @return string|null
      */
-    public function getTitle(): ?string
+    public function getTitle($withFallback = false): ?string
     {
+        if ($withFallback && !$this->title) {
+            return MemberType::getMemberTypeName($this->memberType);
+        }
         return $this->title;
     }
 
@@ -283,17 +287,17 @@ class CommitteeMember
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getTermSince(): int
+    public function getTermSince(): ?int
     {
         return $this->termSince;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getTermDuration(): int
+    public function getTermDuration(): ?int
     {
         return $this->termDuration;
     }

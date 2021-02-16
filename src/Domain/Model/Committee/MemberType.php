@@ -46,6 +46,16 @@ final class MemberType
     }
 
     /**
+     * @param int         $memberType
+     * @param string|null $default
+     * @return string|null
+     */
+    public static function getMemberTypeName(int $memberType, ?string $default = null): ?string
+    {
+        return self::$availableMemberTypes[$memberType] ?? $default;
+    }
+
+    /**
      * @param int $memberType
      * @return bool
      */
