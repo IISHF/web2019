@@ -21,7 +21,7 @@
             <th scope="col">Valid</th>
             <th scope="col">Type</th>
             <th scope="col">Size</th>
-            <th scope="col">Created</th>
+            <th scope="col">Updated</th>
             <th scope="col">&#160;</th>
         </tr>
         </thead>
@@ -44,7 +44,7 @@
                     <td>{{ include('admin/document/_version_validity.html.twig', {version: validVersion}) }}</td>
                     <td>{{ validVersion.fileType }}</td>
                     <td>{{ validVersion.fileSize|file_size }}</td>
-                    <td class="text-nowrap">{{ validVersion.createdAt|relative_time }}</td>
+                    <td class="text-nowrap">{{ validVersion.updatedAt|relative_time }}</td>
                 {% else %}
                     <td colspan="5" class="text-muted">No valid version.</td>
                 {% endif %}
