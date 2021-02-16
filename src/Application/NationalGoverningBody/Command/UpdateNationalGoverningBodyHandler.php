@@ -39,7 +39,10 @@ class UpdateNationalGoverningBodyHandler extends NationalGoverningBodyCommandHan
             ->setTwitterProfile($command->getTwitterProfile())
             ->setInstagramProfile($command->getInstagramProfile())
             ->setTikTokProfile($command->getTikTokProfile())
-            ->setTelegramProfile($command->getTelegramProfile());
+            ->setTelegramProfile($command->getTelegramProfile())
+            ->setYouTubeChannel($command->getYouTubeChannel())
+            ->setYouTubeProfile($command->getYouTubeProfile())
+            ->setVimeoProfile($command->getVimeoProfile());
 
         $this->ngbRepository->save($ngb);
 

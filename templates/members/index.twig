@@ -96,6 +96,36 @@
                                                 </a>
                                             </p>
                                         {% endif %}
+                                        {% if ngb.youTubeChannel %}
+                                            <p class="blue-color">
+                                                <b>YouTube Channel:</b>
+                                                <a href="{{ ('https://www.youtube.com/channel/' ~ ngb.youTubeChannel)|e('html_attr') }}"
+                                                   target="_blank" rel="noopener"
+                                                   referrerpolicy="origin-when-cross-origin">
+                                                    {{ ngb.youTubeChannel }}
+                                                </a>
+                                            </p>
+                                        {% endif %}
+                                        {% if ngb.youTubeProfile %}
+                                            <p class="blue-color">
+                                                <b>YouTube Profile:</b>
+                                                <a href="{{ ('https://www.youtube.com/user/' ~ ngb.youTubeProfile)|e('html_attr') }}"
+                                                   target="_blank" rel="noopener"
+                                                   referrerpolicy="origin-when-cross-origin">
+                                                    {{ ngb.youTubeProfile }}
+                                                </a>
+                                            </p>
+                                        {% endif %}
+                                        {% if ngb.vimeoProfile %}
+                                            <p class="blue-color">
+                                                <b>Vimeo Profile:</b>
+                                                <a href="{{ ('https://vimeo.com/' ~ ngb.vimeoProfile)|e('html_attr') }}"
+                                                   target="_blank" rel="noopener"
+                                                   referrerpolicy="origin-when-cross-origin">
+                                                    {{ ngb.vimeoProfile }}
+                                                </a>
+                                            </p>
+                                        {% endif %}
                                     </div>
                                     {# {% include 'common/_more_button.html.twig' with {
                                         'before': true,

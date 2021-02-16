@@ -138,6 +138,39 @@ trait NationalGoverningBodyProperties
     private $telegramProfile;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\Length(max=128)
+     * @Assert\Regex(pattern="/^[A-z0-9-\_]+$/")
+     *
+     * @see https://awesomeopensource.com/project/lorey/social-media-profiles-regexs#youtube
+     *
+     * @var string|null
+     */
+    private $youTubeChannel;
+
+    /**
+     * @Assert\Type("string")
+     * @Assert\Length(max=128)
+     * @Assert\Regex(pattern="/^[A-z0-9]+$/")
+     *
+     * @see https://awesomeopensource.com/project/lorey/social-media-profiles-regexs#youtube
+     *
+     * @var string|null
+     */
+    private $youTubeProfile;
+
+    /**
+     * @Assert\Type("string")
+     * @Assert\Length(max=128)
+     * @Assert\Regex(pattern="/^user[0-9]+$/")
+     *
+     * @see https://awesomeopensource.com/project/lorey/social-media-profiles-regexs#vimeo
+     *
+     * @var string|null
+     */
+    private $vimeoProfile;
+
+    /**
      * @Assert\File(
      *      maxSize="4M",
      *      mimeTypes={
@@ -371,6 +404,60 @@ trait NationalGoverningBodyProperties
     public function setTelegramProfile(?string $telegramProfile): self
     {
         $this->telegramProfile = $telegramProfile;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getYouTubeChannel(): ?string
+    {
+        return $this->youTubeChannel;
+    }
+
+    /**
+     * @param string|null $youTubeChannel
+     * @return $this
+     */
+    public function setYouTubeChannel(?string $youTubeChannel): self
+    {
+        $this->youTubeChannel = $youTubeChannel;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getYouTubeProfile(): ?string
+    {
+        return $this->youTubeProfile;
+    }
+
+    /**
+     * @param string|null $youTubeProfile
+     * @return $this
+     */
+    public function setYouTubeProfile(?string $youTubeProfile): self
+    {
+        $this->youTubeProfile = $youTubeProfile;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getVimeoProfile(): ?string
+    {
+        return $this->vimeoProfile;
+    }
+
+    /**
+     * @param string|null $vimeoProfile
+     * @return $this
+     */
+    public function setVimeoProfile(?string $vimeoProfile): self
+    {
+        $this->vimeoProfile = $vimeoProfile;
         return $this;
     }
 

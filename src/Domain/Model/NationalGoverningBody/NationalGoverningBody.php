@@ -121,6 +121,27 @@ class NationalGoverningBody
     private $telegramProfile;
 
     /**
+     * @ORM\Column(name="you_tube_channel", type="string", length=128, nullable=true)
+     *
+     * @var string|null
+     */
+    private $youTubeChannel;
+
+    /**
+     * @ORM\Column(name="you_tube_profile", type="string", length=128, nullable=true)
+     *
+     * @var string|null
+     */
+    private $youTubeProfile;
+
+    /**
+     * @ORM\Column(name="vimeo_profile", type="string", length=128, nullable=true)
+     *
+     * @var string|null
+     */
+    private $vimeoProfile;
+
+    /**
      * @ORM\OneToOne(targetEntity="\App\Domain\Model\File\File")
      * @ORM\JoinColumn(name="logo_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      *
@@ -138,11 +159,6 @@ class NationalGoverningBody
      * @param string           $email
      * @param string|null      $website
      * @param PhoneNumber|null $phoneNumber
-     * @param string|null      $facebookProfile
-     * @param string|null      $twitterProfile
-     * @param string|null      $instagramProfile
-     * @param string|null      $tikTokProfile
-     * @param string|null      $telegramProfile
      */
     public function __construct(
         string $id,
@@ -153,12 +169,7 @@ class NationalGoverningBody
         string $country,
         string $email,
         ?string $website = null,
-        ?PhoneNumber $phoneNumber = null,
-        ?string $facebookProfile = null,
-        ?string $twitterProfile = null,
-        ?string $instagramProfile = null,
-        ?string $tikTokProfile = null,
-        ?string $telegramProfile = null
+        ?PhoneNumber $phoneNumber = null
     ) {
         $this->setId($id)
              ->setName($name)
@@ -169,11 +180,6 @@ class NationalGoverningBody
              ->setEmail($email)
              ->setWebsite($website)
              ->setPhoneNumber($phoneNumber)
-             ->setFacebookProfile($facebookProfile)
-             ->setTwitterProfile($twitterProfile)
-             ->setInstagramProfile($instagramProfile)
-             ->setTikTokProfile($tikTokProfile)
-             ->setTelegramProfile($telegramProfile)
              ->initCreateTracking()
              ->initUpdateTracking();
     }
@@ -400,6 +406,63 @@ class NationalGoverningBody
     {
         Assert::nullOrLengthBetween($telegramProfile, 1, 128);
         $this->telegramProfile = $telegramProfile;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getYouTubeChannel(): ?string
+    {
+        return $this->youTubeChannel;
+    }
+
+    /**
+     * @param string|null $youTubeChannel
+     * @return $this
+     */
+    public function setYouTubeChannel(?string $youTubeChannel): self
+    {
+        Assert::nullOrLengthBetween($youTubeChannel, 1, 128);
+        $this->youTubeChannel = $youTubeChannel;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getYouTubeProfile(): ?string
+    {
+        return $this->youTubeProfile;
+    }
+
+    /**
+     * @param string|null $youTubeProfile
+     * @return $this
+     */
+    public function setYouTubeProfile(?string $youTubeProfile): self
+    {
+        Assert::nullOrLengthBetween($youTubeProfile, 1, 128);
+        $this->youTubeProfile = $youTubeProfile;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getVimeoProfile(): ?string
+    {
+        return $this->vimeoProfile;
+    }
+
+    /**
+     * @param string|null $vimeoProfile
+     * @return $this
+     */
+    public function setVimeoProfile(?string $vimeoProfile): self
+    {
+        Assert::nullOrLengthBetween($vimeoProfile, 1, 128);
+        $this->vimeoProfile = $vimeoProfile;
         return $this;
     }
 

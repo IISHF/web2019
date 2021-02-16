@@ -14,9 +14,9 @@
     <table class="table">
         <thead class="thead-dark">
         <tr>
+            <th scope="col">Country Name</th>
             <th scope="col">Name</th>
             <th scope="col">Acronym</th>
-            <th scope="col">Country Name</th>
             <th scope="col">E-mail</th>
             <th scope="col">Updated</th>
             <th scope="col">&#160;</th>
@@ -25,10 +25,11 @@
         <tbody>
         {% for ngb in ngbs %}
             <tr>
-                <td><a href="{{ path('app_admin_nationalgoverningbody_detail', {'ngb': ngb.slug}) }}">{{ ngb.name }}</a>
+                <td>{{ ngb.countryName }}</td>
+                <td>
+                    <a href="{{ path('app_admin_nationalgoverningbody_detail', {'ngb': ngb.slug}) }}">{{ ngb.name }}</a>
                 </td>
                 <td>{{ ngb.acronym }}</td>
-                <td>{{ ngb.countryName }}</td>
                 <td>{{ ngb.email|safe_email }}</td>
                 <td class="text-nowrap">{{ ngb.updatedAt|relative_time }}</td>
                 <td>

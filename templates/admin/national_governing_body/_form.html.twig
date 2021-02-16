@@ -51,7 +51,7 @@
         {{ forms.withHelp(form.facebookProfile, facebookProfileHelp) }}
 
         {% set twitterProfileHelp %}
-            The Twitter profile is the Twitter username (<code>@PROFILE</code> for
+            The Twitter profile is the Twitter username (<code>PROFILE</code> for
             <code>https://twitter.com/PROFILE</code>).
         {% endset %}
         {{ forms.withHelp(form.twitterProfile, twitterProfileHelp) }}
@@ -73,6 +73,25 @@
             <code>https://t.me/PROFILE</code>).
         {% endset %}
         {{ forms.withHelp(form.telegramProfile, telegramProfileHelp) }}
+
+        {% set youTubeChannelHelp %}
+            The YouTube channel is the channel id (<code>CHANNEL</code> for
+            <code>https://www.youtube.com/channel/CHANNEL</code>).
+        {% endset %}
+        {{ forms.withHelp(form.youTubeChannel, youTubeChannelHelp) }}
+
+        {% set youTubeProfileHelp %}
+            The YouTube profile is the YouTube username (<code>PROFILE</code> for
+            <code>https://www.youtube.com/user/PROFILE</code>).
+        {% endset %}
+        {{ forms.withHelp(form.youTubeProfile, youTubeProfileHelp) }}
+
+        {% set vimeoProfileHelp %}
+            The Vimeo profile is the Vimeo username (<code>PROFILE</code> for
+            <code>https://vimeo.com/PROFILE</code>). The Vimeo username always stars with
+            <code>user</code>.
+        {% endset %}
+        {{ forms.withHelp(form.vimeoProfile, vimeoProfileHelp) }}
     </div>
 </div>
 

@@ -128,6 +128,30 @@ class NationalGoverningBodyType extends AbstractType
                 ]
             )
             ->add(
+                'youTubeChannel',
+                TextType::class,
+                [
+                    'label'    => 'YouTube Channel',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'youTubeProfile',
+                TextType::class,
+                [
+                    'label'    => 'YouTube Profile',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'vimeoProfile',
+                TextType::class,
+                [
+                    'label'    => 'Vimeo Profile',
+                    'required' => false,
+                ]
+            )
+            ->add(
                 'logo',
                 FileType::class,
                 [
