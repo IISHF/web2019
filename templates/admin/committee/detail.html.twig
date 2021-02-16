@@ -36,6 +36,7 @@
                     <th scope="col">Title</th>
                     <th scope="col">Term (First Term)</th>
                     <th scope="col">Country</th>
+                    <th scope="col">Updated</th>
                     <th scope="col">&#160;</th>
                 </tr>
                 </thead>
@@ -58,6 +59,7 @@
                             {% endif %}
                         </td>
                         <td>{{ member.countryName }}</td>
+                        <td class="text-nowrap">{{ member.updatedAt|relative_time }}</td>
                         <td>
                             <div class="btn-group btn-group-sm" role="group">
                                 {% if is_granted('COMMITTEE_MEMBER_EDIT', member) %}
@@ -79,7 +81,7 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="7">No committee members found.</td>
+                        <td colspan="6">No committee members found.</td>
                     </tr>
                 {% endfor %}
                 </tbody>

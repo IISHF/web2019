@@ -22,67 +22,37 @@
         </tr>
         </thead>
         <tbody>
-        {% for member in members %}
+        {% for committee in committees %}
             <tr>
                 <td>
-                    <a href="{{ path('app_admin_staffmember_detail', {'member': member.id}) }}">{{ member.name }}</a>
+                    <a href="{{ path('app_admin_committee_detail', {'committee': committee.slug}) }}">{{ committee.title }}</a>
                 </td>
-                <td>{{ member.title }}</td>
                 <td>
-                    {% for role in member.roles %}
-                        <span class="badge badge-info">{{ role }}</span>
-                    {% endfor %}
+                    <div class="trix-content">
+                        {{ committee.description|default('')|purify('article') }}
+                    </div>
                 </td>
+                <td>
+                    {% if committee.members is not empty %}
+                        <ul>
+                            {% for member in committee.members %}
+                                <li>
+                                    {% if member.chairman %}
+                                        <span class="badge badge-primary">C</span>
+                                    {% elseif member.viceChairman %}
+                                        <span class="badge badge-secondary">V</span>
+                                    {% endif %}
+                                    {{ member.name }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No members in this committee.</p>
+                    {% endif %}
+                </td>
+                <td class="text-nowrap">{{ committee.updatedAt|relative_time }}</td>
                 <td>
                     <div class="btn-group btn-group-sm" role="group">
-                        {% if is_granted('STAFF_MEMBER_EDIT', member) %}
-                            <a href="{{ path('app_admin_staffmember_update', {'member': member.id}) }}"
-                               class="btn btn-primary">Edit</a>
-                        {% endif %}
-                        {% if is_granted('STAFF_MEMBER_DELETE', member) %}
-                            {{ include('common/_delete_btn.html.twig', {
-                                title: member.name,
-                                body: 'Do you really want to delete the staff member?',
-                                deleteAction: path('app_admin_staffmember_delete', {'member': member.id}),
-                                csrfIntention: 'staff_member_delete_' ~ member.id,
-                            }) }}
-                        {% endif %}
-                    </div>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <div class="card-columns">
-        {% for committee in committees %}
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ committee.title }}</h5>
-                    <div class="card-text">
-                        <div class="trix-content">
-                            {{ committee.description|default('')|purify('article') }}
-                        </div>
-                        {% if committee.members is not empty %}
-                            <ul>
-                                {% for member in committee.members %}
-                                    <li>
-                                        {% if member.chairman %}
-                                            <span class="badge badge-primary">C</span>
-                                        {% elseif member.viceChairman %}
-                                            <span class="badge badge-secondary">V</span>
-                                        {% endif %}
-                                        {{ member.name }}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        {% else %}
-                            <p>No members in this committee.</p>
-                        {% endif %}
-                    </div>
-                    <div class="btn-group btn-group" role="group">
-                        <a href="{{ path('app_admin_committee_detail', {'committee': committee.slug}) }}"
-                           class="btn btn-outline-primary">Details</a>
                         {% if is_granted('COMMITTEE_EDIT', committee) %}
                             <a href="{{ path('app_admin_committee_update', {'committee': committee.id}) }}"
                                class="btn btn-primary">Edit</a>
@@ -96,8 +66,13 @@
                             }) }}
                         {% endif %}
                     </div>
-                </div>
-            </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">No committees found.</td>
+            </tr>
         {% endfor %}
-    </div>
+        </tbody>
+    </table>
 {% endblock %}
