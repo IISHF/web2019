@@ -96,7 +96,7 @@ trait NationalGoverningBodyProperties
     /**
      * @Assert\Type("string")
      * @Assert\Length(max=128)
-     * @Assert\Regex(pattern="/^@[a-zA-Z0-9_]{1,20}$/")
+     * @Assert\Regex(pattern="/^(?<!@)[a-zA-Z0-9_]{1,20}$/")
      *
      * @see https://github.com/twitter/twitter-text/blob/master/js/src/regexp/validMentionOrList.js
      *

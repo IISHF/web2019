@@ -59,7 +59,7 @@
                                         {% if ngb.twitterProfile %}
                                             <p class="blue-color">
                                                 <b>Twitter Profile:</b>
-                                                <a href="{{ ('https://twitter.com/' ~ (ngb.twitterProfile)|trim('@', 'left'))|e('html_attr') }}"
+                                                <a href="{{ ('https://twitter.com/' ~ ngb.twitterProfile)|e('html_attr') }}"
                                                    target="_blank" rel="noopener"
                                                    referrerpolicy="origin-when-cross-origin">
                                                     {{ ngb.twitterProfile }}
