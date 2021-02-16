@@ -33,6 +33,7 @@
                         <span class="badge badge-info">{{ role }}</span>
                     {% endfor %}
                 </td>
+                <td class="text-nowrap">{{ member.updatedAt|relative_time }}</td>
                 <td>
                     <div class="btn-group btn-group-sm" role="group">
                         {% if is_granted('STAFF_MEMBER_EDIT', member) %}

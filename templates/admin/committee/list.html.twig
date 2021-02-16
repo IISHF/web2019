@@ -11,6 +11,49 @@
         </div>
     {% endif %}
 
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Text</th>
+            <th scope="col">Members</th>
+            <th scope="col">Updated</th>
+            <th scope="col">&#160;</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for member in members %}
+            <tr>
+                <td>
+                    <a href="{{ path('app_admin_staffmember_detail', {'member': member.id}) }}">{{ member.name }}</a>
+                </td>
+                <td>{{ member.title }}</td>
+                <td>
+                    {% for role in member.roles %}
+                        <span class="badge badge-info">{{ role }}</span>
+                    {% endfor %}
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
+                        {% if is_granted('STAFF_MEMBER_EDIT', member) %}
+                            <a href="{{ path('app_admin_staffmember_update', {'member': member.id}) }}"
+                               class="btn btn-primary">Edit</a>
+                        {% endif %}
+                        {% if is_granted('STAFF_MEMBER_DELETE', member) %}
+                            {{ include('common/_delete_btn.html.twig', {
+                                title: member.name,
+                                body: 'Do you really want to delete the staff member?',
+                                deleteAction: path('app_admin_staffmember_delete', {'member': member.id}),
+                                csrfIntention: 'staff_member_delete_' ~ member.id,
+                            }) }}
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
     <div class="card-columns">
         {% for committee in committees %}
             <div class="card">
