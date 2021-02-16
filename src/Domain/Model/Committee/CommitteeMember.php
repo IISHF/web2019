@@ -61,6 +61,13 @@ class CommitteeMember
     private $country;
 
     /**
+     * @ORM\Column(name="member_type", type="smallint", options={"unsigned": true})
+     *
+     * @var int
+     */
+    private $memberType;
+
+    /**
      * @ORM\Column(name="title", type="string", length=128, nullable=true)
      *
      * @var string|null
@@ -89,11 +96,11 @@ class CommitteeMember
     private $termDuration;
 
     /**
-     * @ORM\Column(name="member_type", type="smallint", options={"unsigned": true})
+     * @ORM\Column(name="first_term", type="smallint", options={"unsigned": true}, nullable=true)
      *
-     * @var int
+     * @var int|null
      */
-    private $memberType;
+    private $firstTerm;
 
     /**
      * @ORM\OneToOne(targetEntity="\App\Domain\Model\File\File")
@@ -109,11 +116,11 @@ class CommitteeMember
      * @param string      $firstName
      * @param string      $lastName
      * @param string      $country
+     * @param int         $memberType
      * @param string|null $title
      * @param int         $termType
      * @param int|null    $termSince
      * @param int|null    $termDuration
-     * @param int         $memberType
      */
     public function __construct(
         string $id,
@@ -121,11 +128,11 @@ class CommitteeMember
         string $firstName,
         string $lastName,
         string $country,
+        int $memberType,
         ?string $title,
         int $termType,
         ?int $termSince,
-        ?int $termDuration,
-        int $memberType
+        ?int $termDuration
     ) {
         $this->setId($id)
              ->setCommittee($committee)
@@ -256,6 +263,49 @@ class CommitteeMember
     }
 
     /**
+     * @return int
+     */
+    public function getMemberType(): int
+    {
+        return $this->memberType;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isChairman(): bool
+    {
+        return $this->memberType === MemberType::CHAIRMAN;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isViceChairman(): bool
+    {
+        return $this->memberType === MemberType::VICE_CHAIRMAN;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMember(): bool
+    {
+        return !$this->isChairman() && !$this->isViceChairman();
+    }
+
+    /**
+     * @param int $memberType
+     * @return $this
+     */
+    public function setMemberType(int $memberType): self
+    {
+        MemberType::assertValidMemberType($memberType);
+        $this->memberType = $memberType;
+        return $this;
+    }
+
+    /**
      * @param bool $withFallback
      * @return string|null
      */
@@ -336,45 +386,21 @@ class CommitteeMember
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getMemberType(): int
+    public function getFirstTerm(): ?int
     {
-        return $this->memberType;
+        return $this->firstTerm;
     }
 
     /**
-     * @return bool
-     */
-    public function isChairman(): bool
-    {
-        return $this->memberType === MemberType::CHAIRMAN;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isViceChairman(): bool
-    {
-        return $this->memberType === MemberType::VICE_CHAIRMAN;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isMember(): bool
-    {
-        return !$this->isChairman() && !$this->isViceChairman();
-    }
-
-    /**
-     * @param int $memberType
+     * @param int|null $firstTerm
      * @return $this
      */
-    public function setMemberType(int $memberType): self
+    public function setFirstTerm(?int $firstTerm): self
     {
-        MemberType::assertValidMemberType($memberType);
-        $this->memberType = $memberType;
+        Assert::nullOrRange($firstTerm, 1980, 9999);
+        $this->firstTerm = $firstTerm;
         return $this;
     }
 

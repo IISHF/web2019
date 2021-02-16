@@ -50,6 +50,15 @@ trait CommitteeMemberProperties
     private $country = '';
 
     /**
+     * @Assert\Type("integer")
+     * @Assert\NotNull()
+     * @ValidMemberType()
+     *
+     * @var int
+     */
+    private $memberType = MemberType::MEMBER;
+
+    /**
      * @Assert\Type("string")
      * @Assert\Length(max=128)
      *
@@ -84,12 +93,11 @@ trait CommitteeMemberProperties
 
     /**
      * @Assert\Type("integer")
-     * @Assert\NotNull()
-     * @ValidMemberType()
+     * @Assert\Range(min=1980, max=9999)
      *
-     * @var int
+     * @var int|null
      */
-    private $memberType = MemberType::MEMBER;
+    private $firstTerm;
 
     /**
      * @Assert\File(
@@ -155,6 +163,24 @@ trait CommitteeMemberProperties
     public function setCountry(string $country): self
     {
         $this->country = $country;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMemberType(): int
+    {
+        return $this->memberType;
+    }
+
+    /**
+     * @param int $memberType
+     * @return $this
+     */
+    public function setMemberType(int $memberType): self
+    {
+        $this->memberType = $memberType;
         return $this;
     }
 
@@ -231,20 +257,20 @@ trait CommitteeMemberProperties
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getMemberType(): int
+    public function getFirstTerm(): ?int
     {
-        return $this->memberType;
+        return $this->firstTerm;
     }
 
     /**
-     * @param int $memberType
+     * @param int|null $firstTerm
      * @return $this
      */
-    public function setMemberType(int $memberType): self
+    public function setFirstTerm(?int $firstTerm): self
     {
-        $this->memberType = $memberType;
+        $this->firstTerm = $firstTerm;
         return $this;
     }
 

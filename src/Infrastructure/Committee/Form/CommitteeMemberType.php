@@ -95,6 +95,15 @@ class CommitteeMemberType extends AbstractType
                 ]
             )
             ->add(
+                'firstTerm',
+                IntegerType::class,
+                [
+                    'label'    => 'First Term',
+                    'required' => false,
+                    'help'     => 'This can be used to store the first term a committee member served. This is especially useful if the position is up for regular relection.',
+                ]
+            )
+            ->add(
                 'image',
                 FileType::class,
                 [

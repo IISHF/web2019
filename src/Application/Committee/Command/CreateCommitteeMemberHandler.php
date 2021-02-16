@@ -31,12 +31,13 @@ class CreateCommitteeMemberHandler extends CommitteeCommandHandler implements Co
             $command->getFirstName(),
             $command->getLastName(),
             $command->getCountry(),
+            $command->getMemberType(),
             $command->getTitle(),
             $command->getTermType(),
             $command->getTermSince(),
             $command->getTermDuration(),
-            $command->getMemberType()
         );
+        $member->setFirstTerm($command->getFirstTerm());
         $this->committeeRepository->saveMember($member);
 
         if (($image = $command->getImage()) !== null) {

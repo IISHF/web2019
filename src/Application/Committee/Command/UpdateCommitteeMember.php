@@ -41,11 +41,12 @@ class UpdateCommitteeMember
             $member->getFirstName(),
             $member->getLastName(),
             $member->getCountry(),
+            $member->getMemberType(),
             $member->getTitle(),
             $member->getTermType(),
             $member->getTermSince(),
             $member->getTermDuration(),
-            $member->getMemberType(),
+            $member->getFirstTerm(),
             $member->getImage() !== null
         );
     }
@@ -60,6 +61,7 @@ class UpdateCommitteeMember
      * @param int|null    $termSince
      * @param int|null    $termDuration
      * @param int         $memberType
+     * @param int|null    $firstTerm
      * @param bool        $hasImage
      */
     private function __construct(
@@ -67,22 +69,24 @@ class UpdateCommitteeMember
         string $firstName,
         string $lastName,
         string $country,
+        int $memberType,
         ?string $title,
         int $termType,
         ?int $termSince,
         ?int $termDuration,
-        int $memberType,
+        ?int $firstTerm,
         bool $hasImage
     ) {
         $this->id           = $id;
         $this->firstName    = $firstName;
         $this->lastName     = $lastName;
         $this->country      = $country;
+        $this->memberType   = $memberType;
         $this->title        = $title;
         $this->termType     = $termType;
         $this->termSince    = $termSince;
         $this->termDuration = $termDuration;
-        $this->memberType   = $memberType;
+        $this->firstTerm    = $firstTerm;
         $this->hasImage     = $hasImage;
     }
 

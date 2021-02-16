@@ -34,7 +34,7 @@
                 <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Title</th>
-                    <th scope="col">Term</th>
+                    <th scope="col">Term (First Term)</th>
                     <th scope="col">Country</th>
                     <th scope="col">&#160;</th>
                 </tr>
@@ -51,7 +51,12 @@
                             {{ member.name }}
                         </td>
                         <td>{{ member.title }}</td>
-                        <td>{{ member.termTypeDescription }}</td>
+                        <td>
+                            {{ member.termTypeDescription }}
+                            {% if member.firstTerm and member.firstTerm != member.termSince %}
+                                ({{ member.firstTerm }})
+                            {% endif %}
+                        </td>
                         <td>{{ member.countryName }}</td>
                         <td>
                             <div class="btn-group btn-group-sm" role="group">
@@ -84,7 +89,8 @@
 
     <div class="btn-group" role="group">
         {% if is_granted('COMMITTEE_EDIT', committee) %}
-            <a href="{{ path('app_admin_committee_update', {'committee': committee.id}) }}" class="btn btn-primary">Edit</a>
+            <a href="{{ path('app_admin_committee_update', {'committee': committee.id}) }}"
+               class="btn btn-primary">Edit</a>
         {% endif %}
         {% if is_granted('COMMITTEE_DELETE', committee) %}
             {{ include('common/_delete_btn.html.twig', {
