@@ -58,7 +58,7 @@ class File implements FileInterface
     private $size;
 
     /**
-     * @ORM\Column(name="mime_type", type="string", length=64)
+     * @ORM\Column(name="mime_type", type="string", length=128)
      *
      * @var string
      */
@@ -85,7 +85,7 @@ class File implements FileInterface
      * @param string|null $originalName
      * @param int         $size
      * @param string      $mimeType
-     * @param string      $origin
+     * @param string|null $origin
      * @param FileBinary  $binary
      */
     public function __construct(
@@ -195,7 +195,7 @@ class File implements FileInterface
      */
     private function setMimeType(string $mimeType): self
     {
-        Assert::lengthBetween($mimeType, 1, 64);
+        Assert::lengthBetween($mimeType, 1, 128);
         $this->mimeType = $mimeType;
         return $this;
     }
