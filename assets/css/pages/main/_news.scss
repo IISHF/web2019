@@ -90,7 +90,8 @@
                 width: 31.5vw;
                 margin-right: 2.5vw;
                 box-shadow: 4px 4px 7px 4px #ccc8c8;
-                background-image: url("../../../img/main/news-slide-img--2.png");
+                //background-image: url("../../../img/main/news-slide-img--2.png");
+                background-color: #ffffff;
                 background-repeat: no-repeat;
                 background-size: cover;
                 @include media-breakpoint-down(md) {

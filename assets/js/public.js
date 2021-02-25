@@ -15,6 +15,8 @@ global.moment = moment;
 
 require('bootstrap');
 
+require('lightbox2');
+
 require('slick-carousel');
 
 require('./fullcalendar');

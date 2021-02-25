@@ -5,7 +5,8 @@
             {% for i in 0..1 %}
                 {% for j in 1..4 %}
                     <div class="m-photo__slide">
-                        <a href="{{ path('app_media_photo') }}">
+                        <a href="{{ asset('build/images/main/photo-slide-img--'~j~'.png') }}"
+                           data-lightbox="photoSlider2 photo " rel="lightbox">
                             <img src="{{ asset('build/images/main/photo-slide-img--'~j~'.png') }}" alt=""
                                  class="img-fluid">
                         </a>

@@ -3882,6 +3882,11 @@ klona@^2.0.4:
   resolved "https://registry.yarnpkg.com/klona/-/klona-2.0.4.tgz#7bb1e3affb0cb8624547ef7e8f6708ea2e39dfc0"
   integrity sha512-ZRbnvdg/NxqzC7L9Uyqzf4psi1OM4Cuc+sJAkQPjO6XkQIJTNbfK2Rsmbw8fx1p2mkZdp2FZYo2+LwXYY/uwIA==
 
+lightbox2@^2.11.3:
+  version "2.11.3"
+  resolved "https://registry.yarnpkg.com/lightbox2/-/lightbox2-2.11.3.tgz#057d9244badb0f0fd4603c25d739a19a85a71978"
+  integrity sha512-Q4v6il/OK9ttgEkAxSok/jrI/LUbqTrePFchqP2x/59qaDIZgJjEEc5Xf7peSMc/55Zo5PAgmX6EiN/BeEeUBQ==
+
 lines-and-columns@^1.1.6:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
