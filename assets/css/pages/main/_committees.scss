@@ -1,6 +1,6 @@
 .committees {
-    margin-top: 75px;
-    padding-bottom: 250px;
+    margin-top: 25px;
+    margin-bottom: 50px;
 
     @media (max-width: 1199px) {
         padding-bottom: 75px;
@@ -16,7 +16,9 @@
     font-family: "Montserrat", sans-serif;
     font-weight: 400;
 
-    &:not(:first-child) {
+    margin-top: 25px;
+
+    &:not(:first-of-type) {
         margin-top: 90px;
     }
 
