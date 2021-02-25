@@ -38,6 +38,10 @@
                                 {% endfor %}
                                 </tbody>
                             </table>
+
+                            {% if articles.haveToPaginate %}
+                                {{ pagerfanta(articles, 'twig', {'template': 'news/_pager.html.twig'}) }}
+                            {% endif %}
                         </div>
                     </div>
                 </div>

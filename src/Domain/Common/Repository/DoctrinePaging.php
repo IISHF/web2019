@@ -29,8 +29,8 @@ trait DoctrinePaging
     public function createPager($query, int $page = 1, int $limit = 30): Pagerfanta
     {
         $pager = new Pagerfanta(new QueryAdapter($query));
-        $pager->setCurrentPage($page)
-              ->setMaxPerPage($limit);
+        $pager->setMaxPerPage($limit)
+              ->setCurrentPage($page);
         return $pager;
     }
 }
