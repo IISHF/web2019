@@ -13,6 +13,8 @@ newrelic_license_key:
 google_recaptcha_key:
 google_recaptcha_secret:
 
+facebook_app_id:
+
 deployment_key: |
     -----BEGIN OPENSSH PRIVATE KEY-----
     -----END OPENSSH PRIVATE KEY-----
