@@ -38,6 +38,10 @@ class Document
 {
     use HasId, CreateTracking, UpdateTracking, AssociationMany;
 
+    private const TAG_RULES_OF_THE_GAME = 'Rules of the Game';
+    private const TAG_CONSTITUTION      = 'Constitution';
+    private const TAG_ITC               = 'ITC';
+
     /**
      * @ORM\Column(name="title", type="string", length=128)
      *
@@ -103,6 +107,26 @@ class Document
     }
 
     /**
+     * @return int
+     */
+    public function getSortOrder(): int
+    {
+        if ($this->hasTag(self::TAG_RULES_OF_THE_GAME)) {
+            return 1;
+        }
+        if ($this->title === 'Regulations') {
+            return 2;
+        }
+        if ($this->hasTag(self::TAG_CONSTITUTION)) {
+            return 3;
+        }
+        if ($this->hasTag(self::TAG_ITC)) {
+            return 4;
+        }
+        return PHP_INT_MAX;
+    }
+
+    /**
      * @return string
      */
     public function getSlug(): string
@@ -140,6 +164,21 @@ class Document
         $collator->sort($tags);
         $this->tags = array_unique($tags);
         return $this;
+    }
+
+    /**
+     * @param string $tag
+     * @return bool
+     */
+    public function hasTag(string $tag): bool
+    {
+        $tag = mb_strtolower($tag, 'UTF-8');
+        foreach ($this->tags as $t) {
+            if ($tag === mb_strtolower($t, 'UTF-8')) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -182,10 +221,10 @@ class Document
     }
 
     /**
-     * @param string                  $id
-     * @param File                    $file
-     * @param string                  $version
-     * @param string                  $slug
+     * @param string                 $id
+     * @param File                   $file
+     * @param string                 $version
+     * @param string                 $slug
      * @param DateTimeImmutable|null $validFrom
      * @param DateTimeImmutable|null $validUntil
      * @return DocumentVersion

@@ -12,6 +12,7 @@ use App\Domain\Common\Repository\DoctrinePaging;
 use App\Domain\Model\Common\TagProvider;
 use App\Domain\Model\File\FileRepository;
 use App\Utils\Tags;
+use Collator;
 use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -132,17 +133,31 @@ class DocumentRepository extends ServiceEntityRepository implements TagProvider
      * @param DateTimeImmutable|null $reference
      * @return Document[]
      */
-    public function findCurrentlyValid(?DateTimeImmutable $reference = null): iterable
+    public function findCurrentlyValid(?DateTimeImmutable $reference = null): array
     {
         $reference = $reference ?? new DateTimeImmutable('now');
-        return $this->createQueryBuilderWithVersions()
-                    ->where(
-                        'EXISTS (SELECT v.id FROM ' . DocumentVersion::class . ' AS v WHERE v.document = d AND (v.validFrom IS NULL OR v.validFrom <= :date) AND (v.validUntil IS NULL OR v.validUntil >= :date))'
-                    )
-                    ->setParameter('date', $reference, 'datetime_immutable')
-                    ->orderBy('d.title', 'ASC')
-                    ->getQuery()
-                    ->getResult();
+        $documents = $this->createQueryBuilderWithVersions()
+                          ->where(
+                              'EXISTS (SELECT v.id FROM ' . DocumentVersion::class . ' AS v WHERE v.document = d AND (v.validFrom IS NULL OR v.validFrom <= :date) AND (v.validUntil IS NULL OR v.validUntil >= :date))'
+                          )
+                          ->setParameter('date', $reference, 'datetime_immutable')
+                          ->orderBy('d.title', 'ASC')
+                          ->getQuery()
+                          ->getResult();
+
+        $collator = Collator::create('en-US');
+        usort(
+            $documents,
+            static function (Document $a, Document $b) use ($collator): int {
+                $aIndex = $a->getSortOrder();
+                $bIndex = $b->getSortOrder();
+                if ($aIndex === $bIndex) {
+                    return $collator->compare($a->getTitle(), $b->getTitle());
+                }
+                return $aIndex - $bIndex;
+            }
+        );
+        return $documents;
     }
 
     /**
