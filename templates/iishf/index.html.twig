@@ -10,18 +10,16 @@
     <section class="iishf__bg iishf__bg--left-bottom">
         <div class="iishf__bg iishf__bg--right-bottom">
             <div class="iishf__bg iishf__bg--left-top">
-                {% include 'home/_title.html.twig' with {'title': 'Committees', 'before': true} %}
+                {% include 'home/_title.html.twig' with {'title': 'Organization', 'before': true} %}
                 <div class="committees">
                     <div class="page-container">
-                        {% if staff is not empty %}
+                        {% if presidium is not empty %}
                             <div class="committees-item">
                                 <div class="committees-item__header">
-                                    <p>
-                                        <b>IISHF Staff Members</b>
-                                    </p>
+                                    <b>Presidium</b>
                                 </div>
                                 <div class="committees-carousel">
-                                    {% for member in staff %}
+                                    {% for member in presidium %}
                                         <div class="committees-carousel__item">
                                             <div class="committees-carousel__img">
                                                 {% if member.image %}
@@ -32,8 +30,32 @@
                                             <div class="committees-carousel__name">{{ member.name }}</div>
                                             <div class="committees-carousel__country">{{ member.email|safe_email }}</div>
                                             <div class="committees-carousel__pos">
-                                                {{ member.title }}<br/>
-                                                {{ member.roles|join(', ', ' and ') }}
+                                                {{ member.title }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if officers is not empty %}
+                            <div class="committees-item">
+                                <div class="committees-item__header">
+                                    <b>IISHF Officers</b>
+                                </div>
+                                <div class="committees-carousel">
+                                    {% for member in officers %}
+                                        <div class="committees-carousel__item">
+                                            <div class="committees-carousel__img">
+                                                {% if member.image %}
+                                                    <img src="{{ path('app_iishf_staffmemberimage', {'member': member.id}) }}"
+                                                         alt="{{ member.name|e('html_attr') }}">
+                                                {% endif %}
+                                            </div>
+                                            <div class="committees-carousel__name">{{ member.name }}</div>
+                                            <div class="committees-carousel__country">{{ member.email|safe_email }}</div>
+                                            <div class="committees-carousel__pos">
+                                                {{ member.title }}
                                             </div>
                                         </div>
                                     {% endfor %}
@@ -45,10 +67,8 @@
                             {% if committee.members is not empty %}
                                 <div class="committees-item">
                                     <div class="committees-item__header">
-                                        <p>
-                                            <b>{{ committee.title }}</b> <br>
-                                            {{ committee.description|default('')|purify('article') }}
-                                        </p>
+                                        <b>{{ committee.title }}</b> <br>
+                                        {{ committee.description|default('')|purify('article') }}
                                     </div>
 
                                     <div class="committees-carousel">

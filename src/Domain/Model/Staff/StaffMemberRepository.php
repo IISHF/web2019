@@ -10,6 +10,7 @@ namespace App\Domain\Model\Staff;
 
 use App\Domain\Model\Common\TagProvider;
 use App\Utils\Tags;
+use Collator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,9 +41,9 @@ class StaffMemberRepository extends ServiceEntityRepository implements TagProvid
     }
 
     /**
-     * @return iterable|StaffMember[]
+     * @return StaffMember[]
      */
-    public function findAll(): iterable
+    public function findAll(): array
     {
         return $this->createQueryBuilder('m')
                     ->addSelect('mi')
@@ -54,7 +55,42 @@ class StaffMemberRepository extends ServiceEntityRepository implements TagProvid
     }
 
     /**
-     * @return string[]|
+     * @return StaffMember[]
+     */
+    public function findPresidium(): array
+    {
+        $presidium = array_filter(
+            $this->findAll(),
+            static fn(StaffMember $m): bool => $m->hasRole(StaffMember::ROLE_PRESIDIUM)
+        );
+        $collator  = Collator::create('en-US');
+        usort(
+            $presidium,
+            static function (StaffMember $a, StaffMember $b) use ($collator): int {
+                $aIndex = $a->getSortOrder();
+                $bIndex = $b->getSortOrder();
+                if ($aIndex === $bIndex) {
+                    return $collator->compare($a->getTitle(), $b->getTitle());
+                }
+                return $aIndex - $bIndex;
+            }
+        );
+        return $presidium;
+    }
+
+    /**
+     * @return StaffMember[]
+     */
+    public function findOfficers(): array
+    {
+        return array_filter(
+            $this->findAll(),
+            static fn(StaffMember $m): bool => !$m->hasRole(StaffMember::ROLE_PRESIDIUM)
+        );
+    }
+
+    /**
+     * @return string[]
      */
     public function findAvailableRoles(): array
     {

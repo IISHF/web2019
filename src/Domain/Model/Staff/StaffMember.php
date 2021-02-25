@@ -29,6 +29,8 @@ class StaffMember
 {
     use HasId, CreateTracking, UpdateTracking, AssociationOne;
 
+    public const ROLE_PRESIDIUM = 'presidium';
+
     public const IMAGE_ORIGIN = 'com.iishf.staff_member.image';
 
     /**
@@ -191,11 +193,43 @@ class StaffMember
     }
 
     /**
+     * @return int
+     */
+    public function getSortOrder(): int
+    {
+        if (stripos($this->title, 'President') !== false) {
+            return 1;
+        }
+        if (stripos($this->title, 'Vice President') !== false) {
+            return 2;
+        }
+        if (stripos($this->title, 'Finance Director') !== false) {
+            return 3;
+        }
+        return PHP_INT_MAX;
+    }
+
+    /**
      * @return string[]
      */
     public function getRoles(): array
     {
         return $this->roles;
+    }
+
+    /**
+     * @param string $role
+     * @return bool
+     */
+    public function hasRole(string $role): bool
+    {
+        $role = mb_strtolower($role, 'UTF-8');
+        foreach ($this->roles as $r) {
+            if ($role === mb_strtolower($r, 'UTF-8')) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

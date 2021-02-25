@@ -8,6 +8,7 @@
 
 namespace App\Domain\Model\Committee;
 
+use Collator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -105,9 +106,9 @@ class CommitteeRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return iterable|Committee[]
+     * @return Committee[]
      */
-    public function findAll(): iterable
+    public function findAll(): array
     {
         return $this->createQueryBuilderWithMembers()
                     ->orderBy('c.title', 'ASC')
@@ -116,6 +117,27 @@ class CommitteeRepository extends ServiceEntityRepository
                     ->addOrderBy('cm.firstName', 'ASC')
                     ->getQuery()
                     ->getResult();
+    }
+
+    /**
+     * @return Committee[]
+     */
+    public function findAllSorted(): array
+    {
+        $committees = $this->findAll();
+        $collator   = Collator::create('en-US');
+        usort(
+            $committees,
+            static function (Committee $a, Committee $b) use ($collator): int {
+                $aIndex = $a->getSortOrder();
+                $bIndex = $b->getSortOrder();
+                if ($aIndex === $bIndex) {
+                    return $collator->compare($a->getTitle(), $b->getTitle());
+                }
+                return $aIndex - $bIndex;
+            }
+        );
+        return $committees;
     }
 
     /**

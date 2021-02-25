@@ -34,8 +34,9 @@ class IISHFController extends AbstractController
         return $this->render(
             'iishf/index.html.twig',
             [
-                'staff'      => $memberRepository->findAll(),
-                'committees' => $committeeRepository->findAll(),
+                'presidium'  => $memberRepository->findPresidium(),
+                'officers'   => $memberRepository->findOfficers(),
+                'committees' => $committeeRepository->findAllSorted(),
             ]
         );
     }

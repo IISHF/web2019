@@ -100,6 +100,23 @@ class Committee
     }
 
     /**
+     * @return int
+     */
+    public function getSortOrder(): int
+    {
+        if (stripos($this->title, 'Technical') !== false) {
+            return 1;
+        }
+        if (stripos($this->title, 'Disciplinary') !== false) {
+            return 2;
+        }
+        if (stripos($this->title, 'Appeals') !== false) {
+            return 3;
+        }
+        return PHP_INT_MAX;
+    }
+
+    /**
      * @return string
      */
     public function getSlug(): string
