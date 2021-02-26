@@ -37,10 +37,11 @@
 
     &__img-item {
         background-color: #ffffff;
+        height: 300px;
         background-image: radial-gradient(circle closest-side, #ffffff, #eeeeee);
 
         img {
-            height: 300px;
+            height: 100%;
             width: 100%;
             object-fit: cover;
             object-position: 50% 50%;
