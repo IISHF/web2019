@@ -10,17 +10,12 @@
             {% set article2 = block[1 + loop.index0 * 4] %}
             {% set article3 = block[2 + loop.index0 * 4] %}
             {% set article4 = block[3 + loop.index0 * 4] %}
-            {% set defaultImage1 = 'build/images/main/news-slide-img--1.png' %}
-            {% set defaultImage2 = 'build/images/main/news-slide-img--2.png' %}
-            {% set defaultImage3 = 'build/images/main/news-slide-img--3.png' %}
-            {% set defaultImage4 = 'build/images/main/news-slide-img--4.png' %}
             <div class="m-news__slide">
                 <div class="m-news__slide-container m-news__slide-container--left">
                     <div class="m-news__slide-img">
                         {{ render(controller('App\\Controller\\NewsController::articlePrimaryImage', {
                             'article': article1,
                             'alt': article1.title,
-                            'defaultImage': asset(defaultImage1)
                         })) }}
                     </div>
                     {% include 'home/_news_content.html.twig' with {'article': article1} %}
@@ -31,7 +26,6 @@
                             {{ render(controller('App\\Controller\\NewsController::articlePrimaryImage', {
                                 'article': article2,
                                 'alt': article2.title,
-                                'defaultImage': asset(defaultImage2)
                             })) }}
                             {% include 'home/_news_content.html.twig' with {'article': article2} %}
                         </div>
@@ -43,7 +37,6 @@
                                     {{ render(controller('App\\Controller\\NewsController::articlePrimaryImage', {
                                         'article': article3,
                                         'alt': article3.title,
-                                        'defaultImage': asset(defaultImage3)
                                     })) }}
                                 </div>
                                 {% include 'home/_news_content.html.twig' with {'article': article3} %}
@@ -55,7 +48,6 @@
                                     {{ render(controller('App\\Controller\\NewsController::articlePrimaryImage', {
                                         'article': article4,
                                         'alt': article4.title,
-                                        'defaultImage': asset(defaultImage4)
                                     })) }}
                                 </div>
                                 {% include 'home/_news_content.html.twig' with {'article': article4} %}
