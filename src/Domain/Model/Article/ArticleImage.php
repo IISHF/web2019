@@ -110,6 +110,14 @@ class ArticleImage extends ArticleAttachment
     }
 
     /**
+     * @return bool
+     */
+    public function isLowResIISHFLogo(): bool
+    {
+        return $this->getFile()->getBinary()->getHash() === 'c2645d57745b614b768ade942bacb4f295989444';
+    }
+
+    /**
      * @param string|null $caption
      * @return $this
      */

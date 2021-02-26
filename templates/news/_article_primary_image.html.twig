@@ -3,7 +3,7 @@
 {% set defaultImage = defaultImage|default(null) %}
 
 {% if article.legacyFormat %}
-    {% if legacyPrimaryImage %}
+    {% if legacyPrimaryImage and not legacyPrimaryImage.lowResIISHFLogo %}
         <img src="{{ path('app_file_download', {'name': legacyPrimaryImage.name}) }}" class="{{ class|e('html_attr') }}"
              alt="{{ legacyPrimaryImage.caption|default(alt)|e('html_attr') }}">
     {% elseif defaultImage %}
