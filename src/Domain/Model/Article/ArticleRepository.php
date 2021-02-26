@@ -92,6 +92,44 @@ class ArticleRepository extends ServiceEntityRepository implements TagProvider
     }
 
     /**
+     * @param int                    $year
+     * @param int                    $page
+     * @param int                    $limit
+     * @param DateTimeImmutable|null $date
+     * @return iterable|Pagerfanta|Article[]
+     */
+    public function findPublishedInYearPaged(
+        int $year,
+        int $page = 1,
+        int $limit = 30,
+        ?DateTimeImmutable $date = null
+    ): iterable {
+        $start = new DateTimeImmutable($year . '-01-01 00:00:00');
+        $end   = new DateTimeImmutable(($year + 1) . '-01-01 00:00:00');
+
+        $queryBuilder = $this->createPublishedQueryBuilder($date)
+                             ->andWhere('a.publishedAt >= :start')
+                             ->andWhere('a.publishedAt < :end')
+                             ->setParameter('start', $start, 'datetime_immutable')
+                             ->setParameter('end', $end, 'datetime_immutable');
+        return $this->createPager($queryBuilder, $page, $limit);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function findPublishingYears(): array
+    {
+        $connection   = $this->_em->getConnection();
+        $queryBuilder = $connection->createQueryBuilder()
+                                   ->select('YEAR(a.published_at) AS y')
+                                   ->distinct()
+                                   ->from('articles', 'a')
+                                   ->orderBy('y', 'DESC');
+        return array_map('intval', $connection->fetchFirstColumn($queryBuilder->getSQL()));
+    }
+
+    /**
      * @param int                    $limit
      * @param DateTimeImmutable|null $date
      * @return Article[]

@@ -48,10 +48,27 @@ class NewsController extends AbstractController
     public function archive(Request $request, ArticleRepository $articleRepository): Response
     {
         $paging = PagingRequest::create($request);
+        $year   = $request->query->getInt('year');
+        $years  = $articleRepository->findPublishingYears();
+        if ($year > 0) {
+            $articles  = $articleRepository->findPublishedInYearPaged($year, $paging->getPage(), $paging->getLimit());
+            $yearIndex = array_search($year, $years, true);
+            if ($yearIndex === false) {
+                $years = array_slice($years, 0, 5);
+            } else {
+                $years = array_slice($years, max(0, $yearIndex - 2), 5);
+            }
+        } else {
+            $articles = $articleRepository->findPublishedPaged($paging->getPage(), $paging->getLimit());
+            $years    = array_slice($years, 0, 5);
+        }
+
         return $this->render(
             'news/archive.html.twig',
             [
-                'articles' => $articleRepository->findPublishedPaged($paging->getPage(), $paging->getLimit()),
+                'year'     => $year,
+                'years'    => $years,
+                'articles' => $articles,
             ]
         );
     }

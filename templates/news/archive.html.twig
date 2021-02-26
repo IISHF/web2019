@@ -15,6 +15,18 @@
                 <div class="news-archive">
                     <div class="page-container">
                         <div class="news-archive__table">
+                            <ul class="nav nav-pills justify-content-center mb-4">
+                                <li class="nav-item">
+                                    <a class="nav-link {{ year == 0 ? 'active' : '' }}"
+                                       href="{{ path('app_news_archive') }}"><span>all</span></a>
+                                </li>
+                                {% for y in years %}
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ year == y ? 'active' : '' }}"
+                                           href="{{ path('app_news_archive', {year: y}) }}"><span>{{ y }}</span></a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
                             <table>
                                 <thead>
                                 <tr>
