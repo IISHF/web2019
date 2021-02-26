@@ -2,16 +2,12 @@
     <div class="m-photo__bg m-photo__bg--left">
         {% include 'home/_title.html.twig' with {'title': 'Photo', 'before': true} %}
         <div id="photoSlider" class="m-photo__slider">
-            {% for i in 0..1 %}
-                {% for j in 1..4 %}
-                    <div class="m-photo__slide">
-                        <a href="{{ asset('build/images/main/photo-slide-img--'~j~'.png') }}"
-                           data-lightbox="photoSlider2 photo " rel="lightbox">
-                            <img src="{{ asset('build/images/main/photo-slide-img--'~j~'.png') }}" alt=""
-                                 class="img-fluid">
-                        </a>
-                    </div>
-                {% endfor %}
+            {% for image in images %}
+                <div class="m-photo__slide">
+                    <a href="{{ asset('assets/photo-slider/' ~ image) }}" data-lightbox="photoSlider">
+                        <img src="{{ asset('assets/photo-slider/' ~ image) }}" alt="" class="img-fluid">
+                    </a>
+                </div>
             {% endfor %}
         </div>
     </div>

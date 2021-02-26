@@ -23,7 +23,7 @@
 
         {% include 'home/_section_news.html.twig' with {'articles': articles} %}
 
-        {{ include('home/_section_photo.html.twig') }}
+        {{ render(controller('App\\Controller\\HomeController::photoSlider')) }}
 
         {{ include('home/_section_social.html.twig') }}
 

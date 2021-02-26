@@ -157,4 +157,6 @@ $(document).ready(function () {
                 }
             ]
         });
+
+    $(".slick-slide.slick-cloned a").removeAttr("data-lightbox");
 });

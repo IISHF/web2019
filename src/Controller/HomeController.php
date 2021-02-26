@@ -8,6 +8,7 @@ use App\Infrastructure\Security\Exception\CaptchaTestFailedException;
 use App\Infrastructure\Security\MagicLink\TokenManager;
 use App\Infrastructure\Security\ReCaptchaClient;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -41,6 +42,29 @@ class HomeController extends AbstractController
             [
                 'articles' => $articleRepository->findMostRecent(12),
                 'members'  => $ngbRepository->findAll(),
+            ]
+        );
+    }
+
+    /**
+     * @return Response
+     */
+    public function photoSlider(): Response
+    {
+        $path   = __DIR__ . '/../../public/assets/photo-slider';
+        $finder = Finder::create()
+                        ->files()
+                        ->in($path)
+                        ->name('*.jpg')
+                        ->sortByName(true);
+        $images = [];
+        foreach ($finder as $image) {
+            $images[] = $image->getFilename();
+        }
+        return $this->render(
+            'home/_section_photo.html.twig',
+            [
+                'images' => $images,
             ]
         );
     }
