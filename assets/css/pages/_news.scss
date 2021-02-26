@@ -69,6 +69,17 @@
             }
         }
 
+        p {
+            display: -webkit-box;
+            line-clamp: 3;
+            -webkit-line-clamp: 3;
+            box-orient: vertical;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            max-height: 50px;
+            text-overflow: ellipsis;
+        }
+
         @media (max-width: 991px) {
             padding: 35px;
         }
