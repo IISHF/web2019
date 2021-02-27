@@ -3,39 +3,37 @@
         <div class="m-social__bg m-social__bg--right">
             {% include 'home/_title.html.twig' with {'title': 'Follow us on Social Media', 'before': true} %}
             <div class="m-social__container">
-                <div class="col-12">
-                    <div class="row">
-                        {% if facebook_app_id|default('') is not empty %}
-                            <div class="col-12 col-md-4">
-                                <div id="fb-root"></div>
-                                <script async defer crossorigin="anonymous"
-                                        src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v10.0&appId={{ facebook_app_id }}"
-                                        nonce="EbQoubIT"></script>
-                                <div class="fb-page"
-                                     data-href="https://www.facebook.com/iishf"
-                                     data-tabs="timeline"
-                                     data-width="250"
-                                     data-height="400"
-                                     data-lazy="true"
-                                     data-small-header="true"
-                                     data-adapt-container-width="true"
-                                     data-hide-cover="false"
-                                     data-show-facepile="false">
-                                </div>
+                <div class="row">
+                    {% if facebook_app_id|default('') is not empty %}
+                        <div class="col-12 col-md-4">
+                            <div id="fb-root"></div>
+                            <script async defer crossorigin="anonymous"
+                                    src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v10.0&appId={{ facebook_app_id }}"
+                                    nonce="EbQoubIT"></script>
+                            <div class="fb-page"
+                                 data-href="https://www.facebook.com/iishf"
+                                 data-tabs="timeline"
+                                 data-width="250"
+                                 data-height="400"
+                                 data-lazy="true"
+                                 data-small-header="true"
+                                 data-adapt-container-width="true"
+                                 data-hide-cover="false"
+                                 data-show-facepile="false">
                             </div>
-                        {% endif %}
-                        <div class="col-12 col-md-4">
-                            <a class="twitter-timeline" data-lang="en" data-width="250" data-height="400"
-                               data-dnt="true" href="https://twitter.com/iishf?ref_src=twsrc%5Etfw">Tweets by iishf</a>
+                        </div>
+                    {% endif %}
+                    <div class="col-12 col-md-4">
+                        <a class="twitter-timeline" data-lang="en" data-width="250" data-height="400"
+                           data-dnt="true" href="https://twitter.com/iishf?ref_src=twsrc%5Etfw">Tweets by iishf</a>
 
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <a class="twitter-timeline" data-lang="en" data-width="250" data-height="400"
-                               data-dnt="true" href="https://twitter.com/iishf_live?ref_src=twsrc%5Etfw">Tweets by
-                                iishf_live</a>
-                        </div>
-                        <script async defer src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                     </div>
+                    <div class="col-12 col-md-4">
+                        <a class="twitter-timeline" data-lang="en" data-width="250" data-height="400"
+                           data-dnt="true" href="https://twitter.com/iishf_live?ref_src=twsrc%5Etfw">Tweets by
+                            iishf_live</a>
+                    </div>
+                    <script async defer src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                 </div>
             </div>
         </div>

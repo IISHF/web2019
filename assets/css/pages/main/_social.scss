@@ -29,12 +29,5 @@
         @include media-breakpoint-down(sm) {
             padding-bottom: 5rem;
         }
-
-        img {
-            @include media-breakpoint-down(sm) {
-                max-width: 300px;
-                margin-bottom: 3.5rem;
-            }
-        }
     }
 }
