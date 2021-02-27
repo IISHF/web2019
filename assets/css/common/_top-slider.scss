@@ -8,7 +8,6 @@
     }
 
     &__slide {
-        position: relative;
         min-height: calc(100vh - 75px);
         @include media-breakpoint-down(sm) {
             font-size: 24px;
@@ -20,41 +19,41 @@
         &-title {
             font-family: "Lato", sans-serif;
             font-weight: bold;
-            font-style: italic;
-            font-size: 7rem;
-            letter-spacing: 1px;
-            line-height: 1.25;
+            font-size: 5rem;
             text-transform: uppercase;
-            padding: 21rem 50rem 21rem 12rem;
+            padding: 10rem 50rem 0 5rem;
             @media (max-width: 1400px) {
-                font-size: 9rem;
-            }
-            @include media-breakpoint-down(sm) {
-                padding: 21rem 12rem;
+                font-size: 6rem;
             }
             @include media-breakpoint-down(sm) {
                 font-size: 24px;
-                padding: 18rem 15px 15px;
+                padding: 10px 25px 10px;
                 text-align: center;
             }
         }
 
+        &-quote {
+            padding: 0 50rem 0 5rem;
+            font-weight: bold;
+            font-size: 2.9rem;
+            font-style: italic;
+
+            @include media-breakpoint-down(sm) {
+                padding: 0 25px 10px;
+            }
+        }
+
         img {
-            position: absolute;
+            float: right;
             top: 2.5rem;
             right: 8rem;
-            height: 100%;
-            max-height: 90%;
-            @include media-breakpoint-down(lg) {
-                height: auto;
-                max-width: 78rem;
-            }
+            max-height: 400px;
+            width: 400px;
+            object-fit: contain;
             @include media-breakpoint-down(sm) {
-                position: relative;
-                margin: 0 auto;
-                width: 80%;
-                left: auto;
-                right: auto;
+                float: none;
+                margin: 0 0 20px 0;
+                width: 100%;
             }
         }
     }
