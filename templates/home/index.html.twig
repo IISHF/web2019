@@ -55,13 +55,13 @@
 
         {# {{ include('home/_section_broadcast.html.twig') }} #}
 
-        {# {% include 'home/_section_news.html.twig' with {'articles': articles} %} #}
+        {% include 'home/_section_news.html.twig' with {'articles': articles} %}
 
         {{ render(controller('App\\Controller\\HomeController::photoSlider')) }}
 
-        {# {{ include('home/_section_social.html.twig') }} #}
+        {{ include('home/_section_social.html.twig') }}
 
-        {# {% include 'home/_section_members.html.twig' with {'members': members} %} #}
+        {% include 'home/_section_members.html.twig' with {'members': members} %}
 
         {# {{ include('home/_section_partners.html.twig') }} #}
     </main>
