@@ -76,7 +76,7 @@ class HomeController extends AbstractController
      */
     public function cookie(): Response
     {
-        return $this->redirectToRoute('privacy');
+        return $this->redirectToRoute('privacy', ['_fragment' => 's11']);
     }
 
     /**
