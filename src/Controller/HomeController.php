@@ -76,7 +76,7 @@ class HomeController extends AbstractController
      */
     public function cookie(): Response
     {
-        return $this->render('home/cookie.html.twig');
+        return $this->redirectToRoute('privacy');
     }
 
     /**
