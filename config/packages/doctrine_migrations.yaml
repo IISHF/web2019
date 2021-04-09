@@ -1,6 +1,7 @@
 doctrine_migrations:
     migrations_paths:
         DbUpdates: '%kernel.project_dir%/src/Updates'
+    enable_profiler: '%kernel.debug%'
     storage:
         table_storage:
             table_name: db_updates
