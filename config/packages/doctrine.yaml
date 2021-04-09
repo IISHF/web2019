@@ -15,6 +15,7 @@ doctrine:
             charset: utf8mb4
             collate: utf8mb4_unicode_ci
 
+        override_url: true
         url: '%env(resolve:DATABASE_URL)%'
         schema_filter: /^(?!rememberme_token|login_tokens)/
         types:
