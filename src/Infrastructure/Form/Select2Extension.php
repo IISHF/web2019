@@ -66,16 +66,15 @@ class Select2Extension extends AbstractTypeExtension
                 $select2Options
             );
         }
-        /* This does not work (JavaScript errors and bad alignment)
         if (!$options['required']) {
             $select2Options = array_merge(
                 [
-                    'allowClear' => true,
+                    'allowClear'  => true,
+                    'placeholder' => '',
                 ],
                 $select2Options
             );
         }
-        */
 
         $view->vars['enable_select2']  = true;
         $view->vars['select2_options'] = $select2Options;
