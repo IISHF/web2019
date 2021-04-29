@@ -35,6 +35,10 @@ class UpdateHallOfFameEntry
             $entry->isChampionship(),
             $entry->getWinnerClub(),
             $entry->getWinnerCountry(),
+            $entry->getSecondPlaceClub(),
+            $entry->getSecondPlaceCountry(),
+            $entry->getThirdPlaceClub(),
+            $entry->getThirdPlaceCountry(),
             $entry->getHostClub(),
             $entry->getHostCountry()
         );
@@ -61,18 +65,26 @@ class UpdateHallOfFameEntry
         bool $championship,
         string $winnerClub,
         string $winnerCountry,
+        ?string $secondPlaceClub,
+        ?string $secondPlaceCountry,
+        ?string $thirdPlaceClub,
+        ?string $thirdPlaceCountry,
         ?string $hostClub,
         ?string $hostCountry
     ) {
-        $this->id            = $id;
-        $this->season        = $season;
-        $this->ageGroup      = $ageGroup;
-        $this->event         = $event;
-        $this->eventDate     = $eventDate;
-        $this->championship  = $championship;
-        $this->winnerClub    = $winnerClub;
-        $this->winnerCountry = $winnerCountry;
-        $this->hostClub      = $hostClub;
-        $this->hostCountry   = $hostCountry;
+        $this->id                 = $id;
+        $this->season             = $season;
+        $this->ageGroup           = $ageGroup;
+        $this->event              = $event;
+        $this->eventDate          = $eventDate;
+        $this->championship       = $championship;
+        $this->winnerClub         = $winnerClub;
+        $this->winnerCountry      = $winnerCountry;
+        $this->secondPlaceClub    = $secondPlaceClub;
+        $this->secondPlaceCountry = $secondPlaceCountry;
+        $this->thirdPlaceClub     = $thirdPlaceClub;
+        $this->thirdPlaceCountry  = $thirdPlaceCountry;
+        $this->hostClub           = $hostClub;
+        $this->hostCountry        = $hostCountry;
     }
 }

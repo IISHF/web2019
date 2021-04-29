@@ -1,5 +1,54 @@
 {{ form_start(form) }}
 
+{{ form_row(form.season) }}
+{{ form_row(form.championship) }}
+{{ form_row(form.ageGroup) }}
+
+<div class="row">
+    <div class="col-6">
+        {{ form_row(form.event) }}
+    </div>
+    <div class="col-6">
+        {{ form_row(form.eventDate) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        {{ form_row(form.hostClub) }}
+    </div>
+    <div class="col-6">
+        {{ form_row(form.hostCountry) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        {{ form_row(form.winnerClub) }}
+    </div>
+    <div class="col-6">
+        {{ form_row(form.winnerCountry) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        {{ form_row(form.secondPlaceClub) }}
+    </div>
+    <div class="col-6">
+        {{ form_row(form.secondPlaceCountry) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        {{ form_row(form.thirdPlaceClub) }}
+    </div>
+    <div class="col-6">
+        {{ form_row(form.thirdPlaceCountry) }}
+    </div>
+</div>
+
 {{ form_rest(form) }}
 
 <div class="btn-group" role="group">
