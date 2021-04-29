@@ -35,11 +35,39 @@
                     {{ entry.ageGroupName }} {{ entry.event }}
                 </td>
                 <td>
-                    {% if entry.championship %}
-                        {{ entry.winnerCountryName }}
-                    {% else %}
-                        {{ entry.winnerClub }}, {{ entry.winnerCountryName }}
-                    {% endif %}
+                    <ol>
+                        <li>
+                            {% if entry.championship %}
+                                {{ entry.winnerCountryName }}
+                            {% else %}
+                                {{ entry.winnerClub }}, {{ entry.winnerCountryName }}
+                            {% endif %}
+                        </li>
+                        {% if entry.secondPlaceClub or entry.thirdPlaceClub %}
+                            {% if entry.secondPlaceClub %}
+                                <li>
+                                    {% if entry.championship %}
+                                        {{ entry.secondPlaceCountryName }}
+                                    {% else %}
+                                        {{ entry.secondPlaceClub }}, {{ entry.secondPlaceCountryName }}
+                                    {% endif %}
+                                </li>
+                            {% else %}
+                                <li>
+                                    <em>unknown</em>
+                                </li>
+                            {% endif %}
+                            {% if entry.thirdPlaceClub %}
+                                <li>
+                                    {% if entry.championship %}
+                                        {{ entry.thirdPlaceCountryName }}
+                                    {% else %}
+                                        {{ entry.thirdPlaceClub }}, {{ entry.thirdPlaceCountryName }}
+                                    {% endif %}
+                                </li>
+                            {% endif %}
+                        {% endif %}
+                    </ol>
                 </td>
                 <td>
                     {% if entry.hostClub and entry.hostCountry %}

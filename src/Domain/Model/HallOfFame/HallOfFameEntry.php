@@ -39,35 +39,35 @@ class HallOfFameEntry
      *
      * @var int
      */
-    private $season;
+    private int $season;
 
     /**
      * @ORM\Column(name="age_group", type="string", length=16)
      *
      * @var string
      */
-    private $ageGroup;
+    private string $ageGroup;
 
     /**
      * @ORM\Column(name="event", type="string", length=128)
      *
      * @var string
      */
-    private $event;
+    private string $event;
 
     /**
      * @ORM\Column(name="event_date", type="string", length=64, nullable=true)
      *
      * @var string|null
      */
-    private $eventDate;
+    private ?string $eventDate;
 
     /**
      * @ORM\Column(name="championship", type="boolean")
      *
      * @var bool
      */
-    private $championship;
+    private bool $championship;
 
     /**
      * @ORM\Column(name="winner_club", type="string", length=128)
@@ -81,21 +81,49 @@ class HallOfFameEntry
      *
      * @var string
      */
-    private $winnerCountry;
+    private string $winnerCountry;
+
+    /**
+     * @ORM\Column(name="second_place_club", type="string", length=128, nullable=true)
+     *
+     * @var string|null
+     */
+    private ?string $secondPlaceClub;
+
+    /**
+     * @ORM\Column(name="second_place_country", type="string", length=2, nullable=true)
+     *
+     * @var string|null
+     */
+    private ?string $secondPlaceCountry;
+
+    /**
+     * @ORM\Column(name="third_place_club", type="string", length=128, nullable=true)
+     *
+     * @var string|null
+     */
+    private ?string $thirdPlaceClub;
+
+    /**
+     * @ORM\Column(name="third_place_country", type="string", length=2, nullable=true)
+     *
+     * @var string|null
+     */
+    private ?string $thirdPlaceCountry;
 
     /**
      * @ORM\Column(name="host_club", type="string", length=128, nullable=true)
      *
      * @var string|null
      */
-    private $hostClub;
+    private ?string $hostClub;
 
     /**
      * @ORM\Column(name="host_country", type="string", length=2, nullable=true)
      *
      * @var string|null
      */
-    private $hostCountry;
+    private ?string $hostCountry;
 
     /**
      * @param string      $id
@@ -290,6 +318,110 @@ class HallOfFameEntry
         Assert::length($winnerCountry, 2);
         Country::assertValidCountry($winnerCountry);
         $this->winnerCountry = $winnerCountry;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSecondPlaceClub(): ?string
+    {
+        return $this->secondPlaceClub;
+    }
+
+    /**
+     * @param string $secondPlaceClub
+     * @return $this
+     */
+    public function setSecondPlaceClub(string $secondPlaceClub): self
+    {
+        Assert::nullOrLengthBetween($secondPlaceClub, 1, 128);
+        $this->secondPlaceClub = $secondPlaceClub;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSecondPlaceCountry(): ?string
+    {
+        return $this->secondPlaceCountry;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSecondPlaceCountryName(): ?string
+    {
+        return $this->secondPlaceCountry ? Country::getCountryNameByCode($this->secondPlaceCountry) : null;
+    }
+
+    /**
+     * @param string|null $secondPlaceCountry
+     * @return $this
+     */
+    public function setSecondPlaceCountry(?string $secondPlaceCountry): self
+    {
+        if ($secondPlaceCountry !== null) {
+            $secondPlaceCountry = mb_strtoupper($secondPlaceCountry, 'UTF-8');
+            Assert::length($secondPlaceCountry, 2);
+            Country::assertValidCountry($secondPlaceCountry);
+            $this->secondPlaceCountry = $secondPlaceCountry;
+        } else {
+            $this->secondPlaceCountry = null;
+        }
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getThirdPlaceClub(): ?string
+    {
+        return $this->thirdPlaceClub;
+    }
+
+    /**
+     * @param string $thirdPlaceClub
+     * @return $this
+     */
+    public function setThirdPlaceClub(string $thirdPlaceClub): self
+    {
+        Assert::nullOrLengthBetween($thirdPlaceClub, 1, 128);
+        $this->thirdPlaceClub = $thirdPlaceClub;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getThirdPlaceCountry(): ?string
+    {
+        return $this->thirdPlaceCountry;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getThirdPlaceCountryName(): ?string
+    {
+        return $this->thirdPlaceCountry ? Country::getCountryNameByCode($this->thirdPlaceCountry) : null;
+    }
+
+    /**
+     * @param string|null $thirdPlaceCountry
+     * @return $this
+     */
+    public function setThirdPlaceCountry(?string $thirdPlaceCountry): self
+    {
+        if ($thirdPlaceCountry !== null) {
+            $thirdPlaceCountry = mb_strtoupper($thirdPlaceCountry, 'UTF-8');
+            Assert::length($thirdPlaceCountry, 2);
+            Country::assertValidCountry($thirdPlaceCountry);
+            $this->thirdPlaceCountry = $thirdPlaceCountry;
+        } else {
+            $this->thirdPlaceCountry = null;
+        }
         return $this;
     }
 

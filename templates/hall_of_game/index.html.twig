@@ -1,0 +1,83 @@
+{% extends 'public.html.twig' %}
+
+{% block title %}Hall of Fame | {{ parent() }}{% endblock %}
+
+{% block breadcrumbs %}
+    <span class="breadcrumb-item active">Hall of Fame</span>
+{% endblock %}
+
+{% block content %}
+    <section class="iishf__bg iishf__bg--left-bottom">
+        <div class="iishf__bg iishf__bg--right-bottom">
+            <div class="iishf__bg iishf__bg--left-top">
+                {% include 'home/_title.html.twig' with {'title':  'Hall of Fame', 'before': true} %}
+                <div class="hall-of-fame">
+                    <div class="page-container">
+                        {% for year, yearlyEvents in eventsByYear %}
+                            <h2>{{ year }}</h2>
+                            <ul>
+                                {% for event in yearlyEvents %}
+                                    {# @var event App\Domain\Model\HallOfFame\HallOfFameEntry #}
+                                    <li>
+                                        <h3>
+                                            <span class="badge badge-primary">{{ event.ageGroupName }}</span>
+                                            {{ event.event }}
+                                            {% if event.championship %}
+                                                <span class="badge badge-secondary">Championship</span>
+                                            {% endif %}
+                                            <br/>
+                                            <small class="text-muted">
+                                                {% if event.eventDate %}
+                                                    {{ event.eventDate }}
+                                                {% endif %}
+                                                {% if event.hostClub %}
+                                                    hosted by {{ event.hostClub }}
+                                                    {% if event.hostCountry %}
+                                                        in {{ event.hostCountryName }}
+                                                    {% endif %}
+                                                {% endif %}
+                                            </small>
+                                        </h3>
+                                        <ol>
+                                            <li>
+                                                {% if event.championship %}
+                                                    {{ event.winnerCountryName }}
+                                                {% else %}
+                                                    {{ event.winnerClub }}, {{ event.winnerCountryName }}
+                                                {% endif %}
+                                            </li>
+                                            {% if event.secondPlaceClub or event.thirdPlaceClub %}
+                                                {% if event.secondPlaceClub %}
+                                                    <li>
+                                                        {% if event.championship %}
+                                                            {{ event.secondPlaceCountryName }}
+                                                        {% else %}
+                                                            {{ event.secondPlaceClub }}, {{ event.secondPlaceCountryName }}
+                                                        {% endif %}
+                                                    </li>
+                                                {% else %}
+                                                    <li>
+                                                        <em>unknown</em>
+                                                    </li>
+                                                {% endif %}
+                                                {% if event.thirdPlaceClub %}
+                                                    <li>
+                                                        {% if event.championship %}
+                                                            {{ event.thirdPlaceCountryName }}
+                                                        {% else %}
+                                                            {{ event.thirdPlaceClub }}, {{ event.thirdPlaceCountryName }}
+                                                        {% endif %}
+                                                    </li>
+                                                {% endif %}
+                                            {% endif %}
+                                        </ol>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
