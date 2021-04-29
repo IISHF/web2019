@@ -94,6 +94,40 @@ class HallOfFameEntryType extends AbstractType
                 ]
             )
             ->add(
+                'secondPlaceClub',
+                TextType::class,
+                [
+                    'label'    => 'Second Place Club',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'secondPlaceCountry',
+                CountryType::class,
+                [
+                    'label'          => 'Second Place Club\'s Country',
+                    'required'       => false,
+                    'enable_select2' => true,
+                ]
+            )
+            ->add(
+                'thirdPlaceClub',
+                TextType::class,
+                [
+                    'label'    => 'Third Place Club',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'thirdPlaceCountry',
+                CountryType::class,
+                [
+                    'label'          => 'Third Place Club\'s Country',
+                    'required'       => false,
+                    'enable_select2' => true,
+                ]
+            )
+            ->add(
                 'hostClub',
                 TextType::class,
                 [

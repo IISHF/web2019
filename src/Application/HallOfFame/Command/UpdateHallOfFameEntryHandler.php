@@ -28,6 +28,10 @@ class UpdateHallOfFameEntryHandler extends HallOfFameEntryCommandHandler
               ->setChampionship($command->isChampionship())
               ->setWinnerClub($command->getWinnerClub())
               ->setWinnerCountry($command->getWinnerCountry())
+              ->setSecondPlaceClub($command->getSecondPlaceClub())
+              ->setSecondPlaceCountry($command->getSecondPlaceCountry())
+              ->setThirdPlaceClub($command->getThirdPlaceClub())
+              ->setThirdPlaceCountry($command->getThirdPlaceCountry())
               ->setHostClub($command->getHostClub())
               ->setHostCountry($command->getHostCountry());
         $this->hallOfFameRepository->save($entry);

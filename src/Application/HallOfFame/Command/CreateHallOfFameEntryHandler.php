@@ -34,6 +34,10 @@ class CreateHallOfFameEntryHandler extends HallOfFameEntryCommandHandler
             $command->getHostClub(),
             $command->getHostCountry()
         );
+        $entry->setSecondPlaceClub($command->getSecondPlaceClub())
+              ->setSecondPlaceCountry($command->getSecondPlaceCountry())
+              ->setThirdPlaceClub($command->getThirdPlaceClub())
+              ->setThirdPlaceCountry($command->getThirdPlaceCountry());
         $this->hallOfFameRepository->save($entry);
     }
 }

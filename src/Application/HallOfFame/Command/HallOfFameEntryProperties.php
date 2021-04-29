@@ -85,6 +85,54 @@ trait HallOfFameEntryProperties
      * @Assert\Type("string")
      * @Assert\Length(max=128)
      * @Assert\Expression(
+     *      expression="value === null ? this.getSecondPlaceCountry() === null : this.getSecondPlaceCountry() !== null",
+     *      message="Either both the second place club and its country must be filled in or both must be empty."
+     * )
+     *
+     * @var string|null
+     */
+    private $secondPlaceClub;
+
+    /**
+     * @Assert\Type("string")
+     * @Assert\Country()
+     * @Assert\Expression(
+     *      expression="value === null ? this.getSecondPlaceClub() === null : this.getSecondPlaceClub() !== null",
+     *      message="Either both the second place club and its country must be filled in or both must be empty."
+     * )
+     *
+     * @var string|null
+     */
+    private $secondPlaceCountry;
+
+    /**
+     * @Assert\Type("string")
+     * @Assert\Length(max=128)
+     * @Assert\Expression(
+     *      expression="value === null ? this.getThirdPlaceCountry() === null : this.getThirdPlaceCountry() !== null",
+     *      message="Either both the third place club and its country must be filled in or both must be empty."
+     * )
+     *
+     * @var string|null
+     */
+    private $thirdPlaceClub;
+
+    /**
+     * @Assert\Type("string")
+     * @Assert\Country()
+     * @Assert\Expression(
+     *      expression="value === null ? this.getThirdPlaceClub() === null : this.getThirdPlaceClub() !== null",
+     *      message="Either both the third place club and its country must be filled in or both must be empty."
+     * )
+     *
+     * @var string|null
+     */
+    private $thirdPlaceCountry;
+
+    /**
+     * @Assert\Type("string")
+     * @Assert\Length(max=128)
+     * @Assert\Expression(
      *      expression="value === null ? this.getHostCountry() === null : this.getHostCountry() !== null",
      *      message="Either both the hosting club and its country must be filled in or both must be empty."
      * )
@@ -228,6 +276,78 @@ trait HallOfFameEntryProperties
     public function setWinnerCountry(string $winnerCountry): self
     {
         $this->winnerCountry = $winnerCountry;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSecondPlaceClub(): ?string
+    {
+        return $this->secondPlaceClub;
+    }
+
+    /**
+     * @param string|null $secondPlaceClub
+     * @return $this
+     */
+    public function setSecondPlaceClub(?string $secondPlaceClub): self
+    {
+        $this->secondPlaceClub = $secondPlaceClub;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSecondPlaceCountry(): ?string
+    {
+        return $this->secondPlaceCountry;
+    }
+
+    /**
+     * @param string|null $secondPlaceCountry
+     * @return $this
+     */
+    public function setSecondPlaceCountry(?string $secondPlaceCountry): self
+    {
+        $this->secondPlaceCountry = $secondPlaceCountry;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getThirdPlaceClub(): ?string
+    {
+        return $this->thirdPlaceClub;
+    }
+
+    /**
+     * @param string|null $thirdPlaceClub
+     * @return $this
+     */
+    public function setThirdPlaceClub(?string $thirdPlaceClub): self
+    {
+        $this->thirdPlaceClub = $thirdPlaceClub;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getThirdPlaceCountry(): ?string
+    {
+        return $this->thirdPlaceCountry;
+    }
+
+    /**
+     * @param string|null $thirdPlaceCountry
+     * @return $this
+     */
+    public function setThirdPlaceCountry(?string $thirdPlaceCountry): self
+    {
+        $this->thirdPlaceCountry = $thirdPlaceCountry;
         return $this;
     }
 
