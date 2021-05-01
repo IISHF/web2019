@@ -6,9 +6,9 @@
  * Time: 09:20
  */
 
-namespace App\Infrastructure\HallOfFame\Security\Voter;
+namespace App\Infrastructure\History\Security\Voter;
 
-use App\Domain\Model\HallOfFame\HallOfFameEntry;
+use App\Domain\Model\History\HallOfFameEntry;
 use App\Infrastructure\Security\Voter\DelegatingVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use function in_array;
@@ -16,7 +16,7 @@ use function in_array;
 /**
  * Class HallOfFameEntryVoter
  *
- * @package App\Infrastructure\HallOfFame\Security\Voter
+ * @package App\Infrastructure\History\Security\Voter
  */
 class HallOfFameEntryVoter extends DelegatingVoter
 {

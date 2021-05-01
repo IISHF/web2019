@@ -8,7 +8,7 @@
 
 namespace App\Command\Migrate;
 
-use App\Application\HallOfFame\Command\CreateHallOfFameEntry;
+use App\Application\History\Command\CreateHallOfFameEntry;
 use App\Domain\Common\AgeGroup;
 use App\Utils\Validation;
 use Exception;

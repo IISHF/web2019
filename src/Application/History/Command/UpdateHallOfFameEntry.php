@@ -6,15 +6,15 @@
  * Time: 09:09
  */
 
-namespace App\Application\HallOfFame\Command;
+namespace App\Application\History\Command;
 
 use App\Application\Common\Command\IdAware;
-use App\Domain\Model\HallOfFame\HallOfFameEntry;
+use App\Domain\Model\History\HallOfFameEntry;
 
 /**
  * Class UpdateHallOfFameEntry
  *
- * @package App\Application\HallOfFame\Command
+ * @package App\Application\History\Command
  */
 class UpdateHallOfFameEntry
 {

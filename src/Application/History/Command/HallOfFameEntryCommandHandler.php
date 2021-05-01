@@ -6,16 +6,16 @@
  * Time: 09:06
  */
 
-namespace App\Application\HallOfFame\Command;
+namespace App\Application\History\Command;
 
-use App\Domain\Model\HallOfFame\HallOfFameEntry;
-use App\Domain\Model\HallOfFame\HallOfFameRepository;
+use App\Domain\Model\History\HallOfFameEntry;
+use App\Domain\Model\History\HallOfFameRepository;
 use OutOfBoundsException;
 
 /**
  * Class HallOfFameEntryCommandHandler
  *
- * @package App\Application\HallOfFame\Command
+ * @package App\Application\History\Command
  */
 abstract class HallOfFameEntryCommandHandler
 {

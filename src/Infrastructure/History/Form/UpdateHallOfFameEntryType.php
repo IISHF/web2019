@@ -6,16 +6,16 @@
  * Time: 07:41
  */
 
-namespace App\Infrastructure\HallOfFame\Form;
+namespace App\Infrastructure\History\Form;
 
-use App\Application\HallOfFame\Command\UpdateHallOfFameEntry;
+use App\Application\History\Command\UpdateHallOfFameEntry;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class UpdateHallOfFameEntryType
  *
- * @package App\Infrastructure\HallOfFame\Form
+ * @package App\Infrastructure\History\Form
  */
 class UpdateHallOfFameEntryType extends AbstractType
 {

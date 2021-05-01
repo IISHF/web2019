@@ -5,15 +5,15 @@
 
 namespace App\Controller\Admin;
 
-use App\Application\HallOfFame\Command\CreateHallOfFameEntry;
-use App\Application\HallOfFame\Command\DeleteHallOfFameEntry;
-use App\Application\HallOfFame\Command\UpdateHallOfFameEntry;
-use App\Domain\Model\HallOfFame\HallOfFameEntry;
-use App\Domain\Model\HallOfFame\HallOfFameRepository;
+use App\Application\History\Command\CreateHallOfFameEntry;
+use App\Application\History\Command\DeleteHallOfFameEntry;
+use App\Application\History\Command\UpdateHallOfFameEntry;
+use App\Domain\Model\History\HallOfFameEntry;
+use App\Domain\Model\History\HallOfFameRepository;
 use App\Infrastructure\Controller\CsrfSecuredHandler;
 use App\Infrastructure\Controller\FormHandler;
-use App\Infrastructure\HallOfFame\Form\CreateHallOfFameEntryType;
-use App\Infrastructure\HallOfFame\Form\UpdateHallOfFameEntryType;
+use App\Infrastructure\History\Form\CreateHallOfFameEntryType;
+use App\Infrastructure\History\Form\UpdateHallOfFameEntryType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -85,8 +85,8 @@ class HistoryController extends AbstractController
      * )
      * @ParamConverter(
      *      name="entry",
-     *      class="App\Domain\Model\HallOfFame\HallOfFameEntry",
-     *      converter="app.history_entry"
+     *      class="App\Domain\Model\History\HallOfFameEntry",
+     *      converter="app.hall_of_fame_entry"
      * )
      * @Security("is_granted('HALL_OF_FAME_ENTRY_EDIT', entry)")
      *
@@ -123,8 +123,8 @@ class HistoryController extends AbstractController
      * )
      * @ParamConverter(
      *      name="entry",
-     *      class="App\Domain\Model\HallOfFame\HallOfFameEntry",
-     *      converter="app.history_entry"
+     *      class="App\Domain\Model\History\HallOfFameEntry",
+     *      converter="app.hall_of_fame_entry"
      * )
      * @Security("is_granted('HALL_OF_FAME_ENTRY_DELETE', entry)")
      *

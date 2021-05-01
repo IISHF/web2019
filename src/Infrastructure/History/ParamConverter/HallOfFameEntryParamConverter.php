@@ -6,10 +6,10 @@
  * Time: 09:22
  */
 
-namespace App\Infrastructure\HallOfFame\ParamConverter;
+namespace App\Infrastructure\History\ParamConverter;
 
-use App\Domain\Model\HallOfFame\HallOfFameEntry;
-use App\Domain\Model\HallOfFame\HallOfFameRepository;
+use App\Domain\Model\History\HallOfFameEntry;
+use App\Domain\Model\History\HallOfFameRepository;
 use App\Infrastructure\ParamConverter\LoaderParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Class HallOfFameEntryParamConverter
  *
- * @package App\Infrastructure\HallOfFame\ParamConverter
+ * @package App\Infrastructure\History\ParamConverter
  */
 class HallOfFameEntryParamConverter extends LoaderParamConverter
 {

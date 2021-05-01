@@ -5,7 +5,7 @@
 
 namespace App\Controller;
 
-use App\Domain\Model\HallOfFame\HallOfFameRepository;
+use App\Domain\Model\History\HallOfFameRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

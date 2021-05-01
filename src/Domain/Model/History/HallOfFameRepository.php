@@ -6,7 +6,7 @@
  * Time: 07:15
  */
 
-namespace App\Domain\Model\HallOfFame;
+namespace App\Domain\Model\History;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;

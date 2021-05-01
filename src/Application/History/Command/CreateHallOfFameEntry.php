@@ -6,14 +6,14 @@
  * Time: 09:07
  */
 
-namespace App\Application\HallOfFame\Command;
+namespace App\Application\History\Command;
 
 use App\Application\Common\Command\IdAware;
 
 /**
  * Class CreateHallOfFameEntry
  *
- * @package App\Application\HallOfFame\Command
+ * @package App\Application\History\Command
  */
 class CreateHallOfFameEntry
 {

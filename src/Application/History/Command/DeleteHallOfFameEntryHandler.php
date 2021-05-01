@@ -6,12 +6,12 @@
  * Time: 09:16
  */
 
-namespace App\Application\HallOfFame\Command;
+namespace App\Application\History\Command;
 
 /**
  * Class DeleteHallOfFameEntryHandler
  *
- * @package App\Application\HallOfFame\Command
+ * @package App\Application\History\Command
  */
 class DeleteHallOfFameEntryHandler extends HallOfFameEntryCommandHandler
 {

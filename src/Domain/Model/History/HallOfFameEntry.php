@@ -6,7 +6,7 @@
  * Time: 07:14
  */
 
-namespace App\Domain\Model\HallOfFame;
+namespace App\Domain\Model\History;
 
 use App\Domain\Common\AgeGroup;
 use App\Domain\Common\Country;

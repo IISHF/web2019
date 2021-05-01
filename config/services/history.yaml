@@ -4,16 +4,16 @@ services:
         autoconfigure: true
         public: false
 
-    App\Domain\Model\HallOfFame\HallOfFameRepository:
+    App\Domain\Model\History\HallOfFameRepository:
 
     command_handlers:
-        namespace: App\Application\HallOfFame\Command\
-        resource: '%kernel.project_dir%/src/Application/HallOfFame/Command/*Handler.php'
+        namespace: App\Application\History\Command\
+        resource: '%kernel.project_dir%/src/Application/History/Command/*Handler.php'
         tags:
             - { name: messenger.message_handler, bus: messenger.bus.commands }
 
-    App\Infrastructure\HallOfFame\Security\Voter\HallOfFameEntryVoter:
+    App\Infrastructure\History\Security\Voter\HallOfFameEntryVoter:
 
-    App\Infrastructure\HallOfFame\ParamConverter\HallOfFameEntryParamConverter:
+    App\Infrastructure\History\ParamConverter\HallOfFameEntryParamConverter:
         tags:
-            - { name: request.param_converter, converter: app.history_entry }
+            - { name: request.param_converter, converter: app.hall_of_fame_entry }

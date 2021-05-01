@@ -6,7 +6,7 @@
  * Time: 07:38
  */
 
-namespace App\Infrastructure\HallOfFame\Form;
+namespace App\Infrastructure\History\Form;
 
 use App\Infrastructure\Common\Form\AgeGroupChoiceType;
 use Symfony\Component\Form\AbstractType;
@@ -19,7 +19,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * Class HallOfFameEntryType
  *
- * @package App\Infrastructure\HallOfFame\Form
+ * @package App\Infrastructure\History\Form
  */
 class HallOfFameEntryType extends AbstractType
 {

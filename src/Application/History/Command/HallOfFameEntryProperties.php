@@ -6,7 +6,7 @@
  * Time: 07:46
  */
 
-namespace App\Application\HallOfFame\Command;
+namespace App\Application\History\Command;
 
 use App\Application\Common\Validator\AgeGroup as ValidAgeGroup;
 use App\Domain\Common\AgeGroup;
@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Trait HallOfFameEntryProperties
  *
- * @package App\Application\HallOfFame\Command
+ * @package App\Application\History\Command
  */
 trait HallOfFameEntryProperties
 {
