@@ -43,7 +43,7 @@ class HallOfFameController extends AbstractController
     public function list(HallOfFameRepository $hallOfFameRepository): Response
     {
         return $this->render(
-            'admin/hall_of_fame/list.html.twig',
+            'admin/history/list.html.twig',
             [
                 'entries' => $hallOfFameRepository->findAll(),
             ]
@@ -70,7 +70,7 @@ class HallOfFameController extends AbstractController
         }
 
         return $this->render(
-            'admin/hall_of_fame/create.html.twig',
+            'admin/history/create.html.twig',
             [
                 'form' => $form->createView(),
             ]
@@ -86,9 +86,9 @@ class HallOfFameController extends AbstractController
      * @ParamConverter(
      *      name="entry",
      *      class="App\Domain\Model\HallOfFame\HallOfFameEntry",
-     *      converter="app.hall_of_fame_entry"
+     *      converter="app.history_entry"
      * )
-     * @Security("is_granted('HALL_OF_FAME_ENTRY_EDIT', entry)")
+     * @Security("is_granted('HISTORY_ENTRY_EDIT', entry)")
      *
      * @param Request             $request
      * @param HallOfFameEntry     $entry
@@ -107,7 +107,7 @@ class HallOfFameController extends AbstractController
         }
 
         return $this->render(
-            'admin/hall_of_fame/update.html.twig',
+            'admin/history/update.html.twig',
             [
                 'entry' => $entry,
                 'form'  => $form->createView(),
@@ -124,9 +124,9 @@ class HallOfFameController extends AbstractController
      * @ParamConverter(
      *      name="entry",
      *      class="App\Domain\Model\HallOfFame\HallOfFameEntry",
-     *      converter="app.hall_of_fame_entry"
+     *      converter="app.history_entry"
      * )
-     * @Security("is_granted('HALL_OF_FAME_ENTRY_DELETE', entry)")
+     * @Security("is_granted('HISTORY_ENTRY_DELETE', entry)")
      *
      * @param Request             $request
      * @param HallOfFameEntry     $entry
@@ -137,7 +137,7 @@ class HallOfFameController extends AbstractController
     {
         $delete = DeleteHallOfFameEntry::delete($entry);
 
-        $this->handleCsrfCommand($delete, 'hall_of_fame_entry_delete_' . $entry->getId(), $request, $commandBus);
+        $this->handleCsrfCommand($delete, 'history_entry_delete_' . $entry->getId(), $request, $commandBus);
 
         $this->addFlash('success', 'The history entry has been deleted.');
 

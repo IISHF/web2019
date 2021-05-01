@@ -77,16 +77,16 @@
                 <td class="text-nowrap">{{ entry.updatedAt|relative_time }}</td>
                 <td>
                     <div class="btn-group btn-group-sm" role="group">
-                        {% if is_granted('HALL_OF_FAME_ENTRY_EDIT', entry) %}
+                        {% if is_granted('HISTORY_ENTRY_EDIT', entry) %}
                             <a href="{{ path('app_admin_halloffame_update', {'entry': entry.id}) }}"
                                class="btn btn-primary">Edit</a>
                         {% endif %}
-                        {% if is_granted('HALL_OF_FAME_ENTRY_DELETE', entry) %}
+                        {% if is_granted('HISTORY_ENTRY_DELETE', entry) %}
                             {{ include('common/_delete_btn.html.twig', {
                                 title: entry.caption,
                                 body: 'Do you really want to delete the history entry?',
                                 deleteAction: path('app_admin_halloffame_delete', {'entry': entry.id}),
-                                csrfIntention: 'hall_of_fame_entry_delete_' ~ entry.id,
+                                csrfIntention: 'history_entry_delete_' ~ entry.id,
                             }) }}
                         {% endif %}
                     </div>

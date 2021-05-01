@@ -16,4 +16,4 @@ services:
 
     App\Infrastructure\HallOfFame\ParamConverter\HallOfFameEntryParamConverter:
         tags:
-            - { name: request.param_converter, converter: app.hall_of_fame_entry }
+            - { name: request.param_converter, converter: app.history_entry }
