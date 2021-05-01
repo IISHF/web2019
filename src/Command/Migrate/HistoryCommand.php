@@ -20,11 +20,11 @@ use Throwable;
 use Traversable;
 
 /**
- * Class HallOfFameCommand
+ * Class HistoryCommand
  *
  * @package App\Command\Migrate
  */
-class HallOfFameCommand extends CommandWithFilesystem
+class HistoryCommand extends CommandWithFilesystem
 {
     /**
      * {@inheritdoc}
@@ -33,9 +33,9 @@ class HallOfFameCommand extends CommandWithFilesystem
     {
         parent::configure();
         $this
-            ->setName('app:migrate:hall_of_fame')
-            ->setDescription('Migrates hall of fame from legacy database.')
-            ->setHelp('This command allows you to migrate the hall of fame from a IISHF legacy database.');
+            ->setName('app:migrate:history')
+            ->setDescription('Migrates history from legacy database.')
+            ->setHelp('This command allows you to migrate the history from a IISHF legacy database.');
     }
 
     /**
@@ -43,7 +43,7 @@ class HallOfFameCommand extends CommandWithFilesystem
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io->title('Migrate hall of fame rom legacy database');
+        $this->io->title('Migrate history from legacy database');
 
 
         $dataFile = $this->legacyPath . '/www/wwwroot/events/archiv/hallOfFame.xml';
@@ -57,7 +57,7 @@ class HallOfFameCommand extends CommandWithFilesystem
 
         $results = [];
         $count   = 0;
-        $this->io->section('Importing hall of fame...');
+        $this->io->section('Importing history...');
         $this->io->progressStart();
         $this->beginTransaction();
         try {
