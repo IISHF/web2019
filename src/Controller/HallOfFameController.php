@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @package App\Controller
  *
- * @Route("/hall-of-fame")
+ * @Route("/history")
  */
 class HallOfFameController extends AbstractController
 {

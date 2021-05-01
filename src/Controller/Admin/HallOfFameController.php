@@ -27,7 +27,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @package App\Controller\Admin
  *
- * @Route("/admin/hall-of-fame")
+ * @Route("/admin/history")
  * @Security("is_granted('ROLE_ADMIN')")
  */
 class HallOfFameController extends AbstractController
