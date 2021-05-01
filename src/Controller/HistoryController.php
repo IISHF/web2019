@@ -32,7 +32,7 @@ class HistoryController extends AbstractController
             $byYear[$event->getSeason()][] = $event;
         }
         return $this->render(
-            'hall_of_game/index.html.twig',
+            'history/index.html.twig',
             [
                 'eventsByYear' => $byYear,
             ]
