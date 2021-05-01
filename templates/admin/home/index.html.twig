@@ -10,7 +10,7 @@
         </a>
         <a class="list-group-item list-group-item-action" href="{{ path('app_admin_staffmember_list') }}" role="button">Staff</a>
         <a class="list-group-item list-group-item-action" href="{{ path('app_admin_committee_list') }}" role="button">Committees</a>
-        <a class="list-group-item list-group-item-action" href="{{ path('app_admin_halloffame_list') }}" role="button">History</a>
+        <a class="list-group-item list-group-item-action" href="{{ path('app_admin_history_list') }}" role="button">History</a>
         {% if is_granted('ROLE_ADMIN') %}
             <a class="list-group-item list-group-item-action" href="{{ path('app_admin_user_list') }}">Users</a>
             <a class="list-group-item list-group-item-action" href="{{ path('app_admin_file_list') }}">Files</a>

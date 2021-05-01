@@ -11,13 +11,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class IISHFController
+ * Class HistoryController
  *
  * @package App\Controller
  *
  * @Route("/history")
  */
-class HallOfFameController extends AbstractController
+class HistoryController extends AbstractController
 {
     /**
      * @Route("", methods={"GET"})

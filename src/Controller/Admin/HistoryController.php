@@ -23,14 +23,14 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class HallOfFameController
+ * Class HistoryController
  *
  * @package App\Controller\Admin
  *
  * @Route("/admin/history")
  * @Security("is_granted('ROLE_ADMIN')")
  */
-class HallOfFameController extends AbstractController
+class HistoryController extends AbstractController
 {
     use FormHandler, CsrfSecuredHandler;
 
@@ -66,7 +66,7 @@ class HallOfFameController extends AbstractController
         if ($this->handleForm($create, $form, $request, $commandBus)) {
             $this->addFlash('success', 'The new hallf of fame entry has been created.');
 
-            return $this->redirectToRoute('app_admin_halloffame_list');
+            return $this->redirectToRoute('app_admin_history_list');
         }
 
         return $this->render(
@@ -88,7 +88,7 @@ class HallOfFameController extends AbstractController
      *      class="App\Domain\Model\HallOfFame\HallOfFameEntry",
      *      converter="app.history_entry"
      * )
-     * @Security("is_granted('HISTORY_ENTRY_EDIT', entry)")
+     * @Security("is_granted('HALL_OF_FAME_ENTRY_EDIT', entry)")
      *
      * @param Request             $request
      * @param HallOfFameEntry     $entry
@@ -101,9 +101,9 @@ class HallOfFameController extends AbstractController
         $form   = $this->createForm(UpdateHallOfFameEntryType::class, $update);
 
         if ($this->handleForm($update, $form, $request, $commandBus)) {
-            $this->addFlash('success', 'The history entry has been updated.');
+            $this->addFlash('success', 'The hall of fame entry has been updated.');
 
-            return $this->redirectToRoute('app_admin_halloffame_list');
+            return $this->redirectToRoute('app_admin_history_list');
         }
 
         return $this->render(
@@ -126,7 +126,7 @@ class HallOfFameController extends AbstractController
      *      class="App\Domain\Model\HallOfFame\HallOfFameEntry",
      *      converter="app.history_entry"
      * )
-     * @Security("is_granted('HISTORY_ENTRY_DELETE', entry)")
+     * @Security("is_granted('HALL_OF_FAME_ENTRY_DELETE', entry)")
      *
      * @param Request             $request
      * @param HallOfFameEntry     $entry
@@ -137,10 +137,10 @@ class HallOfFameController extends AbstractController
     {
         $delete = DeleteHallOfFameEntry::delete($entry);
 
-        $this->handleCsrfCommand($delete, 'history_entry_delete_' . $entry->getId(), $request, $commandBus);
+        $this->handleCsrfCommand($delete, 'HALL_OF_FAME_ENTRY_DELETE_' . $entry->getId(), $request, $commandBus);
 
-        $this->addFlash('success', 'The history entry has been deleted.');
+        $this->addFlash('success', 'The hall of fame entry has been deleted.');
 
-        return $this->redirectToRoute('app_admin_halloffame_list');
+        return $this->redirectToRoute('app_admin_history_list');
     }
 }

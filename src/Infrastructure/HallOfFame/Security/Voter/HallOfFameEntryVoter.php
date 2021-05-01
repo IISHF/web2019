@@ -29,7 +29,7 @@ class HallOfFameEntryVoter extends DelegatingVoter
             return false;
         }
 
-        return in_array($attribute, ['HISTORY_ENTRY_EDIT', 'HISTORY_ENTRY_DELETE']);
+        return in_array($attribute, ['HALL_OF_FAME_ENTRY_EDIT', 'HALL_OF_FAME_ENTRY_DELETE']);
     }
 
     /**
