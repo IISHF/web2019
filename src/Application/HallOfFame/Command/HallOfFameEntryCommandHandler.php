@@ -40,7 +40,7 @@ abstract class HallOfFameEntryCommandHandler
     {
         $entry = $this->hallOfFameRepository->findById($id);
         if (!$entry) {
-            throw new OutOfBoundsException('No hall of fame entry found for id ' . $id);
+            throw new OutOfBoundsException('No history entry found for id ' . $id);
         }
         return $entry;
     }

@@ -1,16 +1,16 @@
 {% extends 'public.html.twig' %}
 
-{% block title %}Hall of Fame | {{ parent() }}{% endblock %}
+{% block title %}History | {{ parent() }}{% endblock %}
 
 {% block breadcrumbs %}
-    <span class="breadcrumb-item active">Hall of Fame</span>
+    <span class="breadcrumb-item active">History</span>
 {% endblock %}
 
 {% block content %}
     <section class="iishf__bg iishf__bg--left-bottom">
         <div class="iishf__bg iishf__bg--right-bottom">
             <div class="iishf__bg iishf__bg--left-top">
-                {% include 'home/_title.html.twig' with {'title':  'Hall of Fame', 'before': true} %}
+                {% include 'home/_title.html.twig' with {'title':  'History', 'before': true} %}
                 <div class="hall-of-fame">
                     <div class="page-container">
                         {% for year, yearlyEvents in eventsByYear %}

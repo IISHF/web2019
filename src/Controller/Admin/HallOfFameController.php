@@ -101,7 +101,7 @@ class HallOfFameController extends AbstractController
         $form   = $this->createForm(UpdateHallOfFameEntryType::class, $update);
 
         if ($this->handleForm($update, $form, $request, $commandBus)) {
-            $this->addFlash('success', 'The hall of fame entry has been updated.');
+            $this->addFlash('success', 'The history entry has been updated.');
 
             return $this->redirectToRoute('app_admin_halloffame_list');
         }
@@ -139,7 +139,7 @@ class HallOfFameController extends AbstractController
 
         $this->handleCsrfCommand($delete, 'hall_of_fame_entry_delete_' . $entry->getId(), $request, $commandBus);
 
-        $this->addFlash('success', 'The hall of fame entry has been deleted.');
+        $this->addFlash('success', 'The history entry has been deleted.');
 
         return $this->redirectToRoute('app_admin_halloffame_list');
     }

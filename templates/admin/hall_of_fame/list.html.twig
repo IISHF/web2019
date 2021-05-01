@@ -1,9 +1,9 @@
 {% extends 'admin/admin.html.twig' %}
 
-{% block title %}Hall of Fame | {{ parent() }}{% endblock %}
+{% block title %}History | {{ parent() }}{% endblock %}
 
 {% block content %}
-    <h1>Hall of Fame</h1>
+    <h1>History</h1>
 
     {% if is_granted('ROLE_ADMIN') %}
         <div class="btn-group" role="group">
@@ -84,7 +84,7 @@
                         {% if is_granted('HALL_OF_FAME_ENTRY_DELETE', entry) %}
                             {{ include('common/_delete_btn.html.twig', {
                                 title: entry.caption,
-                                body: 'Do you really want to delete the hall of fame entry?',
+                                body: 'Do you really want to delete the history entry?',
                                 deleteAction: path('app_admin_halloffame_delete', {'entry': entry.id}),
                                 csrfIntention: 'hall_of_fame_entry_delete_' ~ entry.id,
                             }) }}
@@ -94,7 +94,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">No hall of fame entries found.</td>
+                <td colspan="6">No history@ entries found.</td>
             </tr>
         {% endfor %}
         </tbody>
