@@ -13,11 +13,11 @@
     "imagemin-jpeg-recompress": "^7.0.0",
     "imagemin-jpegtran": "^7.0.0",
     "imagemin-pngquant": "^9.0.2",
-    "node-sass": "^5.0.0",
     "postcss": "^8.2.8",
     "postcss-loader": "^4.0.0",
     "react-hot-loader": "^4.13.0",
     "regenerator-runtime": "^0.13.7",
+    "sass": "^1.32.12",
     "sass-loader": "^10.0.0",
     "webpack-notifier": "^1.13.0"
   },
