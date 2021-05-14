@@ -6,6 +6,9 @@
     {% if legacyPrimaryImage and not legacyPrimaryImage.lowResIISHFLogo %}
         <img src="{{ path('app_file_download', {'name': legacyPrimaryImage.name}) }}" class="{{ class|e('html_attr') }}"
              alt="{{ legacyPrimaryImage.caption|default(alt)|e('html_attr') }}">
+    {% elseif legacyPrimaryImage and legacyPrimaryImage.lowResIISHFLogo %}
+        <img src="{{ asset('assets/logo_large.png') }}" alt="{{ alt|e('html_attr') }}"
+             class="{{ class|e('html_attr') }} default-iishf-logo">
     {% elseif defaultImage %}
         <img src="{{ defaultImage|e('html_attr') }}" alt="{{ alt|e('html_attr') }}" class="{{ class|e('html_attr') }}">
     {% endif %}

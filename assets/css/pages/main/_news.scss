@@ -83,6 +83,10 @@
                 .m-news__slide-img {
                     height: 100%;
                     min-height: 225px;
+
+                    img.default-iishf-logo {
+                        max-height: 350px;
+                    }
                 }
             }
 

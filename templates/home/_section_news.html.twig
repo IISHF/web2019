@@ -1,3 +1,13 @@
+{% macro renderArticle(article, addImageClass = '') %}
+    <div class="m-news__slide-img {{ addImageClass }}">
+        {{ render(controller('App\\Controller\\NewsController::articlePrimaryImage', {
+            'article': article,
+            'alt': article.title,
+        })) }}
+    </div>
+    {% include 'home/_news_content.html.twig' with {'article': article} %}
+{% endmacro %}
+
 <section class="m-news m-news__bg">
     {% include 'home/_title.html.twig' with {'title': 'News', 'before': true} %}
     <div id="newsSlider" class="m-news__slider">
@@ -12,45 +22,21 @@
             {% set article4 = block[3 + loop.index0 * 4] %}
             <div class="m-news__slide">
                 <div class="m-news__slide-container m-news__slide-container--left">
-                    <div class="m-news__slide-img">
-                        {{ render(controller('App\\Controller\\NewsController::articlePrimaryImage', {
-                            'article': article1,
-                            'alt': article1.title,
-                        })) }}
-                    </div>
-                    {% include 'home/_news_content.html.twig' with {'article': article1} %}
+                    {{ _self.renderArticle(article1) }}
                 </div>
                 <div class="d-flex m-news__slide-right">
                     <div class="m-news__slide-container m-news__slide-container--center">
-                        <div class="m-news__slide-img position-relative">
-                            {{ render(controller('App\\Controller\\NewsController::articlePrimaryImage', {
-                                'article': article2,
-                                'alt': article2.title,
-                            })) }}
-                        </div>
-                        {% include 'home/_news_content.html.twig' with {'article': article2} %}
+                        {{ _self.renderArticle(article2, 'position-relative') }}
                     </div>
                     <div class="m-news__slide-container m-news__slide-container--right">
                         <div class="m-news__slide-item m-news__slide-item--top">
                             <div class="d-flex">
-                                <div class="m-news__slide-img">
-                                    {{ render(controller('App\\Controller\\NewsController::articlePrimaryImage', {
-                                        'article': article3,
-                                        'alt': article3.title,
-                                    })) }}
-                                </div>
-                                {% include 'home/_news_content.html.twig' with {'article': article3} %}
+                                {{ _self.renderArticle(article3) }}
                             </div>
                         </div>
                         <div class="m-news__slide-item m-news__slide-item--bottom">
                             <div class="d-flex">
-                                <div class="m-news__slide-img">
-                                    {{ render(controller('App\\Controller\\NewsController::articlePrimaryImage', {
-                                        'article': article4,
-                                        'alt': article4.title,
-                                    })) }}
-                                </div>
-                                {% include 'home/_news_content.html.twig' with {'article': article4} %}
+                                {{ _self.renderArticle(article4) }}
                             </div>
                         </div>
                     </div>
