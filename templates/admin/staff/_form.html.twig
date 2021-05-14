@@ -7,7 +7,7 @@
     <div class="card-body">
         {% if member and member.image %}
             <img src="{{ path('app_iishf_staffmemberimage', {'member': member.id}) }}"
-                 alt="{{ member.name|e('html_attr') }}" class="mx-auto d-block my-2"/>
+                 alt="{{ member.name|e('html_attr') }}" class="img-fluid mx-auto d-block my-2"/>
             {% if form.removeImage is defined %}
                 {{ form_row(form.removeImage) }}
             {% endif %}

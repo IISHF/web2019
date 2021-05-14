@@ -6,7 +6,7 @@
     <h1>{{ ngb.name }}</h1>
 
     {% if ngb.logo %}
-        <img src="{{ path('app_members_logo', {'ngb': ngb.slug}) }}"
+        <img src="{{ path('app_members_logo', {'ngb': ngb.slug}) }}" class="img-fluid"
              alt="{{ ngb.name|e('html_attr') }}"/>
     {% endif %}
 

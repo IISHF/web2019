@@ -19,7 +19,7 @@
     <div class="card-body">
         {% if ngb and ngb.logo %}
             <img src="{{ path('app_members_logo', {'ngb': ngb.slug}) }}"
-                 alt="{{ ngb.name|e('html_attr') }}" class="mx-auto d-block my-2"/>
+                 alt="{{ ngb.name|e('html_attr') }}" class="img-fluid mx-auto d-block my-2"/>
             {% if form.removeLogo is defined %}
                 {{ form_row(form.removeLogo) }}
             {% endif %}
