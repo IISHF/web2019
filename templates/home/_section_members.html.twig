@@ -5,7 +5,7 @@
             {% if member.logo %}
                 <div>
                     <a href="{{ path('app_members_index') }}" class="d-flex justify-content-center">
-                        <img src="{{ path('app_members_logo', {'ngb': member.slug}) }}"
+                        <img src="{{ path('app_members_logo', {'ngb': member.slug}) }}" class="img-fluid"
                              alt="{{ member.name|e('html_attr') }}">
                     </a>
                 </div>
