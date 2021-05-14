@@ -8,7 +8,7 @@
     }
 
     &__slide {
-        min-height: 250px;
+        min-height: 450px;
         @include media-breakpoint-down(sm) {
             font-size: 24px;
             padding-bottom: 15px;
