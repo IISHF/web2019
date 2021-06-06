@@ -66,4 +66,16 @@
     &__mail {
         color: #246d96;
     }
+
+    p {
+        font-family: "Montserat", sans-serif;
+        font-size: 2.4rem;
+        font-weight: 300;
+        margin-bottom: map-get($spacers, 4);
+        margin-top: map-get($spacers, 4);
+
+        a {
+            color: #246d96;
+        }
+    }
 }
