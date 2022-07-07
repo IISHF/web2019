@@ -58,7 +58,7 @@
     "filesize": "^6.1.0",
     "jquery": "^3.6.0",
     "lightbox2": "^2.11.3",
-    "moment": "^2.29.1",
+    "moment": "^2.29.4",
     "moment-timezone": "^0.5.33",
     "popper.js": "^1.16.1",
     "prop-types": "^15.7.2",
