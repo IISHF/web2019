@@ -59,7 +59,7 @@
     "jquery": "^3.6.0",
     "lightbox2": "^2.11.3",
     "moment": "^2.29.1",
-    "moment-timezone": "^0.5.33",
+    "moment-timezone": "^0.5.35",
     "popper.js": "^1.16.1",
     "prop-types": "^15.7.2",
     "react": "^16.14.0",
